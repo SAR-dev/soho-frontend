@@ -11,8 +11,9 @@ import {
   ActionIcon,
   Tooltip,
 } from '@mantine/core';
-import { Bulb, User, Checkbox, Search, Plus, Selector } from 'tabler-icons-react';
+import { Messages, Video, Search, Plus, BrandHipchat, ChartBar, Radar2, Microphone2, ListCheck } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
+import { Collections } from './Collections';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -71,12 +72,6 @@ const useStyles = createStyles((theme) => ({
     pointerEvents: 'none',
   },
 
-  collections: {
-    paddingLeft: theme.spacing.md - 6,
-    paddingRight: theme.spacing.md - 6,
-    paddingBottom: theme.spacing.md,
-  },
-
   collectionsHeader: {
     paddingLeft: theme.spacing.md + 2,
     paddingRight: theme.spacing.md,
@@ -101,9 +96,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const links = [
-  { icon: Bulb, label: 'Activity', notifications: 3 },
-  { icon: Checkbox, label: 'Tasks', notifications: 4 },
-  { icon: User, label: 'Contacts' },
+  { icon: BrandHipchat, label: 'Discussion', notifications: 3 },
+  { icon: Video, label: 'Premier', notifications: 4 },
+  { icon: Messages, label: 'AMA' },
+  { icon: ChartBar, label: 'Poll' },
+  { icon: Radar2, label: 'Drop' },
+  { icon: Microphone2, label: 'Announcement' },
+  { icon: ListCheck, label: 'Rules' },
 ];
 
 const collections = [
@@ -135,17 +134,6 @@ export function Sidenav() {
     </UnstyledButton>
   ));
 
-  const collectionLinks = collections.map((collection) => (
-    <a
-      href="/"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={classes.collectionLink}
-    >
-      <span style={{ marginRight: 9, fontSize: 16 }}>{collection.emoji}</span> {collection.label}
-    </a>
-  ));
-
   return (
     <Navbar height={"100%"} width={{ sm: 300 }} p="md" className={classes.navbar}>
       <TextInput
@@ -163,14 +151,6 @@ export function Sidenav() {
         email="Product owner"
       />
 
-      {/* <Navbar.Section className={classes.section}>
-        <UserButton
-          image="https://avatars.dicebear.com/api/micah/:seed.svg"
-          name="Bob Rulebreaker"
-          email="Product owner"
-        />
-      </Navbar.Section> */}
-
 
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>{mainLinks}</div>
@@ -187,7 +167,7 @@ export function Sidenav() {
             </ActionIcon>
           </Tooltip>
         </Group>
-        <div className={classes.collections}>{collectionLinks}</div>
+        <Collections />
       </Navbar.Section>
     </Navbar>
   );

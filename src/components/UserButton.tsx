@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-  UnstyledButton,
+  Button,
   UnstyledButtonProps,
   Group,
   Avatar,
   Text,
   createStyles,
 } from '@mantine/core';
-import { ChevronRight } from 'tabler-icons-react';
+import { Plus, Users } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   user: {
     display: 'block',
-    width: '100%',
+    marginBottom: theme.spacing.md,
     padding: theme.spacing.md,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
@@ -20,13 +20,38 @@ const useStyles = createStyles((theme) => ({
     borderStyle: "solid",
     borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
     borderRadius: theme.radius.sm,
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-    },
   },
   avatar: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[3],
+  },
+  members: {
+    display: 'flex',
+    alignItems: 'stretch',
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
+    borderRadius: theme.radius.sm,
+    marginTop: 5,
+    cursor: 'pointer',
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
+    },
+  },
+  membersCount: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: "2px 8px"
+  },
+  action: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    paddingRight: '8px',
+    paddingLeft: '8px',
+    borderLeftWidth: 1,
+    borderLeftStyle: "solid",
+    borderLeftColor: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
   }
 }));
 
@@ -41,7 +66,7 @@ export function UserButton({ image, name, email, ...others }: UserButtonProps) {
   const { classes } = useStyles();
 
   return (
-    <UnstyledButton mb="sm" className={classes.user} {...others}>
+    <div className={classes.user}>
       <Group>
         <Avatar src={image} size="lg" radius="xl" className={classes.avatar} />
 
@@ -51,10 +76,19 @@ export function UserButton({ image, name, email, ...others }: UserButtonProps) {
           </Text>
 
           <Text color="dimmed" size="xs">
-            {email}
+            Rafi also joined here
           </Text>
+          <Group spacing="xs" className={classes.members}>
+            <div className={classes.membersCount}>
+              <Users size={14} />
+              <Text size="xs" color="gray">10 Members</Text>
+            </div>
+            <div className={classes.action}>
+              <Plus size={14} />
+            </div>
+          </Group>
         </div>
       </Group>
-    </UnstyledButton>
+    </div>
   );
 }
