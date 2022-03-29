@@ -17,6 +17,7 @@ import { UserButton } from './UserButton';
 const useStyles = createStyles((theme) => ({
   navbar: {
     paddingTop: 0,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1]
   },
 
   section: {
@@ -25,9 +26,8 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.md,
 
     '&:not(:last-of-type)': {
-      borderBottom: `1px solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+      borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+        }`,
     },
   },
 
@@ -147,16 +147,7 @@ export function Sidenav() {
   ));
 
   return (
-    <Navbar height={700} width={{ sm: 300 }} px="md" className={classes.navbar}>
-      <Navbar.Section className={classes.section}>
-        <UserButton
-          image="https://avatars.dicebear.com/api/micah/:seed.svg"
-          name="Bob Rulebreaker"
-          email="Product owner"
-          icon={<Selector size={14} />}
-        />
-      </Navbar.Section>
-
+    <Navbar height={"100%"} width={{ sm: 300 }} p="md" className={classes.navbar}>
       <TextInput
         placeholder="Search"
         size="xs"
@@ -165,6 +156,21 @@ export function Sidenav() {
         styles={{ rightSection: { pointerEvents: 'none' } }}
         mb="sm"
       />
+
+      <UserButton
+        image="https://avatars.dicebear.com/api/micah/:seed.svg"
+        name="Bob Rulebreaker"
+        email="Product owner"
+      />
+
+      {/* <Navbar.Section className={classes.section}>
+        <UserButton
+          image="https://avatars.dicebear.com/api/micah/:seed.svg"
+          name="Bob Rulebreaker"
+          email="Product owner"
+        />
+      </Navbar.Section> */}
+
 
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>{mainLinks}</div>

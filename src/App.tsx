@@ -1,5 +1,6 @@
 import { MantineProvider, ColorSchemeProvider, ColorScheme, Paper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
+import DoubleNav from './components/DoubleNav';
 import Sidenav from './components/Sidenav';
 import Routes from './Routes';
 
@@ -15,8 +16,8 @@ function App() {
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ colorScheme }}>
-        <Paper radius={0} style={{height: "100vh"}}>
-          <Sidenav />
+        <Paper radius={0} style={{height: "100vh", display: "flex"}}>
+          <DoubleNav />
           <Routes />
         </Paper>
       </MantineProvider>

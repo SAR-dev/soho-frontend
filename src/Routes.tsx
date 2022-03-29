@@ -6,7 +6,7 @@ function Routes() {
     const dark = colorScheme === 'dark';
 
     return (
-        <>
+        <div style={{marginLeft: "auto"}}>
             <ActionIcon
                 variant="outline"
                 color={dark ? 'yellow' : 'blue'}
@@ -15,8 +15,7 @@ function Routes() {
             >
                 {dark ? <Sun size={18} /> : <MoonStars size={18} />}
             </ActionIcon>
-            <Button>Check</Button>
-        </>
+        </div>
     );
 }
 

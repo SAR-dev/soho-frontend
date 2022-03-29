@@ -15,11 +15,19 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
     padding: theme.spacing.md,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
+    borderRadius: theme.radius.sm,
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
     },
   },
+  avatar: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+  }
 }));
 
 interface UserButtonProps extends UnstyledButtonProps {
@@ -29,13 +37,13 @@ interface UserButtonProps extends UnstyledButtonProps {
   icon?: React.ReactNode;
 }
 
-export function UserButton({ image, name, email, icon, ...others }: UserButtonProps) {
+export function UserButton({ image, name, email, ...others }: UserButtonProps) {
   const { classes } = useStyles();
 
   return (
-    <UnstyledButton className={classes.user} {...others}>
+    <UnstyledButton mb="sm" className={classes.user} {...others}>
       <Group>
-        <Avatar src={image} radius="xl" />
+        <Avatar src={image} size="lg" radius="xl" className={classes.avatar} />
 
         <div style={{ flex: 1 }}>
           <Text size="sm" weight={500}>
@@ -46,8 +54,6 @@ export function UserButton({ image, name, email, icon, ...others }: UserButtonPr
             {email}
           </Text>
         </div>
-
-        {icon || <ChevronRight size={14} />}
       </Group>
     </UnstyledButton>
   );
