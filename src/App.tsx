@@ -2,8 +2,6 @@ import { MantineProvider, ColorSchemeProvider, ColorScheme, Paper } from '@manti
 import { useLocalStorage } from '@mantine/hooks';
 import DoubleNav from './components/DoubleNav';
 import { HeaderMenu } from './components/HeaderMenu';
-import Sidenav from './components/Sidenav';
-import Routes from './Routes';
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({

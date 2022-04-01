@@ -8,10 +8,18 @@ import {
   Container,
   Text,
   Badge,
-  ThemeIcon
+  ThemeIcon,
+  ActionIcon,
+  Avatar,
+  Divider,
+  Button,
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-import { SmartHome, Notification } from 'tabler-icons-react';
+import { SmartHome, Notification, Home2, Settings, Search, Photo, MessageCircle, Trash, ArrowsLeftRight } from 'tabler-icons-react';
+import ThemeSwitcher from "./ThemeSwitcher";
+import { UserMenu } from "./UserMenu";
+
+const NavHeight = 50
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -24,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 700
   },
   inner: {
-    height: 56,
+    height: NavHeight,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -35,57 +43,55 @@ const useStyles = createStyles((theme) => ({
   },
 
   link: {
-    display: "block",
-    lineHeight: 1,
-    padding: "8px 12px",
     borderRadius: theme.radius.sm,
-    textDecoration: "none",
     color:
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[3],
 
     "&:hover": {
       backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+        theme.colorScheme === 'dark'
+          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+          : theme.colors[theme.primaryColor][1],
+      color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
     },
   },
 }));
 
-const links = [
-  { icon: SmartHome, label: "Home", link: "" },
-  { icon: Notification, label: "Notofications", link: "" },
-];
-
 export function HeaderMenu() {
-  const [opened, toggleOpened] = useBooleanToggle(false);
   const { classes } = useStyles();
 
-  const items = links.map((link) => {
-    return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      >
-        <ThemeIcon variant="light">
-              <Icon size={18} />
-            </ThemeIcon>
-      </a>
-    );
-  });
-
   return (
-    <Header height={56} className={classes.header}>
+    <Header height={NavHeight} className={classes.header}>
       <div className={classes.inner}>
-        <Badge size="lg" radius="md" leftSection={"#"}>FEED</Badge>
-        <Group spacing={5} className={classes.links}>
-          {items}
+        <Text className={classes.linkText}>FEED</Text>
+        <Group spacing={10} className={classes.links}>
+          <Button 
+            leftIcon={<Avatar src="https://avatars.dicebear.com/api/micah/seed.svg" size="sm" radius="xl" />} 
+            radius="md" 
+            variant="light" 
+            title="Navigate to Home" 
+            className={classes.link}
+            style={{paddingLeft: 10, paddingRight: 10}}
+            >
+            Sayed Rafi
+          </Button>
+          <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
+            <Home2 size={18} />
+          </ActionIcon>
+
+          <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link}>
+            <Notification size={18} />
+          </ActionIcon>
+
+          <ThemeSwitcher size={18} />
+
+          <UserMenu />
         </Group>
       </div>
     </Header>

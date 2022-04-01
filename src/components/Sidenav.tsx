@@ -18,8 +18,8 @@ import { Collections } from './Collections';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    paddingTop: 0,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1]
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
+    borderRight: "0px"
   },
 
   section: {

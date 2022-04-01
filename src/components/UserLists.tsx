@@ -5,7 +5,6 @@ const useStyles = createStyles((theme) => ({
     mainLink: {
         width: 44,
         height: 44,
-        // borderRadius: theme.radius.sm,
         borderRadius: "100%",
         display: 'flex',
         alignItems: 'center',
