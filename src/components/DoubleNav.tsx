@@ -6,7 +6,8 @@ const useStyles = createStyles((theme) => ({
   mainNav: {
     width: 350,
     flexShrink: 0,
-    height: '100vh'
+    height: '100vh',
+    borderRight: 0
   },
   wrapper: {
     display: 'flex',

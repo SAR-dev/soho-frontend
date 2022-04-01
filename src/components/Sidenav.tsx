@@ -19,7 +19,8 @@ import { Collections } from './Collections';
 const useStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
-    borderRight: "0px"
+    borderRight: "0px",
+    height: "100vh"
   },
 
   section: {
