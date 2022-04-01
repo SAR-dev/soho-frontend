@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
   createStyles,
   Navbar,
@@ -10,6 +10,7 @@ import {
   Group,
   ActionIcon,
   Tooltip,
+  ScrollArea,
 } from '@mantine/core';
 import { Messages, Video, Search, Plus, BrandHipchat, ChartBar, Radar2, Microphone2, ListCheck } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
@@ -93,6 +94,16 @@ const useStyles = createStyles((theme) => ({
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
   },
+
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+          : theme.colors[theme.primaryColor][1],
+      color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
+    },
+  },
 }));
 
 const links = [
@@ -105,23 +116,12 @@ const links = [
   { icon: ListCheck, label: 'Rules' },
 ];
 
-const collections = [
-  { emoji: '👍', label: 'Sales' },
-  { emoji: '🚚', label: 'Deliveries' },
-  { emoji: '💸', label: 'Discounts' },
-  { emoji: '💰', label: 'Profits' },
-  { emoji: '✨', label: 'Reports' },
-  { emoji: '🛒', label: 'Orders' },
-  { emoji: '📅', label: 'Events' },
-  { emoji: '🙈', label: 'Debts' },
-  { emoji: '💁‍♀️', label: 'Customers' },
-];
-
 export function Sidenav() {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
+  const [active, setActive] = useState('Discussion');
 
   const mainLinks = links.map((link) => (
-    <UnstyledButton key={link.label} className={classes.mainLink}>
+    <UnstyledButton key={link.label} className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={(event) => setActive(link.label)}>
       <div className={classes.mainLinkInner}>
         <link.icon size={20} className={classes.mainLinkIcon} />
         <span>{link.label}</span>
@@ -135,7 +135,7 @@ export function Sidenav() {
   ));
 
   return (
-    <Navbar height={"100%"} width={{ sm: 300 }} p="md" className={classes.navbar}>
+    <Navbar p="md" className={classes.navbar}>
       <TextInput
         placeholder="Search"
         size="xs"
@@ -156,7 +156,7 @@ export function Sidenav() {
         <div className={classes.mainLinks}>{mainLinks}</div>
       </Navbar.Section>
 
-      <Navbar.Section className={classes.section}>
+      <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
         <Group className={classes.collectionsHeader} position="apart">
           <Text size="xs" weight={500} color="dimmed">
             Collections

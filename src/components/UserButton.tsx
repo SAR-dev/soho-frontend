@@ -23,6 +23,9 @@ const useStyles = createStyles((theme) => ({
   },
   avatar: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[3],
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4],
   },
   members: {
     display: 'flex',
@@ -81,7 +84,7 @@ export function UserButton({ image, name, email, ...others }: UserButtonProps) {
           <Group spacing="xs" className={classes.members}>
             <div className={classes.membersCount}>
               <Users size={14} />
-              <Text size="xs" color="gray">10 Members</Text>
+              <Text size="xs" color="gray" ml={5}>10 Members</Text>
             </div>
             <div className={classes.action}>
               <Plus size={14} />

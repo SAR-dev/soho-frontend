@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navbar, Group, Code, ScrollArea, createStyles } from '@mantine/core';
+import { createStyles } from '@mantine/core';
+import { useState } from 'react';
 import {
     Notes,
     CalendarStats,
@@ -9,7 +9,7 @@ import {
     Adjustments,
     Lock,
 } from 'tabler-icons-react';
-import { LinksGroup } from './NavbarLinksGroup';
+import { LinksGroup } from './LinksGroup';
 
 const mockdata = [
     { label: 'Dashboard', icon: Gauge },
@@ -80,8 +80,6 @@ export function Collections() {
     const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
 
     return (
-        <Navbar.Section grow component={ScrollArea}>
-            <div className={classes.linksInner}>{links}</div>
-        </Navbar.Section>
+        <div className={classes.linksInner}>{links}</div>
     );
 }
