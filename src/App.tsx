@@ -1,5 +1,6 @@
 import { MantineProvider, ColorSchemeProvider, ColorScheme, Paper } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
+import { AuthProvider } from './components/layouts/AuthProvider';
 import Router from './Router';
 
 function App() {
@@ -14,7 +15,9 @@ function App() {
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ colorScheme }}>
-        <Router />
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );
