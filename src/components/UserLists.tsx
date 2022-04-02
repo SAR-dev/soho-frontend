@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { createStyles, UnstyledButton, Tooltip, Title, Avatar } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
 const useStyles = createStyles((theme) => ({
+    container: { textAlign: "center" },
     mainLink: {
         width: 44,
         height: 44,
@@ -43,6 +45,7 @@ const useStyles = createStyles((theme) => ({
                     : theme.colors[theme.primaryColor][1],
         },
     },
+    placeholder: { zIndex: 100 }
 }));
 
 const mainLinksMockdata = [
@@ -75,22 +78,36 @@ const mainLinksMockdata = [
 export default function UserLists() {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Releases');
-    const [state, handlers] = useListState(mainLinksMockdata);
+    const [items, setItems] = useState(mainLinksMockdata)
 
-    const items = state.map((link, i) => (
-        <Tooltip label={link.label} position="right" withArrow transitionDuration={0} key={i}>
-            <UnstyledButton
-                onClick={() => setActive(link.label)}
-                className={cx(classes.mainLink, { [classes.mainLinkActive]: link.label === active }, { [classes.initialMainLink]: i === 0 })}
-            >
-                <Avatar src={"https://avatars.dicebear.com/api/micah/seed" + i + ".svg"} size={"sm"} />
-            </UnstyledButton>
-        </Tooltip>
-    ))
+    const SortableItemC = SortableElement(({ label, i }: { label: string, i: number }) => (
+        <div className={classes.placeholder}>
+            <Tooltip label={label} position="right" withArrow transitionDuration={0}>
+                <UnstyledButton
+                    onClick={() => setActive(label)}
+                    className={cx(classes.mainLink, { [classes.mainLinkActive]: label === active }, { [classes.initialMainLink]: i === 0 })}
+                >
+                    <Avatar src={"https://avatars.dicebear.com/api/micah/seed" + label + ".svg"} size={"sm"} />
+                </UnstyledButton>
+            </Tooltip>
+        </div>
+    ));
+
+    const SortableContainerC = SortableContainer(({ children }: { children: ReactNode }) => {
+        return <div className={classes.container}>{children}</div>;
+    });
+
+    function onSortEnd({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }): any {
+        const res = arrayMove(items, oldIndex, newIndex)
+        setItems(res)
+    };
+
 
     return (
-        <>
-            {items}
-        </>
+        <SortableContainerC onSortEnd={onSortEnd} pressDelay={200}>
+            {items.map((el, index) => (
+                <SortableItemC key={index} label={el.label} index={index} i={index} />
+            ))}
+        </SortableContainerC>
     );
 }
