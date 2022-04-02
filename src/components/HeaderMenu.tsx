@@ -19,8 +19,6 @@ import { SmartHome, Notification, Home2, Settings, Search, Photo, MessageCircle,
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 
-const NavHeight = 50
-
 const useStyles = createStyles((theme) => ({
   header: {
     width: "100%",
@@ -32,7 +30,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 700
   },
   inner: {
-    height: NavHeight,
+    height: "100%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -63,7 +61,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function HeaderMenu() {
+export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { classes } = useStyles();
 
   return (
@@ -71,14 +69,14 @@ export function HeaderMenu() {
       <div className={classes.inner}>
         <Text className={classes.linkText}>FEED</Text>
         <Group spacing={10} className={classes.links}>
-          <Button 
-            leftIcon={<Avatar src="https://avatars.dicebear.com/api/micah/seed.svg" size="sm" radius="xl" />} 
-            radius="md" 
-            variant="light" 
-            title="Navigate to Home" 
+          <Button
+            leftIcon={<Avatar src="https://avatars.dicebear.com/api/micah/seed.svg" size="sm" radius="xl" />}
+            radius="md"
+            variant="light"
+            title="Navigate to Home"
             className={classes.link}
-            style={{paddingLeft: 10, paddingRight: 10}}
-            >
+            style={{ paddingLeft: 10, paddingRight: 10 }}
+          >
             Sayed Rafi
           </Button>
           <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
