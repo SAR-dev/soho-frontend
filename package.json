@@ -10,11 +10,11 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@mantine/core": "^4.0.8",
+    "@mantine/core": "^4.1.1",
     "@mantine/dates": "^4.0.8",
-    "@mantine/dropzone": "^4.0.8",
+    "@mantine/dropzone": "^4.1.1",
     "@mantine/form": "^4.0.8",
-    "@mantine/hooks": "^4.0.8",
+    "@mantine/hooks": "^4.1.1",
     "@mantine/modals": "^4.0.8",
     "@mantine/next": "^4.0.8",
     "@mantine/notifications": "^4.0.8",
@@ -23,6 +23,7 @@
     "@mantine/spotlight": "^4.0.8",
     "dayjs": "^1.11.0",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.3.0",
     "tabler-icons-react": "^1.41.0"

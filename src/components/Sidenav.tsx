@@ -11,10 +11,12 @@ import {
   ActionIcon,
   Tooltip,
   ScrollArea,
+  Modal,
 } from '@mantine/core';
 import { Messages, Video, Search, Plus, BrandHipchat, ChartBar, Radar2, Microphone2, ListCheck } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
+import { ChannelCreateForm } from './ChannelCreateForm';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -110,8 +112,6 @@ const useStyles = createStyles((theme) => ({
 const links = [
   { icon: BrandHipchat, label: 'Discussion', notifications: 3 },
   { icon: Video, label: 'Premier', notifications: 4 },
-  // { icon: Messages, label: 'AMA' },
-  // { icon: ChartBar, label: 'Poll' },
   { icon: Radar2, label: 'Drop' },
   { icon: Microphone2, label: 'Announcement' },
   { icon: ListCheck, label: 'Rules' },
@@ -120,6 +120,7 @@ const links = [
 export function Sidenav() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Discussion');
+  const [opened, setOpened] = useState(false);
 
   const mainLinks = links.map((link) => (
     <UnstyledButton key={link.label} className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={(event) => setActive(link.label)}>
@@ -136,41 +137,49 @@ export function Sidenav() {
   ));
 
   return (
-    <Navbar p="md" className={classes.navbar}>
-      <TextInput
-        placeholder="Search"
-        size="xs"
-        icon={<Search size={12} />}
-        rightSectionWidth={70}
-        styles={{ rightSection: { pointerEvents: 'none' } }}
-        mb="sm"
-      />
+    <>
+      <Navbar p="md" className={classes.navbar}>
+        <TextInput
+          placeholder="Search"
+          size="xs"
+          icon={<Search size={12} />}
+          rightSectionWidth={70}
+          styles={{ rightSection: { pointerEvents: 'none' } }}
+          mb="sm"
+        />
 
-      <UserButton
-        image="https://avatars.dicebear.com/api/micah/:seed.svg"
-        name="Bob Rulebreaker"
-        email="Product owner"
-      />
+        <UserButton
+          image="https://avatars.dicebear.com/api/micah/:seed.svg"
+          name="Bob Rulebreaker"
+          email="Product owner"
+        />
 
 
-      <Navbar.Section className={classes.section}>
-        <div className={classes.mainLinks}>{mainLinks}</div>
-      </Navbar.Section>
-
-      <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
-        <Group className={classes.collectionsHeader} position="apart">
-          <Text size="xs" weight={500} color="dimmed">
-            Channels
-          </Text>
-          <Tooltip label="Create collection" withArrow position="right">
-            <ActionIcon variant="default" size={18}>
-              <Plus size={12} />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-        <Channels />
-      </Navbar.Section>
-    </Navbar>
+        <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
+          <div className={classes.mainLinks}>{mainLinks}</div>
+        
+          <Group className={classes.collectionsHeader} position="apart">
+            <Text size="xs" weight={500} color="dimmed">
+              Channels
+            </Text>
+            <Tooltip label="Create collection" withArrow position="right">
+              <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
+                <Plus size={12} />
+              </ActionIcon>
+            </Tooltip>
+          </Group>
+          <Channels />
+        </Navbar.Section>
+      </Navbar>
+      <Modal
+        centered 
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Create a Channel or Subchannel"
+      >
+        <ChannelCreateForm setOpened={setOpened} />
+      </Modal>
+    </>
   );
 }
 

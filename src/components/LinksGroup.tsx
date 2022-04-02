@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core';
-import { Icon as TablerIcon, CalendarStats, ChevronLeft, ChevronRight } from 'tabler-icons-react';
+import { Icon as TablerIcon, CalendarStats, ChevronLeft, ChevronRight, Hash } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -28,9 +28,8 @@ const useStyles = createStyles((theme) => ({
     marginLeft: 30,
     fontSize: theme.fontSizes.xs,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    borderLeft: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderLeft: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
@@ -70,10 +69,10 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
   return (
     <>
       <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
-        <Group position="apart" spacing={0} style={{width: "100%"}}>
+        <Group position="apart" spacing={0} style={{ width: "100%" }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon variant="light">
-              <Icon size={18} />
+              <Hash size={18} />
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
