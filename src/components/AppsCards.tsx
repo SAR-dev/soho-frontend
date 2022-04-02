@@ -56,8 +56,8 @@ const useStyles = createStyles((theme) => ({
 export function AppsCards() {
   const { classes, theme } = useStyles();
 
-  const items = mockdata.map((item) => (
-    <UnstyledButton key={item.title} className={classes.item}>
+  const items = mockdata.map((item, i) => (
+    <UnstyledButton className={classes.item} key={i}>
       <item.icon color={theme.colors[item.color][6]} size={32} />
       <Text size="xs" mt={7}>
         {item.title}

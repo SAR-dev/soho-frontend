@@ -78,7 +78,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Channels() {
     const { classes } = useStyles();
-    const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+    const links = mockdata.map((item, i) => <LinksGroup {...item} key={i} />);
 
     return (
         <div className={classes.linksInner}>{links}</div>

@@ -54,12 +54,12 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? ChevronRight : ChevronLeft;
-  const items = (hasLinks ? links : []).map((link) => (
+  const items = (hasLinks ? links : []).map((link, i) => (
     <Text<'a'>
       component="a"
       className={classes.link}
       href={link.link}
-      key={link.label}
+      key={i}
       onClick={(event) => event.preventDefault()}
     >
       {link.label}

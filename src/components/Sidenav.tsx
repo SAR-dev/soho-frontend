@@ -122,8 +122,8 @@ export function Sidenav() {
   const [active, setActive] = useState('Discussion');
   const [opened, setOpened] = useState(false);
 
-  const mainLinks = links.map((link) => (
-    <UnstyledButton key={link.label} className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={(event) => setActive(link.label)}>
+  const mainLinks = links.map((link, i) => (
+    <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={() => setActive(link.label)} key={i}>
       <div className={classes.mainLinkInner}>
         <link.icon size={20} className={classes.mainLinkIcon} />
         <span>{link.label}</span>
@@ -162,7 +162,7 @@ export function Sidenav() {
             <Text size="xs" weight={500} color="dimmed">
               Channels
             </Text>
-            <Tooltip label="Create collection" withArrow position="right">
+            <Tooltip label="Create Channel" withArrow position="right">
               <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
                 <Plus size={12} />
               </ActionIcon>
@@ -175,7 +175,7 @@ export function Sidenav() {
         centered 
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Create a Channel or Subchannel"
+        title="Create a Channel"
       >
         <ChannelCreateForm setOpened={setOpened} />
       </Modal>
