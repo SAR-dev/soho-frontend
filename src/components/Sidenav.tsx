@@ -14,7 +14,7 @@ import {
 } from '@mantine/core';
 import { Messages, Video, Search, Plus, BrandHipchat, ChartBar, Radar2, Microphone2, ListCheck } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
-import { Collections } from './Collections';
+import { Channels } from './Channels';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -110,8 +110,8 @@ const useStyles = createStyles((theme) => ({
 const links = [
   { icon: BrandHipchat, label: 'Discussion', notifications: 3 },
   { icon: Video, label: 'Premier', notifications: 4 },
-  { icon: Messages, label: 'AMA' },
-  { icon: ChartBar, label: 'Poll' },
+  // { icon: Messages, label: 'AMA' },
+  // { icon: ChartBar, label: 'Poll' },
   { icon: Radar2, label: 'Drop' },
   { icon: Microphone2, label: 'Announcement' },
   { icon: ListCheck, label: 'Rules' },
@@ -160,7 +160,7 @@ export function Sidenav() {
       <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
         <Group className={classes.collectionsHeader} position="apart">
           <Text size="xs" weight={500} color="dimmed">
-            Collections
+            Channels
           </Text>
           <Tooltip label="Create collection" withArrow position="right">
             <ActionIcon variant="default" size={18}>
@@ -168,7 +168,7 @@ export function Sidenav() {
             </ActionIcon>
           </Tooltip>
         </Group>
-        <Collections />
+        <Channels />
       </Navbar.Section>
     </Navbar>
   );

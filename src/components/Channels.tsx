@@ -16,7 +16,7 @@ const mockdata = [
     {
         label: 'Market news',
         icon: Notes,
-        initiallyOpened: true,
+        initiallyOpened: false,
         links: [
             { label: 'Overview', link: '/' },
             { label: 'Forecasts', link: '/' },
@@ -39,6 +39,7 @@ const mockdata = [
     {
         label: 'Security',
         icon: Lock,
+        initiallyOpened: true,
         links: [
             { label: 'Enable 2FA', link: '/' },
             { label: 'Change password', link: '/' },
@@ -75,7 +76,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function Collections() {
+export function Channels() {
     const { classes } = useStyles();
     const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
 

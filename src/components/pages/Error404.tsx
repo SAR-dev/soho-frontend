@@ -43,7 +43,7 @@ export function Error404() {
             <Title className={classes.title}>Something is not right...</Title>
             <Text color="dimmed" size="lg" className={classes.subtitle}>
               Page you are trying to open does not exist. You may have mistyped the address, or the
-              page has been moved to another URL. <br /> Here are some pages to explore:
+              page has been moved to another URL. <br /> Here are some options to explore:
             </Text>
             <AppsCards />
           </div>

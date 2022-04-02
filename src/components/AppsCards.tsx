@@ -67,7 +67,7 @@ export function AppsCards() {
 
   return (
     <Card withBorder radius="md" className={classes.card}>
-      <SimpleGrid cols={4} mt="md">
+      <SimpleGrid cols={4}>
         {items}
       </SimpleGrid>
     </Card>
