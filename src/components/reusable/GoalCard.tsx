@@ -1,60 +1,90 @@
 import React from 'react';
-import { createStyles, ThemeIcon, Progress, Text, Group, Badge, Paper } from '@mantine/core';
-import { Swimming } from 'tabler-icons-react';
-
-const ICON_SIZE = 60;
+import { createStyles, Group, Paper, SimpleGrid, Text } from '@mantine/core';
+import {
+    UserPlus,
+    Discount2,
+    Receipt2,
+    Coin,
+    ArrowUpRight,
+    ArrowDownRight,
+} from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
-    card: {
-        position: 'relative',
-        overflow: 'visible',
-        padding: theme.spacing.xl,
-        paddingTop: theme.spacing.xl * 1.5 + ICON_SIZE / 3,
+    value: {
+        fontSize: 24,
+        fontWeight: 700,
+        lineHeight: 1,
+    },
+
+    diff: {
+        lineHeight: 1,
+        display: 'flex',
+        alignItems: 'center',
     },
 
     icon: {
-        position: 'absolute',
-        top: -ICON_SIZE / 3,
-        left: `calc(50% - ${ICON_SIZE / 2}px)`,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
     },
 
     title: {
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-        lineHeight: 1,
+        fontWeight: 700,
+        textTransform: 'uppercase',
     },
 }));
 
+const icons = {
+    user: UserPlus,
+    discount: Discount2,
+    receipt: Receipt2,
+    coin: Coin,
+};
+
+const data = [
+    { title: "Revenue", icon: "receipt", value: "13,456", diff: 34 },
+    { title: "Profit", icon: "coin", value: "4,145", diff: -13 },
+    { title: "Coupons usage", icon: "discount", value: "745", diff: 18 },
+    { title: "New customers", icon: "user", value: "188", diff: -30 }
+]
+
 export function GoalCard() {
     const { classes } = useStyles();
+    const stats = data.map((stat) => {
+        const Icon = icons[stat.icon];
+        const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
 
+        return (
+            <Paper withBorder p="md" radius="md" key={stat.title}>
+                <Group position="apart">
+                    <Text size="xs" color="dimmed" className={classes.title}>
+                        {stat.title}
+                    </Text>
+                    <Icon className={classes.icon} size={22} />
+                </Group>
+
+                <Group align="flex-end" spacing="xs" mt={25}>
+                    <Text className={classes.value}>{stat.value}</Text>
+                    <Text
+                        color={stat.diff > 0 ? 'teal' : 'red'}
+                        size="sm"
+                        weight={500}
+                        className={classes.diff}
+                    >
+                        <span>{stat.diff}%</span>
+                        <DiffIcon size={16} />
+                    </Text>
+                </Group>
+
+                <Text size="xs" color="dimmed" mt={7}>
+                    Compared to previous month
+                </Text>
+            </Paper>
+        );
+    });
     return (
-        <Paper radius="md" withBorder className={classes.card} mt={ICON_SIZE / 3}>
-            <ThemeIcon className={classes.icon} size={ICON_SIZE} radius={ICON_SIZE}>
-                <Swimming size={34} />
-            </ThemeIcon>
-
-            <Text align="center" weight={700} className={classes.title}>
-                Swimming challenge
-            </Text>
-            <Text color="dimmed" align="center" size="sm">
-                32 km / week
-            </Text>
-
-            <Group position="apart" mt="xs">
-                <Text size="sm" color="dimmed">
-                    Progress
-                </Text>
-                <Text size="sm" color="dimmed">
-                    62%
-                </Text>
-            </Group>
-
-            <Progress value={62} mt={5} />
-
-            <Group position="apart" mt="md">
-                <Text size="sm">20 / 36 km</Text>
-                <Badge size="sm">4 days left</Badge>
-            </Group>
-        </Paper>
+            <SimpleGrid
+                cols={1}
+            >
+                {stats}
+            </SimpleGrid>
     );
 }

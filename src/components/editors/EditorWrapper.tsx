@@ -11,10 +11,11 @@ import { FaPoll } from "react-icons/fa";
 import { BsDropletHalf } from "react-icons/bs";
 import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
 import axios from 'axios';
+import "./PostEditor.css";
 
 const useStyles = createStyles((theme) => ({
     container: {
-        width: 800,
+        width: "100%",
         borderWidth: '1px',
         borderStyle: 'solid',
         borderColor: theme.colorScheme === 'light' ? theme.colors.gray[4] : theme.colors.dark[5]
