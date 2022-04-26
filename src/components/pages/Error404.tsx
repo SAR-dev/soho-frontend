@@ -1,6 +1,6 @@
 import { createStyles, Image, Container, Title, Text, Button, SimpleGrid, Paper } from '@mantine/core';
 import image from '../../images/404.svg';
-import { AppsCards } from '../AppsCards';
+import { AppsCards } from '../reusable/AppsCards';
 
 const useStyles = createStyles((theme) => ({
   main: {

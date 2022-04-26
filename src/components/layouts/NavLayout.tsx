@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Paper, ScrollArea, createStyles } from '@mantine/core'
-import DoubleNav from '../DoubleNav'
-import { HeaderMenu } from '../HeaderMenu'
+import DoubleNav from '../reusable/nav/DoubleNav'
+import { HeaderMenu } from '../reusable/nav/HeaderMenu'
 
 const NavHeight = 50
 
