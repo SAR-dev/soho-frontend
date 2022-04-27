@@ -18,7 +18,7 @@ const useStyles = createStyles((theme) => ({
         width: "100%",
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: theme.colorScheme === 'light' ? theme.colors.gray[4] : theme.colors.dark[5]
+        borderColor: theme.colorScheme === 'light' ? theme.colors.gray[2] : theme.colors.dark[5]
     },
     menus: {
         width: "fill-available",

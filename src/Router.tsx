@@ -1,26 +1,35 @@
-import { useEffect } from "react"
-import { Routes, Route, BrowserRouter } from "react-router-dom"
-import { Home } from "./components/pages/Home"
-import { Error404 } from "./components/pages/Error404"
-import { auth } from "./config/firebase"
+import { useEffect, useLayoutEffect } from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Home } from "./components/pages/Home";
+import { Error404 } from "./components/pages/Error404";
+import { auth } from "./config/firebase";
 import useStore from "./store";
-import { removeTokenFromLocal, setTokenToLocal } from "./helpers"
+import {
+  getTokenFromLocal,
+  removeTokenFromLocal,
+  setTokenToLocal,
+} from "./helpers";
 
 function Router() {
-  const { setToken, removeToken } = useStore()
-  useEffect(() => {
+  const { setToken, removeToken } = useStore();
+  useLayoutEffect(() => {
+    const t = getTokenFromLocal();
+    if (t) {
+      setTokenToLocal(t);
+      setToken(t);
+    }
     auth.onAuthStateChanged((credential) => {
       if (credential) {
-        credential.getIdToken().then(token => {
-          setTokenToLocal(token)
-          setToken(token)
-        })
+        credential.getIdToken().then((token) => {
+          setTokenToLocal(token);
+          setToken(token);
+        });
       } else {
-        removeTokenFromLocal()
-        removeToken()
+        removeTokenFromLocal();
+        removeToken();
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -29,7 +38,7 @@ function Router() {
         <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default Router
+export default Router;
