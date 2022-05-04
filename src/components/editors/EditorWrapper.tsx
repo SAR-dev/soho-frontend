@@ -26,6 +26,7 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.sm
   },
   menus: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[1],
     marginBottom: theme.spacing.sm,
     width: "100%"
   },
