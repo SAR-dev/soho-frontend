@@ -49,7 +49,7 @@ const data = [
 export function GoalCard() {
     const { classes } = useStyles();
     const stats = data.map((stat) => {
-        const Icon = icons[stat.icon];
+        // const Icon = icons[stat.icon];
         const DiffIcon = stat.diff > 0 ? ArrowUpRight : ArrowDownRight;
 
         return (
@@ -58,7 +58,7 @@ export function GoalCard() {
                     <Text size="xs" color="dimmed" className={classes.title}>
                         {stat.title}
                     </Text>
-                    <Icon className={classes.icon} size={22} />
+                    {/* <Icon className={classes.icon} size={22} /> */}
                 </Group>
 
                 <Group align="flex-end" spacing="xs" mt={25}>
