@@ -23,7 +23,7 @@ const useStyles = createStyles((theme) => ({
         display: "flex"
     },
     cards: {
-        width: 320,
+        width: 365,
         flexShrink: 0,
         paddingTop: theme.spacing.sm,
         paddingRight: theme.spacing.sm,

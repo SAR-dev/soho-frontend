@@ -1,3 +1,11 @@
 body {
-    margin: 0px;
+  margin: 0px;
+}
+
+.mantine-TypographyStylesProvider-root p:last-child {
+  margin-bottom: 0;
+}
+
+.mantine-SegmentedControl-control {
+    border: none !important;
 }

@@ -4,7 +4,7 @@ import UserLists from './UserLists';
 
 const useStyles = createStyles((theme) => ({
   mainNav: {
-    width: 350,
+    width: 385,
     flexShrink: 0,
     height: '100vh',
     borderRight: 0
