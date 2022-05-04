@@ -1,4 +1,5 @@
 import { Box, createStyles, Paper, SimpleGrid } from '@mantine/core'
+import { EditorCreator } from '../editors/EditorCreator';
 import { EditorWrapper } from '../editors/EditorWrapper'
 import NavLayout from '../layouts/NavLayout'
 import { DiscussionPostCard } from '../reusable/post/DiscussionPostCard';
@@ -22,6 +23,7 @@ export function Home() {
     <NavLayout>
       <Paper p="sm" className={classes.mainpaper}>
         <SimpleGrid cols={1}>
+          <EditorCreator />
           <EditorWrapper />
           <DiscussionPostCard
             postedAt='10 minutes ago'
