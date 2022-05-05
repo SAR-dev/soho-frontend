@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Eye, Code, ExternalLink, Clock } from 'tabler-icons-react';
 import { MdWavingHand } from 'react-icons/md';
 import { GoPrimitiveDot, GoFlame } from 'react-icons/go';
+import { ImageCarousel } from './ImageCarousel';
+import { PollItems } from './PollItems';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     bar: {
@@ -38,6 +40,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     },
     typography: {
         fontSize: theme.fontSizes.sm,
+        marginTop: theme.spacing.xs,
+        marginBottom: theme.spacing.lg,
     },
     fire: {
         color: theme.colors.red[5],
@@ -83,12 +87,14 @@ export function DiscussionPostCard({ postedAt, body, author, temp }: DiscussionP
                         </Text>
                     </div>
                 </Group>
-                <TypographyStylesProvider className={classes.typography} mt={5} mb={15}>
+                <TypographyStylesProvider className={classes.typography}>
                     <div dangerouslySetInnerHTML={{ __html: body }} />
                     <Anchor component={Link} to="/react-router" className={classes.typography}>
                         Continue reading...
                     </Anchor>
                 </TypographyStylesProvider>
+                <PollItems />
+                <ImageCarousel />
                 <Group>
                     <div className={classes.flex}>
                         <Text size="sm" weight={500}>24</Text>
