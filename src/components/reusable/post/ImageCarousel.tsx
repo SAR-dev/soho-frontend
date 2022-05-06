@@ -102,7 +102,7 @@ export function ImageCarousel() {
       <div className={classes.wrapper}>
         <Image
           width="100%"
-          height={250}
+          height={350}
           src={images[active]}
           onClick={() => openLightbox()}
           alt=""

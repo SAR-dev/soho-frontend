@@ -113,7 +113,7 @@ export function DiscussionPostCard({
         </TypographyStylesProvider>
         <PollItems />
         <ImageCarousel />
-        <Group>
+        <Group spacing="lg">
           <div className={classes.flex}>
             <Text size="sm" weight={500}>
               24
