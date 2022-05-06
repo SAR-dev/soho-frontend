@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import {
   Paper,
   createStyles,
@@ -12,7 +12,7 @@ import {
   Text,
   Select,
 } from "@mantine/core";
-import { RichTextEditor } from "@mantine/rte";
+import { RichTextEditor, Editor } from "@mantine/rte";
 import { FaPoll } from "react-icons/fa";
 import { BsDropletHalf } from "react-icons/bs";
 import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
@@ -51,6 +51,15 @@ export function EditorWrapper() {
   const [category, setCategory] = useState<any | null>(null);
   const [visibility, setVisibility] = useState<any | null>(null);
   const [checked, setChecked] = useState(false);
+  const editorRef = useRef<Editor>(null);
+
+  useEffect(() => {
+    editorRef?.current?.focus();
+    // const quillRef = editorRef?.current?.getEditor();
+    // var range = quillRef?.getSelection();
+    // let position = range ? range.index : 0;
+    // quillRef?.insertText(position, 'Hello, World! ')
+  }, []);
 
   const mentions = useMemo(
     () => ({
@@ -126,6 +135,7 @@ export function EditorWrapper() {
           value={text}
           onChange={setText}
           className={classes.editor}
+          ref={editorRef}
           mentions={mentions}
           placeholder="Start typing here...."
           spellCheck={false}
