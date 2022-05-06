@@ -23,7 +23,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
         display: 'flex',
         [`&:hover .${getRef('bar')}`]: {
-            width: theme.spacing.md,
+            width: theme.spacing.xs,
         },
     },
 
@@ -67,7 +67,7 @@ export function DiscussionPostCard({ postedAt, body, author, temp }: DiscussionP
     return (
         <div className={classes.wrapper}>
             <div className={classes.bar}></div>
-            <Avatar src={author.image} alt={author.name} className={classes.avatar} size={70} />
+            <Avatar src={author.image} alt={author.name} className={classes.avatar} size={50} />
             <div>
                 <Group spacing="xs">
                     <Text size="sm" weight={700}>{author.name}</Text>
