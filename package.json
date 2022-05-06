@@ -10,6 +10,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.0.1",
     "@mantine/core": "^4.2.1",
     "@mantine/dates": "^4.2.1",
     "@mantine/dropzone": "^4.2.0",
@@ -23,6 +24,7 @@
     "@mantine/spotlight": "^4.2.1",
     "axios": "^0.27.1",
     "dayjs": "^1.11.1",
+    "emoji-mart": "^5.0.0",
     "firebase": "^9.6.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -42,6 +44,7 @@
     "@storybook/addon-links": "^6.4.19",
     "@storybook/react": "^6.4.19",
     "@storybook/testing-library": "0.0.9",
+    "@types/emoji-mart": "^3.0.9",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",
