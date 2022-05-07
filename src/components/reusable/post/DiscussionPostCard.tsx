@@ -47,7 +47,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
   fire: {
     color: theme.colors.red[5],
-    fontWeight: 700,
   },
   reactions: {
     backgroundColor:
@@ -89,14 +88,14 @@ export function DiscussionPostCard({
           </Text>
           <div className={cx(classes.flex, classes.fire)}>
             <GoFlame size={16} />
-            <Text size="sm" className={classes.time}>
+            <Text size="sm" weight={700} className={classes.time}>
               {temp}&deg;C
             </Text>
           </div>
 
-          <div className={classes.flex} style={{marginLeft: 'auto'}}>
+          <div className={classes.flex}>
             <Clock size={16} />
-            <Text size="sm" color="dimmed" className={classes.time}>
+            <Text size="sm" color="dimmed" weight={700} className={classes.time}>
               {postedAt}
             </Text>
           </div>

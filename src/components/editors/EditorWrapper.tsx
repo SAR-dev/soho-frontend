@@ -167,7 +167,7 @@ export function EditorWrapper() {
           ]}
         />
         <Group>
-          <EmojiPopover />
+          <EmojiPopover insertText={insertText} />
           <Select
             placeholder="Pick a Category"
             data={[

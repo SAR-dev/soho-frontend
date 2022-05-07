@@ -4,7 +4,7 @@ import { MoodSmile } from "tabler-icons-react";
 import { EmojiPicker } from "../reusable/EmojiPicker";
 import { useClickOutside } from '@mantine/hooks';
 
-export function EmojiPopover() {
+export function EmojiPopover({insertText}:{insertText: any}) {
   const [opened, setOpened] = useState(false);
   const ref = useClickOutside(() => setOpened(false));
   
@@ -26,7 +26,10 @@ export function EmojiPopover() {
         <EmojiPicker
           theme="dark"
           previewPosition="none"
-          onEmojiSelect={(e: any) => console.log(e)}
+          emojiButtonSize={24}
+          emojiSize={16}
+          perLine={15}
+          onEmojiSelect={(e: any) => insertText(e.native)}
         />
       </div>
     </Popover>
