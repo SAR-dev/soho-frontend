@@ -42,7 +42,7 @@ function NavLayout({ children }: { children: ReactNode }) {
                         {children}
                         <div className={classes.cards}>
                             <SimpleGrid cols={1}>
-                                <GoalCard />
+                                {/* <GoalCard /> */}
                             </SimpleGrid>
                         </div>
                     </div>

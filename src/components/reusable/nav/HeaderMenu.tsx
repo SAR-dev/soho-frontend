@@ -28,6 +28,7 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     paddingLeft: theme.spacing.lg,
     paddingRight: theme.spacing.lg,
+    borderBottomWidth: 3
   },
   linkText: {
     fontSize: theme.fontSizes.lg,
