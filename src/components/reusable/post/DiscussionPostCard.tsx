@@ -32,7 +32,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   avatar: {
     borderRadius: "100%",
     marginRight: theme.spacing.md,
-    padding: 5,
+    padding: 3,
     backgroundColor: theme.colors.dark[5],
     ['img']: {
       borderRadius: "100%",
