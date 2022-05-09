@@ -11,11 +11,13 @@ import {
   Box,
   Chip,
   Button,
+  Indicator,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { Eye, Code, ExternalLink, Clock } from "tabler-icons-react";
 import { MdWavingHand } from "react-icons/md";
 import { GoPrimitiveDot, GoFlame } from "react-icons/go";
+import {HiBadgeCheck} from 'react-icons/hi';
 import { ImageCarousel } from "./ImageCarousel";
 import { PollItems } from "./PollItems";
 
@@ -29,9 +31,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         : theme.colors.gray[0],
     display: "flex",
   },
+  avatarWrapper: {
+    marginRight: theme.spacing.md,
+  },
   avatar: {
     borderRadius: "100%",
-    marginRight: theme.spacing.md,
     padding: 3,
     backgroundColor: theme.colors.dark[5],
     ['img']: {
@@ -80,12 +84,16 @@ export function DiscussionPostCard({
   const { classes, cx } = useStyles();
   return (
     <div className={classes.wrapper}>
-      <Avatar
-        src={author.image}
-        alt={author.name}
-        className={classes.avatar}
-        size={60}
-      />
+      <div className={classes.avatarWrapper}>
+        <Indicator inline size={18} offset={10} position="bottom-end" className='circular' label={<HiBadgeCheck />} withBorder>
+          <Avatar
+            size={60}
+            src={author.image}
+            alt={author.name}
+            className={classes.avatar}
+          />
+        </Indicator>
+      </div>
       <div>
         <Group spacing="xs">
 
