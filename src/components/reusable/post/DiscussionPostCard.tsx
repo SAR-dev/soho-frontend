@@ -29,9 +29,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         : theme.colors.gray[0],
     display: "flex",
   },
-
   avatar: {
     borderRadius: "100%",
+    marginRight: theme.spacing.md,
+    padding: 5,
+    backgroundColor: theme.colors.dark[5],
+    ['img']: {
+      borderRadius: "100%",
+    }
   },
   flex: {
     display: "flex",
@@ -75,14 +80,15 @@ export function DiscussionPostCard({
   const { classes, cx } = useStyles();
   return (
     <div className={classes.wrapper}>
+      <Avatar
+        src={author.image}
+        alt={author.name}
+        className={classes.avatar}
+        size={60}
+      />
       <div>
         <Group spacing="xs">
-          <Avatar
-            src={author.image}
-            alt={author.name}
-            className={classes.avatar}
-            size={40}
-          />
+
           <Text size="sm" weight={700}>
             {author.name}
           </Text>

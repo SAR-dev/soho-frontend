@@ -95,7 +95,7 @@ export function EditorWrapper() {
   );
 
   return (
-    <Paper>
+    <Paper radius={0}>
       <Paper className={classes.container}>
         <SegmentedControl
           value={value}

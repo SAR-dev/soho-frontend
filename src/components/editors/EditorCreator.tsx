@@ -62,7 +62,7 @@ export function EditorCreator() {
     const { classes } = useStyles();
 
     return (
-        <Paper>
+        <Paper radius={0}>
             <Paper className={classes.container}>
                 <div className={classes.flex}>
                     <Avatar src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png" radius="xl" />

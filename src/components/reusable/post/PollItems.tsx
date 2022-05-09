@@ -14,7 +14,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     width: "100%",
     height: 30,
     border: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[3] : theme.colors.gray[3]
+      theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3]
     }`,
     position: "relative",
     cursor: "pointer",
@@ -24,7 +24,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     fontFamily: "sans-serif",
     fontSize: theme.fontSizes.xs,
     "&:hover": {
-      borderColor: theme.colorScheme === "dark" ? theme.colors.blue[5] : theme.colors.blue[2]
+      borderColor: theme.colorScheme === "dark" ? theme.colors.blue[7] : theme.colors.blue[2]
     },
     [`&:hover .${getRef("pollBar")}`]: {
       backgroundColor: theme.colors.blue[7],

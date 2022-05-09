@@ -13,6 +13,7 @@ const demoText = `
 const useStyles = createStyles((theme) => ({
   mainpaper: {
     width: "100%",
+    backgroundColor: theme.colors.dark[5]
   },
 }));
 
@@ -21,8 +22,8 @@ export function Home() {
   const { classes } = useStyles();
   return (
     <NavLayout>
-      <Paper p="sm" className={classes.mainpaper}>
-        <SimpleGrid cols={1}>
+      <Paper className={classes.mainpaper}>
+        <SimpleGrid cols={1} spacing={1}>
           <EditorCreator />
           <EditorWrapper />
           <DiscussionPostCard
