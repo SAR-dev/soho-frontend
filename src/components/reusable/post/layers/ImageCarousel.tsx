@@ -111,12 +111,12 @@ export function ImageCarousel() {
           style={{cursor: 'zoom-in'}}
         />
         <div className={cx(classes.rightButton, classes.button)}>
-          <ActionIcon color="blue" variant="filled" onClick={() => next()}>
+          <ActionIcon variant="filled" onClick={() => next()}>
             <ArrowRight size={16} />
           </ActionIcon>
         </div>
         <div className={cx(classes.leftButton, classes.button)} onClick={() => prev()}>
-          <ActionIcon color="blue" variant="filled">
+          <ActionIcon variant="filled">
             <ArrowLeft size={16} />
           </ActionIcon>
         </div>
