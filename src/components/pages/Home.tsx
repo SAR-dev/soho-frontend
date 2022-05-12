@@ -1,4 +1,5 @@
 import { Box, createStyles, Paper, SimpleGrid } from "@mantine/core";
+import { useBooleanToggle, useDebouncedValue } from "@mantine/hooks";
 import { EditorCreator } from "../editors/EditorCreator";
 import { EditorWrapper } from "../editors/EditorWrapper";
 import NavLayout from "../layouts/NavLayout";
@@ -12,7 +13,7 @@ const demoHtmlText = `
 <p>I have noticed shared similarities in those folks I consider good managers whose teams deliver well, and those who don’t. It starts with how they communicate about their teams.</p>
 `;
 
-const demoText = `The way that we refer to our teams sends signals: to stakeholders, to your peers, to the team itself, and even to ourselves. In addressing how we speak about our teams, we’ll also talk about accountability.`
+const demoText = `The way that we refer to our teams sends signals: to stakeholders, to your peers, to the team itself, and even to ourselves. In addressing how we speak about our teams, we’ll also talk about accountability.`;
 
 const useStyles = createStyles((theme) => ({
   mainpaper: {
@@ -21,18 +22,19 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[5]
         : theme.colors.gray[2],
-    paddingBottom: theme.spacing.xl
+    paddingBottom: theme.spacing.xl,
   },
 }));
 
 export function Home() {
   const { classes } = useStyles();
+  const [clicked, toogle] = useBooleanToggle(false);
+
   return (
     <NavLayout>
       <Paper className={classes.mainpaper}>
         <SimpleGrid cols={1} spacing={3}>
-          <EditorCreator />
-          <EditorWrapper />
+          {clicked ? <EditorWrapper toogle={toogle} /> : <EditorCreator toogle={toogle} />}
           <DiscussionPostCard
             postedAt="10 minutes ago"
             body={demoHtmlText}

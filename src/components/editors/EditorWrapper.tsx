@@ -54,7 +54,11 @@ const useStyles = createStyles((theme) => ({
 
 const initialValue = "";
 
-export function EditorWrapper() {
+interface props {
+  toogle: () => void;
+}
+
+export function EditorWrapper({toogle}: props) {
   const [value, setValue] = useState("discussion");
   const [text, setText] = useState(initialValue);
   const { classes } = useStyles();
@@ -206,7 +210,7 @@ export function EditorWrapper() {
             checked={checked}
             onChange={(event) => setChecked(event.currentTarget.checked)}
           />
-          <Button size="xs" ml="auto" color="gray">
+          <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
             Close
           </Button>
           <Button size="xs" leftIcon={<Send size={16} />}>
