@@ -43,7 +43,6 @@ export function DiscussionPostCard({
       <div>
         <PostHeader author={author} temp={temp} postedAt={postedAt} />
         <HtmlRenderer body={body} />
-        <PollItems />
         <ImageCarousel />
         <PostFooter />
       </div>

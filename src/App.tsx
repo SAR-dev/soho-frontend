@@ -14,7 +14,8 @@ function App() {
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme: 'dark' }}>
+      {/* theme={{ colorScheme: 'dark' }} */}
+      <MantineProvider theme={{ colorScheme }}>
         <NotificationsProvider>
           <Router />
         </NotificationsProvider>
