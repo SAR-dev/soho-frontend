@@ -9,6 +9,15 @@ import {
   removeTokenFromLocal,
   setTokenToLocal,
 } from "./helpers";
+import { Offline, Online } from "react-detect-offline";
+import { Error503 } from "./components/pages/Error503";
+
+const polling = {
+  enabled: true,
+  interval: 5000,
+  timeout: 5000,
+  url: "https://ipv4.icanhazip.com",
+};
 
 function Router() {
   const { setToken, removeToken } = useStore();
@@ -32,12 +41,19 @@ function Router() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="*" element={<Error404 />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Online polling={polling}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="*" element={<Error404 />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </BrowserRouter>
+      </Online>
+      <Offline polling={polling}>
+        <Error503 />
+      </Offline>
+    </>
   );
 }
 
