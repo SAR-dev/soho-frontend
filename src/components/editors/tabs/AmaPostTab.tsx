@@ -28,9 +28,6 @@ const useStyles = createStyles((theme) => ({
     editor: {
         width: "100%",
         marginBottom: theme.spacing.sm,
-        borderWidth: theme.colorScheme === 'dark' ? 0 : 1,
-        borderStyle: 'solid',
-        borderColor: theme.colorScheme === 'dark' ? "transparent" : theme.colors.gray[4],
     },
     dropdown: {
         width: 150,
