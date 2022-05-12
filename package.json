@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "msi": "tauri build"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.0.1",

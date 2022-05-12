@@ -6,6 +6,7 @@ import {
   TextInput,
   ActionIcon,
   Center,
+  Stack,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { ArrowRight, BellRinging, LivePhoto, Search } from "tabler-icons-react";
@@ -16,7 +17,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginBottom: theme.spacing.lg,
   },
   askInput: {
-    marginTop: theme.spacing.sm,
+    ['input']: {
+      borderWidth: 2,
+    }
   },
   askTime: {
     marginLeft: theme.spacing.xs,
@@ -27,10 +30,10 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 export function AmaRenderer({ body }: { body: string }) {
   const { classes } = useStyles();
   return (
-    <div className={classes.typography}>
+    <Stack spacing="sm" className={classes.typography}>
       <Text size="lg">{body}</Text>
-      <Center inline className={classes.askInput}>
-        <LivePhoto color="yellow" size={18} />
+      <Center inline style={{ justifyContent: "start" }}>
+        <LivePhoto className="rotate" color="yellow" size={18} />
         <Text size="xs" color="yellow" weight={700} className={classes.askTime}>
           Live - April 14 - 10:00 AM
         </Text>
@@ -39,7 +42,7 @@ export function AmaRenderer({ body }: { body: string }) {
         </ActionIcon>
       </Center>
       <TextInput
-        radius="xl"
+        radius={18}
         size="sm"
         rightSection={
           <ActionIcon size={28} radius="xl" color="blue" variant="light">
@@ -47,9 +50,9 @@ export function AmaRenderer({ body }: { body: string }) {
           </ActionIcon>
         }
         placeholder="Ask question here..."
-        rightSectionWidth={42}
+        rightSectionWidth={38}
         className={classes.askInput}
       />
-    </div>
+    </Stack>
   );
 }
