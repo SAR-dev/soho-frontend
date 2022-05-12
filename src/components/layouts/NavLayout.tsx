@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Paper, ScrollArea, createStyles, SimpleGrid } from '@mantine/core'
 import DoubleNav from '../reusable/nav/DoubleNav'
 import { HeaderMenu } from '../reusable/nav/HeaderMenu'
-import { GoalCard } from '../reusable/GoalCard'
+import { TopClaps } from '../reusable/stats/TopClaps'
 
 const NavHeight = 50
 
@@ -27,6 +27,7 @@ const useStyles = createStyles((theme) => ({
         flexShrink: 0,
         paddingTop: theme.spacing.sm,
         paddingRight: theme.spacing.sm,
+        paddingLeft: theme.spacing.sm,
     }
 }));
 
@@ -42,7 +43,7 @@ function NavLayout({ children }: { children: ReactNode }) {
                         {children}
                         <div className={classes.cards}>
                             <SimpleGrid cols={1}>
-                                {/* <GoalCard /> */}
+                                <TopClaps />
                             </SimpleGrid>
                         </div>
                     </div>
