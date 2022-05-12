@@ -22,7 +22,6 @@ import { FaPoll } from "react-icons/fa";
 import { BsDropletHalf } from "react-icons/bs";
 import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
 import axios from "axios";
-import "./EditorStyles.css";
 import { ImageDropzone } from "./ImageDropzone";
 import { BrandTwitter, Hash, Photo, Send } from "tabler-icons-react";
 import { HiBadgeCheck } from "react-icons/hi";

@@ -15,7 +15,7 @@ import {
   Button,
   ActionIcon,
 } from "@mantine/core";
-import { ArrowLeft, ArrowRight } from "tabler-icons-react";
+import { ArrowLeft, ArrowRight, Photo } from "tabler-icons-react";
 import Carousel, { Modal, ModalGateway } from "react-images";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -44,6 +44,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     right: 0,
     marginRight: theme.spacing.xs,
   },
+  placeholder: {
+    width: "100%",
+    height: "100%",
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[1],
+  }
 }));
 
 const images = [
@@ -108,15 +116,16 @@ export function ImageCarousel() {
           alt=""
           radius="sm"
           withPlaceholder
-          style={{cursor: 'zoom-in'}}
+          placeholder={<Center className={classes.placeholder}><Photo size={100} /></Center>}
+          style={{ cursor: 'zoom-in' }}
         />
         <div className={cx(classes.rightButton, classes.button)}>
-          <ActionIcon variant="filled" onClick={() => next()}>
+          <ActionIcon variant="filled" onClick={() => next()} disabled={active === (images.length - 1)}>
             <ArrowRight size={16} />
           </ActionIcon>
         </div>
-        <div className={cx(classes.leftButton, classes.button)} onClick={() => prev()}>
-          <ActionIcon variant="filled">
+        <div className={cx(classes.leftButton, classes.button)}>
+          <ActionIcon variant="filled" onClick={() => prev()} disabled={active === 0}>
             <ArrowLeft size={16} />
           </ActionIcon>
         </div>

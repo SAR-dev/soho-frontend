@@ -28,6 +28,7 @@ export function Author() {
         className="circular"
         label={<HiBadgeCheck />}
         withBorder
+        style={{zIndex: 2}}
       >
         <Avatar
           size={60}
