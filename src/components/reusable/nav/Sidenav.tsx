@@ -154,7 +154,6 @@ export function Sidenav() {
           email="Product owner"
         />
 
-
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
           <div className={classes.mainLinks}>{mainLinks}</div>
         

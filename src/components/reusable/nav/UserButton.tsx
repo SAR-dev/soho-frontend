@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  UnstyledButtonProps,
-  Group,
-  Avatar,
-  Text,
-  createStyles,
-} from '@mantine/core';
+import { Group, Avatar, Text, createStyles } from '@mantine/core';
 import { Plus, Users } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
@@ -22,10 +15,10 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.sm,
   },
   avatar: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[3],
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[3],
+    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
   },
   members: {
     display: 'flex',

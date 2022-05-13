@@ -47,10 +47,16 @@ const useStyles = createStyles((theme) => ({
     },
   },
   avatar: {
+    borderWidth: 1,
+    borderStyle: "solid",
     backgroundColor:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[8]
-        : theme.colors.gray[0],
+        ? theme.colors.dark[6]
+        : theme.colors.gray[3],
+    borderColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[4]
+        : theme.colors.gray[4],
   },
   badge: {
     marginLeft: "auto",
@@ -118,14 +124,19 @@ export function TopClaps() {
           <div className={classes.userCard}>
             <Group spacing="sm">
               <Avatar
-                size={20}
+                size={35}
                 src={`https://avatars.dicebear.com/api/micah/${user.name}.svg`}
-                radius={30}
+                radius={35}
                 className={classes.avatar}
               />
-              <Text size="xs" weight={500}>
-                {user.name}
-              </Text>
+              <div>
+                <Text size="xs" weight={500}>
+                  {user.name}
+                </Text>
+                <Text color="dimmed" style={{fontSize: 12}}>
+                  @username
+                </Text>
+              </div>
             </Group>
             <Badge className={classes.badge}>
               <MdWavingHand className={classes.clapIcon} />

@@ -1,4 +1,12 @@
-import { Paper, createStyles, SimpleGrid, Group, Avatar, Text, Badge } from "@mantine/core";
+import {
+  Paper,
+  createStyles,
+  SimpleGrid,
+  Group,
+  Avatar,
+  Text,
+  Badge,
+} from "@mantine/core";
 import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
@@ -37,16 +45,22 @@ const useStyles = createStyles((theme) => ({
     },
   },
   avatar: {
+    borderWidth: 1,
+    borderStyle: "solid",
     backgroundColor:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[8]
-        : theme.colors.gray[0],
+        ? theme.colors.dark[6]
+        : theme.colors.gray[3],
+    borderColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[4]
+        : theme.colors.gray[4],
   },
   badgeText: {
     marginLeft: "auto",
   },
   badgeIcon: {
-    marginLeft: theme.spacing.sm
+    marginLeft: "auto",
   },
   clapIcon: {
     marginRight: 3,
@@ -57,27 +71,28 @@ const users = [
   {
     name: "Robert Wolfkisser",
     nickname: "Shining Saber",
-    badge: "https://i.ibb.co/XWzDYzv/5nswjpyy44551-Ally.png"
+    badge: "https://i.ibb.co/XWzDYzv/5nswjpyy44551-Ally.png",
   },
   {
     name: "Jill Jailbreaker",
     nickname: "Mr Wholesome",
-    badge: "https://i.ibb.co/HCZsgfk/award-gold-large.png"
+    badge: "https://i.ibb.co/HCZsgfk/award-gold-large.png",
   },
   {
     name: "Henry Silkeater",
     nickname: "Playgirl",
-    badge: "https://i.ibb.co/VW5gcr7/community-Icon-2cbkzwfs6kr21.png"
+    badge: "https://i.ibb.co/VW5gcr7/community-Icon-2cbkzwfs6kr21.png",
   },
   {
     name: "Bill Horsefighter",
     nickname: "Snoop Dog",
-    badge: "https://i.ibb.co/zJsXMyk/V9-EFxka-Q0-Gf-Kon-Wyn3gjimsn-AMh3-SPXFQe-Ikp-Kn-NP7-Y.webp"
+    badge:
+      "https://i.ibb.co/zJsXMyk/V9-EFxka-Q0-Gf-Kon-Wyn3gjimsn-AMh3-SPXFQe-Ikp-Kn-NP7-Y.webp",
   },
   {
     name: "Jeremy Footviewer",
     nickname: "Justice Crash",
-    badge: "https://i.ibb.co/khSjn40/u8s1fub2ie811.png"
+    badge: "https://i.ibb.co/khSjn40/u8s1fub2ie811.png",
   },
 ];
 
@@ -95,19 +110,26 @@ export function Moderators() {
           <div className={classes.userCard}>
             <Group spacing="sm">
               <Avatar
-                size={20}
+                size={35}
                 src={`https://avatars.dicebear.com/api/micah/${user.name}.svg`}
-                radius={30}
+                radius={35}
                 className={classes.avatar}
               />
-              <Text size="xs" weight={500}>
-                {user.name}
-              </Text>
+              <div>
+                <Text size="xs" weight={500}>
+                  {user.name}
+                </Text>
+                <Text color="dimmed" style={{ fontSize: 12 }}>
+                  {user.nickname}
+                </Text>
+              </div>
             </Group>
-            <Badge className={classes.badgeText} size="sm" radius="sm">
-              {user.nickname}
-            </Badge>
-            <Avatar src={user.badge} color="blue" size={18} className={classes.badgeIcon} />
+            <Avatar
+              src={user.badge}
+              color="blue"
+              size={35}
+              className={classes.badgeIcon}
+            />
           </div>
         ))}
       </SimpleGrid>
