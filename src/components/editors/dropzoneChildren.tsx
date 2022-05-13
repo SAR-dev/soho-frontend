@@ -43,18 +43,3 @@ export const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) =>
     </div>
   </Group>
 );
-
-export function BaseDemo(props: Partial<DropzoneProps>) {
-  const theme = useMantineTheme();
-  return (
-    <Dropzone
-      onDrop={(files) => console.log('accepted files', files)}
-      onReject={(files) => console.log('rejected files', files)}
-      maxSize={3 * 1024 ** 2}
-      accept={IMAGE_MIME_TYPE}
-      {...props}
-    >
-      {(status) => dropzoneChildren(status, theme)}
-    </Dropzone>
-  );
-}
