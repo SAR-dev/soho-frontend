@@ -65,11 +65,14 @@ const useStyles = createStyles((theme) => ({
     width: 38,
     height: 38,
     flexShrink: 0,
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : 'transparent',
+    borderColor: theme.colorScheme === "dark" ? 'transparent' : theme.colors.gray[5],
+    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[5],
   },
   avatar: {
     borderRadius: "100%",
     padding: 3,
-    backgroundColor: theme.colors.dark[5],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
     ["img"]: {
       borderRadius: "100%",
     },
@@ -103,11 +106,6 @@ export function EditorCreator({ toogle }: props) {
                 className={classes.avatar}
               />
             </Indicator>
-          {/* <Avatar
-            src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
-            radius="xl"
-            size={60}
-          /> */}
           <Input
             className={classes.input}
             width="100%"

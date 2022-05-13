@@ -22,7 +22,6 @@ import axios from "axios";
 import { ImageDropzone } from "../ImageDropzone";
 import { Eye, Hash, MoodSmile, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
-import insertTextAtCursor from 'insert-text-at-cursor';
 
 const useStyles = createStyles((theme) => ({
     editor: {

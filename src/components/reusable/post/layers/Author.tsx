@@ -8,7 +8,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   avatar: {
     borderRadius: "100%",
     padding: 3,
-    backgroundColor: theme.colors.dark[5],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
     ["img"]: {
       borderRadius: "100%",
     },
