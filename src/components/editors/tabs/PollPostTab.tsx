@@ -56,7 +56,7 @@ interface props {
 
 export function PollPostTab({ toogle }: props) {
     const [text, setText] = useState(initialValue);
-    const { classes } = useStyles();
+    const { classes, cx } = useStyles();
     const [visibility, setVisibility] = useState<any | null>(null);
     const editorRef = useRef<Editor>(null);
 
@@ -98,7 +98,7 @@ export function PollPostTab({ toogle }: props) {
             <RichTextEditor
                 value={text}
                 onChange={setText}
-                className={classes.editor}
+                className={cx(classes.editor, 'post-editor')}
                 ref={editorRef}
                 mentions={mentions}
                 placeholder="Start typing here...."

@@ -43,7 +43,7 @@ interface props {
 
 export function DiscussionPostTab({ toogle }: props) {
     const [text, setText] = useState(initialValue);
-    const { classes } = useStyles();
+    const { classes, cx } = useStyles();
     const [category, setCategory] = useState<any | null>(null);
     const [visibility, setVisibility] = useState<any | null>(null);
     const [checked, setChecked] = useState(false);
@@ -87,7 +87,7 @@ export function DiscussionPostTab({ toogle }: props) {
             <RichTextEditor
                 value={text}
                 onChange={setText}
-                className={classes.editor}
+                className={cx(classes.editor, 'post-editor')}
                 ref={editorRef}
                 mentions={mentions}
                 placeholder="Start typing here...."

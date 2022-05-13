@@ -2,6 +2,11 @@ body {
   margin: 0px;
 }
 
+/* Rich Text Editor */
+.post-editor .ql-editor {
+  min-height: 78px;
+}
+
 /* Postcard Typography */
 .mantine-TypographyStylesProvider-root p:last-child {
   margin-bottom: 0;
