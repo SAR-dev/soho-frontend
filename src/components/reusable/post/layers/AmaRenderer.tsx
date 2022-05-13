@@ -1,15 +1,5 @@
-import {
-  createStyles,
-  TypographyStylesProvider,
-  Anchor,
-  Text,
-  TextInput,
-  ActionIcon,
-  Center,
-  Stack,
-} from "@mantine/core";
-import { Link } from "react-router-dom";
-import { ArrowRight, BellRinging, LivePhoto, Search } from "tabler-icons-react";
+import { createStyles, Text, TextInput, ActionIcon, Center, Stack } from "@mantine/core";
+import { ArrowRight, BellRinging, LivePhoto } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   typography: {

@@ -1,4 +1,4 @@
-import { createStyles, Card, Text, SimpleGrid, UnstyledButton, Anchor, Group } from '@mantine/core';
+import { createStyles, Card, Text, SimpleGrid, UnstyledButton } from '@mantine/core';
 import {
   CreditCard,
   BuildingBank,
@@ -8,7 +8,6 @@ import {
   ReceiptTax,
   Report,
   CashBanknote,
-  Coin,
 } from 'tabler-icons-react';
 
 const mockdata = [

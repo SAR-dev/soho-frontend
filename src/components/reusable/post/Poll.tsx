@@ -1,8 +1,4 @@
-import {
-    createStyles,
-    Box,
-    SimpleGrid,
-} from "@mantine/core";
+import { createStyles, Box } from "@mantine/core";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     pollWrapper: {

@@ -1,9 +1,6 @@
 import {
   createStyles,
 } from "@mantine/core";
-import { ImageCarousel } from "./layers/ImageCarousel";
-import { PollItems } from "./layers/PollItems";
-import { HtmlRenderer } from "./layers/HtmlRenderer";
 import { Author } from "./layers/Author";
 import { PostHeader } from "./layers/PostHeader";
 import { PostFooter } from "./layers/PostFooter";

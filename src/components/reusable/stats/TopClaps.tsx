@@ -2,15 +2,14 @@ import {
   Paper,
   SegmentedControl,
   createStyles,
-  List,
-  ThemeIcon,
   SimpleGrid,
   Group,
   Avatar,
   Text,
   Badge,
+  Center,
 } from "@mantine/core";
-import { CircleCheck, CircleDashed } from "tabler-icons-react";
+import { useState } from "react";
 import { MdWavingHand } from "react-icons/md";
 
 const useStyles = createStyles((theme) => ({
@@ -34,11 +33,9 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[7]
-        : theme.colors.gray[1],
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : "white",
     padding: theme.spacing.xs,
-    borderRadius: theme.spacing.xs,
+    borderRadius: theme.radius.xs,
     cursor: "pointer",
     "&:hover": {
       backgroundColor:
@@ -57,9 +54,15 @@ const useStyles = createStyles((theme) => ({
     marginLeft: "auto",
   },
   clapIcon: {
-      marginRight: 3
-  }
+    marginRight: 3,
+  },
 }));
+
+const times = [
+  { key: "1", name: "Daily" },
+  { key: "7", name: "Weekly" },
+  { key: "30", name: "Monthly" },
+];
 
 const users = [
   {
@@ -86,6 +89,7 @@ const users = [
 
 export function TopClaps() {
   const { classes } = useStyles();
+  const [value, setValue] = useState("1");
 
   return (
     <Paper className={classes.wrapper}>
@@ -93,12 +97,18 @@ export function TopClaps() {
         Top Contributors
       </Text>
       <SegmentedControl
-        data={[
-          { label: "Daily", value: "daily" },
-          { label: "Weekly", value: "weekly" },
-          { label: "Monthly", value: "monthly" },
-          { label: "Yearly", value: "yearly" },
-        ]}
+        value={value}
+        onChange={setValue}
+        color="blue"
+        size="sm"
+        data={times.map((el) => ({
+          label: (
+            <Center py={2}>
+              <Text size="xs">{el.name}</Text>
+            </Center>
+          ),
+          value: el.key,
+        }))}
         className={classes.menus}
       />
       <SimpleGrid cols={1} spacing="md">

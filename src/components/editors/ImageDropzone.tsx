@@ -1,6 +1,5 @@
-import { ReactNode, useState } from 'react';
-import { DropzoneStatus, FullScreenDropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { Button, Group, useMantineTheme } from '@mantine/core';
+import { FullScreenDropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { useMantineTheme } from '@mantine/core';
 import { dropzoneChildren } from './dropzoneChildren';
 
 export function ImageDropzone({ disabled }: { disabled: boolean }) {

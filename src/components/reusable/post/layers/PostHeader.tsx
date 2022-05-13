@@ -1,7 +1,6 @@
 import { createStyles, Text, Group } from "@mantine/core";
 import { Clock } from "tabler-icons-react";
 import { GoFlame } from "react-icons/go";
-import { Author } from "./Author";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   flex: {

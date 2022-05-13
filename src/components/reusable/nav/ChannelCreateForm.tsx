@@ -1,20 +1,5 @@
 import { useState } from 'react';
-import {
-    TextInput,
-    PasswordInput,
-    Checkbox,
-    Anchor,
-    Paper,
-    Title,
-    Text,
-    Container,
-    Group,
-    Button,
-    Input,
-    Badge,
-    SegmentedControl,
-    Select
-} from '@mantine/core';
+import { Paper, Button, Input, Badge, SegmentedControl, Select } from '@mantine/core';
 import { Tag, GitBranch } from 'tabler-icons-react';
 
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {

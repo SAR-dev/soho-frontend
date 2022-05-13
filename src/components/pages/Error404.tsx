@@ -1,4 +1,4 @@
-import { createStyles, Image, Container, Title, Text, Button, SimpleGrid, Paper } from '@mantine/core';
+import { createStyles, Image, Container, Title, Text, SimpleGrid, Paper } from '@mantine/core';
 import image from '../../images/404.svg';
 import { AppsCards } from '../reusable/AppsCards';
 

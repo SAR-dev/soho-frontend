@@ -1,21 +1,8 @@
-import { useMemo, useRef, useState, useEffect } from "react";
-import {
-  Paper,
-  createStyles,
-  SegmentedControl,
-  Center,
-  Box,
-  Group,
-  Autocomplete,
-  Switch,
-  Button,
-  Text,
-  Select,
-  ActionIcon,
-} from "@mantine/core";
+import { useRef, useState, useEffect } from "react";
+import { createStyles, Group, Switch, Button, Select } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { Eye, Hash, MoodSmile, Send } from "tabler-icons-react";
+import { Eye, Hash, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
 

@@ -1,5 +1,5 @@
-import { Box, createStyles, Paper, SimpleGrid } from "@mantine/core";
-import { useBooleanToggle, useDebouncedValue } from "@mantine/hooks";
+import { createStyles, Paper, SimpleGrid } from "@mantine/core";
+import { useBooleanToggle } from "@mantine/hooks";
 import { EditorCreator } from "../editors/EditorCreator";
 import { EditorWrapper } from "../editors/EditorWrapper";
 import NavLayout from "../layouts/NavLayout";

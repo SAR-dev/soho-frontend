@@ -1,5 +1,4 @@
 import { createStyles } from '@mantine/core';
-import { useState } from 'react';
 import {
     Notes,
     CalendarStats,

@@ -12,11 +12,3 @@ export function EmojiPicker(props: any) {
 
   return <div ref={ref} />;
 }
-
-{
-  /* <EmojiPicker
-      theme="dark"
-      previewPosition="none"
-      onEmojiSelect={(e) => console.log(e)}
-    /> */
-}

@@ -1,4 +1,4 @@
-import { MantineProvider, ColorSchemeProvider, ColorScheme, Paper } from '@mantine/core';
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import Router from './Router';
 import { NotificationsProvider } from '@mantine/notifications';

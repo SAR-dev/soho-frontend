@@ -66,7 +66,8 @@ const useStyles = createStyles((theme) => ({
     height: 38,
     flexShrink: 0,
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : 'transparent',
-    borderColor: theme.colorScheme === "dark" ? 'transparent' : theme.colors.gray[5],
+    borderWidth: 2,
+    borderColor: theme.colorScheme === "dark" ? 'transparent' : theme.colors.gray[4],
     color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[5],
   },
   avatar: {

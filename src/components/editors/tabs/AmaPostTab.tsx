@@ -1,26 +1,7 @@
-import { useMemo, useRef, useState, useEffect } from "react";
-import {
-    Paper,
-    createStyles,
-    SegmentedControl,
-    Center,
-    Box,
-    Group,
-    Autocomplete,
-    Switch,
-    Button,
-    Text,
-    Select,
-    ActionIcon,
-    Textarea,
-} from "@mantine/core";
-import { RichTextEditor, Editor } from "@mantine/rte";
-import { FaPoll } from "react-icons/fa";
-import { BsDropletHalf } from "react-icons/bs";
-import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
-import axios from "axios";
+import { useState } from "react";
+import { createStyles, Group, Button, Select, Textarea } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
-import { Eye, Hash, MoodSmile, Send } from "tabler-icons-react";
+import { Eye, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import insertTextAtCursor from 'insert-text-at-cursor';
 

@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { createStyles } from "@mantine/core";
-import { RichTextEditor, Editor } from "@mantine/rte";
+import { RichTextEditor } from "@mantine/rte";
 import axios from "axios";
 
 const useStyles = createStyles((theme) => ({
