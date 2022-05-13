@@ -59,9 +59,9 @@ const useStyles = createStyles((theme) => ({
   badgeText: {
     marginLeft: "auto",
   },
-  badgeIcon: {
-    marginLeft: "auto",
-  },
+  // badgeIcon: {
+  //   marginLeft: "auto",
+  // },
   clapIcon: {
     marginRight: 3,
   },
@@ -120,16 +120,13 @@ export function Moderators() {
                   {user.name}
                 </Text>
                 <Text color="dimmed" style={{ fontSize: 12 }}>
-                  {user.nickname}
+                  @username
                 </Text>
               </div>
             </Group>
-            <Avatar
-              src={user.badge}
-              color="blue"
-              size={35}
-              className={classes.badgeIcon}
-            />
+            <Badge className={classes.badgeText} size="sm" radius="sm">
+              {user.nickname}
+            </Badge>
           </div>
         ))}
       </SimpleGrid>
