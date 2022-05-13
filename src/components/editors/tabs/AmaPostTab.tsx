@@ -77,7 +77,7 @@ export function AmaPostTab({ toogle }: props) {
                 value={text}
                 autoFocus 
                 onChange={(event) => setText(event.currentTarget.value)}
-                className={cx(classes.editor, classes.textArea)}
+                className={cx(classes.editor, classes.textArea, "thick-border")}
                 id="emoji-textarea"
             />
             <Group>

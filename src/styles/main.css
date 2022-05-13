@@ -30,3 +30,8 @@ body {
     transform: rotate(359deg);
   }
 }
+
+/* Thick Input Border */
+.thick-border input, .thick-border textarea {
+  border-width: 2px;
+}

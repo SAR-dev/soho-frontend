@@ -23,15 +23,9 @@ import { ImageDropzone } from "../ImageDropzone";
 import { Eye, Hash, Minus, MoodSmile, Plus, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { Poll } from "../../reusable/post/Poll";
+import { TextEditor } from "../TextEditor";
 
 const useStyles = createStyles((theme) => ({
-    editor: {
-        width: "100%",
-        marginBottom: theme.spacing.sm,
-        borderWidth: theme.colorScheme === 'dark' ? 0 : 1,
-        borderStyle: 'solid',
-        borderColor: theme.colorScheme === 'dark' ? "transparent" : theme.colors.gray[4],
-    },
     dropdown: {
         width: 150,
     },
@@ -48,14 +42,12 @@ const useStyles = createStyles((theme) => ({
     }
 }));
 
-const initialValue = "";
 
 interface props {
     toogle: () => void;
 }
 
 export function PollPostTab({ toogle }: props) {
-    const [text, setText] = useState(initialValue);
     const { classes, cx } = useStyles();
     const [visibility, setVisibility] = useState<any | null>(null);
     const editorRef = useRef<Editor>(null);
@@ -71,46 +63,9 @@ export function PollPostTab({ toogle }: props) {
         quillRef?.insertText(position, text);
     };
 
-    const mentions = useMemo(
-        () => ({
-            allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-            mentionDenotationChars: ["@"],
-            source: async (
-                searchTerm: string,
-                renderList: (arg0: { id: number; value: string }[]) => void
-            ) => {
-                const response = await axios.get(
-                    "https://jsonplaceholder.typicode.com/users"
-                );
-                const result = response.data.map(
-                    (item: { id: number; name: string }) => {
-                        return { id: item.id, value: item.name };
-                    }
-                );
-                renderList(result);
-            },
-        }),
-        []
-    );
-
     return (
         <>
-            <RichTextEditor
-                value={text}
-                onChange={setText}
-                className={cx(classes.editor, 'post-editor')}
-                ref={editorRef}
-                mentions={mentions}
-                placeholder="Start typing here...."
-                spellCheck={false}
-                controls={[
-                    ["bold", "italic", "underline", "strike"],
-                    ["blockquote", "code"],
-                    ["unorderedList", "orderedList"],
-                    ["alignLeft", "alignCenter", "alignRight"],
-                    ["clean"],
-                ]}
-            />
+            <TextEditor editorRef={editorRef} />
             <div className={classes.flex}>
                 <Poll active={false} text="React Native" />
                 <ActionIcon variant="filled" className={classes.actionButton}>

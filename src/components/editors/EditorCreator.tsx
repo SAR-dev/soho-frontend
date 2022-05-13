@@ -84,7 +84,7 @@ interface props {
 }
 
 export function EditorCreator({ toogle }: props) {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
     <Paper radius={0} onClick={() => toogle()}>
@@ -107,7 +107,7 @@ export function EditorCreator({ toogle }: props) {
               />
             </Indicator>
           <Input
-            className={classes.input}
+            className={cx(classes.input, "thick-border")}
             width="100%"
             placeholder="Sayed Rafi, What's on your mind ?"
             icon={<BrandTwitter size={20} />}

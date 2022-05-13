@@ -16,11 +16,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginTop: theme.spacing.xs,
     marginBottom: theme.spacing.lg,
   },
-  askInput: {
-    ['input']: {
-      borderWidth: 2,
-    }
-  },
+  // askInput: {
+  //   ['input']: {
+  //     borderWidth: 2,
+  //   }
+  // },
   askTime: {
     marginLeft: theme.spacing.xs,
     marginRight: theme.spacing.xs,
@@ -51,7 +51,7 @@ export function AmaRenderer({ body }: { body: string }) {
         }
         placeholder="Ask question here..."
         rightSectionWidth={38}
-        className={classes.askInput}
+        className="thick-border"
       />
     </Stack>
   );
