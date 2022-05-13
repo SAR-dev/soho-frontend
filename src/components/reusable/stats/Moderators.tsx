@@ -1,16 +1,5 @@
-import {
-  Paper,
-  SegmentedControl,
-  createStyles,
-  SimpleGrid,
-  Group,
-  Avatar,
-  Text,
-  Badge,
-  Center,
-} from "@mantine/core";
+import { Paper, createStyles, SimpleGrid, Group, Avatar, Text, Badge } from "@mantine/core";
 import { useState } from "react";
-import { MdWavingHand } from "react-icons/md";
 
 const useStyles = createStyles((theme) => ({
   header: {
