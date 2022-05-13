@@ -121,7 +121,7 @@ export function TopClaps() {
       />
       <SimpleGrid cols={1} spacing="md">
         {users.map((user, i) => (
-          <div className={classes.userCard}>
+          <div className={classes.userCard} key={i}>
             <Group spacing="sm">
               <Avatar
                 size={35}

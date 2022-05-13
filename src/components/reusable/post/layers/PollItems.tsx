@@ -3,7 +3,7 @@ import {
   Box,
   SimpleGrid,
 } from "@mantine/core";
-import { Poll } from "../Poll";
+import { Poll } from "./Poll";
 
 const LINK_HEIGHT = 27;
 

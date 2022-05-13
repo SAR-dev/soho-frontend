@@ -11,7 +11,7 @@ import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
 import { Eye, Minus, Plus, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
-import { Poll } from "../../reusable/post/Poll";
+import { Poll } from "../../reusable/post/layers/Poll";
 import { TextEditor } from "../TextEditor";
 
 const useStyles = createStyles((theme) => ({
