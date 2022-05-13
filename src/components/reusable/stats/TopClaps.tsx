@@ -20,13 +20,15 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.gray[0],
     padding: theme.spacing.md,
   },
+  header: {
+    marginBottom: theme.spacing.xs,
+  },
   menus: {
     backgroundColor:
       theme.colorScheme === "dark"
         ? theme.colors.dark[7]
         : theme.colors.gray[1],
     marginBottom: theme.spacing.md,
-    marginTop: theme.spacing.xs,
     width: "-webkit-fill-available",
   },
   userCard: {
@@ -47,8 +49,8 @@ const useStyles = createStyles((theme) => ({
   avatar: {
     backgroundColor:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[7]
-        : theme.colors.gray[1],
+        ? theme.colors.dark[8]
+        : theme.colors.gray[0],
   },
   badge: {
     marginLeft: "auto",
@@ -93,13 +95,13 @@ export function TopClaps() {
 
   return (
     <Paper className={classes.wrapper}>
-      <Text size="xs" color="dimmed" align="center">
+      <Text size="xs" color="dimmed" align="center" className={classes.header}>
         Top Contributors
       </Text>
       <SegmentedControl
         value={value}
         onChange={setValue}
-        color="blue"
+        color="gray"
         size="sm"
         data={times.map((el) => ({
           label: (
@@ -116,19 +118,14 @@ export function TopClaps() {
           <div className={classes.userCard}>
             <Group spacing="sm">
               <Avatar
-                size={30}
+                size={20}
                 src={`https://avatars.dicebear.com/api/micah/${user.name}.svg`}
                 radius={30}
                 className={classes.avatar}
               />
-              <div>
-                <Text size="xs" weight={500}>
-                  {user.name}
-                </Text>
-                <Text size="xs" color="dimmed">
-                  {user.username}
-                </Text>
-              </div>
+              <Text size="xs" weight={500}>
+                {user.name}
+              </Text>
             </Group>
             <Badge className={classes.badge}>
               <MdWavingHand className={classes.clapIcon} />

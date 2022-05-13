@@ -3,6 +3,7 @@ import { Paper, ScrollArea, createStyles, SimpleGrid } from '@mantine/core'
 import DoubleNav from '../reusable/nav/DoubleNav'
 import { HeaderMenu } from '../reusable/nav/HeaderMenu'
 import { TopClaps } from '../reusable/stats/TopClaps'
+import { Moderators } from '../reusable/stats/Moderators'
 
 const NavHeight = 50
 
@@ -44,6 +45,7 @@ function NavLayout({ children }: { children: ReactNode }) {
                         <div className={classes.cards}>
                             <SimpleGrid cols={1}>
                                 <TopClaps />
+                                <Moderators />
                             </SimpleGrid>
                         </div>
                     </div>
