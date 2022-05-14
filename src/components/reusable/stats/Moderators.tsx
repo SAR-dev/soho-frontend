@@ -5,9 +5,12 @@ import {
   Group,
   Avatar,
   Text,
+  Timeline,
   Badge,
 } from "@mantine/core";
 import { useState } from "react";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { GitBranch, GitPullRequest, GitCommit, MessageDots } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -102,31 +105,14 @@ export function Moderators() {
       <Text size="xs" color="dimmed" align="center" className={classes.header}>
         Moderators
       </Text>
-      <SimpleGrid cols={1} spacing="md">
+      <Timeline bulletSize={30} lineWidth={2}>
         {users.map((user, i) => (
-          <div className={classes.userCard} key={i}>
-            <Group spacing="sm">
-              <Avatar
-                size={35}
-                src={`https://avatars.dicebear.com/api/micah/${user.name}.svg`}
-                radius={35}
-                className={classes.avatar}
-              />
-              <div>
-                <Text size="xs" weight={500}>
-                  {user.name}
-                </Text>
-                <Text color="dimmed" style={{ fontSize: 12 }}>
-                  @username
-                </Text>
-              </div>
-            </Group>
-            <Badge className={classes.badgeText} size="sm" radius="sm">
-              {user.nickname}
-            </Badge>
-          </div>
+          <Timeline.Item bullet={<Avatar src="https://avatars.dicebear.com/api/micah/:seed.svg" className={classes.avatar} size={24} radius={24} />} title={user.name}>
+            <Text color="dimmed" size="sm">{user.nickname}</Text>
+            <Text size="xs" mt={4}>Since 25 July, 2021</Text>
+          </Timeline.Item>
         ))}
-      </SimpleGrid>
+      </Timeline>
     </Paper>
   );
 }
