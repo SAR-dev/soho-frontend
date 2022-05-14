@@ -45,7 +45,7 @@ export function Comments() {
     return (
         <div className={classes.wrapper}>
             <Group>
-                <Text size="sm" color="dimmed" weight={600}>Comments (59)</Text>
+                <Text size="sm" color="dimmed" weight={600}>Conversation</Text>
                 <Select
                     placeholder="Sort By"
                     data={[{ value: '1', label: 'Date' }, { value: '2', label: 'Popularity' }, { value: '3', label: 'Replies' }, { value: '4', label: 'Claps' }]}

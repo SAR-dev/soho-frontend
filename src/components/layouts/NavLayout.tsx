@@ -29,6 +29,10 @@ const useStyles = createStyles((theme) => ({
         paddingTop: theme.spacing.sm,
         paddingRight: theme.spacing.sm,
         paddingLeft: theme.spacing.sm,
+    },
+    sticky: {
+        position: 'sticky',
+        top: 12
     }
 }));
 
@@ -43,7 +47,7 @@ function NavLayout({ children }: { children: ReactNode }) {
                     <div className={classes.wrapper}>
                         {children}
                         <div className={classes.cards}>
-                            <SimpleGrid cols={1}>
+                            <SimpleGrid cols={1} className={classes.sticky}>
                                 <TopClaps />
                                 <Moderators />
                             </SimpleGrid>
