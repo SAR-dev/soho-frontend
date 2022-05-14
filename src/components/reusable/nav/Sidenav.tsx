@@ -17,12 +17,16 @@ import { Messages, Video, Search, Plus, BrandHipchat, ChartBar, Radar2, Micropho
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
+import { MdWavingHand } from 'react-icons/md';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
     borderRight: "0px",
-    height: "100vh"
+    height: "100vh",
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
+    paddingTop: theme.spacing.md,
   },
 
   section: {
@@ -107,6 +111,13 @@ const useStyles = createStyles((theme) => ({
       color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
     },
   },
+  footer: {
+    marginLeft: -theme.spacing.md,
+    marginRight: -theme.spacing.md,
+    padding: theme.spacing.md,
+    borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
+  }
 }));
 
 const links = [
@@ -138,7 +149,7 @@ export function Sidenav() {
 
   return (
     <>
-      <Navbar p="md" className={classes.navbar}>
+      <Navbar className={classes.navbar}>
         <TextInput
           placeholder="Search"
           size="xs"
@@ -156,7 +167,7 @@ export function Sidenav() {
 
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
           <div className={classes.mainLinks}>{mainLinks}</div>
-        
+
           <Group className={classes.collectionsHeader} position="apart">
             <Text size="xs" weight={500} color="dimmed">
               Channels
@@ -169,9 +180,21 @@ export function Sidenav() {
           </Group>
           <Channels />
         </Navbar.Section>
+        <Navbar.Section className={classes.footer}>
+          <Group>
+            <MdWavingHand size={14} />
+            <Text size="xs" lineClamp={1}>
+              <Text component='span' size="xs" weight={600} mr={3}>
+              Sayed Rafi
+              </Text> 
+              clapped your 
+              <Text component='span' size="xs" weight={600} ml={3}>post</Text>
+            </Text>
+          </Group>
+        </Navbar.Section>
       </Navbar>
       <Modal
-        centered 
+        centered
         opened={opened}
         onClose={() => setOpened(false)}
         title="Create a Channel"
