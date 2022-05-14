@@ -117,6 +117,9 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.md,
     borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
       }`,
+  },
+  footerIcon: {
+    color: theme.colors.blue[5]
   }
 }));
 
@@ -182,7 +185,7 @@ export function Sidenav() {
         </Navbar.Section>
         <Navbar.Section className={classes.footer}>
           <Group>
-            <MdWavingHand size={14} />
+            <MdWavingHand size={14} className={classes.footerIcon} />
             <Text size="xs" lineClamp={1}>
               <Text component='span' size="xs" weight={600} mr={3}>
               Sayed Rafi
