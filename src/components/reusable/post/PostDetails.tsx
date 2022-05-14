@@ -1,4 +1,4 @@
-import { SimpleGrid, createStyles, Stack, Divider } from '@mantine/core'
+import { createStyles, Stack, Divider } from '@mantine/core';
 import { Comments } from './Comments';
 import { DiscussionPostCard } from './DiscussionPostCard';
 import { CreateComment } from './layers/CreateComment';

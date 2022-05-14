@@ -16,7 +16,7 @@ export function HtmlRenderer({ body }: { body: string }) {
       <div dangerouslySetInnerHTML={{ __html: body }} />
       <Anchor
         component={Link}
-        to="/react-router"
+        to="?post=1"
         className={classes.typography}
       >
         Continue reading...

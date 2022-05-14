@@ -1,8 +1,6 @@
-import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Switch, Button, Select, Text, Title, Center, Stack } from "@mantine/core";
-import { Editor } from "@mantine/rte";
-import { InfoCircle, Send } from "tabler-icons-react";
-import { Author } from "./layers/Author";
+import { useState } from "react";
+import { createStyles, Group, Select, Text, Stack } from "@mantine/core";
+import { Comment } from "./layers/Comment";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -30,10 +28,26 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export function Comments() {
     const { classes } = useStyles();
+    const [sortBy, setSortBy] = useState('');
 
     return (
         <div className={classes.wrapper}>
-            
+            <Group>
+                <Text size="sm" color="dimmed" weight={600}>Comments (59)</Text>
+                <Select
+                    placeholder="Sort By"
+                    data={[{ value: '1', label: 'Date' }, { value: '2', label: 'Popularity' }, { value: '3', label: 'Replies' }, { value: '4', label: 'Claps' }]}
+                    value={sortBy}
+                    onChange={e => setSortBy(e!)}
+                    required
+                    size="xs"
+                    ml="auto"
+                />
+            </Group>
+            <Stack spacing="lg" mt="lg">
+                <Comment />
+                <Comment />
+            </Stack>
         </div>
     );
 }

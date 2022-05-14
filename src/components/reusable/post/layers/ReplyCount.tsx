@@ -3,13 +3,17 @@ import {
   Center,
 } from "@mantine/core";
 
-export function ReplyCount() {
+interface Props {
+  color?: "dimmed" | "red"
+}
+
+export function ReplyCount({ color = "dimmed" }: Props) {
   return (
     <Center>
-      <Text size="sm" weight={500}>
+      <Text size="sm" weight={500} color={color}>
         24
       </Text>
-      <Text size="sm" weight={500} color="dimmed" style={{ marginLeft: 5 }}>
+      <Text size="sm" weight={500} color={color} style={{ marginLeft: 5 }}>
         Reply
       </Text>
     </Center>

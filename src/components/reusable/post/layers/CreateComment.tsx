@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Switch, Button, Select, Text, Title, Center, Stack } from "@mantine/core";
+import { createStyles, Group, Switch, Button, Text, Stack } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { TextEditor } from "../../../editors/TextEditor";
 import { Author } from "./Author";
@@ -63,7 +63,7 @@ export function CreateComment() {
                         <Text size="xs" color="dimmed">Please read the community rules before commenting</Text>
                     </div>
                 </Stack>
-                <TextEditor editorRef={editorRef} />
+                <TextEditor editorRef={editorRef} focus={false} />
                 <Group>
                     <EmojiPopover insertText={insertText} />
                     <Switch

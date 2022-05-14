@@ -1,27 +1,13 @@
-import {
-  createStyles,
-  Header,
-  Menu,
-  Group,
-  Center,
-  Burger,
-  Container,
-  Text,
-  Badge,
-  ThemeIcon,
-  ActionIcon,
-  Avatar,
-  Divider,
-  Button,
-} from "@mantine/core";
+import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button } from "@mantine/core";
 import React from "react";
-import { Notification, Home2, FaceIdError } from 'tabler-icons-react';
+import { Notification, Home2, ArrowLeft } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
 import { signInWithPopup, GoogleAuthProvider, TwitterAuthProvider } from "firebase/auth";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
+import { useSearchParams } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -113,6 +99,8 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { classes } = useStyles();
   const { setToken, token } = useStore()
   const notifications = useNotifications();
@@ -162,7 +150,13 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   return (
     <Header height={NavHeight} className={classes.header}>
       <div className={classes.inner}>
-        <Text className={classes.linkText}>FEED</Text>
+        {searchParams.get('post') ? (
+          <Button color="gray" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => setSearchParams('')}>
+            Go Back
+          </Button>
+        ) : (
+          <Text className={classes.linkText}>FEED</Text>
+        )}
         <Group spacing={10} className={classes.links}>
           {token ? (
             <>

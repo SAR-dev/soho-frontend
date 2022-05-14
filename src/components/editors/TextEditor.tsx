@@ -26,15 +26,18 @@ const initialValue = "";
 
 interface props {
   editorRef: any;
+  focus?: boolean
 }
 
-export function TextEditor({ editorRef }: props) {
+export function TextEditor({ editorRef, focus = true }: props) {
   const [text, setText] = useState(initialValue);
   const [active, setActive] = useState(false);
   const { classes, cx } = useStyles();
 
   useEffect(() => {
-    editorRef?.current?.focus();
+    if (focus) {
+      editorRef?.current?.focus();
+    }
   }, []);
 
   const mentions = useMemo(
