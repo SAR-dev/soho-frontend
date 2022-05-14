@@ -57,6 +57,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         top: 0,
         right: 0,
         display: 'none',
+    },
+    replies: {
+        borderLeftWidth: 1,
+        borderLeftStyle: 'solid',
+        borderLeftColor: theme.colorScheme === "dark"
+        ? theme.colors.dark[4]
+        : theme.colors.gray[4],
     }
 }));
 
@@ -64,6 +71,7 @@ export function CommentReplyLayout({ layout }: Props) {
     const { classes, cx } = useStyles();
 
     return (
+        <>
         <Stack spacing={8} className={cx({ [classes.cwrapper]: layout === 'comment' }, { [classes.rwrapper]: layout === 'reply' })}>
             <Group spacing="xs">
                 <Avatar
@@ -94,13 +102,14 @@ export function CommentReplyLayout({ layout }: Props) {
             </TypographyStylesProvider>
             {layout === "comment" && <CommentFooter />}
             {layout === "reply" && <ReplyFooter />}
-            {layout === "comment" && (
-                <Stack pl={20} pt="md" pb="md">
-                    <Reply />
-                    <Reply />
-                    <Reply />
-                </Stack>
-            )}
         </Stack>
+        {layout === "comment" && (
+            <Stack pl={15} ml={10} className={classes.replies} pb="md">
+                <Reply />
+                <Reply />
+                <Reply />
+            </Stack>
+        )}
+        </>
     )
 }
