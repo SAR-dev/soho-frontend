@@ -1,29 +1,5 @@
-import { useMemo, useRef, useState } from "react";
-import {
-  Paper,
-  createStyles,
-  SegmentedControl,
-  Center,
-  Box,
-  Group,
-  Autocomplete,
-  Switch,
-  Button,
-  Text,
-  Avatar,
-  Input,
-  ActionIcon,
-  ThemeIcon,
-  Badge,
-  Indicator,
-} from "@mantine/core";
-import { RichTextEditor } from "@mantine/rte";
-import { FaPoll } from "react-icons/fa";
-import { BsDropletHalf } from "react-icons/bs";
-import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
-import axios from "axios";
-import { ImageDropzone } from "./ImageDropzone";
-import { BrandTwitter, Hash, Photo, Send } from "tabler-icons-react";
+import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator } from "@mantine/core";
+import { BrandTwitter, Photo } from "tabler-icons-react";
 import { HiBadgeCheck } from "react-icons/hi";
 
 const useStyles = createStyles((theme) => ({

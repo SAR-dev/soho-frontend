@@ -3,7 +3,6 @@ import {
   createStyles,
   Navbar,
   TextInput,
-  Code,
   UnstyledButton,
   Badge,
   Text,
@@ -13,11 +12,12 @@ import {
   ScrollArea,
   Modal,
 } from '@mantine/core';
-import { Messages, Video, Search, Plus, BrandHipchat, ChartBar, Radar2, Microphone2, ListCheck } from 'tabler-icons-react';
+import { Search, Plus, Microphone2, ListCheck } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
-import { MdWavingHand } from 'react-icons/md';
+import { BsDropletHalf } from "react-icons/bs";
+import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -124,9 +124,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const links = [
-  { icon: BrandHipchat, label: 'Discussion', notifications: 3 },
-  { icon: Video, label: 'Premier', notifications: 4 },
-  { icon: Radar2, label: 'Drop' },
+  { icon: MdEmojiPeople, label: 'Discussion', notifications: 3 },
+  { icon: MdQuestionAnswer, label: 'AMA', notifications: 4 },
+  { icon: BsDropletHalf, label: 'Drop' },
   { icon: Microphone2, label: 'Announcement' },
   { icon: ListCheck, label: 'Rules' },
 ];
@@ -188,9 +188,9 @@ export function Sidenav() {
             <MdWavingHand size={14} className={classes.footerIcon} />
             <Text size="xs" lineClamp={1}>
               <Text component='span' size="xs" weight={600} mr={3}>
-              Sayed Rafi
-              </Text> 
-              clapped your 
+                Sayed Rafi
+              </Text>
+              clapped your
               <Text component='span' size="xs" weight={600} ml={3}>post</Text>
             </Text>
           </Group>

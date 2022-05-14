@@ -1,20 +1,9 @@
-import {
-  Paper,
-  createStyles,
-  SimpleGrid,
-  Group,
-  Avatar,
-  Text,
-  Timeline,
-  Badge,
-} from "@mantine/core";
+import { Paper, createStyles, Avatar, Text, Timeline } from "@mantine/core";
 import { useState } from "react";
-import { MdAdminPanelSettings } from "react-icons/md";
-import { GitBranch, GitPullRequest, GitCommit, MessageDots } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   header: {
-    marginBottom: theme.spacing.xs,
+    marginBottom: theme.spacing.md,
   },
   wrapper: {
     backgroundColor:
@@ -98,7 +87,6 @@ const users = [
 
 export function Moderators() {
   const { classes } = useStyles();
-  const [value, setValue] = useState("1");
 
   return (
     <Paper className={classes.wrapper}>
