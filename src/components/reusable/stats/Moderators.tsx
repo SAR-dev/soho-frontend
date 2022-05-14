@@ -59,9 +59,6 @@ const useStyles = createStyles((theme) => ({
   badgeText: {
     marginLeft: "auto",
   },
-  // badgeIcon: {
-  //   marginLeft: "auto",
-  // },
   clapIcon: {
     marginRight: 3,
   },
