@@ -1,7 +1,7 @@
 import { createStyles, Stack, Divider } from '@mantine/core';
-import { Comments } from './Comments';
+import { Comments } from '../comment/Comments';
 import { DiscussionPostCard } from './DiscussionPostCard';
-import { CreateComment } from './layers/CreateComment';
+import { CreateComment } from '../comment/CreateComment';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {

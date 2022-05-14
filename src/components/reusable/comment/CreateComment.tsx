@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import { createStyles, Group, Switch, Button, Text, Stack } from "@mantine/core";
 import { Editor } from "@mantine/rte";
-import { TextEditor } from "../../../editors/TextEditor";
-import { Author } from "./Author";
+import { TextEditor } from "../../editors/TextEditor";
+import { Author } from "../post/layers/Author";
 import { InfoCircle, Send } from "tabler-icons-react";
-import { EmojiPopover } from "../../../editors/EmojiPopover";
+import { EmojiPopover } from "../../editors/EmojiPopover";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {

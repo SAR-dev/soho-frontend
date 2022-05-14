@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createStyles, Group, Select, Text, Stack } from "@mantine/core";
-import { Comment } from "./layers/Comment";
+import { Comment } from "./Comment";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
