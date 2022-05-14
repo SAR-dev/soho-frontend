@@ -1,20 +1,5 @@
-import { useState, useCallback } from "react";
-import {
-  createStyles,
-  Image,
-  Text,
-  Avatar,
-  Group,
-  TypographyStylesProvider,
-  Spoiler,
-  Anchor,
-  SegmentedControl,
-  Center,
-  Box,
-  Chip,
-  Button,
-  ActionIcon,
-} from "@mantine/core";
+import { useState } from "react";
+import { createStyles, Image, Center, ActionIcon } from "@mantine/core";
 import { ArrowLeft, ArrowRight, Photo } from "tabler-icons-react";
 import Carousel, { Modal, ModalGateway } from "react-images";
 
