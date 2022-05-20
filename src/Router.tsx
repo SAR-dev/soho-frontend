@@ -42,17 +42,17 @@ function Router() {
 
   return (
     <>
-      <Online polling={polling}>
+      {/* <Online polling={polling}> */}
         <BrowserRouter>
           <Routes>
             <Route path="*" element={<Error404 />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </BrowserRouter>
-      </Online>
-      <Offline polling={polling}>
-        <Error503 />
-      </Offline>
+      {/* </Online> */}
+      {/* <Offline polling={polling}> */}
+        {/* <Error503 /> */}
+      {/* </Offline> */}
     </>
   );
 }

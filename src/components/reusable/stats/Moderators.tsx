@@ -95,7 +95,7 @@ export function Moderators() {
       </Text>
       <Timeline bulletSize={30} lineWidth={2}>
         {users.map((user, i) => (
-          <Timeline.Item bullet={<Avatar src="https://avatars.dicebear.com/api/micah/:seed.svg" className={classes.avatar} size={24} radius={24} />} title={user.name}>
+          <Timeline.Item bullet={<Avatar src="https://avatars.dicebear.com/api/micah/:seed.svg" className={classes.avatar} size={24} radius={24} />} title={user.name} key={i}>
             <Text color="dimmed" size="sm">{user.nickname}</Text>
             <Text size="xs" mt={4}>Since 25 July, 2021</Text>
           </Timeline.Item>

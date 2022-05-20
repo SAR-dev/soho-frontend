@@ -22,7 +22,7 @@
     "@mantine/prism": "^4.2.1",
     "@mantine/rte": "^4.2.1",
     "@mantine/spotlight": "^4.2.1",
-    "axios": "^0.27.1",
+    "axios": "^0.27.2",
     "dayjs": "^1.11.1",
     "emoji-mart": "^5.0.0",
     "firebase": "^9.6.10",
