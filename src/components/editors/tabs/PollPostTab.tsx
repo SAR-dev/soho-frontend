@@ -9,10 +9,11 @@ import {
 } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { Eye, Minus, Plus, Send } from "tabler-icons-react";
+import { Calendar, Clock, Eye, Minus, Plus, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { Poll } from "../../reusable/post/layers/Poll";
 import { TextEditor } from "../TextEditor";
+import { DatePicker, TimeInput } from "@mantine/dates";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -39,6 +40,7 @@ export function PollPostTab({ toogle }: props) {
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
   const editorRef = useRef<Editor>(null);
+  const [date, setDate] = useState<Date | null>(new Date());
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -86,6 +88,14 @@ export function PollPostTab({ toogle }: props) {
           onChange={(e) => setVisibility(e)}
           size="xs"
           className={classes.dropdown}
+        />
+        <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
+        <TimeInput
+          defaultValue={new Date()}
+          size="xs"
+          icon={<Clock size={16} />}
+          value={date}
+          onChange={setDate}
         />
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close

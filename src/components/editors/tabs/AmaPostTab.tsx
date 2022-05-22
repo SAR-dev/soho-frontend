@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { createStyles, Group, Button, Select, Textarea } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
-import { Eye, Send } from "tabler-icons-react";
+import { Calendar, Clock, Eye, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import insertTextAtCursor from "insert-text-at-cursor";
+import { DatePicker, TimeInput } from "@mantine/dates";
 
 const useStyles = createStyles((theme) => ({
   editor: {
@@ -33,6 +34,7 @@ export function AmaPostTab({ toogle }: props) {
   const [text, setText] = useState(initialValue);
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
+  const [date, setDate] = useState<Date | null>(new Date());
 
   function isInputElement(elem: HTMLElement | null): elem is HTMLInputElement {
     if (!elem) {
@@ -77,6 +79,14 @@ export function AmaPostTab({ toogle }: props) {
           onChange={(e) => setVisibility(e)}
           size="xs"
           className={classes.dropdown}
+        />
+        <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
+        <TimeInput
+          defaultValue={new Date()}
+          size="xs"
+          icon={<Clock size={16} />}
+          value={date}
+          onChange={setDate}
         />
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
