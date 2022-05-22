@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createStyles, Group, Select, Text, Stack, AvatarsGroup, Avatar } from "@mantine/core";
 import { Comment } from "./Comment";
+import { CommentAward } from "./CommentAward";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -63,6 +64,8 @@ export function Comments() {
             </AvatarsGroup>
             <Stack spacing="lg" mt="lg">
                 <Comment />
+                <CommentAward />
+                <CommentAward />
                 <Comment />
             </Stack>
         </div>
