@@ -8,9 +8,11 @@ import {
   Image,
   Loader,
   LoadingOverlay,
+  ActionIcon,
+  Group,
 } from "@mantine/core";
 import { dropzoneChildren } from "./dropzoneChildren";
-import { InfoCircle } from "tabler-icons-react";
+import { InfoCircle, Plus } from "tabler-icons-react";
 import axios from "axios";
 import { asyncForEach } from "../../helpers";
 import { useRef, useState } from "react";
@@ -74,18 +76,21 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
   // };
   return (
     <>
-      <SimpleGrid cols={8} spacing="sm" className={classes.footer}>
+      <Group spacing="sm" className={classes.footer}>
         <div className={classes.imageWrapper}>
           <Image
             src="https://i.ibb.co/whrrZ5q/sad-miku-1a.jpg"
             radius="sm"
-            height="100%"
+            height={IMG_H}
             width="100%"
             fit="cover"
           />
           <LoadingOverlay visible={true} />
         </div>
-      </SimpleGrid>
+        <ActionIcon size={IMG_H} variant="filled" onClick={() => fileRef?.current?.click()}>
+          <Plus />
+        </ActionIcon>
+      </Group>
       <Center
         inline
         className={classes.footer}

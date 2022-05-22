@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createStyles, Group, Button, Select, Textarea } from "@mantine/core";
+import { createStyles, Group, Button, Select, Textarea, Tooltip } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
 import { Calendar, Clock, Eye, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
@@ -80,7 +80,10 @@ export function AmaPostTab({ toogle }: props) {
           size="xs"
           className={classes.dropdown}
         />
-        <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
+        <Tooltip label="Set Deadline" position="top">
+          <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
+        </Tooltip>
+        <Tooltip label="Set Deadline" position="top">
         <TimeInput
           defaultValue={new Date()}
           size="xs"
@@ -88,6 +91,7 @@ export function AmaPostTab({ toogle }: props) {
           value={date}
           onChange={setDate}
         />
+        </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>

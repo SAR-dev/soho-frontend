@@ -6,6 +6,7 @@ import {
   Select,
   ActionIcon,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
@@ -89,7 +90,10 @@ export function PollPostTab({ toogle }: props) {
           size="xs"
           className={classes.dropdown}
         />
+        <Tooltip label="Set Deadline" position="top">
         <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
+        </Tooltip>
+        <Tooltip label="Set Deadline" position="top">
         <TimeInput
           defaultValue={new Date()}
           size="xs"
@@ -97,6 +101,7 @@ export function PollPostTab({ toogle }: props) {
           value={date}
           onChange={setDate}
         />
+        </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>
