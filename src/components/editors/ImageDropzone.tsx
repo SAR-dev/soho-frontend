@@ -20,6 +20,7 @@ import { InfoCircle, Plus } from "tabler-icons-react";
 import axios from "axios";
 import { asyncForEach } from "../../helpers";
 import { useRef, useState } from "react";
+import { ImageLoader } from "./ImageLoader";
 
 const IMG_H = 60;
 
@@ -41,65 +42,32 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [sources, setSources] = useState<any[]>([]);
+  const [sources, setSources] = useState<File[]>([]);
   const [images, setImages] = useState<any[]>([]);
 
   const handleChange = (e: any) => {
-    const files = Array.from(e.target.files).map((e: any) => {
-      return { local: e, loading: true };
-    });
-    setSources([...sources, ...e.target.files]);
+    const files = [...e.target.files];
+    setSources([...sources, ...files]);
   };
 
-  // const uploadFiles = async (files: any[]) => {
-  //   console.log(files)
+  const uploadFiles = (files: File[]) => {
+    setSources([...sources, ...files]);
+  };
 
-  //   setSources([...files]);
-  //   await asyncForEach(sources, async (item, i) => {
-  //     var formData = new FormData();
-  //     formData.append("image", item);
-  //     await axios
-  //       .post(
-  //         `https://api.imgbb.com/1/upload?expiration=600&key=613ee68f6bc89f194d175614a4ca500f`,
-  //         formData,
-  //         {
-  //           headers: {
-  //             accept: "application/json",
-  //             "Content-Type": `multipart/form-data;`,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         setImages([...res.data]);
-  //         console.log(res.data)
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   });
-  // };
   return (
     <>
       <Group spacing="sm" className={classes.footer}>
-        {sources.length !==0 && sources.map((img, i) => (
-          <div className={classes.imageWrapper} key={i}>
-            <Image
-              src={URL.createObjectURL(img.local)}
-              radius="sm"
-              height={IMG_H}
-              width="100%"
-              fit="cover"
-            />
-            <LoadingOverlay visible={img.loading} />
-          </div>
-        ))}
-        <ActionIcon
-          size={IMG_H}
-          variant="filled"
-          onClick={() => fileRef?.current?.click()}
-        >
-          <Plus />
-        </ActionIcon>
+        {sources.length !== 0 &&
+          sources.map((img, i) => <ImageLoader img={img} key={i} />)}
+        {sources.length !== 0 && (
+          <ActionIcon
+            size={IMG_H}
+            variant="filled"
+            onClick={() => fileRef?.current?.click()}
+          >
+            <Plus />
+          </ActionIcon>
+        )}
       </Group>
       <Center
         inline
@@ -108,7 +76,7 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
       >
         <InfoCircle size={16} className={classes.icon} />
         <Text color="dimmed" size="xs">
-          Click here to start uploading
+          Click here to start uploading or drag image anywhere
         </Text>
       </Center>
       <input
@@ -119,7 +87,7 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
         accept="image/*"
         hidden
       />
-      {/* <FullScreenDropzone
+      <FullScreenDropzone
         disabled={disabled}
         accept={IMAGE_MIME_TYPE}
         onDrop={(files) => {
@@ -127,7 +95,7 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
         }}
       >
         {(status) => dropzoneChildren(status, theme)}
-      </FullScreenDropzone> */}
+      </FullScreenDropzone>
     </>
   );
 }
