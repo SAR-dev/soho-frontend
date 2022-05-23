@@ -1,4 +1,8 @@
-import { FullScreenDropzone, IMAGE_MIME_TYPE, MIME_TYPES } from "@mantine/dropzone";
+import {
+  FullScreenDropzone,
+  IMAGE_MIME_TYPE,
+  MIME_TYPES,
+} from "@mantine/dropzone";
 import {
   Text,
   useMantineTheme,
@@ -22,7 +26,7 @@ const IMG_H = 60;
 const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: theme.spacing.xs,
-    cursor: 'pointer'
+    cursor: "pointer",
   },
   icon: {
     marginRight: 3,
@@ -38,13 +42,13 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
   const theme = useMantineTheme();
   const fileRef = useRef<HTMLInputElement>(null);
   const [sources, setSources] = useState<any[]>([]);
-  const [images, setImages] = useState<any[]>([
-    "https://i.ibb.co/whrrZ5q/sad-miku-1a.jpg",
-  ]);
+  const [images, setImages] = useState<any[]>([]);
 
   const handleChange = (e: any) => {
-    const [file] = e.target.files;
-    console.log(file);
+    const files = Array.from(e.target.files).map((e: any) => {
+      return { local: e, loading: true };
+    });
+    setSources([...sources, ...e.target.files]);
   };
 
   // const uploadFiles = async (files: any[]) => {
@@ -77,17 +81,23 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
   return (
     <>
       <Group spacing="sm" className={classes.footer}>
-        <div className={classes.imageWrapper}>
-          <Image
-            src="https://i.ibb.co/whrrZ5q/sad-miku-1a.jpg"
-            radius="sm"
-            height={IMG_H}
-            width="100%"
-            fit="cover"
-          />
-          <LoadingOverlay visible={true} />
-        </div>
-        <ActionIcon size={IMG_H} variant="filled" onClick={() => fileRef?.current?.click()}>
+        {sources.length !==0 && sources.map((img, i) => (
+          <div className={classes.imageWrapper} key={i}>
+            <Image
+              src={URL.createObjectURL(img.local)}
+              radius="sm"
+              height={IMG_H}
+              width="100%"
+              fit="cover"
+            />
+            <LoadingOverlay visible={img.loading} />
+          </div>
+        ))}
+        <ActionIcon
+          size={IMG_H}
+          variant="filled"
+          onClick={() => fileRef?.current?.click()}
+        >
           <Plus />
         </ActionIcon>
       </Group>
