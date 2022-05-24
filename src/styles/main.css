@@ -35,3 +35,9 @@ body {
 .thick-border input, .thick-border textarea {
   border-width: 2px;
 }
+
+/* Award Modal */
+.award-modal .mantine-Modal-modal {
+  max-width: 700px;
+  width: 100%;
+}

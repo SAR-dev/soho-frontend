@@ -2,6 +2,8 @@ import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core
 import { useLocalStorage } from '@mantine/hooks';
 import Router from './Router';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
+import { AwardModal } from './components/reusable/modal/AwardModal';
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -17,7 +19,9 @@ function App() {
       {/* theme={{ colorScheme: 'dark' }} */}
       <MantineProvider theme={{ colorScheme }}>
         <NotificationsProvider>
+          <ModalsProvider modals={{ award: AwardModal }}>
           <Router />
+          </ModalsProvider>
         </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
