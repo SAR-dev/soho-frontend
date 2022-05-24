@@ -14,7 +14,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }
 }));
 
-interface props {
+interface Props {
     postedAt: string;
     body: string;
     temp: string;
@@ -29,7 +29,7 @@ export function PostDetails({
     body,
     author,
     temp,
-}: props) {
+}: Props) {
     const { classes } = useStyles();
     return (
         <Stack spacing={0}>

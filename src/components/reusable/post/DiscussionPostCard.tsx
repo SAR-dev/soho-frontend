@@ -19,7 +19,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-interface DiscussionPostProps {
+interface Props {
   postedAt: string;
   body: string;
   temp: string;
@@ -34,7 +34,7 @@ export function DiscussionPostCard({
   body,
   author,
   temp,
-}: DiscussionPostProps) {
+}: Props) {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>

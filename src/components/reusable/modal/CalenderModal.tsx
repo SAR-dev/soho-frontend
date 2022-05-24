@@ -1,33 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Button, Stack } from '@mantine/core';
 import { Calendar, TimeInput } from '@mantine/dates';
 import { Clock } from 'tabler-icons-react';
 import dayjs from 'dayjs';
 
-export function CalenderModal({ opened, setOpened, date, setDate }: { opened: boolean, setOpened: (params: boolean) => void, date: Date | null, setDate: (params: any) => void }) {
-    const [value, setValue] = useState<Date | null>(null);
-    const submit = () => {
-        setDate(value)
-        setOpened(false)
-    }
+interface Props {
+    opened: boolean; 
+    setOpened: (params: boolean) => void;
+    datetime: Date | null; 
+    setDatetime: (params: any) => void
+}
 
-    const setTime = (time: Date) => {
-        value?.setMinutes(dayjs(time).minute())
-        value?.setHours(dayjs(time).hour())
+export function CalenderModal({ opened, setOpened, datetime, setDatetime }: Props) {
+    const [date, setDate] = useState<Date | null>(null);
+    const [time, setTime] = useState<Date | null>(null);
+
+    useEffect(() => {
+      setDate(datetime)
+      setTime(datetime)
+    }, [datetime])
+    
+
+    const submit = () => {
+        const d = date
+        d?.setMinutes(dayjs(time).minute())
+        d?.setHours(dayjs(time).hour())
+        setDatetime(d)
+        setOpened(false)
     }
     return (
         <Modal
             opened={opened}
             onClose={() => setOpened(false)}
-            title="Select Date"
+            title="Select Date and Time"
         >
             <Stack spacing="md">
-                <Calendar value={value} onChange={setValue} style={{ margin: "auto" }} />
+                <Calendar value={date} onChange={setDate} style={{ margin: "auto" }} />
                 <TimeInput
-                    defaultValue={date}
+                    defaultValue={datetime}
                     icon={<Clock size={16} />}
-                    value={value}
-                    onChange={e => setTime(e)}
+                    value={time}
+                    onChange={setTime}
                 />
                 <Button onClick={submit} size="xs" fullWidth>Submit</Button>
             </Stack>

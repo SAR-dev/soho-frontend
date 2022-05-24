@@ -45,15 +45,15 @@ const useStyles = createStyles((theme) => ({
 
 const initialValue = "";
 
-interface props {
+interface Props {
   toogle: () => void;
 }
 
-export function AmaPostTab({ toogle }: props) {
+export function AmaPostTab({ toogle }: Props) {
   const [text, setText] = useState(initialValue);
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
-  const [date, setDate] = useState<Date | null>(null);
+  const [datetime, setDatetime] = useState<Date | null>(null);
   const [showCalender, setShowCalender] = useState(false)
 
   function isInputElement(elem: HTMLElement | null): elem is HTMLInputElement {
@@ -100,8 +100,8 @@ export function AmaPostTab({ toogle }: props) {
           className={classes.dropdown}
         />
         <Tooltip label="Set Deadline" position="top">
-          <Button className={cx(classes.calenderButton, {[classes.activeCalender]: date, [classes.inactiveCalender]: !date})} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
-          {date ? dayjs(date).format('MMM DD, YYYY  hh:mm A') : "Select Deadline"}
+          <Button className={cx(classes.calenderButton, {[classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime})} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
+          {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Deadline"}
           </Button>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
@@ -111,7 +111,7 @@ export function AmaPostTab({ toogle }: props) {
           Submit
         </Button>
       </Group>
-      <CalenderModal opened={showCalender} setOpened={setShowCalender} date={date} setDate={setDate} />
+      <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />
     </>
   );
 }

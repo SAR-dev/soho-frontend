@@ -20,7 +20,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-interface PollPostCardProps {
+interface Props {
   postedAt: string;
   body: string;
   temp: string;
@@ -35,7 +35,7 @@ export function PollPostCard({
   body,
   author,
   temp,
-}: PollPostCardProps) {
+}: Props) {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>

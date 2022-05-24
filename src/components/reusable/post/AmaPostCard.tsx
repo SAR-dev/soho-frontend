@@ -18,7 +18,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-interface AmaPostCardProps {
+interface Props {
   postedAt: string;
   body: string;
   temp: string;
@@ -33,7 +33,7 @@ export function AmaPostCard({
   body,
   author,
   temp,
-}: AmaPostCardProps) {
+}: Props) {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>

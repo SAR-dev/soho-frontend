@@ -15,7 +15,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-interface PostHeaderProps {
+interface Props {
   author: {
     name: string;
     image: string;
@@ -24,7 +24,7 @@ interface PostHeaderProps {
   postedAt: string;
 }
 
-export function PostHeader({ ...props }: PostHeaderProps) {
+export function PostHeader({ ...props }: Props) {
   const { classes, cx } = useStyles();
   return (
     <Group spacing="sm">

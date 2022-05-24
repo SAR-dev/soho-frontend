@@ -56,11 +56,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface props {
+interface Props {
   toogle: () => void;
 }
 
-export function EditorCreator({ toogle }: props) {
+export function EditorCreator({ toogle }: Props) {
   const { classes, cx } = useStyles();
 
   return (

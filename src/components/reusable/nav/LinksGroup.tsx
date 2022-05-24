@@ -42,14 +42,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface LinksGroupProps {
+interface Props {
   icon: TablerIcon;
   label: string;
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) {
+export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: Props) {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);

@@ -53,15 +53,15 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-interface props {
+interface Props {
   toogle: () => void;
 }
 
-export function PollPostTab({ toogle }: props) {
+export function PollPostTab({ toogle }: Props) {
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
   const editorRef = useRef<Editor>(null);
-  const [date, setDate] = useState<Date | null>(null);
+  const [datetime, setDatetime] = useState<Date | null>(null);
   const [showCalender, setShowCalender] = useState(false)
 
   useEffect(() => {
@@ -112,8 +112,8 @@ export function PollPostTab({ toogle }: props) {
           className={classes.dropdown}
         />
         <Tooltip label="Set Deadline" position="top">
-          <Button className={cx(classes.calenderButton, {[classes.activeCalender]: date, [classes.inactiveCalender]: !date})} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
-            {date ? dayjs(date).format('MMM DD, YYYY  hh:mm A') : "Select Deadline"}
+          <Button className={cx(classes.calenderButton, {[classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime})} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
+            {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Deadline"}
           </Button>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
@@ -124,7 +124,7 @@ export function PollPostTab({ toogle }: props) {
         </Button>
       </Group>
       <ImageDropzone disabled={false} />
-      <CalenderModal opened={showCalender} setOpened={setShowCalender} date={date} setDate={setDate} />
+      <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />
     </>
   );
 }

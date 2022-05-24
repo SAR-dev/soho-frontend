@@ -34,11 +34,11 @@ const editors = [
   { key: "drop", name: "Drop", icon: <BsDropletHalf /> },
 ]
 
-interface props {
+interface Props {
   toogle: () => void;
 }
 
-export function EditorWrapper({ toogle }: props) {
+export function EditorWrapper({ toogle }: Props) {
   const [value, setValue] = useState("discussion");
   const { classes } = useStyles();
   const editorRef = useRef<Editor>(null);

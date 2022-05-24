@@ -12,11 +12,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface props {
+interface Props {
   toogle: () => void;
 }
 
-export function DiscussionPostTab({ toogle }: props) {
+export function DiscussionPostTab({ toogle }: Props) {
   const { classes, cx } = useStyles();
   const [category, setCategory] = useState<any | null>(null);
   const [visibility, setVisibility] = useState<any | null>(null);
