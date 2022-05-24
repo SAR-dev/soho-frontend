@@ -37,7 +37,7 @@ body {
 }
 
 /* Award Modal */
-.award-modal .mantine-Modal-modal {
+.mantine-Modal-modal {
   max-width: 700px;
-  width: 100%;
+  width: auto;
 }

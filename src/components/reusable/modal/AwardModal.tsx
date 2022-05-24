@@ -14,12 +14,18 @@ const awards = [
 ]
 
 const useStyles = createStyles((theme, _params, getRef) => ({
+  modal: {width: 650},
   wrapper: {
     backgroundColor:
       theme.colorScheme === "dark"
         ? theme.colors.dark[8]
         : theme.colors.gray[0],
-    paddingBottom: theme.spacing.sm
+    paddingBottom: theme.spacing.sm,
+    cursor: "pointer",
+    '&:hover': {
+      backgroundColor: theme.colors.blue[5],
+      color: theme.colors.dark[9]
+    },
   },
   image: {
     padding: theme.spacing.sm
@@ -34,7 +40,7 @@ export const AwardModal = ({
   const { classes, cx } = useStyles();
   const [value, setValue] = useState('0');
   return (
-    <>
+    <div className={classes.modal}>
       <Grid>
         <Grid.Col span={8}>
           <Stack spacing="sm">
@@ -65,9 +71,9 @@ export const AwardModal = ({
         </Grid.Col>
         <Grid.Col span={4}></Grid.Col>
       </Grid>
-      <Button fullWidth mt="md" onClick={() => context.closeModal(id)}>
+      {/* <Button fullWidth size="xs" mt="md" onClick={() => context.closeModal(id)}>
         Close modal
-      </Button>
-    </>
+      </Button> */}
+    </div>
   );
 };

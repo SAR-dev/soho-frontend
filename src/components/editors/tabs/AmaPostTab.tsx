@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { createStyles, Group, Button, Select, Textarea, Tooltip } from "@mantine/core";
-import { ImageDropzone } from "../ImageDropzone";
-import { Calendar, Clock, Eye, Send } from "tabler-icons-react";
+import { Calendar, Eye, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import insertTextAtCursor from "insert-text-at-cursor";
-import { DatePicker, TimeInput } from "@mantine/dates";
+import { CalenderModal } from "../../reusable/modal/CalenderModal";
+import dayjs from 'dayjs';
 
 const useStyles = createStyles((theme) => ({
   editor: {
@@ -22,6 +22,17 @@ const useStyles = createStyles((theme) => ({
       },
     },
   },
+  calenderButton: {
+    fontWeight: 400,
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[5]
+        : theme.colors.gray[0],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[8],
+  }
 }));
 
 const initialValue = "";
@@ -35,12 +46,12 @@ export function AmaPostTab({ toogle }: props) {
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
   const [date, setDate] = useState<Date | null>(new Date());
+  const [showCalender, setShowCalender] = useState(false)
 
   function isInputElement(elem: HTMLElement | null): elem is HTMLInputElement {
     if (!elem) {
       return false;
     }
-
     return true;
   }
 
@@ -81,16 +92,9 @@ export function AmaPostTab({ toogle }: props) {
           className={classes.dropdown}
         />
         <Tooltip label="Set Deadline" position="top">
-          <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
-        </Tooltip>
-        <Tooltip label="Set Deadline" position="top">
-        <TimeInput
-          defaultValue={new Date()}
-          size="xs"
-          icon={<Clock size={16} />}
-          value={date}
-          onChange={setDate}
-        />
+          <Button className={classes.calenderButton} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
+          {dayjs(date).format('MMM DD, YYYY  hh:mm A')}
+          </Button>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
@@ -99,6 +103,7 @@ export function AmaPostTab({ toogle }: props) {
           Submit
         </Button>
       </Group>
+      <CalenderModal opened={showCalender} setOpened={setShowCalender} date={date} setDate={setDate} />
     </>
   );
 }

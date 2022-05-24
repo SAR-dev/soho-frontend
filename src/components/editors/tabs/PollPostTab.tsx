@@ -10,11 +10,12 @@ import {
 } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { Calendar, Clock, Eye, Minus, Plus, Send } from "tabler-icons-react";
+import { Calendar, Eye, Minus, Plus, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { Poll } from "../../reusable/post/layers/Poll";
 import { TextEditor } from "../TextEditor";
-import { DatePicker, TimeInput } from "@mantine/dates";
+import dayjs from 'dayjs';
+import { CalenderModal } from "../../reusable/modal/CalenderModal";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -31,6 +32,17 @@ const useStyles = createStyles((theme) => ({
   actionButton: {
     marginLeft: theme.spacing.sm,
   },
+  calenderButton: {
+    fontWeight: 400,
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[5]
+        : theme.colors.gray[0],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[8],
+  }
 }));
 
 interface props {
@@ -42,6 +54,7 @@ export function PollPostTab({ toogle }: props) {
   const [visibility, setVisibility] = useState<any | null>(null);
   const editorRef = useRef<Editor>(null);
   const [date, setDate] = useState<Date | null>(new Date());
+  const [showCalender, setShowCalender] = useState(false)
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -91,16 +104,9 @@ export function PollPostTab({ toogle }: props) {
           className={classes.dropdown}
         />
         <Tooltip label="Set Deadline" position="top">
-        <DatePicker size="xs" icon={<Calendar size={16} />} value={date} dropdownType="modal" onChange={setDate} />
-        </Tooltip>
-        <Tooltip label="Set Deadline" position="top">
-        <TimeInput
-          defaultValue={new Date()}
-          size="xs"
-          icon={<Clock size={16} />}
-          value={date}
-          onChange={setDate}
-        />
+          <Button className={classes.calenderButton} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
+            {dayjs(date).format('MMM DD, YYYY  hh:mm A')}
+          </Button>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
@@ -110,6 +116,7 @@ export function PollPostTab({ toogle }: props) {
         </Button>
       </Group>
       <ImageDropzone disabled={false} />
+      <CalenderModal opened={showCalender} setOpened={setShowCalender} date={date} setDate={setDate} />
     </>
   );
 }
