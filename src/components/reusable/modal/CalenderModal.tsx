@@ -5,9 +5,9 @@ import { Clock } from 'tabler-icons-react';
 import dayjs from 'dayjs';
 
 interface Props {
-    opened: boolean; 
+    opened: boolean;
     setOpened: (params: boolean) => void;
-    datetime: Date | null; 
+    datetime: Date | null;
     setDatetime: (params: any) => void
 }
 
@@ -16,15 +16,19 @@ export function CalenderModal({ opened, setOpened, datetime, setDatetime }: Prop
     const [time, setTime] = useState<Date | null>(null);
 
     useEffect(() => {
-      setDate(datetime)
-      setTime(datetime)
+        setDate(datetime)
+        setTime(datetime)
     }, [datetime])
-    
+
 
     const submit = () => {
         const d = date
-        d?.setMinutes(dayjs(time).minute())
-        d?.setHours(dayjs(time).hour())
+        const m = dayjs(time).minute()
+        const h = dayjs(time).hour()
+        if (m && h) {
+            d?.setMinutes(m)
+            d?.setHours(h)
+        }
         setDatetime(d)
         setOpened(false)
     }
