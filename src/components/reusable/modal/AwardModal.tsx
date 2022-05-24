@@ -1,5 +1,5 @@
 import { ContextModalProps } from "@mantine/modals";
-import { Text, Button, Paper, SegmentedControl, Stack, Grid, SimpleGrid, Image, createStyles } from "@mantine/core";
+import { Text, Button, Paper, SegmentedControl, Stack, Grid, SimpleGrid, Image, createStyles, Pagination, Badge } from "@mantine/core";
 import { useState } from "react";
 
 const awards = [
@@ -9,12 +9,12 @@ const awards = [
   { name: "Badass", image: "https://i.ibb.co/fNpwLm8/community-Icon-2cbkzwfs6kr21.png" },
   { name: "Love", image: "https://i.ibb.co/p0L45v9/5nswjpyy44551-Ally.png" },
   { name: "Legendary 19", image: "https://i.ibb.co/C7BsQ4S/V9-EFxka-Q0-Gf-Kon-Wyn3gjimsn-AMh3-SPXFQe-Ikp-Kn-NP7-Y.webp" },
-  {name: "Premium", image: "https://i.ibb.co/4RDH6SC/image.png"},
-  {name: "Pyramid", image: "https://i.ibb.co/sw0TgcW/image.png"},
+  { name: "Premium", image: "https://i.ibb.co/4RDH6SC/image.png" },
+  { name: "Pyramid", image: "https://i.ibb.co/sw0TgcW/image.png" },
 ]
 
 const useStyles = createStyles((theme, _params, getRef) => ({
-  modal: {width: 650},
+  modal: { width: 650 },
   wrapper: {
     backgroundColor:
       theme.colorScheme === "dark"
@@ -29,6 +29,19 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
   image: {
     padding: theme.spacing.sm
+  },
+  badge: {
+    width: 50,
+    margin: "auto"
+  },
+  giftButton: {
+    width: "100%"
+  },
+  stretch: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    display: "flex",
+    height: "100%"
   }
 }));
 
@@ -39,6 +52,7 @@ export const AwardModal = ({
 }: ContextModalProps) => {
   const { classes, cx } = useStyles();
   const [value, setValue] = useState('0');
+  const [page, setPage] = useState(1)
   return (
     <div className={classes.modal}>
       <Grid>
@@ -65,15 +79,23 @@ export const AwardModal = ({
               ))}
 
             </SimpleGrid>
-            {/* <Paper>{innerProps.modalBody}</Paper> */}
-
+            <Pagination page={page} onChange={setPage} total={10} withEdges size="sm" mx="auto" />
           </Stack>
         </Grid.Col>
-        <Grid.Col span={4}></Grid.Col>
+        <Grid.Col span={4}>
+          <div className={classes.stretch}>
+            <Stack spacing="sm">
+              <Image src="https://i.ibb.co/sw0TgcW/image.png" withPlaceholder height={120} fit="contain" />
+              <Stack spacing={5}>
+                <Text align="center" weight={700}>Legendary Pokemon</Text>
+                <Badge radius="xs" className={classes.badge}>FREE</Badge>
+              </Stack>
+              <Text color="dimmed" size="xs" align="center">Arceus is a 2022 action role-playing game developed by Game Freak and published by Nintendo and The Pokémon Company for the Nintendo Switch.</Text>
+            </Stack>
+            <Button size="xs" fullWidth>Gift</Button>
+          </div>
+        </Grid.Col>
       </Grid>
-      {/* <Button fullWidth size="xs" mt="md" onClick={() => context.closeModal(id)}>
-        Close modal
-      </Button> */}
     </div>
   );
 };
