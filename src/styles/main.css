@@ -41,3 +41,7 @@ body {
   max-width: 700px;
   width: auto;
 }
+
+.award-modal .mantine-Modal-inner {
+  align-items: center;
+} 

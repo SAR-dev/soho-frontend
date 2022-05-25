@@ -21,26 +21,26 @@ export function AmaRenderer({ body }: { body: string }) {
   const { classes } = useStyles();
   return (
     <Stack spacing="sm" className={classes.typography}>
-      <Text size="lg">{body}</Text>
+      <Text size="sm">{body}</Text>
       <Center inline style={{ justifyContent: "start" }}>
         <LivePhoto className="rotate" color="yellow" size={18} />
         <Text size="xs" color="yellow" weight={700} className={classes.askTime}>
           Live - April 14 - 10:00 AM
         </Text>
-        <ActionIcon variant="light" size="sm" color="yellow">
-          <BellRinging size={12} />
+        <ActionIcon variant="outline" size={20} color="yellow">
+          <BellRinging size={14} />
         </ActionIcon>
       </Center>
       <TextInput
         radius={18}
-        size="sm"
+        size="xs"
         rightSection={
-          <ActionIcon size={28} radius="xl" color="blue" variant="light">
+          <ActionIcon size={25} radius="xl" color="blue" variant="light">
             <ArrowRight size={18} />
           </ActionIcon>
         }
         placeholder="Ask question here..."
-        rightSectionWidth={38}
+        rightSectionWidth={30}
         className="thick-border"
       />
     </Stack>

@@ -1,6 +1,7 @@
 import { ContextModalProps } from "@mantine/modals";
 import { Text, Button, Paper, SegmentedControl, Stack, Grid, SimpleGrid, Image, createStyles, Pagination, Badge } from "@mantine/core";
 import { useState } from "react";
+import { Award } from "tabler-icons-react";
 
 const awards = [
   { name: "Thanos", image: "https://i.ibb.co/FYvBhzP/u8s1fub2ie811.png" },
@@ -73,7 +74,7 @@ export const AwardModal = ({
             <SimpleGrid cols={4} spacing="sm">
               {awards.map((award, i) => (
                 <Paper shadow="sm" className={classes.wrapper}>
-                  <Image className={classes.image} src={award.image} withPlaceholder height={65} fit="contain" />
+                  <Image className={classes.image} src={award.image} placeholder={<Award size={50} />} withPlaceholder height={65} fit="contain" />
                   <Text align="center" weight={700} size="xs">{award.name}</Text>
                 </Paper>
               ))}
@@ -85,7 +86,7 @@ export const AwardModal = ({
         <Grid.Col span={4}>
           <div className={classes.stretch}>
             <Stack spacing="sm">
-              <Image src="https://i.ibb.co/sw0TgcW/image.png" withPlaceholder height={120} fit="contain" />
+              <Image src="https://i.ibb.co/sw0TgcW/image.png" placeholder={<Award size={120} />} withPlaceholder height={120} fit="contain" />
               <Stack spacing={5}>
                 <Text align="center" weight={700}>Legendary Pokemon</Text>
                 <Badge radius="xs" className={classes.badge}>FREE</Badge>
