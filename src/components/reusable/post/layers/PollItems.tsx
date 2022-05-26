@@ -20,7 +20,7 @@ export function PollItems() {
     <div className={classes.wrapper}>
       <SimpleGrid cols={1} spacing="sm">
         <Poll active={true} text="React Native" />
-        <Poll active={true} text="Vue Js" />
+        <Poll selected={true} active={true} text="Vue Js" />
         <Poll active={true} text="Python" />
       </SimpleGrid>
     </div>

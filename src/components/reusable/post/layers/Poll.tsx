@@ -4,7 +4,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     pollWrapper: {
         width: "100%",
         height: 30,
-        border: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3]
+        border: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3]
             }`,
         position: "relative",
         borderRadius: 3,
@@ -20,6 +20,15 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         },
         [`&:hover .${getRef("pollBar")}`]: {
             backgroundColor: theme.colors.blue[7],
+        },
+    },
+    selected: {
+        cursor: "pointer",
+        padding: 3,
+        borderColor: theme.colorScheme === "dark" ? theme.colors.blue[7] : theme.colors.blue[2],
+        [`.${getRef("pollBar")}`]: {
+            backgroundColor: theme.colors.blue[7],
+            opacity: 0.5
         },
     },
     plain: {
@@ -50,10 +59,16 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     },
 }));
 
-export function Poll({ text, active }: { text: string, active: boolean }) {
+interface Params {
+    text: string; 
+    active: boolean;
+    selected?: boolean;
+}
+
+export function Poll({ text, active, selected = false }: Params) {
     const { classes, cx } = useStyles();
     return (
-        <Box className={cx(classes.pollWrapper, { [classes.pointer]: active, [classes.plain]: !active })}>
+        <Box className={cx(classes.pollWrapper, { [classes.pointer]: active, [classes.plain]: !active, [classes.selected]: selected })}>
             {active && (<div className={classes.pollBar}></div>)}
             <div className={classes.pollText}>
                 <div>{text}</div>
