@@ -6,6 +6,9 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import axios from "axios";
+import { imgBBuploader, toBase64 } from "../../helpers";
+import { useNotifications } from "@mantine/notifications";
+import { X } from "tabler-icons-react";
 
 const IMG_H = 60;
 
@@ -17,41 +20,29 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function ImageLoader({ img }: { img: File }) {
+  const notifications = useNotifications();
   const { classes, cx } = useStyles();
-  const theme = useMantineTheme();
   const [loading, setLoading] = useState(false);
   const [src, setSrc] = useState<any>();
-
-  const toBase64 = (file: Blob) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
 
   useEffect(() => {
     setLoading(true);
     (async () => {
       const url = await toBase64(img);
       setSrc(url);
-      var formData = new FormData();
-      formData.append("image", img);
-      await axios
-        .post(
-          `https://api.imgbb.com/1/upload?expiration=600&key=613ee68f6bc89f194d175614a4ca500f`,
-          formData,
-          {
-            headers: {
-              accept: "application/json",
-              "Content-Type": `multipart/form-data;`,
-            },
-          }
-        )
-        .then((res) => {
-          setSrc(res.data.data.image.url);
+      imgBBuploader(img).then(data => {
+        if (data.error) {
+          notifications.showNotification({
+            title: `Error ${data.error.code}`,
+            message: data.error.message,
+            color: 'red',
+            icon: <X size={18} />
+          })
+        } else {
+          setSrc(data);
           setLoading(false);
-        });
+        }
+      })
     })();
   }, [img]);
 
