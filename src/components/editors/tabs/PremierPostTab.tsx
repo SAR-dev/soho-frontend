@@ -1,16 +1,34 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Switch, Button, Select } from "@mantine/core";
+import { createStyles, Group, Button, Select, TextInput, Tooltip } from "@mantine/core";
 import { Editor } from "@mantine/rte";
-import { ImageDropzone } from "../ImageDropzone";
-import { Eye, Hash, Send } from "tabler-icons-react";
-import { EmojiPopover } from "../EmojiPopover";
-import { TextEditor } from "../TextEditor";
+import { Eye, Link, Send, Calendar } from "tabler-icons-react";
 import { PremierDropzone } from "../PremierDropzone";
+import dayjs from 'dayjs';
+import { CalenderModal } from "../../reusable/modal/CalenderModal";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
     width: 150,
   },
+  calenderButton: {
+    fontWeight: 400,
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[5]
+        : theme.colors.gray[0],
+  },
+  activeCalender: {
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[8],
+  },
+  inactiveCalender: {
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[3]
+        : theme.colors.gray[8],
+  }
 }));
 
 interface Props {
@@ -19,10 +37,10 @@ interface Props {
 
 export function PremierPostTab({ toogle }: Props) {
   const { classes, cx } = useStyles();
-  const [category, setCategory] = useState<any | null>(null);
   const [visibility, setVisibility] = useState<any | null>(null);
-  const [checked, setChecked] = useState(false);
   const editorRef = useRef<Editor>(null);
+  const [datetime, setDatetime] = useState<Date | null>(null);
+  const [showCalender, setShowCalender] = useState(false)
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -38,24 +56,8 @@ export function PremierPostTab({ toogle }: Props) {
   return (
     <>
       <PremierDropzone />
+      <TextInput variant="default" placeholder="Drop premiere link" icon={<Link size={16} />} size="xs" mb="sm" />
       <Group>
-        <EmojiPopover insertText={insertText} />
-        <Select
-          placeholder="Pick a Category"
-          data={[
-            { value: "1", label: "React" },
-            { value: "2", label: "Angular" },
-            { value: "3", label: "Svelte" },
-            { value: "4", label: "Vue" },
-          ]}
-          icon={<Hash size={16} />}
-          searchable
-          nothingFound="No options"
-          value={category}
-          onChange={(e) => setCategory(e)}
-          size="xs"
-          className={classes.dropdown}
-        />
         <Select
           placeholder="Visibility"
           data={[
@@ -71,11 +73,11 @@ export function PremierPostTab({ toogle }: Props) {
           size="xs"
           className={classes.dropdown}
         />
-        <Switch
-          label="Announcement"
-          checked={checked}
-          onChange={(event) => setChecked(event.currentTarget.checked)}
-        />
+        <Tooltip label="Set Premier Time" position="top">
+          <Button className={cx(classes.calenderButton, { [classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime })} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
+            {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Premier Time"}
+          </Button>
+        </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>
@@ -83,6 +85,8 @@ export function PremierPostTab({ toogle }: Props) {
           Submit
         </Button>
       </Group>
+      <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />
+
     </>
   );
 }
