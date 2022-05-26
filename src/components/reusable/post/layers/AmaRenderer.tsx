@@ -6,11 +6,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginTop: theme.spacing.xs,
     marginBottom: theme.spacing.lg,
   },
-  // askInput: {
-  //   ['input']: {
-  //     borderWidth: 2,
-  //   }
-  // },
   askTime: {
     marginLeft: theme.spacing.xs,
     marginRight: theme.spacing.xs,
@@ -27,7 +22,7 @@ export function AmaRenderer({ body }: { body: string }) {
         <Text size="xs" color="yellow" weight={700} className={classes.askTime}>
           Live - April 14 - 10:00 AM
         </Text>
-        <ActionIcon variant="outline" size={20} color="yellow">
+        <ActionIcon variant="hover" size={20} color="yellow">
           <BellRinging size={14} />
         </ActionIcon>
       </Center>
