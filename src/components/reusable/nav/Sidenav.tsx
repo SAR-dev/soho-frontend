@@ -12,7 +12,7 @@ import {
   ScrollArea,
   Modal,
 } from '@mantine/core';
-import { Search, Plus, Microphone2, ListCheck } from 'tabler-icons-react';
+import { Search, Plus, Microphone2, ListCheck, Video } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
@@ -126,7 +126,8 @@ const useStyles = createStyles((theme) => ({
 const links = [
   { icon: MdEmojiPeople, label: 'Discussion', notifications: 3 },
   { icon: MdQuestionAnswer, label: 'AMA', notifications: 4 },
-  { icon: BsDropletHalf, label: 'Drop' },
+  { icon: Video, label: 'Premier' },
+  // { icon: BsDropletHalf, label: 'Drop' },
   { icon: Microphone2, label: 'Announcement' },
   { icon: ListCheck, label: 'Rules' },
 ];

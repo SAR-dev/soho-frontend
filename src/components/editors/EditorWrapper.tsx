@@ -7,6 +7,8 @@ import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
 import { DiscussionPostTab } from "./tabs/DiscussionPostTab";
 import { AmaPostTab } from "./tabs/AmaPostTab";
 import { PollPostTab } from "./tabs/PollPostTab";
+import { Video } from "tabler-icons-react";
+import { PremierPostTab } from "./tabs/PremierPostTab";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -29,9 +31,10 @@ const useStyles = createStyles((theme) => ({
 
 const editors = [
   { key: "discussion", name: 'Discussion', icon: <MdEmojiPeople /> },
-  { key: "ama", name: "AMA", icon: <MdQuestionAnswer /> },
   { key: "poll", name: "Poll", icon: <FaPoll /> },
-  { key: "drop", name: "Drop", icon: <BsDropletHalf /> },
+  { key: "ama", name: "AMA", icon: <MdQuestionAnswer /> },
+  { key: "premier", name: "Premier", icon: <Video /> },
+  // { key: "drop", name: "Drop", icon: <BsDropletHalf /> },
 ]
 
 interface Props {
@@ -72,7 +75,7 @@ export function EditorWrapper({ toogle }: Props) {
         {value === "discussion" && <DiscussionPostTab toogle={toogle} />}
         {value === "ama" && <AmaPostTab toogle={toogle} />}
         {value === "poll" && <PollPostTab toogle={toogle} />}
-        {value === "drop" && <DiscussionPostTab toogle={toogle} />}
+        {value === "premier" && <PremierPostTab toogle={toogle} />}
       </Paper>
     </Paper>
   );
