@@ -43,7 +43,6 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
   const theme = useMantineTheme();
   const fileRef = useRef<HTMLInputElement>(null);
   const [sources, setSources] = useState<File[]>([]);
-  const [images, setImages] = useState<any[]>([]);
 
   const handleChange = (e: any) => {
     const files = [...e.target.files];

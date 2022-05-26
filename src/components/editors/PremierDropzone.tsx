@@ -1,21 +1,40 @@
-import { Group, Text, useMantineTheme, MantineTheme, createStyles } from '@mantine/core';
-import { Upload, Photo, X, Icon as TablerIcon } from 'tabler-icons-react';
+import { Group, Text, useMantineTheme, MantineTheme, createStyles, Image, Paper, Center } from '@mantine/core';
+import { Upload, Photo, X, Icon as TablerIcon, InfoCircle } from 'tabler-icons-react';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { useState } from 'react';
+import { imgBBuploader } from '../../helpers';
+import { useNotifications } from '@mantine/notifications';
+
+const IMG_H = 300
 
 const useStyles = createStyles((theme) => ({
-    wrapper: {
-        marginBottom: theme.spacing.sm,
-    },
-  }));
+  wrapper: {
+    marginBottom: theme.spacing.sm,
+  },
+  imageWrapper: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[1],
+  },
+  footer: {
+    marginTop: theme.spacing.xs,
+    marginBottom: theme.spacing.xs,
+    cursor: "pointer",
+  },
+  icon: {
+    marginRight: 3,
+  },
+}));
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
     : status.rejected
-    ? theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
-    : theme.colorScheme === 'dark'
-    ? theme.colors.dark[0]
-    : theme.colors.gray[7];
+      ? theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
+      : theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7];
 }
 
 function ImageUploadIcon({
@@ -34,15 +53,15 @@ function ImageUploadIcon({
 }
 
 const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
-  <Group position="center" spacing="xl" style={{ height: 250, pointerEvents: 'none' }}>
+  <Group position="center" spacing="xl" style={{ height: IMG_H, pointerEvents: 'none' }}>
     <ImageUploadIcon status={status} style={{ color: getIconColor(status, theme) }} size={80} />
 
     <div>
       <Text size="xl" inline>
-        Drag thumbnail here or click to select files
+        Drag thumbnail here or click to select file
       </Text>
       <Text size="sm" color="dimmed" inline mt={7}>
-        Attachment file can be any image format, but should not exceed 5 megabytes
+        Attachment file can be any image format, but should not exceed 5 MB
       </Text>
     </div>
   </Group>
@@ -51,15 +70,59 @@ const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
 export function PremierDropzone() {
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
+  const notifications = useNotifications();
+  const [loading, setLoading] = useState(false)
+  const [src, setSrc] = useState<any>()
+
+  function uploadImage(img: File) {
+    setLoading(true)
+    imgBBuploader(img).then(data => {
+      if (data.error) {
+        setLoading(false);
+        notifications.showNotification({
+          title: `Error ${data.error.code}`,
+          message: data.error.message,
+          color: 'red',
+          icon: <X size={18} />
+        })
+      } else {
+        setSrc(data);
+        setLoading(false);
+      }
+    })
+  }
+
   return (
-    <Dropzone
-      onDrop={(files) => console.log('accepted files', files)}
-      onReject={(files) => console.log('rejected files', files)}
-      maxSize={3 * 1024 ** 2}
-      accept={IMAGE_MIME_TYPE}
-      className={classes.wrapper}
-    >
-      {(status) => dropzoneChildren(status, theme)}
-    </Dropzone>
+    <>
+      {src ? (
+        <>
+          <Paper p="sm" className={classes.imageWrapper}>
+            <Image src={src} withPlaceholder height={IMG_H} fit="cover" radius="xs" />
+          </Paper>
+          <Center
+            inline
+            className={classes.footer}
+            onClick={() => setSrc(null)}
+          >
+            <InfoCircle size={16} className={classes.icon} />
+            <Text color="dimmed" size="xs">
+              Click here to select another thumbnail
+            </Text>
+          </Center>
+        </>
+      ) : (
+        <Dropzone
+          onDrop={(file) => uploadImage(file[0])}
+          onReject={(files) => console.log('rejected files', files)}
+          maxSize={3 * 1024 ** 2}
+          accept={IMAGE_MIME_TYPE}
+          className={classes.wrapper}
+          loading={loading}
+          multiple={false}
+        >
+          {(status) => dropzoneChildren(status, theme)}
+        </Dropzone>
+      )}
+    </>
   );
 }
