@@ -1,4 +1,4 @@
-import { createStyles, Text, TextInput, ActionIcon, Center, Stack } from "@mantine/core";
+import { createStyles, Text, TextInput, ActionIcon, Center, Stack, Button } from "@mantine/core";
 import { ArrowRight, BellRinging, LivePhoto } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -22,9 +22,9 @@ export function AmaRenderer({ body }: { body: string }) {
         <Text size="xs" color="yellow" weight={700} className={classes.askTime}>
           Live - April 14 - 10:00 AM
         </Text>
-        <ActionIcon variant="hover" size={20} color="yellow">
-          <BellRinging size={14} />
-        </ActionIcon>
+        <Button size="xs" compact>
+          Turn <BellRinging size={14} style={{marginLeft: 5, marginRight: 5}} /> On
+        </Button>
       </Center>
       <TextInput
         radius={18}
