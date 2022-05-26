@@ -25,10 +25,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     selected: {
         cursor: "pointer",
         padding: 3,
-        borderColor: theme.colorScheme === "dark" ? theme.colors.blue[7] : theme.colors.blue[2],
+        borderColor: theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.5) : theme.colors.blue[2],
+        color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
         [`.${getRef("pollBar")}`]: {
-            backgroundColor: theme.colors.blue[7],
-            opacity: 0.5
+            backgroundColor:
+                theme.colorScheme === 'dark'
+                    ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.5)
+                    : theme.colors[theme.primaryColor][1],
         },
     },
     plain: {
@@ -40,10 +43,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         width: "50%",
         background:
             theme.colorScheme === "dark"
-                ? theme.colors.dark[3]
-                : theme.colors.gray[3],
+                ? theme.fn.rgba(theme.colors.dark[3], .25)
+                : theme.fn.rgba(theme.colors.gray[3], .25),
         borderRadius: 1,
-        opacity: 0.2
     },
     pollText: {
         position: "absolute",
@@ -56,11 +58,12 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         justifyContent: "space-between",
         marginLeft: 10,
         marginRight: 10,
+        letterSpacing: .35
     },
 }));
 
 interface Params {
-    text: string; 
+    text: string;
     active: boolean;
     selected?: boolean;
 }

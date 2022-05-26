@@ -10,6 +10,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginLeft: theme.spacing.xs,
     marginRight: theme.spacing.xs,
   },
+  notification: {
+    backgroundColor:
+      theme.colorScheme === 'dark'
+        ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+        : theme.colors[theme.primaryColor][1],
+    color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
+  }
 }));
 
 export function AmaRenderer({ body }: { body: string }) {
@@ -22,8 +29,8 @@ export function AmaRenderer({ body }: { body: string }) {
         <Text size="xs" color="yellow" weight={700} className={classes.askTime}>
           Live - April 14 - 10:00 AM
         </Text>
-        <Button size="xs" compact>
-          Turn <BellRinging size={14} style={{marginLeft: 5, marginRight: 5}} /> On
+        <Button size="xs" compact className={classes.notification}>
+          Turn <BellRinging size={14} style={{ marginLeft: 5, marginRight: 5 }} /> On
         </Button>
       </Center>
       <TextInput
