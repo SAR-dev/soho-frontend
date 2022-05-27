@@ -4,6 +4,10 @@ import Router from './Router';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import { AwardModal } from './components/reusable/modal/AwardModal';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
+
+const queryClient = new QueryClient()
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -15,16 +19,18 @@ function App() {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      {/* theme={{ colorScheme: 'dark' }} */}
-      <MantineProvider theme={{ colorScheme }}>
-        <NotificationsProvider>
-          <ModalsProvider modals={{ award: AwardModal }}>
-          <Router />
-          </ModalsProvider>
-        </NotificationsProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider theme={{ colorScheme }}>
+          <NotificationsProvider>
+            <ModalsProvider modals={{ award: AwardModal }}>
+              <Router />
+            </ModalsProvider>
+          </NotificationsProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
