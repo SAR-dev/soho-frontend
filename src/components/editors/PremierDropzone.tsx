@@ -25,6 +25,11 @@ const useStyles = createStyles((theme) => ({
   icon: {
     marginRight: 3,
   },
+  dashed: {
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: theme.colorScheme === "dark" ? theme.colors.dark[3] : theme.colors.gray[3]
+  }
 }));
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
@@ -96,7 +101,7 @@ export function PremierDropzone() {
     <>
       {src ? (
         <>
-          <Paper p="sm" className={classes.imageWrapper}>
+          <Paper p="sm" className={cx(classes.imageWrapper, classes.dashed)}>
             <Image src={src} withPlaceholder height={IMG_H} fit="cover" radius="xs" />
           </Paper>
           <Center
