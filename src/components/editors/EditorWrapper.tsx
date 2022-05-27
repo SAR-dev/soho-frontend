@@ -30,10 +30,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const editors = [
-  { key: "discussion", name: 'Discussion', icon: <MdEmojiPeople /> },
-  { key: "poll", name: "Poll", icon: <FaPoll /> },
-  { key: "ama", name: "AMA", icon: <MdQuestionAnswer /> },
-  { key: "premier", name: "Premier", icon: <Video /> },
+  { key: "discussion", name: 'Discussion', icon: <MdEmojiPeople size={16} /> },
+  { key: "poll", name: "Poll", icon: <FaPoll size={16} /> },
+  { key: "ama", name: "AMA", icon: <MdQuestionAnswer size={16} /> },
+  { key: "premier", name: "Premier", icon: <Video size={16} /> },
   // { key: "drop", name: "Drop", icon: <BsDropletHalf /> },
 ]
 
