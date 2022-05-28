@@ -1,26 +1,50 @@
-import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
-import { useLocalStorage } from '@mantine/hooks';
-import Router from './Router';
-import { NotificationsProvider } from '@mantine/notifications';
-import { ModalsProvider } from '@mantine/modals';
-import { AwardModal } from './components/reusable/modal/AwardModal';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools'
+import {
+  MantineProvider,
+  ColorSchemeProvider,
+  ColorScheme,
+} from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import Router from "./Router";
+import { NotificationsProvider } from "@mantine/notifications";
+import { ModalsProvider } from "@mantine/modals";
+import { AwardModal } from "./components/reusable/modal/AwardModal";
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryFunctionContext,
+} from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import axios from "axios";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: async ({ queryKey: [url] }) => {
+        const { data } = await axios.get(
+          `https://soho-heroku.herokuapp.com/api/${url}`,
+          { headers: { Authorization: `JWT ${localStorage.getItem("token")}` } }
+        );
+        return data;
+      },
+    },
+  },
+});
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'mantine-color-scheme',
-    defaultValue: 'light',
+    key: "mantine-color-scheme",
+    defaultValue: "light",
   });
 
   const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
+      >
         <MantineProvider theme={{ colorScheme }}>
           <NotificationsProvider>
             <ModalsProvider modals={{ award: AwardModal }}>
@@ -34,4 +58,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

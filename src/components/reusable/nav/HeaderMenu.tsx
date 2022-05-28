@@ -9,6 +9,7 @@ import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
 import { useSearchParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
+import { useQuery } from "react-query";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -61,6 +62,48 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+const LoadingIcon = ({ size }: { size: number }) => (
+  <svg
+    id="L4"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    viewBox="0 0 100 100"
+    enableBackground="new 0 0 0 0"
+    xmlSpace="preserve"
+    height={`${size}px`}
+  >
+    <circle fill="#fff" stroke="none" cx={6} cy={50} r={6}>
+      <animate
+        attributeName="opacity"
+        dur="1s"
+        values="0;1;0"
+        repeatCount="indefinite"
+        begin={0.1}
+      />
+    </circle>
+    <circle fill="#fff" stroke="none" cx={26} cy={50} r={6}>
+      <animate
+        attributeName="opacity"
+        dur="1s"
+        values="0;1;0"
+        repeatCount="indefinite"
+        begin={0.2}
+      />
+    </circle>
+    <circle fill="#fff" stroke="none" cx={46} cy={50} r={6}>
+      <animate
+        attributeName="opacity"
+        dur="1s"
+        values="0;1;0"
+        repeatCount="indefinite"
+        begin={0.3}
+      />
+    </circle>
+  </svg>
+);
+
 function TwitterIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} fill="#00acee" viewBox="0 0 16 16">
@@ -99,6 +142,14 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
+interface DataParam {
+  id: number;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+  username: string
+}
+
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [drawer, setDrawer] = useState(false);
@@ -106,6 +157,10 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { classes } = useStyles();
   const { setToken, token } = useStore()
   const notifications = useNotifications();
+
+  const { status, data, error, isFetching } = useQuery<DataParam, Error>(`account/me/`, {
+    enabled: token !== null,
+  })
 
   const signinWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -147,48 +202,53 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
 
   return (
     <>
-    <Header height={NavHeight} className={classes.header}>
-      <div className={classes.inner}>
-        {searchParams.get('post') ? (
-          <Button color="gray" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => setSearchParams('')}>
-            Go Back
-          </Button>
-        ) : (
-          <Text className={classes.linkText}>FEED</Text>
-        )}
-        <Group spacing={10} className={classes.links}>
-          {token ? (
-            <>
-              <Button
-                leftIcon={<Avatar src="https://avatars.dicebear.com/api/micah/seed.svg" size="sm" radius="xl" />}
-                radius="md"
-                variant="light"
-                title="Navigate to Home"
-                className={classes.link}
-                style={{ paddingLeft: 10, paddingRight: 10 }}
-              >
-                Sayed Rafi
-              </Button>
-              <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
-                <Home2 size={18} />
-              </ActionIcon>
-              <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
-                <Notification size={18} />
-              </ActionIcon>
-              <ThemeSwitcher size={18} />
-              <UserMenu />
-            </>
+      <Header height={NavHeight} className={classes.header}>
+        <div className={classes.inner}>
+          {searchParams.get('post') ? (
+            <Button color="gray" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => setSearchParams('')}>
+              Go Back
+            </Button>
           ) : (
-            <>
-              <Button leftIcon={<GoogleIcon />} variant="default" color="gray" onClick={() => signinWithGoogle()}>Continue with Google</Button>
-              <Button leftIcon={<TwitterIcon />} variant="default" className={classes.apple} onClick={() => signinWithTwitter()}>Continue with Twitter</Button>
-            </>
-          )
-          }
-        </Group>
-      </div>
-    </Header>
-    <NotificationDrawer opened={drawer} setOpened={setDrawer} />
+            <Text className={classes.linkText}>FEED</Text>
+          )}
+          <Group spacing={10} className={classes.links}>
+            {token ? (
+              <>
+              {isFetching && (
+                <Button className={classes.link} loading />
+              )}
+              {data && (
+                <Button
+                  leftIcon={<Avatar src={data.avatar} size="sm" radius="xl" />}
+                  radius="md"
+                  variant="light"
+                  title="Navigate to own community"
+                  className={classes.link}
+                  style={{ paddingLeft: 10, paddingRight: 10 }}
+                >
+                  {`${data.first_name} ${data.last_name}`}
+                </Button>
+              )}
+                <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
+                  <Home2 size={18} />
+                </ActionIcon>
+                <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
+                  <Notification size={18} />
+                </ActionIcon>
+                <ThemeSwitcher size={18} />
+                <UserMenu />
+              </>
+            ) : (
+              <>
+                <Button leftIcon={<GoogleIcon />} variant="default" color="gray" onClick={() => signinWithGoogle()}>Continue with Google</Button>
+                <Button leftIcon={<TwitterIcon />} variant="default" className={classes.apple} onClick={() => signinWithTwitter()}>Continue with Twitter</Button>
+              </>
+            )
+            }
+          </Group>
+        </div>
+      </Header>
+      <NotificationDrawer opened={drawer} setOpened={setDrawer} />
     </>
   );
 }
