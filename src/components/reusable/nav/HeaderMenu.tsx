@@ -1,5 +1,5 @@
 import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button } from "@mantine/core";
-import React from "react";
+import React, { useState } from "react";
 import { Notification, Home2, ArrowLeft, X } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
@@ -8,6 +8,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
 import { useSearchParams } from 'react-router-dom';
+import { NotificationDrawer } from "./NotificationDrawer";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -100,6 +101,7 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [drawer, setDrawer] = useState(false);
 
   const { classes } = useStyles();
   const { setToken, token } = useStore()
@@ -144,6 +146,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   }
 
   return (
+    <>
     <Header height={NavHeight} className={classes.header}>
       <div className={classes.inner}>
         {searchParams.get('post') ? (
@@ -169,7 +172,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
               <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
                 <Home2 size={18} />
               </ActionIcon>
-              <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link}>
+              <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
                 <Notification size={18} />
               </ActionIcon>
               <ThemeSwitcher size={18} />
@@ -185,5 +188,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
         </Group>
       </div>
     </Header>
+    <NotificationDrawer opened={drawer} setOpened={setDrawer} />
+    </>
   );
 }
