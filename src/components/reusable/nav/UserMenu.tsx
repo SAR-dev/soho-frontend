@@ -1,15 +1,6 @@
-import {
-    createStyles,
-    Menu,
-    Text,
-    ActionIcon,
-    Avatar,
-    Divider,
-} from "@mantine/core";
+import { createStyles, Menu, Text, ActionIcon, Divider } from "@mantine/core";
 import { Settings, Search, Photo, MessageCircle, ArrowBarLeft, ArrowsLeftRight, DotsCircleHorizontal } from 'tabler-icons-react';
 import { getAuth, signOut } from "firebase/auth";
-import useStore from "../../../store";
-import { useNotifications } from '@mantine/notifications';
 
 const useStyles = createStyles((theme) => ({
     link: {
@@ -35,23 +26,10 @@ const useStyles = createStyles((theme) => ({
 
 export function UserMenu() {
     const { classes } = useStyles();
-    const { removeToken } = useStore();
-    const notifications = useNotifications();
 
     const signOutAndClearLocale = () => {
         const auth = getAuth();
-        signOut(auth).then(() => {
-            removeToken()
-        }).catch((error) => {
-            notifications.showNotification({
-                title: "Error Occured !",
-                message: "We couldn't sign you out from this device. Please try again later.",
-                color: 'red',
-                icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                </svg>
-            })
-        });
+        signOut(auth)
     }
 
     return (

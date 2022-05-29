@@ -1,9 +1,9 @@
 import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button } from "@mantine/core";
 import React, { useState } from "react";
-import { Notification, Home2, ArrowLeft, X } from 'tabler-icons-react';
+import { Notification, Home2, ArrowLeft, X, UserCircle } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
-import { signInWithPopup, GoogleAuthProvider, TwitterAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, TwitterAuthProvider, signOut, getAuth } from "firebase/auth";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
@@ -62,48 +62,6 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const LoadingIcon = ({ size }: { size: number }) => (
-  <svg
-    id="L4"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-    x="0px"
-    y="0px"
-    viewBox="0 0 100 100"
-    enableBackground="new 0 0 0 0"
-    xmlSpace="preserve"
-    height={`${size}px`}
-  >
-    <circle fill="#fff" stroke="none" cx={6} cy={50} r={6}>
-      <animate
-        attributeName="opacity"
-        dur="1s"
-        values="0;1;0"
-        repeatCount="indefinite"
-        begin={0.1}
-      />
-    </circle>
-    <circle fill="#fff" stroke="none" cx={26} cy={50} r={6}>
-      <animate
-        attributeName="opacity"
-        dur="1s"
-        values="0;1;0"
-        repeatCount="indefinite"
-        begin={0.2}
-      />
-    </circle>
-    <circle fill="#fff" stroke="none" cx={46} cy={50} r={6}>
-      <animate
-        attributeName="opacity"
-        dur="1s"
-        values="0;1;0"
-        repeatCount="indefinite"
-        begin={0.3}
-      />
-    </circle>
-  </svg>
-);
-
 function TwitterIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} fill="#00acee" viewBox="0 0 16 16">
@@ -160,6 +118,10 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
 
   const { status, data, error, isFetching } = useQuery<DataParam, Error>(`account/me/`, {
     enabled: token !== null,
+    onError: () => {
+      const auth = getAuth();
+      signOut(auth)
+    }
   })
 
   const signinWithGoogle = () => {
@@ -214,21 +176,20 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
           <Group spacing={10} className={classes.links}>
             {token ? (
               <>
-              {isFetching && (
-                <Button className={classes.link} loading />
-              )}
-              {data && (
-                <Button
-                  leftIcon={<Avatar src={data.avatar} size="sm" radius="xl" />}
-                  radius="md"
-                  variant="light"
-                  title="Navigate to own community"
-                  className={classes.link}
-                  style={{ paddingLeft: 10, paddingRight: 10 }}
-                >
-                  {`${data.first_name} ${data.last_name}`}
-                </Button>
-              )}
+                {data && (
+                  <Button
+                    leftIcon={<Avatar src={data.avatar} size={18} radius="xl">
+                      <UserCircle />
+                    </Avatar>}
+                    radius="md"
+                    variant="light"
+                    title="Navigate to own community"
+                    className={classes.link}
+                    style={{ paddingLeft: 10, paddingRight: 10 }}
+                  >
+                    {`${data.first_name} ${data.last_name}`}
+                  </Button>
+                )}
                 <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
                   <Home2 size={18} />
                 </ActionIcon>

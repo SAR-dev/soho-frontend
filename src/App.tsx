@@ -21,7 +21,7 @@ const queryClient = new QueryClient({
     queries: {
       queryFn: async ({ queryKey: [url] }) => {
         const { data } = await axios.get(
-          `https://soho-heroku.herokuapp.com/api/${url}`,
+          `${import.meta.env.VITE_API_URL}${url}`,
           { headers: { Authorization: `JWT ${localStorage.getItem("token")}` } }
         );
         return data;
