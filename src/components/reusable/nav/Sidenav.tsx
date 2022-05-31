@@ -16,7 +16,6 @@ import { Search, Plus, Microphone2, ListCheck, Video } from 'tabler-icons-react'
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
-import { BsDropletHalf } from "react-icons/bs";
 import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
 
 const useStyles = createStyles((theme) => ({
@@ -161,6 +160,7 @@ export function Sidenav() {
           rightSectionWidth={70}
           styles={{ rightSection: { pointerEvents: 'none' } }}
           mb="sm"
+          className='thick-border'
         />
 
         <UserButton
