@@ -1,12 +1,12 @@
 import { createStyles, Paper, SimpleGrid } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-import { EditorCreator } from "../editors/EditorCreator";
-import { EditorWrapper } from "../editors/EditorWrapper";
-import NavLayout from "../layouts/NavLayout";
-import { AmaPostCard } from "../reusable/post/AmaPostCard";
-import { DiscussionPostCard } from "../reusable/post/DiscussionPostCard";
-import { PollPostCard } from "../reusable/post/PollPostCard";
-import { PostDetails } from "../reusable/post/PostDetails";
+import { EditorCreator } from "../../editors/EditorCreator";
+import { EditorWrapper } from "../../editors/EditorWrapper";
+import NavLayout from "../../layouts/NavLayout";
+import { AmaPostCard } from "../../reusable/post/AmaPostCard";
+import { DiscussionPostCard } from "../../reusable/post/DiscussionPostCard";
+import { PollPostCard } from "../../reusable/post/PollPostCard";
+import { PostDetails } from "../../reusable/post/PostDetails";
 import { useSearchParams } from 'react-router-dom';
 
 const demoHtmlText = `

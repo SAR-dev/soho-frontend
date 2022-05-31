@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Home } from "./components/pages/Home";
+import { Home } from "./components/pages/c/Home";
 import { Error404 } from "./components/pages/Error404";
 import { auth } from "./config/firebase";
 import useStore from "./store";
@@ -46,7 +46,7 @@ function Router() {
         <BrowserRouter>
           <Routes>
             <Route path="*" element={<Error404 />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/c/:cName" element={<Home />} />
           </Routes>
         </BrowserRouter>
       {/* </Online> */}
