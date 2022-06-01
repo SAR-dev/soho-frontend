@@ -1,5 +1,4 @@
 import create from 'zustand';
-import { mountStoreDevtool } from 'simple-zustand-devtools';
 
 interface TokenState {
   token: string | null;
@@ -9,7 +8,7 @@ interface TokenState {
 
 const useStore = create<TokenState>((set) => ({
   token: null,
-  setToken: (token) =>
+  setToken: (token: string) =>
     set((state) => ({
       ...state,
       token
@@ -19,9 +18,5 @@ const useStore = create<TokenState>((set) => ({
       token: null
     })),
 }));
-
-if (import.meta.env.DEV) {
-  mountStoreDevtool('Store', useStore);
-}
 
 export default useStore;
