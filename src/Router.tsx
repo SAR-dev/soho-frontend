@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Home } from "./components/pages/c/Home";
+import { CHome } from "./components/pages/c/CHome";
 import { Error404 } from "./components/pages/Error404";
 import { auth } from "./config/firebase";
 import useStore from "./store";
@@ -11,6 +11,7 @@ import {
 } from "./helpers";
 import { Offline, Online } from "react-detect-offline";
 import { Error503 } from "./components/pages/Error503";
+import { Home } from "./components/pages/Home";
 
 const polling = {
   enabled: true,
@@ -46,7 +47,8 @@ function Router() {
         <BrowserRouter>
           <Routes>
             <Route path="*" element={<Error404 />} />
-            <Route path="/c/:cName" element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/c/:cName" element={<CHome />} />
           </Routes>
         </BrowserRouter>
       {/* </Online> */}

@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Home() {
+export function CHome() {
   const [searchParams] = useSearchParams();
 
   const { classes } = useStyles();
