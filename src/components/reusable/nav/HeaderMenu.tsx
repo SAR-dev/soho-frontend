@@ -1,4 +1,4 @@
-import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button } from "@mantine/core";
+import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button, Loader } from "@mantine/core";
 import React, { useState } from "react";
 import { Notification, Home2, ArrowLeft, X, UserCircle } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
@@ -7,7 +7,7 @@ import { signInWithPopup, GoogleAuthProvider, TwitterAuthProvider, signOut, getA
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
 import { useQuery } from "react-query";
 
@@ -116,7 +116,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { setToken, token } = useStore()
   const notifications = useNotifications();
 
-  const { status, data, error, isFetching } = useQuery<DataParam, Error>(`account/me/`, {
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(`account/me/`, {
     enabled: token !== null,
     onError: () => {
       const auth = getAuth();
@@ -176,6 +176,19 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
           <Group spacing={10} className={classes.links}>
             {token ? (
               <>
+                {isLoading && (
+                  <Button
+                    leftIcon={<Avatar size={18} radius="xl">
+                      <UserCircle />
+                    </Avatar>}
+                    radius="md"
+                    variant="light"
+                    title="Navigate to own community"
+                    className={classes.link}
+                  >
+                    <Loader color="gray" variant="dots" />
+                  </Button>
+                )}
                 {data && (
                   <Button
                     leftIcon={<Avatar src={data.avatar} size={18} radius="xl">
@@ -186,6 +199,8 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                     title="Navigate to own community"
                     className={classes.link}
                     style={{ paddingLeft: 10, paddingRight: 10 }}
+                    component={Link}
+                    to={`/c/${data.username}`}
                   >
                     {`${data.first_name} ${data.last_name}`}
                   </Button>

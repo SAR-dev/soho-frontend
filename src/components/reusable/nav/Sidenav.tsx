@@ -17,6 +17,8 @@ import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
 import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -131,10 +133,41 @@ const links = [
   { icon: ListCheck, label: 'Rules' },
 ];
 
+interface DataParam {
+  id: number;
+  title: null;
+  about: null;
+  members_name: string;
+  color: string;
+  status: string;
+  subscribers_count: number;
+  subscribed: boolean;
+  post_count: number;
+  author: Author;
+  common_member: Author;
+  is_admin: boolean;
+  is_moderator: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface Author {
+  id?: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  avatar: string;
+}
+
+
 export function Sidenav() {
+  const { cName } = useParams<"cName">();
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Discussion');
   const [opened, setOpened] = useState(false);
+
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([`group/${cName}/`, cName])
 
   const mainLinks = links.map((link, i) => (
     <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={() => setActive(link.label)} key={i}>
@@ -163,11 +196,7 @@ export function Sidenav() {
           className='thick-border'
         />
 
-        <UserButton
-          image="https://avatars.dicebear.com/api/micah/:seed.svg"
-          name="Bob Rulebreaker"
-          email="Product owner"
-        />
+        <UserButton data={data} isLoading={isLoading} />
 
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
           <div className={classes.mainLinks}>{mainLinks}</div>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Group, Avatar, Text, createStyles } from '@mantine/core';
-import { Plus, Users } from 'tabler-icons-react';
+import { Group, Avatar, Text, createStyles, Skeleton, Stack } from '@mantine/core';
+import { Plus, UserCircle, Users } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -51,31 +51,70 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-export function UserButton({ image, name, email, icon, ...others }:{image: string, name: string, email: string, icon?: React.ReactNode}) {
+interface Props {
+  id: number;
+  title: null;
+  about: null;
+  members_name: string;
+  color: string;
+  status: string;
+  subscribers_count: number;
+  subscribed: boolean;
+  post_count: number;
+  author: Author;
+  common_member: Author;
+  is_admin: boolean;
+  is_moderator: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface Author {
+  id?: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  avatar: string;
+}
+
+export function UserButton({ data, isLoading }: { data?: Props, isLoading: boolean }) {
   const { classes } = useStyles();
 
   return (
     <div className={classes.user}>
       <Group>
-        <Avatar src={image} size="lg" radius="xl" className={classes.avatar} />
+        <Avatar src={data?.author?.avatar} size="lg" radius="xl" className={classes.avatar}>
+          <UserCircle size="lg" />
+        </Avatar>
 
         <div style={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {name}
-          </Text>
-
-          <Text color="dimmed" size="xs">
-            Rafi also joined here
-          </Text>
-          <Group spacing="xs" className={classes.members}>
-            <div className={classes.membersCount}>
-              <Users size={14} />
-              <Text size="xs" color="gray" ml={5}>10 Members</Text>
-            </div>
-            <div className={classes.action}>
-              <Plus size={14} />
-            </div>
-          </Group>
+          {isLoading && (<>
+            <Stack spacing="xs">
+              <Skeleton height={12} radius="xs" />
+              <Skeleton height={12} radius="xs" />
+              <Skeleton height={12} radius="xs" />
+            </Stack>
+          </>)}
+          {data && (
+            <>
+              <Text size="sm" weight={500}>
+                {`${data?.author?.first_name} ${data?.author?.last_name}`}
+              </Text>
+              <Text color="dimmed" size="xs">
+                {`${data?.common_member?.first_name} ${data?.common_member?.last_name}`} also joined here
+              </Text>
+              <Group spacing="xs" className={classes.members}>
+                <div className={classes.membersCount}>
+                  <Users size={14} />
+                  <Text size="xs" color="gray" ml={5}>{data?.subscribers_count} Members</Text>
+                </div>
+                <div className={classes.action}>
+                  <Plus size={14} />
+                </div>
+              </Group>
+            </>
+          )}
         </div>
       </Group>
     </div>
