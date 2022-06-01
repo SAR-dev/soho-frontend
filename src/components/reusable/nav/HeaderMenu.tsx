@@ -178,7 +178,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
               <>
                 {isLoading && (
                   <Button
-                    leftIcon={<Avatar size={18} radius="xl">
+                    leftIcon={<Avatar size={22} radius="xl">
                       <UserCircle />
                     </Avatar>}
                     radius="md"
@@ -191,7 +191,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                 )}
                 {data && (
                   <Button
-                    leftIcon={<Avatar src={data.avatar} size={18} radius="xl">
+                    leftIcon={<Avatar src={data.avatar} size={22} radius="xl">
                       <UserCircle />
                     </Avatar>}
                     radius="md"
