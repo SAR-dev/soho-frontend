@@ -1,5 +1,5 @@
 import { createStyles, Navbar } from '@mantine/core';
-import Sidenav from './Sidenav';
+import {Sidenav} from './Sidenav';
 import UserLists from './UserLists';
 
 const useStyles = createStyles((theme) => ({

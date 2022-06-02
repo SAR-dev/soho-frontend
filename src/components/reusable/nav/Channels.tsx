@@ -1,4 +1,8 @@
 import { createStyles } from '@mantine/core';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+import sortArray from 'sort-array';
 import {
     Notes,
     CalendarStats,
@@ -75,11 +79,45 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
+
+interface DataParam {
+    count: number;
+    next: null;
+    previous: null;
+    results: Result[];
+}
+
+interface Result {
+    id: number;
+    color: string;
+    name: string;
+    slug: string;
+    about: null;
+    sub_categories: SubCategory[];
+}
+
+interface SubCategory {
+    id: number;
+    name: string;
+    slug: string;
+}
+
 export function Channels() {
+    const { cName } = useParams<"cName">();
     const { classes } = useStyles();
-    const links = mockdata.map((item, i) => <LinksGroup {...item} key={i} />);
+    const [channels, setChannels] = useState<Result[]>()
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([
+        `group/${cName}/categories/`,
+        `${cName}-categories`,
+    ], {
+        onSuccess: data => {
+            setChannels([...data.results])
+        }
+    })
 
     return (
-        <div className={classes.linksInner}>{links}</div>
+        <div className={classes.linksInner}>
+            {channels && sortArray(channels, { by: "name" }).map((item, i) => <LinksGroup {...item} key={i} />)}
+        </div>
     );
 }

@@ -2,13 +2,23 @@ import { useRef, useState, useEffect } from "react";
 import { createStyles, Group, Switch, Button, Select } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { Eye, Hash, Send } from "tabler-icons-react";
+import { Check, Eye, Hash, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
     width: 150,
+  },
+  footerButton: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[5]
+        : theme.colors.gray[2],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[2]
+        : theme.colors.gray[5],
   },
 }));
 
@@ -19,7 +29,7 @@ interface Props {
 export function DiscussionPostTab({ toogle }: Props) {
   const { classes, cx } = useStyles();
   const [category, setCategory] = useState<any | null>(null);
-  const [visibility, setVisibility] = useState<any | null>(null);
+  const [sub_category, set_sub_category] = useState<any | null>(null);
   const [checked, setChecked] = useState(false);
   const editorRef = useRef<Editor>(null);
 
@@ -40,7 +50,7 @@ export function DiscussionPostTab({ toogle }: Props) {
       <Group>
         <EmojiPopover insertText={insertText} />
         <Select
-          placeholder="Pick a Category"
+          placeholder="Channel"
           data={[
             { value: "1", label: "React" },
             { value: "2", label: "Angular" },
@@ -56,7 +66,7 @@ export function DiscussionPostTab({ toogle }: Props) {
           className={classes.dropdown}
         />
         <Select
-          placeholder="Visibility"
+          placeholder="Sub-Channel"
           data={[
             { value: "1", label: "Public" },
             { value: "2", label: "Closed" },
@@ -65,16 +75,20 @@ export function DiscussionPostTab({ toogle }: Props) {
           icon={<Eye size={16} />}
           searchable
           nothingFound="No options"
-          value={visibility}
-          onChange={(e) => setVisibility(e)}
+          value={sub_category}
+          onChange={(e) => set_sub_category(e)}
           size="xs"
           className={classes.dropdown}
         />
-        <Switch
-          label="Announcement"
-          checked={checked}
-          onChange={(event) => setChecked(event.currentTarget.checked)}
-        />
+        <Button
+          size="xs"
+          className={cx({ [classes.footerButton]: !checked })}
+          color="gray"
+          leftIcon={checked && <Check size={16} />}
+          onClick={() => setChecked((checked) => !checked)}
+        >
+          Announcement
+        </Button>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>

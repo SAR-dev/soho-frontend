@@ -12,6 +12,7 @@ import {
 import { Offline, Online } from "react-detect-offline";
 import { Error503 } from "./components/pages/Error503";
 import { Home } from "./components/pages/Home";
+import { SHome } from "./components/pages/c/s/SHome";
 
 const polling = {
   enabled: true,
@@ -49,6 +50,7 @@ function Router() {
             <Route path="*" element={<Error404 />} />
             <Route path="/" element={<Home />} />
             <Route path="/c/:cName" element={<CHome />} />
+            <Route path="/c/:cName/s/:sName" element={<SHome />} />
           </Routes>
         </BrowserRouter>
       {/* </Online> */}

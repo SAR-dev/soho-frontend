@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core';
-import { Icon as TablerIcon, CalendarStats, ChevronLeft, ChevronRight, Hash } from 'tabler-icons-react';
+import { ChevronRight, Hash } from 'tabler-icons-react';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -42,27 +43,34 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface Props {
-  icon: TablerIcon;
-  label: string;
-  initiallyOpened?: boolean;
-  links?: { label: string; link: string }[];
+export interface Props {
+  id: number;
+  color: string;
+  name: string;
+  slug: string;
+  about: null;
+  sub_categories: SubCategory[];
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: Props) {
+export interface SubCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export function LinksGroup({ id, color, name, slug, about, sub_categories }: Props) {
   const { classes, theme } = useStyles();
-  const hasLinks = Array.isArray(links);
-  const [opened, setOpened] = useState(initiallyOpened || false);
-  const ChevronIcon = theme.dir === 'ltr' ? ChevronRight : ChevronLeft;
-  const items = (hasLinks ? links : []).map((link, i) => (
-    <Text<'a'>
-      component="a"
+  const hasLinks = sub_categories.length !== 0;
+  const [opened, setOpened] = useState(false);
+  const items = (hasLinks ? sub_categories : []).map((link, i) => (
+    <Text
+      component={Link}
       className={classes.link}
-      href={link.link}
+      to={""}
       key={i}
-      onClick={(event) => event.preventDefault()}
+    // onClick={(event) => event.preventDefault()}
     >
-      {link.label}
+      {link.name}
     </Text>
   ));
 
@@ -74,10 +82,10 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: Props)
             <ThemeIcon variant="light">
               <Hash size={18} />
             </ThemeIcon>
-            <Box ml="md">{label}</Box>
+            <Box ml="md">{name}</Box>
           </Box>
           {hasLinks && (
-            <ChevronIcon
+            <ChevronRight
               className={classes.chevron}
               size={14}
               style={{
@@ -87,7 +95,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: Props)
           )}
         </Group>
       </UnstyledButton>
-      {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
+      {hasLinks && <Collapse in={opened}>{items}</Collapse>}
     </>
   );
 }

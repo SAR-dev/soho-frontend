@@ -116,7 +116,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { setToken, token } = useStore()
   const notifications = useNotifications();
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(`account/me/`, {
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([`account/me/`, token], {
     enabled: token !== null,
     onError: () => {
       const auth = getAuth();

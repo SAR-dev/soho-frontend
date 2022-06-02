@@ -19,6 +19,7 @@ import { ChannelCreateForm } from './ChannelCreateForm';
 import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { Categories } from './Categories';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -199,7 +200,9 @@ export function Sidenav() {
         <UserButton data={data} isLoading={isLoading} />
 
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
-          <div className={classes.mainLinks}>{mainLinks}</div>
+          <div className={classes.mainLinks}>
+            <Categories />
+          </div>
 
           <Group className={classes.collectionsHeader} position="apart">
             <Text size="xs" weight={500} color="dimmed">
@@ -237,5 +240,3 @@ export function Sidenav() {
     </>
   );
 }
-
-export default Sidenav
