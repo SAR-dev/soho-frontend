@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core';
 import { ChevronRight, Hash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
+import { lighten } from 'color2k';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -79,8 +80,8 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories }: Pro
       <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
         <Group position="apart" spacing={0} style={{ width: "100%" }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeIcon variant="light">
-              <Hash size={18} color={color} />
+            <ThemeIcon style={{backgroundColor: color}}>
+              <Hash size={18} color={lighten(color, -.25)} />
             </ThemeIcon>
             <Box ml="md">{name}</Box>
           </Box>
