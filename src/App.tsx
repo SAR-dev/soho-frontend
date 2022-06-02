@@ -15,20 +15,9 @@ import {
 } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
+import { getTokenFromLocal } from "./helpers";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      queryFn: async ({ queryKey: [url] }) => {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}${url}`,
-          { headers: { Authorization: `JWT ${localStorage.getItem("token")}` } }
-        );
-        return data;
-      },
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({

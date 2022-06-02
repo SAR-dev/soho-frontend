@@ -12,6 +12,7 @@ import {
     Adjustments,
     Lock,
 } from 'tabler-icons-react';
+import { getChannels } from '../../../helpers';
 import { LinksGroup } from './LinksGroup';
 
 const mockdata = [
@@ -106,10 +107,7 @@ export function Channels() {
     const { cName } = useParams<"cName">();
     const { classes } = useStyles();
     const [channels, setChannels] = useState<Result[]>()
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([
-        `group/${cName}/categories/`,
-        `${cName}-categories`,
-    ], {
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', cName], () => getChannels(cName),  {
         onSuccess: data => {
             setChannels([...data.results])
         }

@@ -16,7 +16,6 @@ export function Home() {
     const [hasToken, setHasToken] = useState(false)
     const navigate = useNavigate();
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(`account/me/`, {
-        enabled: hasToken,
         onSuccess: (data) => {
             navigate(`/c/${data.username}/`);
         },

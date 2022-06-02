@@ -1,24 +1,7 @@
 import { useState } from 'react';
-import {
-    createStyles,
-    Navbar,
-    TextInput,
-    UnstyledButton,
-    Badge,
-    Text,
-    Group,
-    ActionIcon,
-    Tooltip,
-    ScrollArea,
-    Modal,
-} from '@mantine/core';
-import { Search, Plus, Microphone2, ListCheck, Video } from 'tabler-icons-react';
-import { UserButton } from './UserButton';
-import { Channels } from './Channels';
-import { ChannelCreateForm } from './ChannelCreateForm';
-import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
-import { useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { createStyles, UnstyledButton, Badge } from '@mantine/core';
+import { Microphone2, ListCheck, Video } from 'tabler-icons-react';
+import { MdEmojiPeople, MdQuestionAnswer } from 'react-icons/md';
 
 const useStyles = createStyles((theme) => ({
     mainLink: {

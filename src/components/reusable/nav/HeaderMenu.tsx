@@ -10,6 +10,7 @@ import useStore from "../../../store";
 import { Link, useSearchParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
 import { useQuery } from "react-query";
+import { getLoggedInUser } from "../../../helpers";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -116,7 +117,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { setToken, token } = useStore()
   const notifications = useNotifications();
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([`account/me/`, token], {
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([token], getLoggedInUser, {
     enabled: token !== null,
     onError: () => {
       const auth = getAuth();

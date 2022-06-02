@@ -1,8 +1,9 @@
 import axios from "axios";
+import { createChannelInterface } from "./interfaces";
 
-export const setTokenToLocal = (token: string) => {
-  localStorage.setItem("token", token);
-};
+interface Header {
+  [key: string]: string;
+}
 
 export const getTokenFromLocal = () => {
   return localStorage.getItem("token");
@@ -10,6 +11,60 @@ export const getTokenFromLocal = () => {
 
 export const removeTokenFromLocal = () => {
   localStorage.removeItem("token");
+};
+
+const defaultConfig = () => {
+  const token = getTokenFromLocal()
+  if (token) {
+    const authConfig = {
+      baseURL: import.meta.env.VITE_API_URL,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${token}`
+      }
+    }
+    return authConfig
+  } else {
+    const unAuthConfig = {
+      baseURL: import.meta.env.VITE_API_URL,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    return unAuthConfig
+  }
+}
+
+// AUTH
+export async function getLoggedInUser() {
+  const { data } = await axios.get(`account/me/`, defaultConfig())
+  return data
+}
+
+// COMMUNITY
+export async function getCommunity(username?: string) {
+  const { data } = await axios.get(`group/${username}/`, defaultConfig())
+  return data
+}
+
+// Channel
+export async function getChannels(username?: string) {
+  const { data } = await axios.get(`group/${username}/categories/`, defaultConfig())
+  return data
+}
+
+export function createChannel ({ username, data }: { username: string, data: createChannelInterface }) : Promise<any>  {
+  return axios.post(`group/${username}/categories/create/`, data, defaultConfig())
+  .then((res) => {
+    return {data: res.data}
+  })
+  .catch((err) => {
+    return {error: err}
+  })
+};
+
+export const setTokenToLocal = (token: string) => {
+  localStorage.setItem("token", token);
 };
 
 export async function asyncForEach<T>(

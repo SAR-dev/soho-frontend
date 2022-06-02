@@ -20,6 +20,7 @@ import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Categories } from './Categories';
+import { getCommunity } from '../../../helpers';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -168,7 +169,7 @@ export function Sidenav() {
   const [active, setActive] = useState('Discussion');
   const [opened, setOpened] = useState(false);
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([`group/${cName}/`, cName])
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', cName], () => getCommunity(cName))
 
   const mainLinks = links.map((link, i) => (
     <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={() => setActive(link.label)} key={i}>
