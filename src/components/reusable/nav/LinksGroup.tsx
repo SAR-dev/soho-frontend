@@ -80,7 +80,7 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories }: Pro
         <Group position="apart" spacing={0} style={{ width: "100%" }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon variant="light">
-              <Hash size={18} />
+              <Hash size={18} color={color} />
             </ThemeIcon>
             <Box ml="md">{name}</Box>
           </Box>
