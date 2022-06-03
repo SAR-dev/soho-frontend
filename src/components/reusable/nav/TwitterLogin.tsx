@@ -23,7 +23,7 @@ function TwitterIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-export function TwitterLogin({setToken}:{setToken: any}) {
+export function TwitterLogin({setToken}:{setToken: (token:string) => void}) {
   const notifications = useNotifications();
   const { classes } = useStyles();
 

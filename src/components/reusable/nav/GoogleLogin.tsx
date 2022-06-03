@@ -35,7 +35,7 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
     );
 }
 
-export function GoogleLogin({setToken}:{setToken: any}) {
+export function GoogleLogin({setToken}:{setToken: (token:string) => void}) {
     const notifications = useNotifications();
 
     const signinWithGoogle = () => {
