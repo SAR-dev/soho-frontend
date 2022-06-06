@@ -8,7 +8,7 @@ const useStyles = createStyles((theme) => ({
   control: {
     display: 'flex',
     alignItems: 'center',
-    width: '100%',
+    // width: '100%',
     fontSize: theme.fontSizes.xs,
     padding: `8px ${theme.spacing.xs}px`,
     borderRadius: theme.radius.sm,
@@ -26,8 +26,8 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     textDecoration: 'none',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    paddingLeft: 31,
-    marginLeft: 30,
+    paddingLeft: 25,
+    marginLeft: 25,
     fontSize: theme.fontSizes.xs,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     borderLeft: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
@@ -51,6 +51,7 @@ export interface Props {
   slug: string;
   about: null;
   sub_categories: SubCategory[];
+  author?: string;
 }
 
 export interface SubCategory {
@@ -59,10 +60,10 @@ export interface SubCategory {
   slug: string;
 }
 
-export function LinksGroup({ id, color, name, slug, about, sub_categories }: Props) {
+export function LinksGroup({ id, color, name, slug, about, sub_categories, author }: Props) {
   const { classes, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
-  const [opened, setOpened] = useState(false);
+  const [opened, setOpened] = useState(true);
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
     <Text
       component={Link}
@@ -77,7 +78,7 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories }: Pro
 
   return (
     <>
-      <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+      <UnstyledButton component={Link} to={`/c/${author}/ch/${slug}`} className={classes.control}>
         <Group position="apart" spacing={0} style={{ width: "100%" }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon style={{backgroundColor: color}}>

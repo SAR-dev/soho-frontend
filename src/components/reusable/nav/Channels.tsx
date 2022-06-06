@@ -104,10 +104,10 @@ interface SubCategory {
 }
 
 export function Channels() {
-    const { cName } = useParams<"cName">();
+    const { author } = useParams<"author">();
     const { classes } = useStyles();
     const [channels, setChannels] = useState<Result[]>()
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', cName], () => getChannels(cName),  {
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author),  {
         onSuccess: data => {
             setChannels([...data.results])
         }
@@ -115,7 +115,7 @@ export function Channels() {
 
     return (
         <div className={classes.linksInner}>
-            {channels && sortArray(channels, { by: "name" }).map((item, i) => <LinksGroup {...item} key={i} />)}
+            {channels && sortArray(channels, { by: "name" }).map((item, i) => <LinksGroup {...item} author={author} key={i} />)}
         </div>
     );
 }

@@ -49,8 +49,9 @@ function Router() {
           <Routes>
             <Route path="*" element={<Error404 />} />
             <Route path="/" element={<Home />} />
-            <Route path="/c/:cName" element={<CHome />} />
-            <Route path="/c/:cName/s/:sName" element={<SHome />} />
+            <Route path="/c/:author" element={<CHome />} />
+            <Route path="/c/:author/ch/:cName" element={<CHome />} />
+            <Route path="/c/:author/sch/:sName" element={<SHome />} />
           </Routes>
         </BrowserRouter>
       {/* </Online> */}

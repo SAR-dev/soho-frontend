@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createChannelInterface } from "./interfaces";
+import { createChannelInterface, createSubChannelInterface } from "./interfaces";
 
 interface Header {
   [key: string]: string;
@@ -55,6 +55,16 @@ export async function getChannels(username?: string) {
 
 export function createChannel ({ username, data }: { username: string, data: createChannelInterface }) : Promise<any>  {
   return axios.post(`group/${username}/categories/create/`, data, defaultConfig())
+  .then((res) => {
+    return {data: res.data}
+  })
+  .catch((err) => {
+    return {error: err}
+  })
+};
+
+export function createSubChannel ({ username, category, data }: { username: string, category: string, data: createSubChannelInterface }) : Promise<any>  {
+  return axios.post(`group/${username}/categories/${category}/subcategory/create/`, data, defaultConfig())
   .then((res) => {
     return {data: res.data}
   })

@@ -10,27 +10,64 @@ import {
     Text,
 } from "@mantine/core";
 import { Tag, GitBranch, X } from "tabler-icons-react";
-import { createChannel } from "../../../helpers";
+import { createChannel, createSubChannel, getChannels } from "../../../helpers";
 import { useParams } from "react-router-dom";
-import { useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 
+interface DataParam {
+    count: number;
+    next: null;
+    previous: null;
+    results: Result[];
+}
+
+interface Result {
+    id: number;
+    color: string;
+    name: string;
+    slug: string;
+    about: null;
+    sub_categories: SubCategory[];
+}
+
+interface SubCategory {
+    id: number;
+    name: string;
+    slug: string;
+}
+
+interface SelectModel {
+    label: string;
+    value: string;
+}
+
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
+    const { author } = useParams<"author">();
+    const [parentChannels, setParentChannels] = useState<SelectModel[]>([])
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
+        onSuccess: data => {
+            const res = data.results.map(el => {
+                return { label: el.name, value: el.slug }
+            })
+            setParentChannels([...res])
+        }
+    })
+
     const queryClient = useQueryClient();
     const notifications = useNotifications();
 
-    const { cName } = useParams<"cName">();
 
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState("channel");
     const [channelName, setChannelName] = useState("");
     const [color, setColor] = useState("#4DABF7");
 
-    const [parentChannel, setParentChannel] = useState("");
+    const [parentChannel, setParentChannel] = useState<any | null>("");
     const [subChannelName, setSubChannelName] = useState("");
 
     const submit = () => {
-        const username = cName || "";
+        const username = author || "";
         if (value === "channel") {
             setLoading(true);
             const data = {
@@ -48,7 +85,7 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                     setLoading(false);
                 } else {
                     setLoading(false);
-                    queryClient.invalidateQueries(["channels", cName]);
+                    queryClient.invalidateQueries(["channels", author]);
                     setOpened(false);
                 }
             });
@@ -58,6 +95,21 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
             const data = {
                 name: subChannelName,
             };
+            createSubChannel({ username, category: parentChannel, data }).then((res) => {
+                if (res.error) {
+                    notifications.showNotification({
+                        title: `Error ${res.error.response.status}`,
+                        message: res.error.response.data.detail,
+                        color: "red",
+                        icon: <X size={18} />,
+                    });
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                    queryClient.invalidateQueries(["channels", author]);
+                    setOpened(false);
+                }
+            });
         }
     };
     return (
@@ -113,12 +165,10 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                     <Select
                         icon={<Tag size={16} />}
                         placeholder="Select parent Channel"
-                        data={[
-                            { value: "react", label: "React" },
-                            { value: "ng", label: "Angular" },
-                            { value: "svelte", label: "Svelte" },
-                            { value: "vue", label: "Vue" },
-                        ]}
+                        searchable
+                        data={parentChannels}
+                        value={parentChannel}
+                        onChange={e => setParentChannel(e)}
                         mt="md"
                     />
                     <Input
