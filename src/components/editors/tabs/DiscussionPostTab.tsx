@@ -93,10 +93,12 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
     const data = {
       content: text,
       images: images,
-      category: '',
-      sub_category: '',
+      category: category,
+      sub_category: sub_category,
       post_type: 'post'
     }
+    console.log(data)
+    setLoading(false)
   }
 
   const getChannelsList = () => {
@@ -131,6 +133,7 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
           onChange={(e) => setCategory(e)}
           size="xs"
           className={classes.dropdown}
+          disabled={isLoading}
         />
         <Select
           placeholder="Sub-Channel"
@@ -141,6 +144,7 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
           onChange={(e) => set_sub_category(e)}
           size="xs"
           className={classes.dropdown}
+          disabled={isLoading}
         />
         <Button
           size="xs"
