@@ -47,9 +47,10 @@ const initialValue = "";
 
 interface Props {
   toogle: () => void;
+  setLoading: (params: boolean) => void;
 }
 
-export function AmaPostTab({ toogle }: Props) {
+export function AmaPostTab({ toogle, setLoading }: Props) {
   const [text, setText] = useState(initialValue);
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);

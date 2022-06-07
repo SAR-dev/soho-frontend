@@ -55,9 +55,10 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   toogle: () => void;
+  setLoading: (params: boolean) => void;
 }
 
-export function PollPostTab({ toogle }: Props) {
+export function PollPostTab({ toogle, setLoading }: Props) {
   const { classes, cx } = useStyles();
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState<any | null>(null);

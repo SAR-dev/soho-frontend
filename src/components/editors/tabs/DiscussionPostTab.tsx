@@ -24,15 +24,17 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   toogle: () => void;
+  setLoading: (params: boolean) => void;
 }
 
-export function DiscussionPostTab({ toogle }: Props) {
+export function DiscussionPostTab({ toogle, setLoading }: Props) {
   const { classes, cx } = useStyles();
   const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
   const [sub_category, set_sub_category] = useState<any | null>(null);
   const [checked, setChecked] = useState(false);
   const editorRef = useRef<Editor>(null);
+  const [images, setImages] = useState<Array<number>>([])
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -45,10 +47,15 @@ export function DiscussionPostTab({ toogle }: Props) {
     quillRef?.insertText(position, text);
   };
 
+  const addImage = (id: number) => {
+    setImages(images => [...images, id])
+  }
+
   const submit = () => {
+    setLoading(true)
     const data = {
       content: text,
-      images: [],
+      images: images,
       category: '',
       sub_category: '',
       post_type: 'post'
@@ -103,11 +110,11 @@ export function DiscussionPostTab({ toogle }: Props) {
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>
-        <Button size="xs" leftIcon={<Send size={16} />}>
+        <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>
           Submit
         </Button>
       </Group>
-      <ImageDropzone disabled={false} />
+      <ImageDropzone disabled={false} images={images} addImage={addImage} />
     </>
   );
 }

@@ -33,9 +33,10 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   toogle: () => void;
+  setLoading: (params: boolean) => void;
 }
 
-export function PremierPostTab({ toogle }: Props) {
+export function PremierPostTab({ toogle, setLoading }: Props) {
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
   const editorRef = useRef<Editor>(null);

@@ -38,7 +38,13 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function ImageDropzone({ disabled }: { disabled: boolean }) {
+interface Props {
+  disabled: boolean;
+  images: Array<number>;
+  addImage: (id: number) => void;
+}
+
+export function ImageDropzone({ disabled, images, addImage }: Props) {
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -57,7 +63,7 @@ export function ImageDropzone({ disabled }: { disabled: boolean }) {
     <>
       <Group spacing="sm" className={classes.footer}>
         {sources.length !== 0 &&
-          sources.map((img, i) => <ImageLoader img={img} key={i} />)}
+          sources.map((img, i) => <ImageLoader images={images} addImage={addImage} img={img} key={i} />)}
         {sources.length !== 0 && (
           <ActionIcon
             size={IMG_H}
