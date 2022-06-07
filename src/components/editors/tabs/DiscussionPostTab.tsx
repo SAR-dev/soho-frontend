@@ -1,10 +1,13 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Switch, Button, Select } from "@mantine/core";
+import { createStyles, Group, Button, Select } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
 import { Check, Eye, Hash, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getChannels } from "../../../helpers";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -27,7 +30,41 @@ interface Props {
   setLoading: (params: boolean) => void;
 }
 
+interface DataParam {
+  count: number;
+  next: null;
+  previous: null;
+  results: Result[];
+}
+
+interface Result {
+  id: number;
+  color: string;
+  name: string;
+  slug: string;
+  about: null;
+  sub_categories: SubCategory[];
+}
+
+interface SubCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+interface SelectModel {
+  label: string;
+  value: string;
+}
+
 export function DiscussionPostTab({ toogle, setLoading }: Props) {
+  const { author } = useParams<"author">();
+  const [channels, setChannels] = useState<Result[]>([])
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
+    onSuccess: data => {
+      setChannels([...data.results])
+    }
+  })
   const { classes, cx } = useStyles();
   const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
@@ -62,6 +99,24 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
     }
   }
 
+  const getChannelsList = () => {
+    return channels.map(el => {
+      return { label: el.name, value: String(el.id) }
+    })
+  }
+
+  function getSubChannelsList(): SelectModel[] {
+    if (category) {
+      const ch = channels.find(el => String(el.id) === category)
+      if (ch) {
+        return ch.sub_categories.map(el => {
+          return { label: el.name, value: String(el.id) }
+        })
+      } else return []
+
+    } else return []
+  }
+
   return (
     <>
       <TextEditor editorRef={editorRef} text={text} setText={setText} />
@@ -69,14 +124,8 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
         <EmojiPopover insertText={insertText} />
         <Select
           placeholder="Channel"
-          data={[
-            { value: "1", label: "React" },
-            { value: "2", label: "Angular" },
-            { value: "3", label: "Svelte" },
-            { value: "4", label: "Vue" },
-          ]}
+          data={getChannelsList()}
           icon={<Hash size={16} />}
-          searchable
           nothingFound="No options"
           value={category}
           onChange={(e) => setCategory(e)}
@@ -85,13 +134,8 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
         />
         <Select
           placeholder="Sub-Channel"
-          data={[
-            { value: "1", label: "Public" },
-            { value: "2", label: "Closed" },
-            { value: "3", label: "Private" },
-          ]}
+          data={getSubChannelsList()}
           icon={<Eye size={16} />}
-          searchable
           nothingFound="No options"
           value={sub_category}
           onChange={(e) => set_sub_category(e)}

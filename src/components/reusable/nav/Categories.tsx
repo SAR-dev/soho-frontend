@@ -61,7 +61,6 @@ export function Categories() {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Discussion');
 
-
     return (
         <>
             {links.map((link, i) => (
