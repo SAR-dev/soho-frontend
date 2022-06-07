@@ -99,7 +99,7 @@ export function EditorCreator({ toogle }: Props) {
 
   return (
     <>
-      <Paper radius={0} onClick={() => data?.subscribed ? toogle() : ''}>
+      <Paper radius={0} onClick={() => data?.subscribed && !isLoading ? toogle() : ''}>
         <Paper className={classes.container}>
           <div className={classes.flex}>
             <Indicator
@@ -138,7 +138,7 @@ export function EditorCreator({ toogle }: Props) {
           </div>
         </Paper>
       </Paper>
-      {!data?.subscribed && (
+      {!isLoading && !data?.subscribed && (
         <Alert icon={<AlertCircle size={16} />} color="gray">
           You need to subscribe to create a post in this group! To subscribe click the "+" button on the left side.
         </Alert>

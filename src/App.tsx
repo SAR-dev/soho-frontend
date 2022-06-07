@@ -8,14 +8,8 @@ import Router from "./Router";
 import { NotificationsProvider } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import { AwardModal } from "./components/reusable/modal/AwardModal";
-import {
-  QueryClient,
-  QueryClientProvider,
-  QueryFunctionContext,
-} from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import axios from "axios";
-import { getTokenFromLocal } from "./helpers";
 
 const queryClient = new QueryClient();
 
