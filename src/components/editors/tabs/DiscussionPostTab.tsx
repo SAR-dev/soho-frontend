@@ -28,6 +28,7 @@ interface Props {
 
 export function DiscussionPostTab({ toogle }: Props) {
   const { classes, cx } = useStyles();
+  const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
   const [sub_category, set_sub_category] = useState<any | null>(null);
   const [checked, setChecked] = useState(false);
@@ -45,12 +46,18 @@ export function DiscussionPostTab({ toogle }: Props) {
   };
 
   const submit = () => {
-    const data = {}
+    const data = {
+      content: text,
+      images: [],
+      category: '',
+      sub_category: '',
+      post_type: 'post'
+    }
   }
 
   return (
     <>
-      <TextEditor editorRef={editorRef} />
+      <TextEditor editorRef={editorRef} text={text} setText={setText} />
       <Group>
         <EmojiPopover insertText={insertText} />
         <Select

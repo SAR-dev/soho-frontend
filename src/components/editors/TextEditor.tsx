@@ -22,15 +22,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const initialValue = "";
-
 interface Props {
   editorRef: any;
-  focus?: boolean
+  focus?: boolean;
+  text: string;
+  setText: (params: any) => void
 }
 
-export function TextEditor({ editorRef, focus = true }: Props) {
-  const [text, setText] = useState(initialValue);
+export function TextEditor({ editorRef, text, setText, focus = true }: Props) {
   const [active, setActive] = useState(false);
   const { classes, cx } = useStyles();
 

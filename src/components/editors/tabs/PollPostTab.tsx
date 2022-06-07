@@ -59,6 +59,7 @@ interface Props {
 
 export function PollPostTab({ toogle }: Props) {
   const { classes, cx } = useStyles();
+  const [text, setText] = useState("");
   const [visibility, setVisibility] = useState<any | null>(null);
   const editorRef = useRef<Editor>(null);
   const [datetime, setDatetime] = useState<Date | null>(null);
@@ -77,7 +78,7 @@ export function PollPostTab({ toogle }: Props) {
 
   return (
     <>
-      <TextEditor editorRef={editorRef} />
+      <TextEditor editorRef={editorRef} text={text} setText={setText} />
       <div className={classes.flex}>
         <Poll active={false} text="React Native" />
         <ActionIcon variant="filled" className={classes.actionButton}>

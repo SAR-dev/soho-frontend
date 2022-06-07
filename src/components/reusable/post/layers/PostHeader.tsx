@@ -28,9 +28,11 @@ export function PostHeader({ ...props }: Props) {
   const { classes, cx } = useStyles();
   return (
     <Stack spacing={3}>
-      <Text size="sm" weight={700}>
-        {props.author.name}
-      </Text>
+      <Group spacing="xs">
+        <Text size="sm" weight={700}>
+          {props.author.name}
+        </Text>
+      </Group>
       <Group spacing="xs">
         <div className={cx(classes.flex, classes.fire)}>
           <GoFlame size={14} />
