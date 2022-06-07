@@ -13,6 +13,10 @@ export const removeTokenFromLocal = () => {
   localStorage.removeItem("token");
 };
 
+export const setTokenToLocal = (token: string) => {
+  localStorage.setItem("token", token);
+};
+
 const defaultConfig = () => {
   const token = getTokenFromLocal()
   if (token) {
@@ -53,30 +57,41 @@ export async function getChannels(username?: string) {
   return data
 }
 
-export function createChannel ({ username, data }: { username: string, data: createChannelInterface }) : Promise<any>  {
+export function createChannel({ username, data }: { username: string, data: createChannelInterface }): Promise<any> {
   return axios.post(`group/${username}/categories/create/`, data, defaultConfig())
-  .then((res) => {
-    return {data: res.data}
-  })
-  .catch((err) => {
-    return {error: err}
-  })
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
 };
 
-export function createSubChannel ({ username, category, data }: { username: string, category: string, data: createSubChannelInterface }) : Promise<any>  {
+export function createSubChannel({ username, category, data }: { username: string, category: string, data: createSubChannelInterface }): Promise<any> {
   return axios.post(`group/${username}/categories/${category}/subcategory/create/`, data, defaultConfig())
-  .then((res) => {
-    return {data: res.data}
-  })
-  .catch((err) => {
-    return {error: err}
-  })
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
 };
 
-export const setTokenToLocal = (token: string) => {
-  localStorage.setItem("token", token);
+// IMAGE
+export function imageUploader(img: File): Promise<any> {
+  var formData = new FormData();
+  formData.append("image", img);
+  return axios.post(`image/create/`, formData, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
 };
 
+
+// OTHERS
 export async function asyncForEach<T>(
   array: Array<T>,
   callback: (item: T, index: number) => Promise<void>
@@ -93,22 +108,3 @@ export const toBase64 = (file: Blob) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-
-export const imgBBuploader = (img: File) => {
-  var formData = new FormData();
-  formData.append("image", img);
-  return axios
-    .post(
-      `https://api.imgbb.com/1/upload?expiration=600&key=613ee68f6bc89f194d175614a4ca500f`,
-      formData,
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": `multipart/form-data;`,
-        },
-      }
-    )
-    .then((res) => {
-      return res.data.data.image.url
-    });
-};

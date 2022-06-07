@@ -6,7 +6,7 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import axios from "axios";
-import { imgBBuploader, toBase64 } from "../../helpers";
+import { imageUploader, toBase64 } from "../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { X } from "tabler-icons-react";
 
@@ -24,22 +24,24 @@ export function ImageLoader({ img }: { img: File }) {
   const { classes, cx } = useStyles();
   const [loading, setLoading] = useState(false);
   const [src, setSrc] = useState<any>();
+  const [id, setId] = useState()
 
   useEffect(() => {
     setLoading(true);
     (async () => {
       const url = await toBase64(img);
       setSrc(url);
-      imgBBuploader(img).then(data => {
-        if (data.error) {
+      imageUploader(img).then(res => {
+        if (res.error) {
           notifications.showNotification({
-            title: `Error ${data.error.code}`,
-            message: data.error.message,
-            color: 'red',
-            icon: <X size={18} />
-          })
+            title: `Error ${res.error.response.status}`,
+            message: res.error.response.data.detail,
+            color: "red",
+            icon: <X size={18} />,
+          });
         } else {
-          setSrc(data);
+          setSrc(res.data.image);
+          setId(res.data.id);
           setLoading(false);
         }
       })
