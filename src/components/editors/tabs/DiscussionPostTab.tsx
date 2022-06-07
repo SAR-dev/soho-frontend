@@ -44,6 +44,10 @@ export function DiscussionPostTab({ toogle }: Props) {
     quillRef?.insertText(position, text);
   };
 
+  const submit = () => {
+    const data = {}
+  }
+
   return (
     <>
       <TextEditor editorRef={editorRef} />

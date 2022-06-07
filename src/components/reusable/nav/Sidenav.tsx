@@ -170,21 +170,7 @@ export function Sidenav() {
   const [opened, setOpened] = useState(false);
 
   const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity(author))
-
-  // const mainLinks = links.map((link, i) => (
-  //   <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={() => setActive(link.label)} key={i}>
-  //     <div className={classes.mainLinkInner}>
-  //       <link.icon size={20} className={classes.mainLinkIcon} />
-  //       <span>{link.label}</span>
-  //     </div>
-  //     {link.notifications && (
-  //       <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-  //         {link.notifications}
-  //       </Badge>
-  //     )}
-  //   </UnstyledButton>
-  // ));
-
+  
   return (
     <>
       <Navbar className={classes.navbar}>

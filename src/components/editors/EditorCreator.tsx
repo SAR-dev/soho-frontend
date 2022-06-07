@@ -1,6 +1,9 @@
-import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator } from "@mantine/core";
-import { BrandTwitter, Photo } from "tabler-icons-react";
+import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator, ActionIcon, Alert } from "@mantine/core";
+import { AlertCircle, BrandTwitter, Photo } from "tabler-icons-react";
 import { HiBadgeCheck } from "react-icons/hi";
+import { useQuery } from "react-query";
+import { getCommunity } from "../../helpers";
+import { useParams } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -56,17 +59,49 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+interface DataParam {
+  id: number;
+  title: null;
+  about: null;
+  members_name: string;
+  color: string;
+  status: string;
+  subscribers_count: number;
+  subscribed: boolean;
+  post_count: number;
+  author: Author;
+  common_member: Author;
+  is_admin: boolean;
+  is_moderator: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface Author {
+  id?: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  avatar: string;
+}
+
 interface Props {
   toogle: () => void;
 }
 
 export function EditorCreator({ toogle }: Props) {
+  const { author } = useParams<"author">();
+
   const { classes, cx } = useStyles();
 
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity(author))
+
   return (
-    <Paper radius={0} onClick={() => toogle()}>
-      <Paper className={classes.container}>
-        <div className={classes.flex}>
+    <>
+      <Paper radius={0} onClick={() => data?.subscribed ? toogle() : ''}>
+        <Paper className={classes.container}>
+          <div className={classes.flex}>
             <Indicator
               inline
               size={18}
@@ -83,24 +118,31 @@ export function EditorCreator({ toogle }: Props) {
                 className={classes.avatar}
               />
             </Indicator>
-          <Input
-            className={cx(classes.input, "thick-border")}
-            width="100%"
-            placeholder="Sayed Rafi, What's on your mind ?"
-            icon={<BrandTwitter size={20} />}
-            rightSectionWidth={75}
-            styles={{ rightSection: { pointerEvents: "none" } }}
-            rightSection={
-              <Badge color="blue" variant="filled">
-                Public
-              </Badge>
-            }
-          />
-          <ThemeIcon className={classes.photoButton} radius="xl" color="gray">
-            <Photo size={20} />
-          </ThemeIcon>
-        </div>
+            <Input
+              className={cx(classes.input, "thick-border")}
+              width="100%"
+              placeholder="Sayed Rafi, What's on your mind ?"
+              icon={<BrandTwitter size={20} />}
+              rightSectionWidth={75}
+              styles={{ rightSection: { pointerEvents: "none" } }}
+              rightSection={
+                <Badge color="blue" variant="filled">
+                  Public
+                </Badge>
+              }
+              disabled={!data?.subscribed}
+            />
+            <ActionIcon className={classes.photoButton} radius="xl" color="gray" disabled={!data?.subscribed}>
+              <Photo size={20} />
+            </ActionIcon>
+          </div>
+        </Paper>
       </Paper>
-    </Paper>
+      {!data?.subscribed && (
+        <Alert icon={<AlertCircle size={16} />} color="gray">
+          You need to subscribe to create a post in this group! To subscribe click the "+" button on the left side.
+        </Alert>
+      )}
+    </>
   );
 }
