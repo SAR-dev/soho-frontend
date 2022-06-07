@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core';
+import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles, ActionIcon } from '@mantine/core';
 import { ChevronRight, Hash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { lighten } from 'color2k';
@@ -8,11 +8,16 @@ const useStyles = createStyles((theme) => ({
   control: {
     display: 'flex',
     alignItems: 'center',
-    // width: '100%',
+    width: '100%',
+    justifyContent: 'space-between',
     fontSize: theme.fontSizes.xs,
     padding: `8px ${theme.spacing.xs}px`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
+  },
+
+  cat: {
+    textDecoration: 'none',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
 
     '&:hover': {
@@ -63,14 +68,13 @@ export interface SubCategory {
 export function LinksGroup({ id, color, name, slug, about, sub_categories, author }: Props) {
   const { classes, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
-  const [opened, setOpened] = useState(true);
+  const [opened, setOpened] = useState(false);
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
     <Text
       component={Link}
       className={classes.link}
-      to={""}
+      to={`/c/${author}/sch/${link.slug}`}
       key={i}
-    // onClick={(event) => event.preventDefault()}
     >
       {link.name}
     </Text>
@@ -78,15 +82,15 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories, autho
 
   return (
     <>
-      <UnstyledButton component={Link} to={`/c/${author}/ch/${slug}`} className={classes.control}>
-        <Group position="apart" spacing={0} style={{ width: "100%" }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeIcon style={{backgroundColor: color}}>
-              <Hash size={18} color={lighten(color, -.25)} />
-            </ThemeIcon>
-            <Box ml="md">{name}</Box>
-          </Box>
-          {hasLinks && (
+      <UnstyledButton className={classes.control}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/ch/${slug}`} className={classes.cat} >
+          <ThemeIcon color="gray" >
+            <Hash size={18} />
+          </ThemeIcon>
+          <Box ml="md">{name}</Box>
+        </Box>
+        {hasLinks && (
+          <ActionIcon size={18} variant="default" onClick={() => setOpened(!opened)}>
             <ChevronRight
               className={classes.chevron}
               size={14}
@@ -94,8 +98,8 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories, autho
                 transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
               }}
             />
-          )}
-        </Group>
+          </ActionIcon>
+        )}
       </UnstyledButton>
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
     </>

@@ -209,11 +209,13 @@ export function Sidenav() {
             <Text size="xs" weight={500} color="dimmed">
               Channels
             </Text>
-            <Tooltip label="Create Channel" withArrow position="right">
-              <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
-                <Plus size={12} />
-              </ActionIcon>
-            </Tooltip>
+            {data?.is_admin && (
+              <Tooltip label="Create Channel" withArrow position="right">
+                <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
+                  <Plus size={12} />
+                </ActionIcon>
+              </Tooltip>
+            )}
           </Group>
           <Channels />
         </Navbar.Section>
