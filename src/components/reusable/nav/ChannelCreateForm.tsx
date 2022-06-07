@@ -8,8 +8,10 @@ import {
     Select,
     ColorPicker,
     Text,
+    ColorInput,
+    ActionIcon,
 } from "@mantine/core";
-import { Tag, GitBranch, X } from "tabler-icons-react";
+import { Tag, GitBranch, X, Refresh } from "tabler-icons-react";
 import { createChannel, createSubChannel, getChannels } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
@@ -41,6 +43,8 @@ interface SelectModel {
     label: string;
     value: string;
 }
+
+const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
     const { author } = useParams<"author">();
@@ -140,23 +144,16 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                             setChannelName(e.target.value)
                         }
                     />
-                    <Text size="xs" color="dimmed" mb="xs">Pick a color</Text>
-                    <ColorPicker
-                        format="hex"
-                        fullWidth
-                        swatches={[
-                            "#fa5252",
-                            "#e64980",
-                            "#be4bdb",
-                            "#7950f2",
-                            "#4c6ef5",
-                            "#228be6",
-                            "#15aabf",
-                            "#12b886",
-                            "#40c057",
-                            "#fab005",
-                        ]}
+                    <ColorInput
+                        placeholder="Pick color"
+                        label="Pick a color"
+                        value={color}
                         onChange={setColor}
+                        rightSection={
+                            <ActionIcon onClick={() => setColor(randomColor())}>
+                                <Refresh size={16} />
+                            </ActionIcon>
+                        }
                     />
                 </>
             )}
