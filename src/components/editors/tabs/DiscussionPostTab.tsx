@@ -28,6 +28,7 @@ const useStyles = createStyles((theme) => ({
 interface Props {
   toogle: () => void;
   setLoading: (params: boolean) => void;
+  is_admin: boolean;
 }
 
 interface DataParam {
@@ -57,7 +58,7 @@ interface SelectModel {
   value: string;
 }
 
-export function DiscussionPostTab({ toogle, setLoading }: Props) {
+export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const { author } = useParams<"author">();
   const [channels, setChannels] = useState<Result[]>([])
   const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
