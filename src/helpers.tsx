@@ -128,3 +128,12 @@ export const toBase64 = (file: Blob) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+
+export const parseErrors = (data: { response: { data: { [x: string]: any; }; }; }) => {
+  const keys = Object.keys(data.response.data)
+  const msgs = keys.map(key => {
+    const msg = data.response.data[key]
+    return (msg[0])
+  })
+  return msgs
+}

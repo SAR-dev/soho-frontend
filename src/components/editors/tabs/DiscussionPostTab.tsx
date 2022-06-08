@@ -1,13 +1,14 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Button, Select } from "@mantine/core";
+import { createStyles, Group, Button, Select, List, ThemeIcon, Text } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { Check, Eye, Hash, Send } from "tabler-icons-react";
+import { AlertCircle, AlertTriangle, Check, CircleCheck, Eye, Hash, Send, X } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { createSubscriberPost, getChannels } from "../../../helpers";
+import { createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
+import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -23,6 +24,15 @@ const useStyles = createStyles((theme) => ({
         ? theme.colors.dark[2]
         : theme.colors.gray[5],
   },
+  errorHolder: {
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: theme.colorScheme === "dark"
+      ? theme.colors.dark[5]
+      : theme.colors.gray[2],
+    padding: theme.spacing.xs,
+    borderRadius: theme.radius.sm
+  }
 }));
 
 interface Props {
@@ -67,12 +77,14 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     }
   })
   const { classes, cx } = useStyles();
+
   const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
   const [sub_category, set_sub_category] = useState<any | null>(null);
   const [checked, setChecked] = useState(false);
   const editorRef = useRef<Editor>(null);
   const [images, setImages] = useState<Array<number>>([])
+  const [errors, setErrors] = useState<string[]>([])
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -91,6 +103,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   const submit = () => {
     setLoading(true)
+    setErrors([])
     const data = {
       content: text,
       images: images,
@@ -100,7 +113,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     }
     createSubscriberPost({ username: author, data: data }).then(res => {
       if (res.error) {
-        console.log(res.error)
+        setErrors(parseErrors(res.error))
         setLoading(false)
       } else {
         console.log(res.data)
@@ -130,6 +143,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   return (
     <>
       <TextEditor editorRef={editorRef} text={text} setText={setText} />
+      <ImageDropzone disabled={false} images={images} addImage={addImage} />
       <Group>
         <EmojiPopover insertText={insertText} />
         <Select
@@ -170,7 +184,14 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           Submit
         </Button>
       </Group>
-      <ImageDropzone disabled={false} images={images} addImage={addImage} />
+      {errors.length !== 0 && (
+        <List size="xs" mt="xs" className={classes.errorHolder} icon={
+          <AlertCircle size={18} color="yellow" />
+        }>
+          <Text size="xs" weight={600} color="yellow" mb="xs">Fix these errors</Text>
+          {errors.map(e => <List.Item>{e}</List.Item>)}
+        </List>
+      )}
     </>
   );
 }

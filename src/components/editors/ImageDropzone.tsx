@@ -26,7 +26,6 @@ const IMG_H = 60;
 
 const useStyles = createStyles((theme) => ({
   footer: {
-    marginTop: theme.spacing.xs,
     cursor: "pointer",
   },
   icon: {
@@ -61,10 +60,9 @@ export function ImageDropzone({ disabled, images, addImage }: Props) {
 
   return (
     <>
-      <Group spacing="sm" className={classes.footer}>
-        {sources.length !== 0 &&
-          sources.map((img, i) => <ImageLoader images={images} addImage={addImage} img={img} key={i} />)}
-        {sources.length !== 0 && (
+      {sources.length !== 0 && (
+        <Group spacing="sm" className={classes.footer}>
+          {sources.map((img, i) => <ImageLoader images={images} addImage={addImage} img={img} key={i} />)}
           <ActionIcon
             size={IMG_H}
             variant="filled"
@@ -72,12 +70,14 @@ export function ImageDropzone({ disabled, images, addImage }: Props) {
           >
             <Plus />
           </ActionIcon>
-        )}
-      </Group>
+        </Group>
+      )}
       <Center
         inline
         className={classes.footer}
         onClick={() => fileRef?.current?.click()}
+        mt={sources.length === 0 ? 0 : 'xs'}
+        mb="xs"
       >
         <InfoCircle size={16} className={classes.icon} />
         <Text color="dimmed" size="xs">
