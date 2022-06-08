@@ -19,7 +19,7 @@ import { ChannelCreateForm } from './ChannelCreateForm';
 import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { Categories } from './Categories';
+import { PostTypes } from './PostTypes';
 import { getCommunity } from '../../../helpers';
 
 const useStyles = createStyles((theme) => ({
@@ -126,15 +126,6 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const links = [
-  { icon: MdEmojiPeople, label: 'Discussion', notifications: 3 },
-  { icon: MdQuestionAnswer, label: 'AMA', notifications: 4 },
-  { icon: Video, label: 'Premier' },
-  // { icon: BsDropletHalf, label: 'Drop' },
-  { icon: Microphone2, label: 'Announcement' },
-  { icon: ListCheck, label: 'Rules' },
-];
-
 interface DataParam {
   id: number;
   title: null;
@@ -188,7 +179,7 @@ export function Sidenav() {
 
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
           <div className={classes.mainLinks}>
-            <Categories />
+            <PostTypes />
           </div>
 
           <Group className={classes.collectionsHeader} position="apart">

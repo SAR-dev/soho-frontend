@@ -101,6 +101,16 @@ export function createSubscriberPost({ username, data }: { username?: string, da
     })
 };
 
+export function getPostsFromType({ username, type }: { username?: string, type?: string }): Promise<any> {
+  return axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
 // OTHERS
 export async function asyncForEach<T>(
   array: Array<T>,

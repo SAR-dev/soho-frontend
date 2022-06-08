@@ -3,54 +3,8 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import sortArray from 'sort-array';
-import {
-    Notes,
-    CalendarStats,
-    Gauge,
-    PresentationAnalytics,
-    FileAnalytics,
-    Adjustments,
-    Lock,
-} from 'tabler-icons-react';
 import { getChannels } from '../../../helpers';
 import { LinksGroup } from './LinksGroup';
-
-const mockdata = [
-    { label: 'Dashboard', icon: Gauge },
-    {
-        label: 'Market news',
-        icon: Notes,
-        initiallyOpened: false,
-        links: [
-            { label: 'Overview', link: '/' },
-            { label: 'Forecasts', link: '/' },
-            { label: 'Outlook', link: '/' },
-            { label: 'Real time', link: '/' },
-        ],
-    },
-    {
-        label: 'Releases',
-        icon: CalendarStats,
-        links: [
-            { label: 'Upcoming releases', link: '/' },
-            { label: 'Previous releases', link: '/' },
-            { label: 'Releases schedule', link: '/' },
-        ],
-    },
-    { label: 'Analytics', icon: PresentationAnalytics },
-    { label: 'Contracts', icon: FileAnalytics },
-    { label: 'Settings', icon: Adjustments },
-    {
-        label: 'Security',
-        icon: Lock,
-        initiallyOpened: true,
-        links: [
-            { label: 'Enable 2FA', link: '/' },
-            { label: 'Change password', link: '/' },
-            { label: 'Recovery codes', link: '/' },
-        ],
-    },
-];
 
 const useStyles = createStyles((theme) => ({
     navbar: {
@@ -108,8 +62,8 @@ export function Channels() {
     const { classes } = useStyles();
     const [channels, setChannels] = useState<Result[]>()
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author),  {
-        onSuccess: data => {
-            setChannels([...data.results])
+        onSuccess: res => {
+            setChannels([...res.results])
         }
     })
 

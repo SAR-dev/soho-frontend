@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { createStyles, UnstyledButton, Badge } from '@mantine/core';
 import { Microphone2, ListCheck, Video } from 'tabler-icons-react';
 import { MdEmojiPeople, MdQuestionAnswer } from 'react-icons/md';
+import { Link, useParams } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
     mainLink: {
         display: 'flex',
         alignItems: 'center',
-        width: '100%',
         fontSize: theme.fontSizes.xs,
         padding: `8px ${theme.spacing.xs}px`,
         borderRadius: theme.radius.sm,
@@ -57,14 +56,15 @@ const links = [
     { icon: ListCheck, label: 'Rules', slug: "rules", },
 ];
 
-export function Categories() {
+export function PostTypes() {
+    const { author } = useParams<"author">();
+    const { pType } = useParams<"pType">();
     const { classes, cx } = useStyles();
-    const [active, setActive] = useState('Discussion');
 
     return (
         <>
             {links.map((link, i) => (
-                <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: active === link.label })} onClick={() => setActive(link.label)} key={i}>
+                <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: pType === link.slug })} component={Link} to={`/c/${author}/t/${link.slug}`} key={i}>
                     <div className={classes.mainLinkInner}>
                         <link.icon size={20} className={classes.mainLinkIcon} />
                         <span>{link.label}</span>
