@@ -7,7 +7,7 @@ import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
+import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
@@ -72,8 +72,8 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const { author } = useParams<"author">();
   const [channels, setChannels] = useState<Result[]>([])
   const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
-    onSuccess: data => {
-      setChannels([...data.results])
+    onSuccess: res => {
+      setChannels([...res.results])
     }
   })
   const { classes, cx } = useStyles();
@@ -109,17 +109,30 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
       images: images,
       category: category,
       sub_category: sub_category,
-      post_type: 'post'
+      post_type: checked ? 'announcement' : 'discussion'
     }
-    createSubscriberPost({ username: author, data: data }).then(res => {
-      if (res.error) {
-        setErrors(parseErrors(res.error))
-        setLoading(false)
-      } else {
-        console.log(res.data)
-        setLoading(false)
-      }
-    })
+    if (is_admin) {
+      createAuthorPost({ username: author, data: data }).then(res => {
+        if (res.error) {
+          setErrors(parseErrors(res.error))
+          setLoading(false)
+        } else {
+          // console.log(res.data)
+          setLoading(false)
+        }
+      })
+    } else {
+      createSubscriberPost({ username: author, data: data }).then(res => {
+        if (res.error) {
+          setErrors(parseErrors(res.error))
+          setLoading(false)
+        } else {
+          // console.log(res.data)
+          setLoading(false)
+        }
+      })
+    }
+
   }
 
   const getChannelsList = () => {

@@ -101,6 +101,16 @@ export function createSubscriberPost({ username, data }: { username?: string, da
     })
 };
 
+export function createAuthorPost({ username, data }: { username?: string, data: createPostInterface }): Promise<any> {
+  return axios.post(`post/create/group/${username}/author/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
 export function getPostsFromType({ username, type }: { username?: string, type?: string }): Promise<any> {
   return axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
     .then((res) => {
