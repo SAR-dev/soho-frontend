@@ -9,6 +9,9 @@ import { AmaPostTab } from "./tabs/AmaPostTab";
 import { PollPostTab } from "./tabs/PollPostTab";
 import { Video } from "tabler-icons-react";
 import { PremierPostTab } from "./tabs/PremierPostTab";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getCommunity } from "../../helpers";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -29,6 +32,34 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+interface DataParam {
+  id: number;
+  title: null;
+  about: null;
+  members_name: string;
+  color: string;
+  status: string;
+  subscribers_count: number;
+  subscribed: boolean;
+  post_count: number;
+  author: Author;
+  common_member: Author;
+  is_admin: boolean;
+  is_moderator: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface Author {
+  id?: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  avatar: string;
+}
+
+
 const editors = [
   { key: "discussion", name: 'Discussion', icon: <MdEmojiPeople size={16} /> },
   { key: "poll", name: "Poll", icon: <FaPoll size={16} /> },
@@ -42,6 +73,10 @@ interface Props {
 }
 
 export function EditorWrapper({ toogle }: Props) {
+  const { author } = useParams<"author">();
+
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity(author))
+
   const [value, setValue] = useState("discussion");
   const { classes } = useStyles();
   const editorRef = useRef<Editor>(null);
