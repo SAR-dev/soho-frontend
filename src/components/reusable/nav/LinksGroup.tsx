@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon } from '@mantine/core';
-import { ChevronRight, Hash } from 'tabler-icons-react';
+import { ChevronRight, Circle, Hash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
+import {FaDotCircle} from "react-icons/fa";
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -83,7 +84,7 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories, autho
       <div className={classes.control}>
         <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/ch/${slug}`} className={classes.cat} >
           <ThemeIcon color="gray" >
-            <Hash size={18} />
+            <FaDotCircle size={15} color={color} />
           </ThemeIcon>
           <Box ml="md">{name}</Box>
         </Box>
