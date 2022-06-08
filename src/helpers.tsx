@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createChannelInterface, createSubChannelInterface } from "./interfaces";
+import { createChannelInterface, createPostInterface, createSubChannelInterface } from "./interfaces";
 
 interface Header {
   [key: string]: string;
@@ -90,6 +90,16 @@ export function imageUploader(img: File): Promise<any> {
     })
 };
 
+// POST
+export function createSubscriberPost({ username, data }: { username?: string, data: createPostInterface }): Promise<any> {
+  return axios.post(`post/create/group/${username}/subscriber/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
 
 // OTHERS
 export async function asyncForEach<T>(

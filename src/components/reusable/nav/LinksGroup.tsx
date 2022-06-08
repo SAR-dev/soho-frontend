@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles, ActionIcon } from '@mantine/core';
+import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon } from '@mantine/core';
 import { ChevronRight, Hash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-import { lighten } from 'color2k';
 
 const useStyles = createStyles((theme) => ({
   control: {
     display: 'flex',
     alignItems: 'center',
-    width: '100%',
     justifyContent: 'space-between',
     fontSize: theme.fontSizes.xs,
     padding: `8px ${theme.spacing.xs}px`,
@@ -82,7 +80,7 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories, autho
 
   return (
     <>
-      <UnstyledButton className={classes.control}>
+      <div className={classes.control}>
         <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/ch/${slug}`} className={classes.cat} >
           <ThemeIcon color="gray" >
             <Hash size={18} />
@@ -100,7 +98,7 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories, autho
             />
           </ActionIcon>
         )}
-      </UnstyledButton>
+      </div>
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
     </>
   );

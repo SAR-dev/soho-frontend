@@ -7,7 +7,7 @@ import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getChannels } from "../../../helpers";
+import { createSubscriberPost, getChannels } from "../../../helpers";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -97,8 +97,15 @@ export function DiscussionPostTab({ toogle, setLoading }: Props) {
       sub_category: sub_category,
       post_type: 'post'
     }
-    console.log(data)
-    setLoading(false)
+    createSubscriberPost({ username: author, data: data }).then(res => {
+      if (res.error) {
+        console.log(res.error)
+        setLoading(false)
+      } else {
+        console.log(res.data)
+        setLoading(false)
+      }
+    })
   }
 
   const getChannelsList = () => {
