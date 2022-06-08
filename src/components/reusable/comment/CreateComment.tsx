@@ -37,6 +37,7 @@ export function CreateComment() {
     const { classes } = useStyles();
     const editorRef = useRef<Editor>(null);
     const [checked, setChecked] = useState(false);
+    const [text, setText] = useState("");
 
     useEffect(() => {
         editorRef?.current?.focus();
@@ -63,7 +64,7 @@ export function CreateComment() {
                         <Text size="xs" color="dimmed">Please read the community rules before commenting</Text>
                     </div>
                 </Stack>
-                <TextEditor editorRef={editorRef} focus={false} />
+                <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} />
                 <Group>
                     <EmojiPopover insertText={insertText} />
                     <Switch

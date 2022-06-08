@@ -65,6 +65,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
   const editorRef = useRef<Editor>(null);
   const [datetime, setDatetime] = useState<Date | null>(null);
   const [showCalender, setShowCalender] = useState(false)
+  const [images, setImages] = useState<Array<number>>([])
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -77,9 +78,15 @@ export function PollPostTab({ toogle, setLoading }: Props) {
     quillRef?.insertText(position, text);
   };
 
+  const addImage = (id: number) => {
+    setImages(images => [...images, id])
+  }
+
   return (
     <>
       <TextEditor editorRef={editorRef} text={text} setText={setText} />
+      <ImageDropzone disabled={false} images={images} addImage={addImage} />
+
       <div className={classes.flex}>
         <Poll active={false} text="React Native" />
         <ActionIcon variant="filled" className={classes.actionButton}>
@@ -125,7 +132,6 @@ export function PollPostTab({ toogle, setLoading }: Props) {
           Submit
         </Button>
       </Group>
-      <ImageDropzone disabled={false} />
       <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />
     </>
   );
