@@ -1,12 +1,12 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, List, ThemeIcon, Text } from "@mantine/core";
+import { createStyles, Group, Button, Select, List, Text } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { AlertCircle, AlertTriangle, Check, CircleCheck, Eye, Hash, Send, X } from "tabler-icons-react";
+import { AlertCircle, Check, Eye, Hash, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { TextEditor } from "../TextEditor";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 
@@ -70,6 +70,12 @@ interface SelectModel {
 
 export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const { author } = useParams<"author">();
+  const { sName } = useParams<"sName">();
+  const { cName } = useParams<"cName">();
+  const { pType } = useParams<"pType">();
+  const notifications = useNotifications();
+
+  const queryClient = useQueryClient()
   const [channels, setChannels] = useState<Result[]>([])
   const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
     onSuccess: res => {
@@ -85,9 +91,13 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const editorRef = useRef<Editor>(null);
   const [images, setImages] = useState<Array<number>>([])
   const [errors, setErrors] = useState<string[]>([])
+  const [queryKey, setQueryKey] = useState<string[]>([])
 
   useEffect(() => {
     editorRef?.current?.focus();
+    if (author && sName) setQueryKey(["sub_cat_posts", author, sName])
+    if (author && cName) setQueryKey(["cat_posts", author, cName])
+    if (author && pType) setQueryKey(["type_posts", author, pType])
   }, []);
 
   const insertText = (text: string) => {
@@ -117,8 +127,15 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           setErrors(parseErrors(res.error))
           setLoading(false)
         } else {
-          // console.log(res.data)
-          setLoading(false)
+          notifications.showNotification({
+            title: "Post Submitted",
+            message: "Your post has been submitted. Please wait for a while for your post to appear in your feed.",
+            color: "teal",
+            icon: <Check size={18} />,
+            autoClose: 5000,
+          });
+          queryClient.invalidateQueries(queryKey)
+          toogle()
         }
       })
     } else {
@@ -127,8 +144,15 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           setErrors(parseErrors(res.error))
           setLoading(false)
         } else {
-          // console.log(res.data)
-          setLoading(false)
+          notifications.showNotification({
+            title: "Post Submitted",
+            message: "Your post has been submitted. Please wait for a while for your post to appear in your feed.",
+            color: "teal",
+            icon: <Check size={18} />,
+            autoClose: 5000,
+          });
+          queryClient.invalidateQueries([...queryKey])
+          toogle()
         }
       })
     }
