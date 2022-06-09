@@ -42,7 +42,7 @@ export function PollPostCard({
       <Author />
       <div>
         {/* <PostHeader author={author} temp={temp} postedAt={postedAt} /> */}
-        <HtmlRenderer body={body} />
+        {/* <HtmlRenderer body={body} /> */}
         <PollItems />
         <PostFooter />
       </div>
