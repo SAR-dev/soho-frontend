@@ -115,7 +115,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     setLoading(true)
     setErrors([])
     const data = {
-      content: text,
+      content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       images: images,
       category: category,
       sub_category: sub_category,

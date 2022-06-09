@@ -3,6 +3,8 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 // import HTMLEllipsis from 'react-lines-ellipsis/lib/html'
 import Truncate from 'react-truncate';
 import { useState } from "react";
+import parse, { attributesToProps, HTMLReactParserOptions } from 'html-react-parser';
+import { Element } from 'domhandler/lib/node';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   typography: {
@@ -18,25 +20,24 @@ export function HtmlRenderer({ body, id }: { body: string, id: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [expanded, setExpanded] = useState(false)
 
+  const options: HTMLReactParserOptions = {
+    replace: domNode => {
+      if (domNode instanceof Element && domNode.attribs && domNode.attribs.name === 'link') {
+        return <Anchor
+          className={classes.typography}
+          component={Link}
+          to={`/c/${author}/p/${id}?details=true`}
+        >
+          Read More
+        </Anchor>
+      }
+    }
+  };
+
   const { classes, cx } = useStyles();
   return (
     <TypographyStylesProvider className={classes.typography}>
-      {searchParams.get("details") ? (
-        <div dangerouslySetInnerHTML={{ __html: body }} />
-      ) : (
-        <>
-          <Truncate lines={expanded ? 100 : 10} ellipsis={
-            <Anchor
-              className={classes.typography}
-              onClick={() => setExpanded(true)}
-            >
-              Read More
-            </Anchor>
-          }>
-            <div dangerouslySetInnerHTML={{ __html: body }} />
-          </Truncate>
-        </>
-      )}
+      {parse(body, options)}
     </TypographyStylesProvider>
   );
 }
