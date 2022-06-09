@@ -11,6 +11,7 @@ import { getPostsFromType } from "../../../helpers";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
+import { NoResults } from "../../reusable/NoResults";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -132,7 +133,9 @@ export function PType() {
                         {posts?.map((el, i) => {
                             if (el.post_type === "discussion") return (
                                 <DiscussionPostCard {...el} key={i} />)
-                        })}</>
+                        })}
+                        {posts?.length === 0 && <NoResults />}
+                    </>
                 )}
             </SimpleGrid>
         </CommunityLayout>
