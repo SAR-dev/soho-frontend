@@ -1,9 +1,5 @@
 import axios from "axios";
-import { createChannelInterface, createPostInterface, createSubChannelInterface } from "./interfaces";
-
-interface Header {
-  [key: string]: string;
-}
+import { createChannelInterface, createPostInterface, createSubChannelInterface } from "@interfaces/api";
 
 export const getTokenFromLocal = () => {
   return localStorage.getItem("token");

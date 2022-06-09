@@ -46,6 +46,7 @@ const images = [
   "https://i.ibb.co/f2FT3tw/wp6887359-the-daily-life-of-the-immortal-king-wallpapers.jpg",
 ];
 
+
 export function ImageCarousel() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState(0)

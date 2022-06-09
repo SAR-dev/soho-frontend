@@ -107,7 +107,7 @@ export function TopClaps() {
       <SegmentedControl
         value={value}
         onChange={setValue}
-        color="gray"
+        color="dark"
         size="sm"
         data={times.map((el) => ({
           label: (
