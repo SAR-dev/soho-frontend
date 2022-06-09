@@ -1,9 +1,6 @@
 import { createStyles, TypographyStylesProvider, Anchor } from "@mantine/core";
-import { Link, useParams, useSearchParams } from "react-router-dom";
-// import HTMLEllipsis from 'react-lines-ellipsis/lib/html'
-import Truncate from 'react-truncate';
-import { useState } from "react";
-import parse, { attributesToProps, HTMLReactParserOptions } from 'html-react-parser';
+import { Link, useParams } from "react-router-dom";
+import parse, { HTMLReactParserOptions } from 'html-react-parser';
 import { Element } from 'domhandler/lib/node';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -17,8 +14,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export function HtmlRenderer({ body, id }: { body: string, id: number }) {
   const { author } = useParams<"author">();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [expanded, setExpanded] = useState(false)
 
   const options: HTMLReactParserOptions = {
     replace: domNode => {
