@@ -39,18 +39,10 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-const images = [
-  "https://i.ibb.co/whrrZ5q/sad-miku-1a.jpg",
-  "https://i.ibb.co/kQMzz5Q/954561.jpg",
-  "https://i.ibb.co/GPJ33dB/wp6887295-the-daily-life-of-the-immortal-king-wallpapers.png",
-  "https://i.ibb.co/f2FT3tw/wp6887359-the-daily-life-of-the-immortal-king-wallpapers.jpg",
-];
 
-
-export function ImageCarousel() {
+export function ImageCarousel({sources}: {sources: string[]}) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState(0)
-  const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [viewerProps, setViewerProps] = useState({
     currentIndex: 0,
@@ -58,7 +50,7 @@ export function ImageCarousel() {
   })
 
   function next() {
-    if (active !== (images.length - 1)) {
+    if (active !== (sources.length - 1)) {
       setActive(active => active + 1)
     }
   }
@@ -70,7 +62,7 @@ export function ImageCarousel() {
   }
 
   function arrangeImages() {
-    return images.map(x => ({
+    return sources.map(x => ({
       source: x
     }))
   }
@@ -97,7 +89,7 @@ export function ImageCarousel() {
         <Image
           width="100%"
           height={350}
-          src={images[active]}
+          src={sources[active]}
           onClick={() => openLightbox()}
           alt=""
           radius="sm"
@@ -106,7 +98,7 @@ export function ImageCarousel() {
           style={{ cursor: 'zoom-in' }}
         />
         <div className={cx(classes.rightButton, classes.button)}>
-          <ActionIcon variant="filled" onClick={() => next()} disabled={active === (images.length - 1)}>
+          <ActionIcon variant="filled" onClick={() => next()} disabled={active === (sources.length - 1)}>
             <ArrowRight size={16} />
           </ActionIcon>
         </div>

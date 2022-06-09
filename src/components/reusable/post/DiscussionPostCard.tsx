@@ -8,6 +8,7 @@ import { PostHeader } from "./layers/PostHeader";
 import { PostFooter } from "./layers/PostFooter";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -92,16 +93,24 @@ export interface Image {
 
 dayjs.extend(relativeTime)
 
-export function DiscussionPostCard({...props}: DataParam) {
+export function DiscussionPostCard({ ...props }: DataParam) {
   const { classes } = useStyles();
-  
+  const [images, setImages] = useState<string[]>([])
+
+  useEffect(() => {
+    setImages(props.images?.map(x => x.image))
+  }, [])
+
+
   return (
     <div className={classes.wrapper}>
       <Author />
       <div>
         <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
         <HtmlRenderer body={props.content} id={props.id} />
-        <ImageCarousel />
+        {images.length !== 0 && (
+          <ImageCarousel sources={images} />
+        )}
         <PostFooter />
       </div>
     </div>
