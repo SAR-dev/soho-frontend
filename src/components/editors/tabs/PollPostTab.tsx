@@ -84,7 +84,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
 
   return (
     <>
-      <TextEditor editorRef={editorRef} text={text} setText={setText} />
+      <TextEditor editorRef={editorRef} text={text} setText={setText} insertText={insertText}  />
       <ImageDropzone disabled={false} images={images} addImage={addImage} />
 
       <div className={classes.flex}>

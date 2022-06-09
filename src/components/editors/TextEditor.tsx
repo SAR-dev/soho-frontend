@@ -26,10 +26,11 @@ interface Props {
   editorRef: any;
   focus?: boolean;
   text: string;
-  setText: (params: any) => void
+  setText: (params: any) => void;
+  insertText: (params: string) => void;
 }
 
-export function TextEditor({ editorRef, text, setText, focus = true }: Props) {
+export function TextEditor({ editorRef, text, setText, insertText, focus = true }: Props) {
   const [active, setActive] = useState(false);
   const { classes, cx } = useStyles();
 
@@ -83,6 +84,10 @@ export function TextEditor({ editorRef, text, setText, focus = true }: Props) {
           ["alignLeft", "alignCenter", "alignRight"],
           ["clean"],
         ]}
+        onPaste={e => {
+          e.preventDefault()
+          insertText(e.clipboardData.getData('Text'))
+        }}
       />
     </>
   );

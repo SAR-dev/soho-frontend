@@ -121,6 +121,36 @@ export function getPostsFromType({ username, type }: { username?: string, type?:
     })
 };
 
+export function getPostsFromCategory({ username, category }: { username?: string, category?: string }): Promise<any> {
+  return axios.get(`post/list/group/${username}/category/${category}/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
+export function getPostsFromSubCategory({ username, sub_category }: { username?: string, sub_category?: string }): Promise<any> {
+  return axios.get(`post/list/group/${username}/sub_category/${sub_category}/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
+export function getPostDetails({ id }: { id?: string }): Promise<any> {
+  return axios.get(`post/${id}/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
 // OTHERS
 export async function asyncForEach<T>(
   array: Array<T>,

@@ -1,75 +1,140 @@
-import { SimpleGrid } from "@mantine/core";
+import { createStyles, SimpleGrid, Skeleton } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-import { useSearchParams } from 'react-router-dom';
 import { EditorCreator } from "../../../editors/EditorCreator";
 import { EditorWrapper } from "../../../editors/EditorWrapper";
-import { CommunityLayout } from "../../../layouts/CommunityLayout";
 import { AmaPostCard } from "../../../reusable/post/AmaPostCard";
 import { DiscussionPostCard } from "../../../reusable/post/DiscussionPostCard";
 import { PollPostCard } from "../../../reusable/post/PollPostCard";
-import { PostDetails } from "../../../reusable/post/PostDetails";
+import { CommunityLayout } from "../../../layouts/CommunityLayout";
+import { useParams } from "react-router-dom";
+import { getPostsFromCategory, getPostsFromSubCategory, getPostsFromType } from "../../../../helpers";
+import { useQuery } from "react-query";
+import { useState } from "react";
+import { PlaceholderPostCard } from "../../../reusable/post/PlaceholderPostCard";
 
-const demoHtmlText = `
-<p>This is example article from from <a href="https://css-tricks.com/your-team-is-not-them/">CSS-Tricks website</a> written by <a href="https://css-tricks.com/author/sdrasner/">Sarah Drasner</a>. It is used as an example to showcase real world styles of TypographyStylesProvider component, please read full article on <a href="https://css-tricks.com/your-team-is-not-them/">CSS-Tricks website</a>.</p>
-<p>Let’s talk for a moment about how we talk about our teams. This might not seem like something that needs a whole article dedicated to it, but it’s actually quite crucial. The way that we refer to our teams sends signals: to stakeholders, to your peers, to the team itself, and even to ourselves. In addressing how we speak about our teams, we’ll also talk about accountability.</p>
-<p>I have noticed shared similarities in those folks I consider good managers whose teams deliver well, and those who don’t. It starts with how they communicate about their teams.</p>
-`;
+const useStyles = createStyles((theme, _params, getRef) => ({
+    wrapper: {
+        position: "relative",
+        padding: theme.spacing.xl,
+        backgroundColor:
+            theme.colorScheme === "dark"
+                ? theme.colors.dark[8]
+                : theme.colors.gray[0],
+        display: "flex",
+    }
+}));
 
-const demoText = `The way that we refer to our teams sends signals: to stakeholders, to your peers, to the team itself, and even to ourselves. In addressing how we speak about our teams, we’ll also talk about accountability.`;
+
+export interface DataParam {
+    data: {
+        count: number;
+        next: null;
+        previous: null;
+        results: Result[];
+    }
+}
+
+export interface Result {
+    id: number;
+    status: string;
+    content: string;
+    images: Image[];
+    link: null;
+    category: Category;
+    sub_category: Category;
+    release_time: null;
+    duration: null;
+    thumbnail: null;
+    is_blur: boolean;
+    post_type: string;
+    can_vote: boolean;
+    can_comment: boolean;
+    author: Author;
+    group: Group;
+    choices: any[];
+    choices_voted: boolean;
+    num_vote_up: number;
+    bookmarks_count: number;
+    bookmarked: boolean;
+    upvoted: boolean;
+    comments_count: number;
+    available_awards: any[];
+    awards: Awards;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface Author {
+    id: number;
+    username: string;
+    first_name: string;
+    last_name: string;
+    is_active: boolean;
+    avatar: string;
+}
+
+export interface Awards {
+}
+
+export interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    color?: string;
+}
+
+export interface Group {
+    id: number;
+    status: string;
+    author: Author;
+    subscribers_count: number;
+    subscribed: boolean;
+    post_count: number;
+    is_admin: boolean;
+    is_moderator: boolean;
+}
+
+export interface Image {
+    id: number;
+    image: string;
+    height: number;
+    width: number;
+    description: string;
+    author: Author;
+}
 
 export function SHome() {
-  const [searchParams] = useSearchParams();
-  const [clicked, toogle] = useBooleanToggle(false);
+    const { classes, cx } = useStyles();
 
-  return (
-    <CommunityLayout>
-      <SimpleGrid cols={1} spacing={3}>
-        {searchParams.get('post') ? (
-          <PostDetails postedAt="10 minutes ago"
-            body={demoHtmlText}
-            author={{
-              name: "Jacob Warnhalter",
-              image:
-                "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-            }}
-            temp="120" />
-        ) : (
-          <>
+    const { author } = useParams<"author">();
+    const { sName } = useParams<"sName">();
+    const [clicked, toogle] = useBooleanToggle(false);
+    const [posts, setPosts] = useState<Result[]>()
 
-            {clicked ? <EditorWrapper toogle={toogle} /> : <EditorCreator toogle={toogle} />}
-            <DiscussionPostCard
-              postedAt="10 minutes ago"
-              body={demoHtmlText}
-              author={{
-                name: "Jacob Warnhalter",
-                image:
-                  "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-              }}
-              temp="120"
-            />
-            <PollPostCard
-              postedAt="10 minutes ago"
-              body={demoHtmlText}
-              author={{
-                name: "Jacob Warnhalter",
-                image:
-                  "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-              }}
-              temp="120"
-            />
-            <AmaPostCard
-              postedAt="10 minutes ago"
-              body={demoText}
-              author={{
-                name: "Jacob Warnhalter",
-                image:
-                  "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-              }}
-              temp="120"
-            />
-          </>
-        )}
-      </SimpleGrid>
-    </CommunityLayout>
-  );
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['sub_cat_posts', author, sName], () => getPostsFromSubCategory({ username: author, sub_category: sName }), {
+        onSuccess: res => {
+            setPosts([...res.data.results])
+        }
+    })
+
+    return (
+        <CommunityLayout>
+            <SimpleGrid cols={1} spacing={3}>
+                {clicked ? <EditorWrapper toogle={toogle} /> : <EditorCreator toogle={toogle} />}
+                {isLoading ? (
+                    <>
+                        {[...Array(5)].map((e, i) => (
+                            <PlaceholderPostCard key={i} />
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        {posts?.map((el, i) => {
+                            if (el.post_type === "discussion") return (
+                                <DiscussionPostCard {...el} key={i} />)
+                        })}</>
+                )}
+            </SimpleGrid>
+        </CommunityLayout>
+    );
 }

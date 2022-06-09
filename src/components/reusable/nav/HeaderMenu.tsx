@@ -5,7 +5,7 @@ import { signOut, getAuth } from "firebase/auth";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
 import { useQuery } from "react-query";
 import { getLoggedInUser } from "../../../helpers";
@@ -72,7 +72,9 @@ interface DataParam {
 }
 
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { pId } = useParams<"pId">();
+  const navigate = useNavigate();
+
   const [drawer, setDrawer] = useState(false);
 
   const { classes } = useStyles();
@@ -90,8 +92,8 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
     <>
       <Header height={NavHeight} className={classes.header}>
         <div className={classes.inner}>
-          {searchParams.get('post') ? (
-            <Button color="gray" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => setSearchParams('')}>
+          {pId ? (
+            <Button variant="default" color="dark" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
               Go Back
             </Button>
           ) : (

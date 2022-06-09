@@ -47,13 +47,6 @@ export function PremierPostTab({ toogle, setLoading }: Props) {
     editorRef?.current?.focus();
   }, []);
 
-  const insertText = (text: string) => {
-    const quillRef = editorRef?.current?.getEditor();
-    var range = quillRef?.getSelection();
-    let position = range ? range.index : 0;
-    quillRef?.insertText(position, text);
-  };
-
   return (
     <>
       <PremierDropzone />

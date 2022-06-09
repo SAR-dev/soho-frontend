@@ -64,7 +64,7 @@ export function CreateComment() {
                         <Text size="xs" color="dimmed">Please read the community rules before commenting</Text>
                     </div>
                 </Stack>
-                <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} />
+                <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
                 <Group>
                     <EmojiPopover insertText={insertText} />
                     <Switch

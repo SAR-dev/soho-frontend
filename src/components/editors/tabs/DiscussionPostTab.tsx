@@ -155,7 +155,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   return (
     <>
-      <TextEditor editorRef={editorRef} text={text} setText={setText} />
+      <TextEditor editorRef={editorRef} text={text} setText={setText} insertText={insertText} />
       <ImageDropzone disabled={false} images={images} addImage={addImage} />
       <Group>
         <EmojiPopover insertText={insertText} />

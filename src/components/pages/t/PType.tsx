@@ -1,4 +1,4 @@
-import { SimpleGrid, Skeleton } from "@mantine/core";
+import { createStyles, SimpleGrid, Skeleton } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
 import { EditorCreator } from "../../editors/EditorCreator";
 import { EditorWrapper } from "../../editors/EditorWrapper";
@@ -10,6 +10,20 @@ import { useParams } from "react-router-dom";
 import { getPostsFromType } from "../../../helpers";
 import { useQuery } from "react-query";
 import { useState } from "react";
+import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
+
+const useStyles = createStyles((theme, _params, getRef) => ({
+    wrapper: {
+        position: "relative",
+        padding: theme.spacing.xl,
+        backgroundColor:
+            theme.colorScheme === "dark"
+                ? theme.colors.dark[8]
+                : theme.colors.gray[0],
+        display: "flex",
+    }
+}));
+
 
 export interface DataParam {
     data: {
@@ -90,12 +104,14 @@ export interface Image {
 }
 
 export function PType() {
+    const { classes, cx } = useStyles();
+
     const { author } = useParams<"author">();
     const { pType } = useParams<"pType">();
     const [clicked, toogle] = useBooleanToggle(false);
     const [posts, setPosts] = useState<Result[]>()
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['posts', author, pType], () => getPostsFromType({ username: author, type: pType }), {
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['type_posts', author, pType], () => getPostsFromType({ username: author, type: pType || "all" }), {
         onSuccess: res => {
             setPosts([...res.data.results])
         }
@@ -107,49 +123,17 @@ export function PType() {
                 {clicked ? <EditorWrapper toogle={toogle} /> : <EditorCreator toogle={toogle} />}
                 {isLoading ? (
                     <>
-                        <Skeleton height={50} circle mb="xl" />
-                        <Skeleton height={8} radius="xl" />
-                        <Skeleton height={8} mt={6} radius="xl" />
-                        <Skeleton height={8} mt={6} width="70%" radius="xl" />
+                        {[...Array(5)].map((e, i) => (
+                            <PlaceholderPostCard key={i} />
+                        ))}
                     </>
                 ) : (
                     <>
-                        {posts?.map(el => {
-                            if (el.post_type === "post") return (
-                            <DiscussionPostCard
-                                postedAt="10 minutes ago"
-                                body={el.content}
-                                author={{
-                                    name: "Jacob Warnhalter",
-                                    image:
-                                        "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-                                }}
-                                temp="120"
-                            />)
+                        {posts?.map((el, i) => {
+                            if (el.post_type === "discussion") return (
+                                <DiscussionPostCard {...el} key={i} />)
                         })}</>
                 )}
-
-
-                {/* <PollPostCard
-                    postedAt="10 minutes ago"
-                    body={demoHtmlText}
-                    author={{
-                        name: "Jacob Warnhalter",
-                        image:
-                            "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-                    }}
-                    temp="120"
-                />
-                <AmaPostCard
-                    postedAt="10 minutes ago"
-                    body={demoText}
-                    author={{
-                        name: "Jacob Warnhalter",
-                        image:
-                            "https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png",
-                    }}
-                    temp="120"
-                /> */}
             </SimpleGrid>
         </CommunityLayout>
     );

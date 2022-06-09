@@ -139,7 +139,7 @@ export function EditorCreator({ toogle }: Props) {
         </Paper>
       </Paper>
       {!isLoading && !data?.subscribed && (
-        <Alert icon={<AlertCircle size={16} />} color="gray">
+        <Alert icon={<AlertCircle size={16} />} color="yellow">
           You need to subscribe to create a post in this group! To subscribe click the "+" button on the left side.
         </Alert>
       )}

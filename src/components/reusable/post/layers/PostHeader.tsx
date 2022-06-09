@@ -16,11 +16,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 interface Props {
-  author: {
-    name: string;
-    image: string;
-  };
-  temp: string;
+  name: string;
+  image: string;
+  temp: number;
   postedAt: string;
 }
 
@@ -30,7 +28,7 @@ export function PostHeader({ ...props }: Props) {
     <Stack spacing={3}>
       <Group spacing="xs">
         <Text size="sm" weight={700}>
-          {props.author.name}
+          {props.name}
         </Text>
       </Group>
       <Group spacing="xs">

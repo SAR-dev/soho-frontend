@@ -39,7 +39,7 @@ export function AmaPostCard({
     <div className={classes.wrapper}>
       <Author />
       <div>
-        <PostHeader author={author} temp={temp} postedAt={postedAt} />
+        {/* <PostHeader author={author} temp={temp} postedAt={postedAt} /> */}
         <AmaRenderer body={body} />
         <PostFooter />
       </div>

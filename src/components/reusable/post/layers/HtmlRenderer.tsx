@@ -1,5 +1,5 @@
 import { createStyles, TypographyStylesProvider, Anchor } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import HTMLEllipsis from 'react-lines-ellipsis/lib/html'
 import { useState } from "react";
 
@@ -11,21 +11,23 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export function HtmlRenderer({ body }: { body: string }) {
+export function HtmlRenderer({ body, id }: { body: string, id: number }) {
+  const { author } = useParams<"author">();
+
   const { classes } = useStyles();
   const [expanded, setExpanded] = useState(false)
   return (
     <TypographyStylesProvider className={classes.typography}>
       <HTMLEllipsis
         unsafeHTML={body}
-        maxLine={expanded ? '20' : '8'}
+        maxLine={expanded ? '30' : '8'}
         ellipsis='...'
         basedOn='letters'
       />
       {expanded ? (
         <Anchor
           component={Link}
-          to="?post=1"
+          to={`/c/${author}/p/${id}`}
           className={classes.typography}
         >
           Continue reading...
