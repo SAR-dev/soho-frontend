@@ -18,10 +18,12 @@ import { useQuery, useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 
 interface DataParam {
-    count: number;
-    next: null;
-    previous: null;
-    results: Result[];
+    data: {
+        count: number;
+        next: null;
+        previous: null;
+        results: Result[];
+    }
 }
 
 interface Result {
@@ -49,12 +51,12 @@ const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
     const { author } = useParams<"author">();
     const [parentChannels, setParentChannels] = useState<SelectModel[]>([])
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
-        onSuccess: data => {
-            const res = data.results.map(el => {
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
+        onSuccess: res => {
+            const t_res = res.data.results.map(el => {
                 return { label: el.name, value: el.slug }
             })
-            setParentChannels([...res])
+            setParentChannels([...t_res])
         }
     })
 

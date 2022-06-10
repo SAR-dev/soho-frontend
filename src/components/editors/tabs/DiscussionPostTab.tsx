@@ -42,10 +42,12 @@ interface Props {
 }
 
 interface DataParam {
-  count: number;
-  next: null;
-  previous: null;
-  results: Result[];
+  data: {
+    count: number;
+    next: null;
+    previous: null;
+    results: Result[];
+  }
 }
 
 interface Result {
@@ -77,9 +79,9 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   const queryClient = useQueryClient()
   const [channels, setChannels] = useState<Result[]>([])
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author), {
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
     onSuccess: res => {
-      setChannels([...res.results])
+      setChannels([...res.data.results])
     }
   })
   const { classes, cx } = useStyles();

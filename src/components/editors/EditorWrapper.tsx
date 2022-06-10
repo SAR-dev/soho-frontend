@@ -33,21 +33,23 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface DataParam {
-  id: number;
-  title: null;
-  about: null;
-  members_name: string;
-  color: string;
-  status: string;
-  subscribers_count: number;
-  subscribed: boolean;
-  post_count: number;
-  author: Author;
-  common_member: Author;
-  is_admin: boolean;
-  is_moderator: boolean;
-  created_at: Date;
-  updated_at: Date;
+  data: {
+    id: number;
+    title: null;
+    about: null;
+    members_name: string;
+    color: string;
+    status: string;
+    subscribers_count: number;
+    subscribed: boolean;
+    post_count: number;
+    author: Author;
+    common_member: Author;
+    is_admin: boolean;
+    is_moderator: boolean;
+    created_at: Date;
+    updated_at: Date;
+  }
 }
 
 interface Author {
@@ -75,7 +77,7 @@ interface Props {
 export function EditorWrapper({ toogle }: Props) {
   const { author } = useParams<"author">();
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity(author))
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
 
   const [value, setValue] = useState("discussion");
   const { classes } = useStyles();
@@ -91,7 +93,7 @@ export function EditorWrapper({ toogle }: Props) {
       <Paper className={classes.container}>
         {data && (
           <>
-            {data.is_admin ? (
+            {data.data.is_admin ? (
               <SegmentedControl
                 value={value}
                 onChange={setValue}
@@ -132,7 +134,7 @@ export function EditorWrapper({ toogle }: Props) {
                 className={classes.menus}
               />
             )}
-            {value === "discussion" && <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.is_admin} />}
+            {value === "discussion" && <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.data.is_admin} />}
             {value === "ama" && <AmaPostTab toogle={toogle} setLoading={setLoading} />}
             {value === "poll" && <PollPostTab toogle={toogle} setLoading={setLoading} />}
             {value === "premier" && <PremierPostTab toogle={toogle} setLoading={setLoading} />}

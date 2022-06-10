@@ -1,7 +1,7 @@
 import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator, ActionIcon, Alert } from "@mantine/core";
 import { AlertCircle, BrandTwitter, Photo } from "tabler-icons-react";
 import { HiBadgeCheck } from "react-icons/hi";
-import { useQuery } from "react-query";
+import { isError, useQuery } from "react-query";
 import { getCommunity } from "../../helpers";
 import { useParams } from "react-router-dom";
 
@@ -97,53 +97,106 @@ export function EditorCreator({ toogle }: Props) {
 
   const { classes, cx } = useStyles();
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity({username: author}))
+  const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
+
+  const Loader = () => (
+    <Paper radius={0}>
+      <Paper className={classes.container}>
+        <div className={classes.flex}>
+          <Indicator
+            inline
+            size={18}
+            offset={10}
+            position="bottom-end"
+            className="circular"
+            label={<HiBadgeCheck />}
+            withBorder
+          >
+            <Avatar
+              size={60}
+              src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
+              alt="Sayed Rafi"
+              className={classes.avatar}
+            />
+          </Indicator>
+          <Input
+            className={cx(classes.input, "thick-border")}
+            width="100%"
+            placeholder="Sayed Rafi, What's on your mind ?"
+            icon={<BrandTwitter size={20} />}
+            rightSectionWidth={75}
+            styles={{ rightSection: { pointerEvents: "none" } }}
+            rightSection={
+              <Badge color="blue" variant="filled">
+                Public
+              </Badge>
+            }
+            disabled={true}
+          />
+          <ActionIcon className={classes.photoButton} radius="xl" color="gray" disabled={true}>
+            <Photo size={20} />
+          </ActionIcon>
+        </div>
+      </Paper>
+    </Paper>
+  )
+  if (isLoading) return (
+    <Loader />
+  )
+
+  if (isError) return (
+    <Loader />
+  )
 
   return (
     <>
-      <Paper radius={0} onClick={() => data?.data?.subscribed && !isLoading ? toogle() : ''}>
-        <Paper className={classes.container}>
-          <div className={classes.flex}>
-            <Indicator
-              inline
-              size={18}
-              offset={10}
-              position="bottom-end"
-              className="circular"
-              label={<HiBadgeCheck />}
-              withBorder
-            >
-              <Avatar
-                size={60}
-                src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
-                alt="Sayed Rafi"
-                className={classes.avatar}
-              />
-            </Indicator>
-            <Input
-              className={cx(classes.input, "thick-border")}
-              width="100%"
-              placeholder="Sayed Rafi, What's on your mind ?"
-              icon={<BrandTwitter size={20} />}
-              rightSectionWidth={75}
-              styles={{ rightSection: { pointerEvents: "none" } }}
-              rightSection={
-                <Badge color="blue" variant="filled">
-                  Public
-                </Badge>
-              }
-              disabled={!data?.data?.subscribed}
-            />
-            <ActionIcon className={classes.photoButton} radius="xl" color="gray" disabled={!data?.subscribed}>
-              <Photo size={20} />
-            </ActionIcon>
-          </div>
-        </Paper>
-      </Paper>
-      {!isLoading && !data?.data?.subscribed && (
-        <Alert icon={<AlertCircle size={16} />} color="yellow">
-          You need to subscribe to create a post in this group! To subscribe click the "+" button on the left side.
-        </Alert>
+      {data && (
+        <>
+          <Paper radius={0} onClick={() => data.data.subscribed && !isLoading ? toogle() : ''}>
+            <Paper className={classes.container}>
+              <div className={classes.flex}>
+                <Indicator
+                  inline
+                  size={18}
+                  offset={10}
+                  position="bottom-end"
+                  className="circular"
+                  label={<HiBadgeCheck />}
+                  withBorder
+                >
+                  <Avatar
+                    size={60}
+                    src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
+                    alt="Sayed Rafi"
+                    className={classes.avatar}
+                  />
+                </Indicator>
+                <Input
+                  className={cx(classes.input, "thick-border")}
+                  width="100%"
+                  placeholder="Sayed Rafi, What's on your mind ?"
+                  icon={<BrandTwitter size={20} />}
+                  rightSectionWidth={75}
+                  styles={{ rightSection: { pointerEvents: "none" } }}
+                  rightSection={
+                    <Badge color="blue" variant="filled">
+                      Public
+                    </Badge>
+                  }
+                  disabled={!data?.data?.subscribed}
+                />
+                <ActionIcon className={classes.photoButton} radius="xl" color="gray" disabled={!data.data.subscribed}>
+                  <Photo size={20} />
+                </ActionIcon>
+              </div>
+            </Paper>
+          </Paper>
+          {!data.data.subscribed && (
+            <Alert icon={<AlertCircle size={16} />} color="yellow">
+              You need to subscribe to create a post in this group! To subscribe click the "+" button on the left side.
+            </Alert>
+          )}
+        </>
       )}
     </>
   );
