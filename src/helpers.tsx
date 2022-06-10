@@ -42,16 +42,10 @@ export async function getLoggedInUser() {
 }
 
 // COMMUNITY
-export async function getCommunity(username?: string) {
-  const { data } = await axios.get(`group/${username}/`, defaultConfig())
-  return data
-}
+export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
 
 // Channel
-export async function getChannels(username?: string) {
-  const { data } = await axios.get(`group/${username}/categories/`, defaultConfig())
-  return data
-}
+export const getChannels = async ({ username }: { username?: string }) => await axios.get(`group/${username}/categories/`, defaultConfig())
 
 export function createChannel({ username, data }: { username: string, data: createChannelInterface }): Promise<any> {
   return axios.post(`group/${username}/categories/create/`, data, defaultConfig())
@@ -107,45 +101,14 @@ export function createAuthorPost({ username, data }: { username?: string, data: 
     })
 };
 
-export function getPostsFromType({ username, type }: { username?: string, type?: string }): Promise<any> {
-  return axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
-    .then((res) => {
-      return { data: res.data }
-    })
-    .catch((err) => {
-      return { error: err }
-    })
-};
+export const getPostsFromType = async ({ username, type }: { username?: string, type?: string }) => await axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
 
-export function getPostsFromCategory({ username, category }: { username?: string, category?: string }): Promise<any> {
-  return axios.get(`post/list/group/${username}/category/${category}/`, defaultConfig())
-    .then((res) => {
-      return { data: res.data }
-    })
-    .catch((err) => {
-      return { error: err }
-    })
-};
+export const getPostsFromCategory = async ({ username, category }: { username?: string, category?: string }) => await axios.get(`post/list/group/${username}/category/${category}/`, defaultConfig())
 
-export function getPostsFromSubCategory({ username, sub_category }: { username?: string, sub_category?: string }): Promise<any> {
-  return axios.get(`post/list/group/${username}/sub_category/${sub_category}/`, defaultConfig())
-    .then((res) => {
-      return { data: res.data }
-    })
-    .catch((err) => {
-      return { error: err }
-    })
-};
+export const getPostsFromSubCategory = async ({ username, sub_category }: { username?: string, sub_category?: string }) => await axios.get(`post/list/group/${username}/sub_category/${sub_category}/`, defaultConfig())
 
-export function getPostDetails({ id }: { id?: string }): Promise<any> {
-  return axios.get(`post/${id}/`, defaultConfig())
-    .then((res) => {
-      return { data: res.data }
-    })
-    .catch((err) => {
-      return { error: err }
-    })
-};
+export const getPostDetails = async ({ id }: { id?: string }) => await axios.get(`post/${id}/`, defaultConfig())
+
 
 // OTHERS
 export async function asyncForEach<T>(

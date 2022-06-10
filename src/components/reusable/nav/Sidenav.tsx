@@ -127,21 +127,23 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface DataParam {
-  id: number;
-  title: null;
-  about: null;
-  members_name: string;
-  color: string;
-  status: string;
-  subscribers_count: number;
-  subscribed: boolean;
-  post_count: number;
-  author: Author;
-  common_member: Author;
-  is_admin: boolean;
-  is_moderator: boolean;
-  created_at: Date;
-  updated_at: Date;
+  data: {
+    id: number;
+    title: null;
+    about: null;
+    members_name: string;
+    color: string;
+    status: string;
+    subscribers_count: number;
+    subscribed: boolean;
+    post_count: number;
+    author: Author;
+    common_member: Author;
+    is_admin: boolean;
+    is_moderator: boolean;
+    created_at: Date;
+    updated_at: Date;
+  }
 }
 
 interface Author {
@@ -160,8 +162,8 @@ export function Sidenav() {
   const [active, setActive] = useState('Discussion');
   const [opened, setOpened] = useState(false);
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity(author))
-  
+  const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
+
   return (
     <>
       <Navbar className={classes.navbar}>
@@ -175,7 +177,7 @@ export function Sidenav() {
           className='thick-border'
         />
 
-        <UserButton data={data} isLoading={isLoading} />
+        <UserButton data={data?.data} isLoading={isLoading} />
 
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
           <div className={classes.mainLinks}>
@@ -186,7 +188,7 @@ export function Sidenav() {
             <Text size="xs" weight={500} color="dimmed">
               Channels
             </Text>
-            {data?.is_admin && (
+            {data?.data?.is_admin && (
               <Tooltip label="Create Channel" withArrow position="right">
                 <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
                   <Plus size={12} />

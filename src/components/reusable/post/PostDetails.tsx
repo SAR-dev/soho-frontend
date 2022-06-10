@@ -2,7 +2,6 @@ import { createStyles, Stack, Divider } from '@mantine/core';
 import { Comments } from '../comment/Comments';
 import { DiscussionPostCard } from './DiscussionPostCard';
 import { CreateComment } from '../comment/CreateComment';
-import { useEffect } from 'react';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -79,7 +78,6 @@ export interface Group {
 
 
 export function PostDetails({...props}: DataParam) {
-    
     const { classes } = useStyles();
     return (
         <Stack spacing={0}>

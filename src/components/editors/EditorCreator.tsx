@@ -60,21 +60,23 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface DataParam {
-  id: number;
-  title: null;
-  about: null;
-  members_name: string;
-  color: string;
-  status: string;
-  subscribers_count: number;
-  subscribed: boolean;
-  post_count: number;
-  author: Author;
-  common_member: Author;
-  is_admin: boolean;
-  is_moderator: boolean;
-  created_at: Date;
-  updated_at: Date;
+  data: {
+    id: number;
+    title: null;
+    about: null;
+    members_name: string;
+    color: string;
+    status: string;
+    subscribers_count: number;
+    subscribed: boolean;
+    post_count: number;
+    author: Author;
+    common_member: Author;
+    is_admin: boolean;
+    is_moderator: boolean;
+    created_at: Date;
+    updated_at: Date;
+  }
 }
 
 interface Author {
@@ -95,11 +97,11 @@ export function EditorCreator({ toogle }: Props) {
 
   const { classes, cx } = useStyles();
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity(author))
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['community', author], () => getCommunity({username: author}))
 
   return (
     <>
-      <Paper radius={0} onClick={() => data?.subscribed && !isLoading ? toogle() : ''}>
+      <Paper radius={0} onClick={() => data?.data?.subscribed && !isLoading ? toogle() : ''}>
         <Paper className={classes.container}>
           <div className={classes.flex}>
             <Indicator
@@ -130,7 +132,7 @@ export function EditorCreator({ toogle }: Props) {
                   Public
                 </Badge>
               }
-              disabled={!data?.subscribed}
+              disabled={!data?.data?.subscribed}
             />
             <ActionIcon className={classes.photoButton} radius="xl" color="gray" disabled={!data?.subscribed}>
               <Photo size={20} />
@@ -138,7 +140,7 @@ export function EditorCreator({ toogle }: Props) {
           </div>
         </Paper>
       </Paper>
-      {!isLoading && !data?.subscribed && (
+      {!isLoading && !data?.data?.subscribed && (
         <Alert icon={<AlertCircle size={16} />} color="yellow">
           You need to subscribe to create a post in this group! To subscribe click the "+" button on the left side.
         </Alert>

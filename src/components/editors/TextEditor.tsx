@@ -37,6 +37,8 @@ export function TextEditor({ editorRef, text, setText, insertText, focus = true 
   useEffect(() => {
     if (focus) {
       editorRef?.current?.focus();
+    } else {
+      editorRef?.current?.blur()
     }
   }, []);
 

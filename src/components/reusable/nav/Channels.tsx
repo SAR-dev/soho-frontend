@@ -36,10 +36,12 @@ const useStyles = createStyles((theme) => ({
 
 
 interface DataParam {
-    count: number;
-    next: null;
-    previous: null;
-    results: Result[];
+    data: {
+        count: number;
+        next: null;
+        previous: null;
+        results: Result[];
+    }
 }
 
 interface Result {
@@ -61,11 +63,14 @@ export function Channels() {
     const { author } = useParams<"author">();
     const { classes } = useStyles();
     const [channels, setChannels] = useState<Result[]>()
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels(author),  {
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['channels', author], () => getChannels({username: author}), {
         onSuccess: res => {
-            setChannels([...res.results])
+            setChannels([...res.data.results])
         }
     })
+
+    if(isLoading) return <></>
+    if(isError) return <></>
 
     return (
         <div className={classes.linksInner}>
