@@ -87,7 +87,7 @@ export function TextEditor({ editorRef, text, setText, insertText, focus = true 
           ["clean"],
         ]}
         onPaste={e => {
-          e.preventDefault()
+          // e.preventDefault()
           insertText(e.clipboardData.getData('Text'))
         }}
       />
