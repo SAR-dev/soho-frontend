@@ -99,7 +99,9 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     editorRef?.current?.focus();
     if (author && sName) setQueryKey(["sub_cat_posts", author, sName])
     if (author && cName) setQueryKey(["cat_posts", author, cName])
-    if (author && pType) setQueryKey(["type_posts", author, pType])
+    if ((author && pType)) setQueryKey(["type_posts", author, pType])
+    if ((author && !sName && !cName && !pType)) setQueryKey(["type_posts", author, "discussion"])
+
   }, []);
 
   const insertText = (text: string) => {
@@ -136,7 +138,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
             icon: <Check size={18} />,
             autoClose: 5000,
           });
-          queryClient.invalidateQueries(queryKey)
+          queryClient.invalidateQueries([...queryKey])
           toogle()
         }
       })

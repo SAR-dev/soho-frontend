@@ -2,7 +2,7 @@ import { createStyles, TypographyStylesProvider, Anchor } from "@mantine/core";
 import { Link, useParams } from "react-router-dom";
 import parse, { HTMLReactParserOptions } from 'html-react-parser';
 import { Element } from 'domhandler/lib/node';
-import Linkify from 'react-linkify';
+import Linkify from 'linkify-react';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   typography: {
@@ -33,11 +33,7 @@ export function HtmlRenderer({ body, id }: { body: string, id: number }) {
   const { classes, cx } = useStyles();
   return (
     <TypographyStylesProvider className={classes.typography}>
-      <Linkify
-        properties={{
-          target: '_blank',
-        }}
-      >
+      <Linkify options={{target: "_blank"}}>
         {parse(body, options)}
       </Linkify>
     </TypographyStylesProvider>
