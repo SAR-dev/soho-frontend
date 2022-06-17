@@ -9,8 +9,8 @@ export interface createSubChannelInterface {
 
 export interface createPostInterface {
     content: string;
-    images: number[];
-    category: number;
-    sub_category: number;
+    images?: number[];
+    category?: number;
+    sub_category?: number;
     post_type: string;
 }

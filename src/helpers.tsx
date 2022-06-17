@@ -44,7 +44,7 @@ export async function getLoggedInUser() {
 // COMMUNITY
 export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
 
-// Channel
+// CHANNEL
 export const getChannels = async ({ username }: { username?: string }) => await axios.get(`group/${username}/categories/`, defaultConfig())
 
 export function createChannel({ username, data }: { username: string, data: createChannelInterface }): Promise<any> {

@@ -31,7 +31,10 @@ const useStyles = createStyles((theme) => ({
       ? theme.colors.dark[5]
       : theme.colors.gray[2],
     padding: theme.spacing.xs,
-    borderRadius: theme.radius.sm
+    borderRadius: theme.radius.sm,
+    backgroundColor: theme.colorScheme === 'dark'
+      ? theme.fn.rgba(theme.colors.yellow[1], 0.25)
+      : theme.colors[theme.primaryColor][0],
   }
 }));
 
@@ -101,7 +104,6 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     if (author && cName) setQueryKey(["cat_posts", author, cName])
     if ((author && pType)) setQueryKey(["type_posts", author, pType])
     if ((author && !sName && !cName && !pType)) setQueryKey(["type_posts", author, "discussion"])
-
   }, []);
 
   const insertText = (text: string) => {
@@ -230,7 +232,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           <AlertCircle size={18} color="yellow" />
         }>
           <Text size="xs" weight={600} color="yellow" mb="xs">Fix these errors</Text>
-          {errors.map(e => <List.Item>{e}</List.Item>)}
+          {errors.map(e => <List.Item><Text size="xs" weight={600} color="yellow">{e}</Text></List.Item>)}
         </List>
       )}
     </>
