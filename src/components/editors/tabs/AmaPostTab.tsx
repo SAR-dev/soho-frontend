@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createStyles, Group, Button, Select, Textarea, Tooltip, List, Text } from "@mantine/core";
+import { createStyles, Group, Button, Select, Textarea, Tooltip, List, Text, NumberInput } from "@mantine/core";
 import { AlertCircle, Calendar, Check, Eye, Send } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import insertTextAtCursor from "insert-text-at-cursor";
@@ -57,6 +57,9 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colorScheme === 'dark'
       ? theme.fn.rgba(theme.colors.yellow[1], 0.25)
       : theme.colors[theme.primaryColor][0],
+  },
+  small: {
+    width: 100
   }
 }));
 
@@ -73,6 +76,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
   const [text, setText] = useState("");
   const { classes, cx } = useStyles();
   const [datetime, setDatetime] = useState<Date | null>(null);
+  const [duration, setDuration] = useState(0)
   const [showCalender, setShowCalender] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
@@ -103,7 +107,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
       content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       post_type: 'ama',
       release_time: datetime,
-      duration: ''
+      duration: duration*3600
     }
     createAuthorPost({ username: author, data: data }).then(res => {
       if (res.error) {
@@ -128,7 +132,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
       <Textarea
         placeholder="Start typing here...."
         autosize
-        minRows={2}
+        minRows={3}
         value={text}
         autoFocus
         onChange={(event) => setText(event.currentTarget.value)}
@@ -141,6 +145,12 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
           <Button className={cx(classes.calenderButton, { [classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime })} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
             {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Release Time"}
           </Button>
+        </Tooltip>
+        <Tooltip label="Select Duration in hours" position="top">
+          <Group spacing="xs">
+            <NumberInput size="xs" className={classes.small} placeholder="Duration" min={1} value={duration} onChange={(val: number) => setDuration(val)} />
+            <Text size="xs" color="dimmed" weight={600}>HH</Text>
+          </Group>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
