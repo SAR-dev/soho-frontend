@@ -1,8 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Modal, Button, Stack } from '@mantine/core';
+import { Modal, Button, Stack, Text, createStyles } from '@mantine/core';
 import { Calendar, TimeInput } from '@mantine/dates';
 import { Clock } from 'tabler-icons-react';
 import dayjs from 'dayjs';
+
+const useStyles = createStyles((theme) => ({
+    bordered: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: theme.colorScheme === "dark" ? theme.colors.dark[3] : theme.colors.gray[3],
+        padding: theme.spacing.sm,
+        borderRadius: theme.radius.md
+    }
+}));
 
 interface Props {
     opened: boolean;
@@ -12,6 +22,7 @@ interface Props {
 }
 
 export function CalenderModal({ opened, setOpened, datetime, setDatetime }: Props) {
+    const { classes, cx } = useStyles();
     const [date, setDate] = useState<Date | null>(null);
     const [time, setTime] = useState<Date | null>(null);
 
@@ -38,14 +49,20 @@ export function CalenderModal({ opened, setOpened, datetime, setDatetime }: Prop
             onClose={() => setOpened(false)}
             title="Select Date and Time"
         >
-            <Stack spacing="md">
-                <Calendar value={date} onChange={setDate} style={{ margin: "auto" }} />
-                <TimeInput
-                    defaultValue={datetime}
-                    icon={<Clock size={16} />}
-                    value={time}
-                    onChange={setTime}
-                />
+            <Stack spacing="lg">
+                <Stack spacing="sm" className={classes.bordered}>
+                    <Text color="dimmed" weight={600} size="sm">Pick Date</Text>
+                    <Calendar value={date} onChange={setDate} style={{ margin: "auto" }} />
+                </Stack>
+                <Stack spacing="sm" className={classes.bordered}>
+                    <Text color="dimmed" weight={600} size="sm">Pick Time</Text>
+                    <TimeInput
+                        defaultValue={datetime}
+                        icon={<Clock size={16} />}
+                        value={time}
+                        onChange={setTime}
+                    />
+                </Stack>
                 <Button onClick={submit} size="xs" fullWidth>Submit</Button>
             </Stack>
         </Modal>

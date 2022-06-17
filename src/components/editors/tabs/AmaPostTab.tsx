@@ -137,7 +137,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
       />
       <Group>
         <EmojiPopover insertText={insertText} />
-        <Tooltip label="Set Deadline" position="top">
+        <Tooltip label="Select Release Time" position="top">
           <Button className={cx(classes.calenderButton, { [classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime })} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
             {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Release Time"}
           </Button>
