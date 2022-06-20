@@ -133,6 +133,8 @@ export function PType() {
                         {posts?.map((el, i) => {
                             if (el.post_type === "discussion") return (
                                 <DiscussionPostCard {...el} key={i} />)
+                            if (el.post_type === "ama") return (
+                                <AmaPostCard {...el} key={i} />)
                         })}
                         {posts?.length === 0 && <NoResults />}
                     </>

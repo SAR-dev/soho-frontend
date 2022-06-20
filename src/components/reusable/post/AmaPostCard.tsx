@@ -5,6 +5,9 @@ import { Author } from "./layers/Author";
 import { PostHeader } from "./layers/PostHeader";
 import { PostFooter } from "./layers/PostFooter";
 import { AmaRenderer } from "./layers/AmaRenderer";
+import { PostDataParam } from "@interfaces/post";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -18,29 +21,16 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-interface Props {
-  postedAt: string;
-  body: string;
-  temp: string;
-  author: {
-    name: string;
-    image: string;
-  };
-}
+dayjs.extend(relativeTime)
 
-export function AmaPostCard({
-  postedAt,
-  body,
-  author,
-  temp,
-}: Props) {
+export function AmaPostCard({ ...props }: PostDataParam) {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>
       <Author />
       <div>
-        {/* <PostHeader author={author} temp={temp} postedAt={postedAt} /> */}
-        <AmaRenderer body={body} />
+        <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
+        <AmaRenderer body={props.content} />
         <PostFooter />
       </div>
     </div>
