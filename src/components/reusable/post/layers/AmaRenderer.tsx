@@ -1,4 +1,5 @@
 import { createStyles, Text, TextInput, ActionIcon, Center, Stack, Button } from "@mantine/core";
+import dayjs from "dayjs";
 import { ArrowRight, BellRinging, LivePhoto } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -19,7 +20,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-export function AmaRenderer({ body }: { body: string }) {
+export function AmaRenderer({ body, release_time }: { body: string, release_time: string }) {
   const { classes } = useStyles();
   return (
     <Stack spacing="sm" className={classes.typography}>
@@ -27,7 +28,7 @@ export function AmaRenderer({ body }: { body: string }) {
       <Center inline style={{ justifyContent: "start" }}>
         <LivePhoto className="rotate" color="yellow" size={18} />
         <Text size="xs" color="yellow" weight={700} className={classes.askTime}>
-          Live - April 14 - 10:00 AM
+          Live - {dayjs(release_time).format('MMM DD  hh:mm A')}
         </Text>
         <Button size="xs" compact className={classes.notification}>
           Turn <BellRinging size={14} style={{ marginLeft: 5, marginRight: 5 }} /> On

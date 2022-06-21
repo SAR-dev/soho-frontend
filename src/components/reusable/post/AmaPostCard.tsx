@@ -30,7 +30,7 @@ export function AmaPostCard({ ...props }: PostDataParam) {
       <Author />
       <div>
         <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
-        <AmaRenderer body={props.content} />
+        <AmaRenderer body={props.content} release_time={props.release_time} />
         <PostFooter />
       </div>
     </div>

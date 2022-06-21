@@ -3,12 +3,12 @@ export interface PostDataParam {
     status: string;
     content: string;
     images: Image[];
-    link: null;
+    link: string;
     category: Category;
     sub_category: Category;
-    release_time: null;
-    duration: null;
-    thumbnail: null;
+    release_time: string;
+    duration: string;
+    thumbnail: string;
     is_blur: boolean;
     post_type: string;
     can_vote: boolean;
