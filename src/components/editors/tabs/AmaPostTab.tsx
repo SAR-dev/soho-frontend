@@ -59,7 +59,7 @@ const useStyles = createStyles((theme) => ({
       : theme.colors[theme.primaryColor][0],
   },
   small: {
-    width: 100
+    width: 70
   }
 }));
 
@@ -68,21 +68,28 @@ interface Props {
   setLoading: (params: boolean) => void;
 }
 
+const times = [
+  {label: "MM", value: String(60)},
+  {label: "HH", value: String(60*60)},
+  {label: "DD", value: String(60*60*24)},
+]
+
 export function AmaPostTab({ toogle, setLoading }: Props) {
   const { author } = useParams<"author">();
   const notifications = useNotifications();
   const queryClient = useQueryClient()
 
-  const [text, setText] = useState("");
   const { classes, cx } = useStyles();
+  const [text, setText] = useState("");
   const [datetime, setDatetime] = useState<Date | null>(null);
-  const [duration, setDuration] = useState(0)
+  const [duration, setDuration] = useState(1)
+  const [format, setFormat] = useState<string>(times[1].value)
   const [showCalender, setShowCalender] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
 
   useEffect(() => {
-    if (author) setQueryKey(["ama_posts", author])
+    if (author) setQueryKey(["type_posts", author, "ama"])
   }, [])
 
 
@@ -107,7 +114,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
       content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       post_type: 'ama',
       release_time: datetime,
-      duration: duration*3600
+      duration: duration*parseInt(format)
     }
     createAuthorPost({ username: author, data: data }).then(res => {
       if (res.error) {
@@ -146,10 +153,10 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
             {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Release Time"}
           </Button>
         </Tooltip>
-        <Tooltip label="Select Duration in hours" position="top">
+        <Tooltip label="Select Duration" position="top">
           <Group spacing="xs">
-            <NumberInput size="xs" className={classes.small} placeholder="Duration" min={1} value={duration} onChange={(val: number) => setDuration(val)} />
-            <Text size="xs" color="dimmed" weight={600}>HH</Text>
+            <NumberInput size="xs" className={classes.small} min={1} value={duration} onChange={(val: number) => setDuration(val)} />
+            <Select data={[...times]} size="xs" className={classes.small} value={format} onChange={(e:string )=> setFormat(e)} />
           </Group>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>

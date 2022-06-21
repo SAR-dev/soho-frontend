@@ -16,6 +16,9 @@ import { Poll } from "../../reusable/post/layers/Poll";
 import { TextEditor } from "../TextEditor";
 import dayjs from 'dayjs';
 import { CalenderModal } from "../../reusable/modal/CalenderModal";
+import { useParams } from "react-router-dom";
+import { useNotifications } from "@mantine/notifications";
+import { useQueryClient } from "react-query";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -50,6 +53,9 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[3]
         : theme.colors.gray[8],
+  },
+  small: {
+    width: 100
   }
 }));
 
@@ -59,16 +65,23 @@ interface Props {
 }
 
 export function PollPostTab({ toogle, setLoading }: Props) {
+  const { author } = useParams<"author">();
+  const notifications = useNotifications();
+  const queryClient = useQueryClient()
+
   const { classes, cx } = useStyles();
   const [text, setText] = useState("");
-  const [visibility, setVisibility] = useState<any | null>(null);
+  const [images, setImages] = useState<Array<number>>([])
   const editorRef = useRef<Editor>(null);
   const [datetime, setDatetime] = useState<Date | null>(null);
+  const [duration, setDuration] = useState(0)
   const [showCalender, setShowCalender] = useState(false)
-  const [images, setImages] = useState<Array<number>>([])
+  const [errors, setErrors] = useState<string[]>([])
+  const [queryKey, setQueryKey] = useState<string[]>([])
 
   useEffect(() => {
     editorRef?.current?.focus();
+    if (author) setQueryKey(["type_posts", author, "poll"])
   }, []);
 
   const insertText = (text: string) => {
@@ -105,21 +118,6 @@ export function PollPostTab({ toogle, setLoading }: Props) {
       </div>
       <Group>
         <EmojiPopover insertText={insertText} />
-        <Select
-          placeholder="Visibility"
-          data={[
-            { value: "1", label: "Public" },
-            { value: "2", label: "Closed" },
-            { value: "3", label: "Private" },
-          ]}
-          icon={<Eye size={16} />}
-          searchable
-          nothingFound="No options"
-          value={visibility}
-          onChange={(e) => setVisibility(e)}
-          size="xs"
-          className={classes.dropdown}
-        />
         <Tooltip label="Set Deadline" position="top">
           <Button className={cx(classes.calenderButton, {[classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime})} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
             {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Deadline"}
