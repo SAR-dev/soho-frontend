@@ -1,14 +1,14 @@
 export interface PostDataParam {
     id: number;
     status: string;
-    content: string;
+    content: string | null;
     images: Image[];
-    link: string;
+    link: string | null;
     category: Category;
     sub_category: Category;
-    release_time: string;
-    duration: string;
-    thumbnail: string;
+    release_time: string | null;
+    duration: string | null;
+    thumbnail: string | null;
     is_blur: boolean;
     post_type: string;
     can_vote: boolean;

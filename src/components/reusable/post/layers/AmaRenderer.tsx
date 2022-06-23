@@ -20,7 +20,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-export function AmaRenderer({ body, release_time }: { body: string, release_time: string }) {
+export function AmaRenderer({ body, release_time }: { body: string, release_time: string | null }) {
   const { classes } = useStyles();
   return (
     <Stack spacing="sm" className={classes.typography}>
