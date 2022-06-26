@@ -151,6 +151,8 @@ export function createComment({ postId, content }: { postId: number, content: st
     })
 };
 
+export const getComments = async ({ postId }: { postId?: number }) => await axios.get(`comment/list/post/${postId}/`, defaultConfig())
+
 // OTHERS
 export async function asyncForEach<T>(
   array: Array<T>,
@@ -177,3 +179,5 @@ export const parseErrors = (data: { response: { data: { [x: string]: any; }; }; 
   })
   return msgs
 }
+
+export const doubleDigit = (num: number) => ("0" + num).slice(-2);

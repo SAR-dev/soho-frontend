@@ -4,12 +4,9 @@ import { Reply } from './Reply';
 import { MdWavingHand, MdReply, MdReport } from "react-icons/md";
 import { FaGift } from 'react-icons/fa';
 import { ReplyFooter } from './ReplyFooter';
+import { CommentDataParam } from '@interfaces/comment';
 
 const text = `<p>Django is a Python-based web framework that allows you to quickly create efficient web applications. If you are new to Django then you can refer to Django Introduction and Installation. Here we are going to learn How to create a Django project using Firebase as Database .</p>`
-
-interface Props {
-    layout: 'comment' | 'reply'
-}
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     cwrapper: {
@@ -66,7 +63,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }
 }));
 
-export function CommentReplyLayout({ layout }: Props) {
+export function CommentReplyLayout({ layout, data }: { layout: 'comment' | 'reply', data: CommentDataParam }) {
     const { classes, cx } = useStyles();
 
     return (
@@ -75,11 +72,11 @@ export function CommentReplyLayout({ layout }: Props) {
                 <Group spacing="xs">
                     <Avatar
                         size={20}
-                        src={`https://avatars.dicebear.com/api/micah/seed.svg`}
+                        src={data.author.avatar}
                         radius={20}
                         className={classes.avatar}
                     />
-                    <Text size="sm" weight={600} color="yellow">Sayed Ar Rafi</Text>
+                    <Text size="sm" weight={600} color="yellow">{`${data.author.first_name} ${data.author.last_name}`}</Text>
                     <Text size="sm" weight={600} color="dimmed">2 hours ago</Text>
                     <Group spacing="xs" ml="auto" className={cx(classes.menu, { ['comment-menus']: layout === 'comment' }, { ['reply-menus']: layout === 'reply' })}>
                         <Tooltip label="Clap" position="top">
@@ -105,18 +102,18 @@ export function CommentReplyLayout({ layout }: Props) {
                     </Group>
                 </Group>
                 <TypographyStylesProvider className={classes.typography}>
-                    <div dangerouslySetInnerHTML={{ __html: text }} />
+                    <div dangerouslySetInnerHTML={{ __html: data.content }} />
                 </TypographyStylesProvider>
                 {layout === "comment" && <CommentFooter />}
                 {layout === "reply" && <ReplyFooter />}
             </Stack>
-            {layout === "comment" && (
+            {/* {layout === "comment" && (
                 <Stack pl={15} ml={10} className={classes.replies} pb="md">
                     <Reply />
                     <Reply />
                     <Reply />
                 </Stack>
-            )}
+            )} */}
         </>
     )
 }

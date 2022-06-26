@@ -1,8 +1,8 @@
+import { CommentDataParam } from '@interfaces/comment';
 import { CommentReplyLayout } from './CommentReplyLayout';
 
-export function Comment() {
-
+export function Comment({...params}: CommentDataParam) {
     return (
-        <CommentReplyLayout layout='comment' />
+        <CommentReplyLayout data={params} layout='comment' />
     )
 }

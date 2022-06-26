@@ -7,6 +7,7 @@ import { Check, InfoCircle, Send, X } from "tabler-icons-react";
 import { EmojiPopover } from "../../editors/EmojiPopover";
 import { createComment } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
+import { useQueryClient } from "react-query";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -40,7 +41,7 @@ export function CreateComment({ postId }: { postId: number }) {
     const editorRef = useRef<Editor>(null);
     const notifications = useNotifications();
     const [show, setShow] = useState(false)
-
+    const queryClient = useQueryClient()
 
     const [checked, setChecked] = useState(false);
     const [text, setText] = useState("");
@@ -78,6 +79,7 @@ export function CreateComment({ postId }: { postId: number }) {
                 });
                 setLoading(false)
                 setText("")
+                queryClient.invalidateQueries(["comments", postId])
                 setShow(false)
             }
         })

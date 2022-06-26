@@ -29,7 +29,7 @@ export function PostDetails({...props}: PostDataParam) {
             </Stack>
             <Divider />
             <Stack className={classes.wrapper}>
-                <Comments />
+                <Comments postId={props.id} />
             </Stack>
         </Stack>
     )
