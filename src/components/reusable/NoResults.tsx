@@ -8,10 +8,6 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing.xl,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-    border: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[3]
-    }`,
-
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       flexDirection: 'column-reverse',
       padding: theme.spacing.xl,

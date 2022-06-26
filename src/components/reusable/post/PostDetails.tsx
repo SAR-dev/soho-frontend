@@ -2,6 +2,8 @@ import { createStyles, Stack, Divider } from '@mantine/core';
 import { Comments } from '../comment/Comments';
 import { DiscussionPostCard } from './DiscussionPostCard';
 import { CreateComment } from '../comment/CreateComment';
+import { PollPostCard } from './PollPostCard';
+import { AmaPostCard } from './AmaPostCard';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -83,6 +85,8 @@ export function PostDetails({...props}: DataParam) {
         <Stack spacing={0}>
             <Stack className={classes.wrapper}>
                 {props.post_type === "discussion" && <DiscussionPostCard {...props} />}
+                {props.post_type === "poll" && <PollPostCard {...props} />}
+                {props.post_type === "ama" && <AmaPostCard {...props} />}
                 <CreateComment />
             </Stack>
             <Divider />

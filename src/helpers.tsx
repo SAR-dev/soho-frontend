@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createChannelInterface, createPostInterface, createSubChannelInterface } from "@interfaces/api";
+import { createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface } from "@interfaces/api";
 
 export const getTokenFromLocal = () => {
   return localStorage.getItem("token");
@@ -109,6 +109,26 @@ export const getPostsFromSubCategory = async ({ username, sub_category }: { user
 
 export const getPostDetails = async ({ id }: { id?: string }) => await axios.get(`post/${id}/`, defaultConfig())
 
+// POLL
+export function createPoll({ data }: { data: createPollInterface }): Promise<any> {
+  return axios.post(`choice/create/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
+export function deletePoll(id: number): Promise<any> {
+  return axios.delete(`choice/${id}/update/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
 
 // OTHERS
 export async function asyncForEach<T>(

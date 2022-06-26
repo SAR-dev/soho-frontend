@@ -10,7 +10,12 @@ export interface createSubChannelInterface {
 export interface createPostInterface {
     content: string;
     images?: number[];
+    choices?: number[];
     category?: number;
     sub_category?: number;
     post_type: string;
+}
+
+export interface createPollInterface {
+    text: string
 }

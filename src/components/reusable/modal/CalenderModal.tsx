@@ -34,12 +34,11 @@ export function CalenderModal({ opened, setOpened, datetime, setDatetime }: Prop
 
     const submit = () => {
         const d = date
-        const m = dayjs(time).minute()
         const h = dayjs(time).hour()
-        if (m && h) {
-            d?.setMinutes(m)
-            d?.setHours(h)
-        }
+        const m = dayjs(time).minute()
+        d?.setMinutes(m)
+        d?.setHours(h)
+
         setDatetime(d)
         setOpened(false)
     }

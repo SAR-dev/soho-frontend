@@ -2,6 +2,7 @@ import { createStyles, UnstyledButton, Badge } from '@mantine/core';
 import { Microphone2, ListCheck, Video } from 'tabler-icons-react';
 import { MdEmojiPeople, MdQuestionAnswer } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
+import { FaPoll } from 'react-icons/fa';
 
 const useStyles = createStyles((theme) => ({
     mainLink: {
@@ -49,6 +50,7 @@ const useStyles = createStyles((theme) => ({
 
 const links = [
     { icon: MdEmojiPeople, label: 'Discussion', slug: "discussion", notifications: 3 },
+    { icon: FaPoll, label: 'Poll', slug: "poll", notifications: 4 },
     { icon: MdQuestionAnswer, label: 'AMA', slug: "ama", notifications: 4 },
     { icon: Video, label: 'Premier', slug: "premier", },
     // { icon: BsDropletHalf, label: 'Drop'slug: "drop", },

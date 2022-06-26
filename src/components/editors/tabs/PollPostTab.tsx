@@ -7,18 +7,19 @@ import {
   ActionIcon,
   TextInput,
   Tooltip,
+  NumberInput,
 } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
-import { Calendar, Eye, Minus, Plus, Send } from "tabler-icons-react";
+import { Check, Minus, Plus, Send, X } from "tabler-icons-react";
 import { EmojiPopover } from "../EmojiPopover";
 import { Poll } from "../../reusable/post/layers/Poll";
 import { TextEditor } from "../TextEditor";
-import dayjs from 'dayjs';
-import { CalenderModal } from "../../reusable/modal/CalenderModal";
 import { useParams } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
+import { createAuthorPost, createPoll, deletePoll, parseErrors } from "../../../helpers";
+import { getHotkeyHandler } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -64,6 +65,17 @@ interface Props {
   setLoading: (params: boolean) => void;
 }
 
+export interface Poll {
+  id: number;
+  text: string;
+}
+
+const times = [
+  {label: "MM", value: String(60)},
+  {label: "HH", value: String(60*60)},
+  {label: "DD", value: String(60*60*24)},
+]
+
 export function PollPostTab({ toogle, setLoading }: Props) {
   const { author } = useParams<"author">();
   const notifications = useNotifications();
@@ -71,13 +83,13 @@ export function PollPostTab({ toogle, setLoading }: Props) {
 
   const { classes, cx } = useStyles();
   const [text, setText] = useState("");
-  const [images, setImages] = useState<Array<number>>([])
   const editorRef = useRef<Editor>(null);
-  const [datetime, setDatetime] = useState<Date | null>(null);
-  const [duration, setDuration] = useState(0)
-  const [showCalender, setShowCalender] = useState(false)
+  const [duration, setDuration] = useState(1)
+  const [format, setFormat] = useState<string>(times[1].value)
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
+
+  const [polls, setPolls] = useState<Poll[]>([])
 
   useEffect(() => {
     editorRef?.current?.focus();
@@ -91,46 +103,139 @@ export function PollPostTab({ toogle, setLoading }: Props) {
     quillRef?.insertText(position, text);
   };
 
-  const addImage = (id: number) => {
-    setImages(images => [...images, id])
+  const submit = () => {
+    setLoading(true)
+    setErrors([])
+    const data = {
+      content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
+      post_type: 'poll',
+      choices: polls.map(e => e.id),
+      duration: duration*parseInt(format)
+    }
+    createAuthorPost({ username: author, data: data }).then(res => {
+      if (res.error) {
+        setErrors(parseErrors(res.error))
+        setLoading(false)
+      } else {
+        notifications.showNotification({
+          title: "Post Submitted",
+          message: "Your post has been submitted. Please wait for a while for your post to appear in your feed.",
+          color: "teal",
+          icon: <Check size={18} />,
+          autoClose: 5000,
+        });
+        queryClient.invalidateQueries([...queryKey])
+        toogle()
+      }
+    })
   }
 
   return (
     <>
-      <TextEditor editorRef={editorRef} text={text} setText={setText} insertText={insertText}  />
-      <ImageDropzone disabled={false} images={images} addImage={addImage} />
+      <TextEditor editorRef={editorRef} text={text} setText={setText} insertText={insertText} />
+      {polls.map((e, i) => (
+        <PollItem poll={e} polls={polls} setPolls={setPolls} key={i} />
+      ))}
+      <PollEditor polls={polls} setPolls={setPolls} />
 
-      <div className={classes.flex}>
-        <Poll active={false} text="React Native" />
-        <ActionIcon variant="filled" className={classes.actionButton}>
-          <Minus size={14} />
-        </ActionIcon>
-      </div>
-      <div className={classes.flex}>
-        <TextInput
-          size="xs"
-          placeholder="Add poll option"
-          className={classes.textInput}
-        />
-        <ActionIcon variant="filled" className={classes.actionButton}>
-          <Plus size={14} />
-        </ActionIcon>
-      </div>
       <Group>
         <EmojiPopover insertText={insertText} />
-        <Tooltip label="Set Deadline" position="top">
-          <Button className={cx(classes.calenderButton, {[classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime})} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>
-            {datetime ? dayjs(datetime).format('MMM DD, YYYY  hh:mm A') : "Select Deadline"}
-          </Button>
+        <Tooltip label="Select Duration" position="top">
+          <Group spacing="xs">
+            <NumberInput size="xs" className={classes.small} min={1} value={duration} onChange={(val: number) => setDuration(val)} />
+            <Select data={[...times]} size="xs" className={classes.small} value={format} onChange={(e:string )=> setFormat(e)} />
+          </Group>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>
-        <Button size="xs" leftIcon={<Send size={16} />}>
+        <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>
           Submit
         </Button>
       </Group>
-      <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />
     </>
   );
+}
+
+const PollItem = ({ poll, polls, setPolls }: { poll: Poll, polls: Poll[], setPolls: (params: any) => void }) => {
+  const { classes, cx } = useStyles();
+  const notifications = useNotifications();
+  
+  const [loading, setLoading] = useState(false)
+
+  const submit = () => {
+    setLoading(true)
+    deletePoll(poll.id).then(res => {
+      if(res.error){
+        notifications.showNotification({
+          title: "Error deleting the poll!",
+          message: "Couldn't delete the poll. If there is any problem, fix it. Try again.",
+          color: "red",
+          icon: <X size={18} />,
+        });
+        setLoading(false)
+      } else {
+        const arr = polls.filter(e => e.id !== poll.id)
+        setPolls([...arr])
+        setLoading(false)
+      }
+    })
+  }
+
+  return (
+    <div className={classes.flex}>
+      <Poll active={false} text={poll.text} />
+      <ActionIcon variant="filled" className={classes.actionButton} onClick={() => submit()} loading={loading}>
+        <Minus size={14} />
+      </ActionIcon>
+    </div>
+  )
+}
+
+const PollEditor = ({ polls, setPolls }: { polls: Poll[], setPolls: (params: any) => void }) => {
+  const { classes, cx } = useStyles();
+  const notifications = useNotifications();
+
+  const [text, setText] = useState<string>("");
+  const [loading, setLoading] = useState(false)
+
+  const submit = () => {
+    setLoading(true)
+    const data = { text }
+
+    createPoll({ data }).then(res => {
+      if (res.error) {
+        notifications.showNotification({
+          title: "Error creating the poll!",
+          message: "Couldn't create the poll. If there is any problem, fix it. Try again.",
+          color: "red",
+          icon: <X size={18} />,
+        });
+        setLoading(false)
+      } else {
+        setPolls([...polls, res.data])
+        setText("")
+        setLoading(false)
+      }
+    })
+  }
+
+  return (
+    <div className={classes.flex}>
+      <TextInput
+        size="xs"
+        placeholder="Add poll option"
+        className={classes.textInput}
+        value={text}
+        onChange={e => setText(e.target.value)}
+        disabled={loading}
+        onKeyDown={getHotkeyHandler([
+          ['Enter', submit],
+        ])}
+      />
+      <ActionIcon variant="filled" className={classes.actionButton} onClick={() => submit()} loading={loading}>
+        <Plus size={14} />
+      </ActionIcon>
+    </div>
+  )
 }

@@ -40,7 +40,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
       <div>
         <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
         {props.content && (
-        <HtmlRenderer body={props.content} id={props.id} />
+          <HtmlRenderer body={props.content} id={props.id} />
         )}
         {images.length !== 0 && (
           <ImageCarousel sources={images} />

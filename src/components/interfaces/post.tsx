@@ -15,7 +15,7 @@ export interface PostDataParam {
     can_comment: boolean;
     author: Author;
     group: Group;
-    choices: any[];
+    choices?: Choice[];
     choices_voted: boolean;
     num_vote_up: number;
     bookmarks_count: number;
@@ -38,6 +38,12 @@ export interface PostDataParam {
   }
   
   export interface Awards {
+  }
+
+  export interface Choice {
+    id: number;
+    text: string;
+    num_vote_up?: number;
   }
   
   export interface Category {
