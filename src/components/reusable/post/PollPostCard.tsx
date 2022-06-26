@@ -36,7 +36,7 @@ export function PollPostCard({ ...props }: PostDataParam) {
           <HtmlRenderer body={props.content} id={props.id} />
         )}
         {props.choices && (
-          <PollItems choices={props.choices} />
+          <PollItems choices={props.choices} postId={props.id} choices_voted={props.choices_voted} />
         )}
         <PostFooter />
       </div>

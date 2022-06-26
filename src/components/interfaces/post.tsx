@@ -16,7 +16,7 @@ export interface PostDataParam {
     author: Author;
     group: Group;
     choices?: Choice[];
-    choices_voted: boolean;
+    choices_voted?: number;
     num_vote_up: number;
     bookmarks_count: number;
     bookmarked: boolean;
@@ -43,7 +43,7 @@ export interface PostDataParam {
   export interface Choice {
     id: number;
     text: string;
-    num_vote_up?: number;
+    num_vote_up: number;
   }
   
   export interface Category {

@@ -130,6 +130,27 @@ export function deletePoll(id: number): Promise<any> {
     })
 };
 
+export function selectPoll({ postId, pollId }: { postId: number, pollId: number }): Promise<any> {
+  return axios.post(`post/${postId}/choice/vote/${pollId}/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
+// COMMENT
+export function createComment({ postId, content }: { postId: number, content: string }): Promise<any> {
+  return axios.post(`comment/create/post/${postId}/`, {content}, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
 // OTHERS
 export async function asyncForEach<T>(
   array: Array<T>,

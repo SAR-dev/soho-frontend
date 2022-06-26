@@ -3,8 +3,10 @@ import { createStyles, Group, Switch, Button, Text, Stack } from "@mantine/core"
 import { Editor } from "@mantine/rte";
 import { TextEditor } from "../../editors/TextEditor";
 import { Author } from "../post/layers/Author";
-import { InfoCircle, Send } from "tabler-icons-react";
+import { Check, InfoCircle, Send, X } from "tabler-icons-react";
 import { EmojiPopover } from "../../editors/EmojiPopover";
+import { createComment } from "../../../helpers";
+import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -33,11 +35,16 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }
 }));
 
-export function CreateComment() {
+export function CreateComment({ postId }: { postId: number }) {
     const { classes } = useStyles();
     const editorRef = useRef<Editor>(null);
+    const notifications = useNotifications();
+    const [show, setShow] = useState(false)
+
+
     const [checked, setChecked] = useState(false);
     const [text, setText] = useState("");
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         editorRef?.current?.focus();
@@ -49,6 +56,32 @@ export function CreateComment() {
         let position = range ? range.index : 0;
         quillRef?.insertText(position, text);
     };
+
+    const submit = () => {
+        setLoading(true)
+        createComment({ postId: postId, content: text }).then(res => {
+            if (res.error) {
+                setLoading(false)
+                notifications.showNotification({
+                    title: "Error creating the comment!",
+                    message: "Couldn't create the comment. If there is any problem, fix it. Try again.",
+                    color: "red",
+                    icon: <X size={18} />,
+                });
+            } else {
+                notifications.showNotification({
+                    title: "Comment Submitted",
+                    message: "Your comment has been submitted. Please wait for a while for your post to appear in your feed.",
+                    color: "teal",
+                    icon: <Check size={18} />,
+                    autoClose: 5000,
+                });
+                setLoading(false)
+                setText("")
+                setShow(false)
+            }
+        })
+    }
 
     return (
         <div className={classes.wrapper}>
@@ -64,18 +97,21 @@ export function CreateComment() {
                         <Text size="xs" color="dimmed">Please read the community rules before commenting</Text>
                     </div>
                 </Stack>
-                <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
-                <Group>
-                    <EmojiPopover insertText={insertText} />
-                    <Switch
-                        label="Pin this comment"
-                        checked={checked}
-                        onChange={(event) => setChecked(event.currentTarget.checked)}
-                    />
-                    <Button size="xs" ml="auto" leftIcon={<Send size={16} />}>
-                        Submit
-                    </Button>
-                </Group>
+                {show ? (
+                    <>
+                        <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
+                        <Group>
+                            <EmojiPopover insertText={insertText} />
+                            <Switch
+                                label="Pin this comment"
+                                checked={checked}
+                                onChange={(event) => setChecked(event.currentTarget.checked)}
+                            />
+                            <Button size="xs" ml="auto" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
+                                Submit
+                            </Button>
+                        </Group>
+                    </>) : (<Button size="xs" fullWidth onClick={() => setShow(true)}>Write a comment</Button>)}
             </div>
         </div>
     );

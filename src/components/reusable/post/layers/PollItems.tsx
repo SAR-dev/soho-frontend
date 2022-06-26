@@ -15,21 +15,20 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export function PollItems({ choices }: { choices: Choice[] }) {
+export function PollItems({ choices, postId, choices_voted }: { choices: Choice[], postId: number, choices_voted?: number }) {
   const { classes, cx } = useStyles();
 
-  const [totalVotes, setTotalVotes] = useState()
+  const [votedId, setVotedId] = useState(choices_voted)
+  const [totalVotes, setTotalVotes] = useState(choices.reduce((accum, item) => accum + item.num_vote_up, 0))
 
-  useEffect(() => {
-    
-  }, [choices])
-  
+  // useEffect(() => {
+  // }, [choices])
 
   return (
     <div className={classes.wrapper}>
       <SimpleGrid cols={1} spacing="sm">
         {choices.map((e, i) => (
-          <Poll active={true} text={e.text} key={i} />
+          <Poll active={true} text={e.text} pollId={e.id} postId={postId} votedId={votedId} setVotedId={setVotedId} selected={e.id === votedId} key={i} />
         ))}
       </SimpleGrid>
     </div>
