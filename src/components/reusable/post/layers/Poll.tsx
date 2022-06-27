@@ -1,6 +1,10 @@
+import { Choice } from "../../../interfaces/post";
 import { createStyles, Box, Loader } from "@mantine/core";
 import { useState } from "react";
 import { selectPoll } from "../../../../helpers";
+import { ChoicePostDataInterface } from "@interfaces/poll";
+import { useNotifications } from "@mantine/notifications";
+import { X } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     pollWrapper: {
@@ -65,47 +69,52 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 interface Params {
-    text: string;
-    active: boolean;
+    active?: boolean;
     selected?: boolean;
-    pollId?: number;
-    postId?: number;
-    votedId?:number;
-    setVotedId?:(params: number) => void
+    choice?: Choice;
+    data?: ChoicePostDataInterface;
+    setData?: (params: any) => void;
 }
 
-export function Poll({ text, active, selected = false, pollId, postId, votedId, setVotedId }: Params) {
+export function Poll({ active = true, selected = false, choice, data, setData }: Params) {
     const { classes, cx } = useStyles();
+    const notifications = useNotifications();
+
     const [loading, setLoading] = useState(false)
 
     const upvotePoll = () => {
         setLoading(true)
-        if(postId && pollId){
-        selectPoll({ postId, pollId }).then(res => {
-            if (res.error) {
-                setLoading(false)
-                //error
-            } else {
-                setLoading(false)
-                if(res.data.upvoted && setVotedId){
-                    setVotedId(pollId)
+        if (data?.postId && choice?.id) {
+            selectPoll({ postId: data?.postId, pollId: choice?.id }).then(res => {
+                if (res.error) {
+                    setLoading(false)
+                    notifications.showNotification({
+                        title: "Error creating the comment!",
+                        message: "Couldn't vote in the poll. If there is any problem, fix it. Try again.",
+                        color: "red",
+                        icon: <X size={18} />,
+                    });
+                } else {
+                    setLoading(false)
+                    if (res.data.upvoted && setData) {
+                        setData({ ...data, choices_voted: choice.id })
+                    }
                 }
-            }
-        })
-    }
+            })
+        }
     }
     return (
         <Box className={cx(classes.pollWrapper,
             {
                 [classes.pointer]: active,
                 [classes.plain]: !active || loading,
-                [classes.selected]: selected
+                [classes.selected]: data?.choices_voted === choice?.id
             })}
             onClick={() => upvotePoll()}
         >
             {active && (<div className={classes.pollBar}></div>)}
             <div className={classes.pollText}>
-                <div>{text}</div>
+                <div>{choice?.text}</div>
                 {loading && (
                     <Loader size="xs" ml="auto" mr="xs" />
                 )}

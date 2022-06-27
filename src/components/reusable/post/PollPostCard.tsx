@@ -10,6 +10,8 @@ import { PostFooter } from "./layers/PostFooter";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PostDataParam } from "@interfaces/post";
+import { useState } from "react";
+import { ChoicePostDataInterface } from "@interfaces/poll";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -27,6 +29,13 @@ dayjs.extend(relativeTime)
 
 export function PollPostCard({ ...props }: PostDataParam) {
   const { classes } = useStyles();
+
+  const [data, setData] = useState<ChoicePostDataInterface>({
+    choices: props.choices,
+    choices_voted: props.choices_voted,
+    postId: props.id
+  })
+
   return (
     <div className={classes.wrapper}>
       <Author />
@@ -36,7 +45,7 @@ export function PollPostCard({ ...props }: PostDataParam) {
           <HtmlRenderer body={props.content} id={props.id} />
         )}
         {props.choices && (
-          <PollItems choices={props.choices} postId={props.id} choices_voted={props.choices_voted} />
+          <PollItems data={data} setData={setData} />
         )}
         <PostFooter />
       </div>

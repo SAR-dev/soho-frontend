@@ -71,9 +71,9 @@ export interface Poll {
 }
 
 const times = [
-  {label: "MM", value: String(60)},
-  {label: "HH", value: String(60*60)},
-  {label: "DD", value: String(60*60*24)},
+  { label: "MM", value: String(60) },
+  { label: "HH", value: String(60 * 60) },
+  { label: "DD", value: String(60 * 60 * 24) },
 ]
 
 export function PollPostTab({ toogle, setLoading }: Props) {
@@ -110,7 +110,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
       content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       post_type: 'poll',
       choices: polls.map(e => e.id),
-      duration: duration*parseInt(format)
+      duration: duration * parseInt(format)
     }
     createAuthorPost({ username: author, data: data }).then(res => {
       if (res.error) {
@@ -143,7 +143,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
         <Tooltip label="Select Duration" position="top">
           <Group spacing="xs">
             <NumberInput size="xs" className={classes.small} min={1} value={duration} onChange={(val: number) => setDuration(val)} />
-            <Select data={[...times]} size="xs" className={classes.small} value={format} onChange={(e:string )=> setFormat(e)} />
+            <Select data={[...times]} size="xs" className={classes.small} value={format} onChange={(e: string) => setFormat(e)} />
           </Group>
         </Tooltip>
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
@@ -160,13 +160,13 @@ export function PollPostTab({ toogle, setLoading }: Props) {
 const PollItem = ({ poll, polls, setPolls }: { poll: Poll, polls: Poll[], setPolls: (params: any) => void }) => {
   const { classes, cx } = useStyles();
   const notifications = useNotifications();
-  
+
   const [loading, setLoading] = useState(false)
 
   const submit = () => {
     setLoading(true)
     deletePoll(poll.id).then(res => {
-      if(res.error){
+      if (res.error) {
         notifications.showNotification({
           title: "Error deleting the poll!",
           message: "Couldn't delete the poll. If there is any problem, fix it. Try again.",
@@ -184,7 +184,7 @@ const PollItem = ({ poll, polls, setPolls }: { poll: Poll, polls: Poll[], setPol
 
   return (
     <div className={classes.flex}>
-      <Poll active={false} text={poll.text} />
+      <Poll active={false} choice={{ ...poll, num_vote_up: 0 }} />
       <ActionIcon variant="filled" className={classes.actionButton} onClick={() => submit()} loading={loading}>
         <Minus size={14} />
       </ActionIcon>
