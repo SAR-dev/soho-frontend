@@ -33,7 +33,7 @@ function Router() {
     }
     auth.onAuthStateChanged((credential) => {
       if (credential) {
-        credential.getIdToken().then((token) => {
+        credential.getIdToken(true).then((token) => {
           setTokenToLocal(token);
           setToken(token);
         });
