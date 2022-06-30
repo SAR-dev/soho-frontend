@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getPostDetails } from "../../../helpers";
 import { useQuery } from "react-query";
 import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
-import { PostDetails } from "../../reusable/post/PostDetails";
+import { PostDetails } from "@reusable/post/PostDetails";
 import { FetchError } from "../../reusable/FetchError";
 import { PostDataParam } from "@interfaces/post";
 
