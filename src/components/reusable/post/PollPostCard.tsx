@@ -28,6 +28,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginBottom: theme.spacing.lg,
     marginTop: theme.spacing.sm,
     color: theme.colors.red[3],
+  },
+  wFull: {
+    width: "100%"
   }
 }));
 
@@ -39,7 +42,7 @@ export function PollPostCard({ ...props }: PostDataParam) {
   return (
     <div className={classes.wrapper}>
       <Author />
-      <div>
+      <div className={classes.wFull}>
         <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
         {props.content && (
           <HtmlRenderer body={props.content} id={props.id} />

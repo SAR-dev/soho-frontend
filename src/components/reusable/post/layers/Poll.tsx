@@ -131,7 +131,7 @@ export function Poll({ active = true, choice, totalVotes, data }: Params) {
             })}
             onClick={() => upvotePoll()}
         >
-            {active && totalVotes && choice && (<div className={classes.pollBar} style={{ width: `${((choice.num_vote_up / totalVotes) * 100)}%` }}></div>)}
+            {(active && totalVotes && choice) ? (<div className={classes.pollBar} style={{ width: `${((totalVotes === 0 ? 0 : choice.num_vote_up / totalVotes) * 100)}%` }}></div>) : ''}
             <div className={classes.pollText}>
                 <div>{choice?.text}</div>
                 {loading && (
