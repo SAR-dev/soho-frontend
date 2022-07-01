@@ -44,7 +44,7 @@ function Router() {
         removeTokenFromLocal();
         removeToken();
         notifications.showNotification({
-          title: "Session expired!",
+          title: "Signed out!",
           message: "Please sign in again to continue",
           color: "red",
           icon: <X size={18} />,
