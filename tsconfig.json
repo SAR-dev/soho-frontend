@@ -23,6 +23,7 @@
       "@pages/*": ["src/components/pages/*"],
       "@reusable/*": ["src/components/reusable/*"],
       "@interfaces/*": ["src/components/interfaces/*"],
+      "@contexts/*": ["src/components/contexts/*"],
       "@images/*": ["src/images/*"],
     }
   },

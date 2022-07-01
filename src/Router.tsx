@@ -15,6 +15,8 @@ import { Home } from "./components/pages/Home";
 import { SHome } from "./components/pages/c/s/SHome";
 import { PType } from "./components/pages/t/PType";
 import { PDetails } from "./components/pages/p/PDetails";
+import { useNotifications } from "@mantine/notifications";
+import { X } from "tabler-icons-react";
 
 const polling = {
   enabled: true,
@@ -25,7 +27,8 @@ const polling = {
 
 function Router() {
   const { setToken, removeToken } = useStore();
-  useLayoutEffect(() => {
+    const notifications = useNotifications();
+    useLayoutEffect(() => {
     const t = getTokenFromLocal();
     if (t) {
       setTokenToLocal(t);
@@ -40,6 +43,12 @@ function Router() {
       } else {
         removeTokenFromLocal();
         removeToken();
+        notifications.showNotification({
+          title: "Session expired!",
+          message: "Please sign in again to continue",
+          color: "red",
+          icon: <X size={18} />,
+      });
       }
     });
   }, []);

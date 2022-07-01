@@ -142,7 +142,7 @@ export function selectPoll({ postId, pollId }: { postId: number, pollId: number 
 
 // COMMENT
 export function createComment({ postId, content }: { postId: number, content: string }): Promise<any> {
-  return axios.post(`comment/create/post/${postId}/`, {content}, defaultConfig())
+  return axios.post(`comment/create/post/${postId}/`, { content }, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })
@@ -181,3 +181,9 @@ export const parseErrors = (data: { response: { data: { [x: string]: any; }; }; 
 }
 
 export const doubleDigit = (num: number) => ("0" + num).slice(-2);
+
+export const timeLengthToSeconds = (time_length: string) => {
+  var a = time_length.split(':'); 
+  var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+  return seconds
+}

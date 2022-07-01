@@ -1,7 +1,5 @@
-import {
-  createStyles,
-} from "@mantine/core";
-import { ImageCarousel } from "./layers/ImageCarousel";
+import { createStyles, Text } from "@mantine/core";
+import { RiRestTimeFill } from "react-icons/ri";
 import { PollItems } from "./layers/PollItems";
 import { HtmlRenderer } from "./layers/HtmlRenderer";
 import { Author } from "./layers/Author";
@@ -10,8 +8,7 @@ import { PostFooter } from "./layers/PostFooter";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PostDataParam } from "@interfaces/post";
-import { useState } from "react";
-import { ChoicePostDataInterface } from "@interfaces/poll";
+import { timeLengthToSeconds } from "src/helpers";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -22,19 +19,22 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         ? theme.colors.dark[8]
         : theme.colors.gray[0],
     display: "flex",
+  },
+  flex: {
+    display: "flex",
+    alignItems: "center",
+  },
+  expire: {
+    marginBottom: theme.spacing.lg,
+    marginTop: theme.spacing.sm,
+    color: theme.colors.red[3],
   }
 }));
 
 dayjs.extend(relativeTime)
 
 export function PollPostCard({ ...props }: PostDataParam) {
-  const { classes } = useStyles();
-
-  const [data, setData] = useState<ChoicePostDataInterface>({
-    choices: props.choices,
-    choices_voted: props.choices_voted,
-    postId: props.id
-  })
+  const { classes, cx } = useStyles();
 
   return (
     <div className={classes.wrapper}>
@@ -45,7 +45,20 @@ export function PollPostCard({ ...props }: PostDataParam) {
           <HtmlRenderer body={props.content} id={props.id} />
         )}
         {props.choices && (
-          <PollItems data={data} setData={setData} />
+          <>
+            <PollItems {...props} />
+            <div className={cx(classes.flex, classes.expire)}>
+              {props.duration && (dayjs(dayjs()).diff(props.created_at, 'second', true) > timeLengthToSeconds(props.duration)) && (
+                <>
+                  <RiRestTimeFill size={14} />
+                  <Text size="xs" ml={5}>
+
+                    Voting expired {dayjs(props.created_at).fromNow()}
+                  </Text>
+                </>
+              )}
+            </div>
+          </>
         )}
         <PostFooter />
       </div>

@@ -1,10 +1,11 @@
-import { Choice } from "../../../interfaces/post";
+import { Choice, PostDataParam } from "../../../interfaces/post";
 import { createStyles, Box, Loader } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { selectPoll } from "../../../../helpers";
-import { ChoicePostDataInterface } from "@interfaces/poll";
 import { useNotifications } from "@mantine/notifications";
 import { X } from "tabler-icons-react";
+import { useQueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     pollWrapper: {
@@ -46,7 +47,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     pollBar: {
         ref: getRef("pollBar"),
         height: "100%",
-        width: "50%",
         background:
             theme.colorScheme === "dark"
                 ? theme.fn.rgba(theme.colors.dark[3], .25)
@@ -70,13 +70,18 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 interface Params {
     active?: boolean;
-    selected?: boolean;
     choice?: Choice;
-    data?: ChoicePostDataInterface;
-    setData?: (params: any) => void;
+    totalVotes?: number;
+    data?: PostDataParam;
 }
 
-export function Poll({ active = true, selected = false, choice, data, setData }: Params) {
+interface DataParam {
+    data: PostDataParam
+}
+
+export function Poll({ active = true, choice, totalVotes, data }: Params) {
+    const { pId } = useParams<"pId">();
+    const queryClient = useQueryClient()
     const { classes, cx } = useStyles();
     const notifications = useNotifications();
 
@@ -84,8 +89,8 @@ export function Poll({ active = true, selected = false, choice, data, setData }:
 
     const upvotePoll = () => {
         setLoading(true)
-        if (data?.postId && choice?.id) {
-            selectPoll({ postId: data?.postId, pollId: choice?.id }).then(res => {
+        if (data?.id && choice?.id) {
+            selectPoll({ postId: data?.id, pollId: choice?.id }).then(res => {
                 if (res.error) {
                     setLoading(false)
                     notifications.showNotification({
@@ -96,8 +101,22 @@ export function Poll({ active = true, selected = false, choice, data, setData }:
                     });
                 } else {
                     setLoading(false)
-                    if (res.data.upvoted && setData) {
-                        setData({ ...data, choices_voted: choice.id })
+                    if (res.data.upvoted) {
+                        if (pId) {
+                            const oldData: any = queryClient.getQueryData<DataParam>(['post_details', pId])
+                            const newData = oldData
+                            const old_upvoted_index = newData.data.choices?.findIndex((x: { id: number; }) => x.id === newData.data.choices_voted)
+                            const new_upvoted_index = newData.data.choices?.findIndex((x: { id: number; }) => x.id === choice.id)
+                            newData.data.choices_voted = choice.id
+                            if (newData.data.choices && new_upvoted_index !== -1) {
+                                newData.data.choices[new_upvoted_index].num_vote_up = (newData.data.choices[new_upvoted_index].num_vote_up + 1)
+                            }
+                            if (newData.data.choices && old_upvoted_index !== -1) {
+                                newData.data.choices[old_upvoted_index].num_vote_up = (newData.data.choices[old_upvoted_index].num_vote_up - 1)
+                            }
+                            queryClient.setQueryData(['post_details', pId], { ...newData })
+                        }
+
                     }
                 }
             })
@@ -112,13 +131,13 @@ export function Poll({ active = true, selected = false, choice, data, setData }:
             })}
             onClick={() => upvotePoll()}
         >
-            {active && (<div className={classes.pollBar}></div>)}
+            {active && totalVotes && choice && (<div className={classes.pollBar} style={{ width: `${((choice.num_vote_up / totalVotes) * 100)}%` }}></div>)}
             <div className={classes.pollText}>
                 <div>{choice?.text}</div>
                 {loading && (
                     <Loader size="xs" ml="auto" mr="xs" />
                 )}
-                {active && (<div>50%</div>)}
+                {active && totalVotes && choice && (<div>{choice.num_vote_up}</div>)}
             </div>
         </Box>
     );
