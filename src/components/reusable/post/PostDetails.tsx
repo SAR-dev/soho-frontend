@@ -25,7 +25,7 @@ export function PostDetails({...props}: PostDataParam) {
                 {props.post_type === "discussion" && <DiscussionPostCard {...props} />}
                 {props.post_type === "poll" && <PollPostCard {...props} />}
                 {props.post_type === "ama" && <AmaPostCard {...props} />}
-                <CreateComment postId={props.id} />
+                <CreateComment postId={props.id} author={props.author} />
             </Stack>
             <Divider />
             <Stack className={classes.wrapper}>

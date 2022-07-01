@@ -92,7 +92,7 @@ export function Comments({ postId }: { postId: number }) {
             </AvatarsGroup>
             <Stack spacing="lg" mt="lg">
                 {comments?.map((el, i) => (
-                    <Comment {...el} key={i} />
+                    <Comment comment={el} postId={postId} key={i} />
                 ))}
                 {/* <Comment />
                 <CommentAward />

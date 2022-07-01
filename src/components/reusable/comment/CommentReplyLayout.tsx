@@ -5,8 +5,9 @@ import { MdWavingHand, MdReply, MdReport } from "react-icons/md";
 import { FaGift } from 'react-icons/fa';
 import { ReplyFooter } from './ReplyFooter';
 import { CommentDataParam } from '@interfaces/comment';
-
-const text = `<p>Django is a Python-based web framework that allows you to quickly create efficient web applications. If you are new to Django then you can refer to Django Introduction and Installation. Here we are going to learn How to create a Django project using Firebase as Database .</p>`
+import { CreateComment } from './CreateComment';
+import { CreateReply } from './CreateReply';
+import { useState } from 'react';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     cwrapper: {
@@ -60,11 +61,20 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         borderLeftColor: theme.colorScheme === "dark"
             ? theme.colors.dark[4]
             : theme.colors.gray[4],
+    },
+    createReply: {
+        borderLeftWidth: 1,
+        borderLeftStyle: 'solid',
+        borderColor: theme.colorScheme === "dark"
+            ? theme.colors.dark[4]
+            : theme.colors.gray[4],
+        backgroundColor: theme.colors.dark[7],
     }
 }));
 
-export function CommentReplyLayout({ layout, data }: { layout: 'comment' | 'reply', data: CommentDataParam }) {
+export function CommentReplyLayout({ layout, data, postId }: { layout: 'comment' | 'reply', data: CommentDataParam, postId: number }) {
     const { classes, cx } = useStyles();
+    const [showReplyEditor, setShowReplyEditor] = useState(false)
 
     return (
         <>
@@ -85,7 +95,7 @@ export function CommentReplyLayout({ layout, data }: { layout: 'comment' | 'repl
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Add Reply" position="top">
-                            <ActionIcon variant="filled" size="xs">
+                            <ActionIcon variant="filled" size="xs" onClick={() => setShowReplyEditor(true)}>
                                 <MdReply size={14} />
                             </ActionIcon>
                         </Tooltip>
@@ -107,6 +117,11 @@ export function CommentReplyLayout({ layout, data }: { layout: 'comment' | 'repl
                 {layout === "comment" && <CommentFooter />}
                 {layout === "reply" && <ReplyFooter />}
             </Stack>
+            {layout === 'comment' && showReplyEditor && (
+                <Stack p={15} ml={10} className={classes.createReply} pb="md">
+                    <CreateReply comment={data} setShow={setShowReplyEditor} postId={postId} />
+                </Stack>
+            )}
             {/* {layout === "comment" && (
                 <Stack pl={15} ml={10} className={classes.replies} pb="md">
                     <Reply />

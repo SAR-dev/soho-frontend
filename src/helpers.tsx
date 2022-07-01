@@ -151,6 +151,16 @@ export function createComment({ postId, content }: { postId: number, content: st
     })
 };
 
+export function createReply({ postId, commentId, content }: { postId: number, commentId: number , content: string }): Promise<any> {
+  return axios.post(`comment/create/post/${postId}/parent/${commentId}/`, { content }, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
 export const getComments = async ({ postId }: { postId?: number }) => await axios.get(`comment/list/post/${postId}/`, defaultConfig())
 
 // OTHERS

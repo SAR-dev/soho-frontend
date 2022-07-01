@@ -8,6 +8,7 @@ import { EmojiPopover } from "../../editors/EmojiPopover";
 import { createComment } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
+import { AuthorDataParam } from "@interfaces/author";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -36,14 +37,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }
 }));
 
-export function CreateComment({ postId }: { postId: number }) {
+export function CreateComment({ postId, author }: { postId: number, author: AuthorDataParam }) {
     const { classes } = useStyles();
     const editorRef = useRef<Editor>(null);
     const notifications = useNotifications();
     const [show, setShow] = useState(false)
     const queryClient = useQueryClient()
 
-    const [checked, setChecked] = useState(false);
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false)
 
@@ -92,7 +92,7 @@ export function CreateComment({ postId }: { postId: number }) {
                 <Stack className={classes.commentCreatorHeader} spacing={3}>
                     <Group spacing={3}>
                         <Text size="sm">Comment as</Text>
-                        <Text color="blue" size="sm">Lonewolf</Text>
+                        <Text color="blue" size="sm" ml={5}>{`${author.first_name} ${author.last_name}`}</Text>
                     </Group>
                     <div className={classes.info}>
                         <InfoCircle size={14} />
@@ -104,11 +104,6 @@ export function CreateComment({ postId }: { postId: number }) {
                         <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
                         <Group>
                             <EmojiPopover insertText={insertText} />
-                            <Switch
-                                label="Pin this comment"
-                                checked={checked}
-                                onChange={(event) => setChecked(event.currentTarget.checked)}
-                            />
                             <Button size="xs" ml="auto" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
                                 Submit
                             </Button>
