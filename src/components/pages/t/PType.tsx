@@ -42,13 +42,8 @@ export function PType() {
     const { author } = useParams<"author">();
     const { pType } = useParams<"pType">();
     const [clicked, toogle] = useBooleanToggle(false);
-    const [posts, setPosts] = useState<PostDataParam[]>()
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['type_posts', author, pType], () => getPostsFromType({ username: author, type: pType || "all" }), {
-        onSuccess: res => {
-            setPosts([...res.data.results])
-        }
-    })
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['type_posts', author, pType], () => getPostsFromType({ username: author, type: pType || "all" }))
 
     return (
         <CommunityLayout>
@@ -62,7 +57,7 @@ export function PType() {
                     </>
                 ) : (
                     <>
-                        {posts?.map((el, i) => {
+                        {data?.data.results?.map((el, i) => {
                             if (el.post_type === "discussion") return (
                                 <DiscussionPostCard {...el} key={i} />)
                             if (el.post_type === "poll") return (
@@ -70,7 +65,7 @@ export function PType() {
                             if (el.post_type === "ama") return (
                                 <AmaPostCard {...el} key={i} />)
                         })}
-                        {posts?.length === 0 && <NoResults />}
+                        {data?.data.results?.length === 0 && <NoResults />}
                     </>
                 )}
             </SimpleGrid>

@@ -1,11 +1,11 @@
 import { Choice, PostDataParam } from "../../../interfaces/post";
 import { createStyles, Box, Loader } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { selectPoll } from "../../../../helpers";
+import { getPostKey, selectPoll } from "../../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { X } from "tabler-icons-react";
 import { useQueryClient } from "react-query";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     pollWrapper: {
@@ -80,10 +80,10 @@ interface DataParam {
 }
 
 export function Poll({ active = true, choice, totalVotes, data }: Params) {
-    const { pId } = useParams<"pId">();
     const queryClient = useQueryClient()
     const { classes, cx } = useStyles();
     const notifications = useNotifications();
+    const params = useParams()
 
     const [loading, setLoading] = useState(false)
 
@@ -101,23 +101,37 @@ export function Poll({ active = true, choice, totalVotes, data }: Params) {
                     });
                 } else {
                     setLoading(false)
-                    if (res.data.upvoted) {
-                        if (pId) {
-                            const oldData: any = queryClient.getQueryData<DataParam>(['post_details', pId])
-                            const newData = oldData
-                            const old_upvoted_index = newData.data.choices?.findIndex((x: { id: number; }) => x.id === newData.data.choices_voted)
-                            const new_upvoted_index = newData.data.choices?.findIndex((x: { id: number; }) => x.id === choice.id)
-                            newData.data.choices_voted = choice.id
-                            if (newData.data.choices && new_upvoted_index !== -1) {
-                                newData.data.choices[new_upvoted_index].num_vote_up = (newData.data.choices[new_upvoted_index].num_vote_up + 1)
-                            }
-                            if (newData.data.choices && old_upvoted_index !== -1) {
-                                newData.data.choices[old_upvoted_index].num_vote_up = (newData.data.choices[old_upvoted_index].num_vote_up - 1)
-                            }
-                            queryClient.setQueryData(['post_details', pId], { ...newData })
+                    if (params.pId) {
+                        const pId = params.pId
+                        const oldData: any = queryClient.getQueryData<DataParam>(['post_details', pId])
+                        const newData = oldData
+                        const old_upvoted_index = newData.data.choices?.findIndex((e: { id: number; }) => e.id === newData.data.choices_voted)
+                        const new_upvoted_index = newData.data.choices?.findIndex((e: { id: number; }) => e.id === choice.id)
+                        newData.data.choices_voted = choice.id
+                        if (newData.data.choices && new_upvoted_index !== -1) {
+                            newData.data.choices[new_upvoted_index].num_vote_up = (newData.data.choices[new_upvoted_index].num_vote_up + 1)
                         }
-
+                        if (newData.data.choices && old_upvoted_index !== -1) {
+                            newData.data.choices[old_upvoted_index].num_vote_up = (newData.data.choices[old_upvoted_index].num_vote_up - 1)
+                        }
+                        queryClient.setQueryData(['post_details', pId], { ...newData })
+                    } else {
+                        const queryKey = [getPostKey(Object.keys(params)[1]), params.author, params[Object.keys(params)[1]] === undefined ? null : params[Object.keys(params)[1]]]
+                        const oldData: any = queryClient.getQueryData<DataParam>([...queryKey])
+                        const newData = oldData
+                        const postIndex = newData.data.results.findIndex((e: { id: number }) => e.id === data?.id)
+                        const old_upvoted_index = newData.data.results[postIndex].choices?.findIndex((e: { id: number; }) => e.id === newData.data.results[postIndex].choices_voted)
+                        const new_upvoted_index = newData.data.results[postIndex].choices?.findIndex((e: { id: number; }) => e.id === choice.id)
+                        newData.data.results[postIndex].choices_voted = choice.id
+                        if (newData.data.results[postIndex].choices && new_upvoted_index !== -1) {
+                            newData.data.results[postIndex].choices[new_upvoted_index].num_vote_up = (newData.data.results[postIndex].choices[new_upvoted_index].num_vote_up + 1)
+                        }
+                        if (newData.data.results[postIndex].choices && old_upvoted_index !== -1) {
+                            newData.data.results[postIndex].choices[old_upvoted_index].num_vote_up = (newData.data.results[postIndex].choices[old_upvoted_index].num_vote_up - 1)
+                        }
+                        queryClient.setQueryData([...queryKey], { ...newData })
                     }
+
                 }
             })
         }

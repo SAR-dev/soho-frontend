@@ -45,7 +45,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
         {images.length !== 0 && (
           <ImageCarousel sources={images} />
         )}
-        <PostFooter />
+        <PostFooter {...props} />
       </div>
     </div>
   );

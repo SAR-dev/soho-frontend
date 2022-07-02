@@ -1,8 +1,9 @@
 import { SimpleGrid } from "@mantine/core";
 import { Poll } from "./Poll";
-import { PostDataParam } from "@interfaces/post";
+import { Choice, PostDataParam } from "@interfaces/post";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import sortArray from "sort-array";
+import { useEffect, useState } from "react";
 
 export function PollItems({ ...props }: PostDataParam) {
   const [parent] = useAutoAnimate<HTMLDivElement>()

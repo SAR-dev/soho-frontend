@@ -8,7 +8,7 @@ import { PostFooter } from "./layers/PostFooter";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PostDataParam } from "@interfaces/post";
-import { timeLengthToSeconds } from "src/helpers";
+import { checkIfExpired, timeLengthToSeconds } from "src/helpers";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -51,7 +51,7 @@ export function PollPostCard({ ...props }: PostDataParam) {
           <>
             <PollItems {...props} />
             <div className={cx(classes.flex, classes.expire)}>
-              {props.duration && (dayjs(dayjs()).diff(props.created_at, 'second', true) > timeLengthToSeconds(props.duration)) && (
+              {checkIfExpired({duration: props.duration, created_at: props.created_at}) && (
                 <>
                   <RiRestTimeFill size={14} />
                   <Text size="xs" ml={5}>
@@ -63,7 +63,7 @@ export function PollPostCard({ ...props }: PostDataParam) {
             </div>
           </>
         )}
-        <PostFooter />
+        <PostFooter {...props} />
       </div>
     </div>
   );

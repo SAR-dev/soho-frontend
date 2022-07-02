@@ -43,13 +43,8 @@ export function CHome() {
     const { author } = useParams<"author">();
     const { cName } = useParams<"cName">();
     const [clicked, toogle] = useBooleanToggle(false);
-    const [posts, setPosts] = useState<PostDataParam[]>()
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['cat_posts', author, cName], () => getPostsFromCategory({ username: author, category: cName }), {
-        onSuccess: res => {
-            setPosts([...res.data.results])
-        }
-    })
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['cat_posts', author, cName], () => getPostsFromCategory({ username: author, category: cName }))
 
     return (
         <CommunityLayout>
@@ -63,11 +58,11 @@ export function CHome() {
                     </>
                 ) : (
                     <>
-                        {posts?.map((el, i) => {
+                        {data?.data.results?.map((el, i) => {
                             if (el.post_type === "discussion") return (
                                 <DiscussionPostCard {...el} key={i} />)
                         })}
-                        {posts?.length === 0 && <NoResults />}
+                        {data?.data.results?.length === 0 && <NoResults />}
 
                     </>
                 )}

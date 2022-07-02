@@ -42,13 +42,8 @@ export function SHome() {
     const { author } = useParams<"author">();
     const { sName } = useParams<"sName">();
     const [clicked, toogle] = useBooleanToggle(false);
-    const [posts, setPosts] = useState<PostDataParam[]>()
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['sub_cat_posts', author, sName], () => getPostsFromSubCategory({ username: author, sub_category: sName }), {
-        onSuccess: res => {
-            setPosts([...res.data.results])
-        }
-    })
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['sub_cat_posts', author, sName], () => getPostsFromSubCategory({ username: author, sub_category: sName }))
 
     return (
         <CommunityLayout>
@@ -62,11 +57,11 @@ export function SHome() {
                     </>
                 ) : (
                     <>
-                        {posts?.map((el, i) => {
+                        {data?.data.results?.map((el, i) => {
                             if (el.post_type === "discussion") return (
                                 <DiscussionPostCard {...el} key={i} />)
                         })}
-                        {posts?.length === 0 && <NoResults />}
+                        {data?.data.results?.length === 0 && <NoResults />}
                     </>
                 )}
             </SimpleGrid>

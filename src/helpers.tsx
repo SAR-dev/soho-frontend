@@ -1,5 +1,9 @@
 import axios from "axios";
 import { createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface } from "@interfaces/api";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime)
 
 export const getTokenFromLocal = () => {
   return localStorage.getItem("token");
@@ -101,6 +105,16 @@ export function createAuthorPost({ username, data }: { username?: string, data: 
     })
 };
 
+export function votePost(id: number): Promise<any> {
+  return axios.post(`post/${id}/vote/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err }
+    })
+};
+
 export const getPostsFromType = async ({ username, type }: { username?: string, type?: string }) => await axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
 
 export const getPostsFromCategory = async ({ username, category }: { username?: string, category?: string }) => await axios.get(`post/list/group/${username}/category/${category}/`, defaultConfig())
@@ -151,7 +165,7 @@ export function createComment({ postId, content }: { postId: number, content: st
     })
 };
 
-export function createReply({ postId, commentId, content }: { postId: number, commentId: number , content: string }): Promise<any> {
+export function createReply({ postId, commentId, content }: { postId: number, commentId: number, content: string }): Promise<any> {
   return axios.post(`comment/create/post/${postId}/parent/${commentId}/`, { content }, defaultConfig())
     .then((res) => {
       return { data: res.data }
@@ -193,7 +207,24 @@ export const parseErrors = (data: { response: { data: { [x: string]: any; }; }; 
 export const doubleDigit = (num: number) => ("0" + num).slice(-2);
 
 export const timeLengthToSeconds = (time_length: string) => {
-  var a = time_length.split(':'); 
+  var a = time_length.split(':');
   var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
   return seconds
+}
+
+export const getPostKey = (params: string | undefined) => {
+  if (params === "pType") return "type_posts"
+  if (params === "cName") return "cat_posts"
+  if (params === "sName") return "sub_cat_posts"
+  if (params === undefined) return "type_posts"
+}
+
+export const checkIfExpired = ({ duration, created_at }: { duration: string | null, created_at: Date }) => {
+  if (!duration) return false
+  const expired = dayjs(dayjs()).diff(created_at, 'second', true) > timeLengthToSeconds(duration)
+  if (expired) {
+    return true
+  } else {
+    return false
+  }
 }

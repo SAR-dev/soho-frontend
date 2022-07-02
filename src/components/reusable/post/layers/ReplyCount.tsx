@@ -4,6 +4,7 @@ import {
   createStyles
 } from "@mantine/core";
 import { Link } from "react-router-dom";
+import { doubleDigit } from "src/helpers";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -11,17 +12,18 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-interface Props {
-  color?: "dimmed" | "red"
-}
-
-export function ReplyCount({ color = "dimmed" }: Props) {
+export function ReplyCount({ authorName, postId, commentsCount, color = "dimmed" }: {
+  color?: "dimmed" | "red",
+  authorName: string,
+  postId: number,
+  commentsCount: number
+}) {
   const { classes } = useStyles();
 
   return (
-    <Center component={Link} to="?post=1" className={classes.wrapper}>
+    <Center component={Link} to={`/c/${authorName}/p/${postId}?details=true`} className={classes.wrapper}>
       <Text size="sm" weight={500} color={color}>
-        24
+        {doubleDigit(commentsCount)}
       </Text>
       <Text size="sm" weight={500} color={color} style={{ marginLeft: 5 }}>
         Comments
