@@ -28,7 +28,7 @@ interface SwitchesCardProps {
         description: string;
     }[];
     values: boolean[];
-    handleValues: (params: any) => void
+    handleValues: ({checked, index}: {checked: boolean, index: number}) => void
 }
 
 export function JoiningForm({ title, description, data, values, handleValues }: SwitchesCardProps) {
@@ -43,7 +43,7 @@ export function JoiningForm({ title, description, data, values, handleValues }: 
                     {item.description}
                 </Text>
             </div>
-            <Switch checked={values[i]} onChange={(event) => handleValues(event.currentTarget.checked, i)} className={classes.switch} size="lg" />
+            <Switch checked={values[i]} onChange={(event) => handleValues({checked: event.currentTarget.checked, index: i})} className={classes.switch} size="lg" />
         </Group>
     ));
 

@@ -56,7 +56,7 @@ export function CJoin() {
     const notifications = useNotifications();
     const queryClient = useQueryClient()
 
-    const handleValues = (checked: boolean, index: number) => {
+    const handleValues = ({checked, index}: {checked: boolean, index: number}) => {
         const arr = [...values];
         arr[index] = checked;
         setValues([...arr])
