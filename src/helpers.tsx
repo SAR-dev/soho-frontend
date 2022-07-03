@@ -129,6 +129,18 @@ export function votePost(id: number): Promise<any> {
     })
 };
 
+export function addAwardToPost({ postId, awardId }: { postId: number, awardId: number }): Promise<any> {
+  return axios.post(`post/${postId}/award/${awardId}/free/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+{/* <int:pk>/award/<int:id>/free/ */ }
+
 export const getPostsFromType = async ({ username, type }: { username?: string, type?: string }) => await axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
 
 export const getPostsFromCategory = async ({ username, category }: { username?: string, category?: string }) => await axios.get(`post/list/group/${username}/category/${category}/`, defaultConfig())

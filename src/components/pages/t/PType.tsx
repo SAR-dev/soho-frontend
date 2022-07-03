@@ -43,7 +43,7 @@ export function PType() {
     const { pType } = useParams<"pType">();
     const [clicked, toogle] = useBooleanToggle(false);
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['type_posts', author, pType], () => getPostsFromType({ username: author, type: pType || "all" }))
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['type_posts', author, pType || "all"], () => getPostsFromType({ username: author, type: pType || "all" }))
 
     return (
         <CommunityLayout>

@@ -63,7 +63,7 @@ interface Props {
   subscribed: boolean;
   post_count: number;
   author: Author;
-  common_member: Author;
+  slogan: string;
   is_admin: boolean;
   is_moderator: boolean;
   created_at: Date;
@@ -103,9 +103,11 @@ export function UserButton({ data, isLoading }: { data?: Props, isLoading: boole
               <Text size="sm" weight={500}>
                 {`${data?.author?.first_name} ${data?.author?.last_name}`}
               </Text>
-              <Text color="dimmed" size="xs">
-                {`${data?.common_member?.first_name} ${data?.common_member?.last_name}`} also joined here
-              </Text>
+              {data.slogan && data.slogan.length !== 0 && (
+                <Text color="dimmed" size="xs">
+                  {data.slogan}
+                </Text>
+              )}
               <Popover
                 opened={opened}
                 onClose={() => setOpened(false)}

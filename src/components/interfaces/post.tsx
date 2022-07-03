@@ -22,8 +22,8 @@ export interface PostDataParam {
     bookmarked: boolean;
     upvoted: boolean;
     comments_count: number;
-    available_awards: any[];
-    awards: Awards;
+    available_awards: AvailableAward[];
+    awards: any;
     created_at: Date;
     updated_at: Date;
   }
@@ -35,9 +35,6 @@ export interface PostDataParam {
     last_name: string;
     is_active: boolean;
     avatar: string;
-  }
-  
-  export interface Awards {
   }
 
   export interface Choice {
@@ -72,3 +69,11 @@ export interface PostDataParam {
     description: string;
     author: Author;
   }
+
+  export interface AvailableAward {
+    id:          number;
+    name:        string;
+    logo:        string;
+    description: string;
+    price:       number;
+}

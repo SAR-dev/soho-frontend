@@ -166,7 +166,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
             {layout === "comment" && data.children && (
                 <Stack pl={15} ml={10} className={classes.replies} pb="md">
                     {data.children.map((reply, i) => (
-                        <Reply reply={reply} postId={postId} />
+                        <Reply reply={reply} postId={postId} key={i} />
                     ))}
                 </Stack>
             )}

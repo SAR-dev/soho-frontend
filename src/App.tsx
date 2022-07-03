@@ -6,8 +6,6 @@ import {
 import { useLocalStorage } from "@mantine/hooks";
 import Router from "./Router";
 import { NotificationsProvider } from "@mantine/notifications";
-import { ModalsProvider } from "@mantine/modals";
-import { AwardModal } from "./components/reusable/modal/AwardModal";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
@@ -30,9 +28,7 @@ function App() {
       >
         <MantineProvider theme={{ colorScheme }}>
           <NotificationsProvider>
-            <ModalsProvider modals={{ award: AwardModal }}>
               <Router />
-            </ModalsProvider>
           </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

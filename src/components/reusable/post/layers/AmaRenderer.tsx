@@ -64,7 +64,7 @@ export function AmaRenderer({ body, release_time, postId, expired }: { body: str
         if (params.pId) {
           queryClient.invalidateQueries(["comments", postId])
         } else {
-          const queryKey = [getPostKey(Object.keys(params)[1]), params.author, params[Object.keys(params)[1]] === undefined ? null : params[Object.keys(params)[1]]]
+          const queryKey = [getPostKey(Object.keys(params)[1]), params.author, params[Object.keys(params)[1]] === undefined ? "all" : params[Object.keys(params)[1]]]
           const oldData: any = queryClient.getQueryData<DataParam>([...queryKey])
           const newData = oldData
           const postIndex = newData.data.results.findIndex((e: { id: number }) => e.id === postId)

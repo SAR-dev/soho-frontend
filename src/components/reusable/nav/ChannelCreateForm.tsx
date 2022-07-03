@@ -10,12 +10,22 @@ import {
     Text,
     ColorInput,
     ActionIcon,
+    Center,
+    TextInput,
+    createStyles,
 } from "@mantine/core";
 import { Tag, GitBranch, X, Refresh } from "tabler-icons-react";
 import { createChannel, createSubChannel, getChannels, parseErrors } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
+import { EmojiPopover } from "@editors/EmojiPopover";
+
+const useStyles = createStyles((theme) => ({
+    wFull: {
+        width: "100%"
+    }
+  }));
 
 interface DataParam {
     data: {
@@ -49,7 +59,8 @@ interface SelectModel {
 const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
-    const { author } = useParams<"author">();
+  const { classes, cx } = useStyles();
+  const { author } = useParams<"author">();
     const [parentChannels, setParentChannels] = useState<SelectModel[]>([])
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
         onSuccess: res => {
@@ -67,10 +78,14 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState("channel");
     const [channelName, setChannelName] = useState("");
-    const [color, setColor] = useState("#4DABF7");
+    const [emoji, setEmoji] = useState("")
 
     const [parentChannel, setParentChannel] = useState<any | null>("");
     const [subChannelName, setSubChannelName] = useState("");
+
+    const insertText = (text: string) => {
+        setEmoji(text)
+    };
 
     const submit = () => {
         const username = author || "";
@@ -78,12 +93,12 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
             setLoading(true);
             const data = {
                 name: channelName,
-                color: color
+                emoji: emoji
             };
             createChannel({ username, data }).then((res) => {
                 if (res.error) {
                     notifications.showNotification({
-                        title: `Error ${res.error.response.status}`,
+                        title: "Error creating channel",
                         message: parseErrors(res.error)[0],
                         color: "red",
                         icon: <X size={18} />,
@@ -146,17 +161,11 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                             setChannelName(e.target.value)
                         }
                     />
-                    <ColorInput
-                        placeholder="Pick color"
-                        label="Pick a color"
-                        value={color}
-                        onChange={setColor}
-                        rightSection={
-                            <ActionIcon onClick={() => setColor(randomColor())}>
-                                <Refresh size={16} />
-                            </ActionIcon>
-                        }
-                    />
+                    <Center className={classes.wFull}>
+                        <EmojiPopover insertText={insertText} />
+                        <TextInput size="xs" ml="sm" className={cx(classes.wFull, "thick-border")} value={emoji} readOnly />
+                    </Center>
+
                 </>
             )}
             {value === "subchannel" && (

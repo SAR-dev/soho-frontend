@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon } from '@mantine/core';
 import { ChevronRight, Circle, Hash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-import {FaDotCircle} from "react-icons/fa";
+import { FaDotCircle } from "react-icons/fa";
+import Emoji from "react-emoji-render";
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -50,7 +51,7 @@ const useStyles = createStyles((theme) => ({
 
 export interface Props {
   id: number;
-  color: string;
+  emoji: string;
   name: string;
   slug: string;
   about: null;
@@ -64,7 +65,7 @@ export interface SubCategory {
   slug: string;
 }
 
-export function LinksGroup({ id, color, name, slug, about, sub_categories, author }: Props) {
+export function LinksGroup({ id, emoji, name, slug, about, sub_categories, author }: Props) {
   const { classes, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
   const [opened, setOpened] = useState(false);
@@ -84,7 +85,7 @@ export function LinksGroup({ id, color, name, slug, about, sub_categories, autho
       <div className={classes.control}>
         <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/ch/${slug}`} className={classes.cat} >
           <ThemeIcon color="gray" >
-            <FaDotCircle size={15} color={color} />
+            <Text><Emoji text={emoji} /></Text>
           </ThemeIcon>
           <Box ml="md">{name}</Box>
         </Box>

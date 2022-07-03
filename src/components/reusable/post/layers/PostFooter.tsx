@@ -9,7 +9,7 @@ export function PostFooter({ ...props }: PostDataParam) {
     <Group spacing="lg">
       <PostReplyCount postId={props.id} authorName={props.author.username} commentsCount={props.comments_count} />
       <PostClapCount postId={props.id} clapCount={props.num_vote_up} />
-      <AwardCount />
+      <AwardCount available_awards={props.available_awards} awards={props.awards} postId={props.id} />
     </Group>
   );
 }

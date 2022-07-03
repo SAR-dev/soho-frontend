@@ -111,7 +111,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
     setLoading(true)
     setErrors([])
     const data = {
-      content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
+      content: text?.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       post_type: 'ama',
       release_time: datetime,
       duration: duration*parseInt(format)

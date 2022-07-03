@@ -2,7 +2,7 @@ import { ActionIcon, Menu } from "@mantine/core";
 import { MoodSmile } from "tabler-icons-react";
 import { EmojiPicker } from "../reusable/EmojiPicker";
 
-export function EmojiPopover({ insertText }: { insertText: any }) {
+export function EmojiPopover({ insertText }: { insertText: any}) {
 
   return (
     <Menu
@@ -17,9 +17,9 @@ export function EmojiPopover({ insertText }: { insertText: any }) {
         <EmojiPicker
           theme="dark"
           previewPosition="none"
-          emojiButtonSize={24}
-          emojiSize={16}
-          perLine={15}
+          emojiButtonSize={30}
+          emojiSize={24}
+          perLine={10}
           onEmojiSelect={(e: any) => insertText(e.native)}
         />
       </Menu.Item>

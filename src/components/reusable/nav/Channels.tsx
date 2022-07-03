@@ -46,7 +46,7 @@ interface DataParam {
 
 interface Result {
     id: number;
-    color: string;
+    emoji: string;
     name: string;
     slug: string;
     about: null;

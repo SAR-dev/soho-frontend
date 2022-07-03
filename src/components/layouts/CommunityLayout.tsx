@@ -10,11 +10,11 @@ const useStyles = createStyles((theme) => ({
           ? theme.colors.dark[5]
           : theme.colors.gray[2],
       paddingBottom: theme.spacing.xl,
+      minHeight: "100vh"
     },
   }));
 
 export function CommunityLayout({ children }: { children: ReactNode }) {
-
   const { classes } = useStyles();
 
   return (

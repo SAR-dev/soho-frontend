@@ -71,7 +71,7 @@ interface DataParam {
     subscribed: boolean;
     post_count: number;
     author: Author;
-    common_member: Author;
+    slogan: string;
     is_admin: boolean;
     is_moderator: boolean;
     created_at: Date;
@@ -123,7 +123,7 @@ export function EditorCreator({ toogle }: Props) {
             className={cx(classes.input, "thick-border")}
             width="100%"
             placeholder="Sayed Rafi, What's on your mind ?"
-            icon={<BrandTwitter size={20} />}
+            // icon={<BrandTwitter size={20} />}
             rightSectionWidth={75}
             styles={{ rightSection: { pointerEvents: "none" } }}
             rightSection={
@@ -175,7 +175,7 @@ export function EditorCreator({ toogle }: Props) {
                   className={cx(classes.input, "thick-border")}
                   width="100%"
                   placeholder="Sayed Rafi, What's on your mind ?"
-                  icon={<BrandTwitter size={20} />}
+                  // icon={<BrandTwitter size={20} />}
                   rightSectionWidth={75}
                   styles={{ rightSection: { pointerEvents: "none" } }}
                   rightSection={

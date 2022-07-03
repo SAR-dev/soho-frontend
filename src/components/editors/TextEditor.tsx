@@ -83,13 +83,13 @@ export function TextEditor({ editorRef, text, setText, insertText, focus = true 
           ["bold", "italic", "underline", "strike"],
           ["blockquote", "code"],
           ["unorderedList", "orderedList"],
-          ["alignLeft", "alignCenter", "alignRight"],
+          // ["alignLeft", "alignCenter", "alignRight"],
           ["clean"],
         ]}
-        onPaste={e => {
+        // onPaste={e => {
           // e.preventDefault()
-          insertText(e.clipboardData.getData('Text'))
-        }}
+        //   insertText(e.clipboardData.getData('Text'))
+        // }}
       />
     </>
   );

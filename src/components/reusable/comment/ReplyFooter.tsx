@@ -7,7 +7,7 @@ export function ReplyFooter({clapCount}:{clapCount: number}) {
   return (
     <Group spacing="lg">
       <CommentClapCount clapCount={clapCount} />
-      <AwardCount />
+      {/* <AwardCount /> */}
     </Group>
   );
 }

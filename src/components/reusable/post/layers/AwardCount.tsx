@@ -1,18 +1,56 @@
-import { Group, Button } from "@mantine/core";
+import { AvailableAward } from "@interfaces/post";
+import { Group, Button, Modal, createStyles } from "@mantine/core";
 import { useModals } from "@mantine/modals";
+import { useState } from "react";
 import { Eye, Plus } from "tabler-icons-react";
+import { PostAwardModal } from "./PostAwardModal";
+import SVG, { Props as SVGProps } from "react-inlinesvg";
 
-export function AwardCount() {
-  const modals = useModals();
-  const openContextModal = () =>
-    modals.openContextModal("award", {
-      title: "Our Awards Collection",
-      className: "award-modal",
-      innerProps: {},
-    });
+const useStyles = createStyles((theme, _params, getRef) => ({
+  selectedImage: {
+    objectFit: 'contain',
+    height: 12
+  }
+}));
+
+export function AwardCount({ available_awards, postId, awards }: { available_awards: AvailableAward[], postId: number, awards: any }) {
+  const { classes, cx } = useStyles();
+  const [opened, setOpened] = useState(false);
+
+  const getAwardCount = (id: number) => {
+    const voters = awards[id.toString()]
+    if (voters) {
+      return voters.length
+    } else {
+      return 0
+    }
+  }
+
   return (
-    <Group spacing={2}>
-      {[...Array(5)].map((e, i) => (
+    <>
+      <Group spacing={2}>
+        {available_awards?.map((e, i) => (
+          <Button
+            styles={(theme) => ({
+              root: {
+                backgroundColor:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[6]
+                    : theme.colors.gray[2],
+              },
+
+              leftIcon: {
+                marginRight: 5,
+              },
+            })}
+            size="xs"
+            compact
+            leftIcon={<SVG className={classes.selectedImage} src={e.logo} preProcessor={(code) => code?.replace(/(height=".*?")|(width=".*?")/g, '')} />}
+            key={i}
+          >
+            {getAwardCount(e.id)}
+          </Button>
+        ))}
         <Button
           styles={(theme) => ({
             root: {
@@ -21,38 +59,25 @@ export function AwardCount() {
                   ? theme.colors.dark[6]
                   : theme.colors.gray[2],
             },
-
             leftIcon: {
               marginRight: 5,
             },
           })}
           size="xs"
           compact
-          leftIcon={<Eye size={12} />}
-          key={i}
+          leftIcon={<Plus size={12} />}
+          onClick={() => setOpened(true)}
         >
-          01
+          Award
         </Button>
-      ))}
-      <Button
-        styles={(theme) => ({
-          root: {
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[6]
-                : theme.colors.gray[2],
-          },
-          leftIcon: {
-            marginRight: 5,
-          },
-        })}
-        size="xs"
-        compact
-        leftIcon={<Plus size={12} />}
-        onClick={openContextModal}
+      </Group>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Our Awards Collection"
       >
-        Award
-      </Button>
-    </Group>
+        <PostAwardModal available_awards={available_awards} postId={postId} />
+      </Modal>
+    </>
   );
 }

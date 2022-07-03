@@ -116,7 +116,7 @@ export function Poll({ active = true, choice, totalVotes, data }: Params) {
                         }
                         queryClient.setQueryData(['post_details', pId], { ...newData })
                     } else {
-                        const queryKey = [getPostKey(Object.keys(params)[1]), params.author, params[Object.keys(params)[1]] === undefined ? null : params[Object.keys(params)[1]]]
+                        const queryKey = [getPostKey(Object.keys(params)[1]), params.author, params[Object.keys(params)[1]] === undefined ? "all" : params[Object.keys(params)[1]]]
                         const oldData: any = queryClient.getQueryData<DataParam>([...queryKey])
                         const newData = oldData
                         const postIndex = newData.data.results.findIndex((e: { id: number }) => e.id === data?.id)

@@ -12,6 +12,10 @@ import { RiRestTimeFill } from "react-icons/ri";
 import { checkIfExpired, timeLengthToSeconds } from "src/helpers";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
+  cover: {
+    overflow: 'hidden',
+    backgroundColor: theme.colors.blue[5]
+  },
   wrapper: {
     position: "relative",
     padding: theme.spacing.xl,
@@ -38,25 +42,27 @@ export function AmaPostCard({ ...props }: PostDataParam) {
   const { classes, cx } = useStyles();
 
   return (
-    <div className={classes.wrapper}>
-      <Author />
-      <div>
-        <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
-        {props.content && (
-          <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({duration: props.duration, created_at: props.created_at})} />
-        )}
-        <div className={cx(classes.flex, classes.expire)}>
-          {checkIfExpired({duration: props.duration, created_at: props.created_at}) && (
-            <>
-              <RiRestTimeFill size={14} />
-              <Text size="xs" ml={5}>
-
-                Asking author has expired {dayjs(props.created_at).fromNow()}
-              </Text>
-            </>
+    <div className={classes.cover}>
+      <div className={classes.wrapper}>
+        <Author />
+        <div>
+          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
+          {props.content && (
+            <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({ duration: props.duration, created_at: props.created_at })} />
           )}
+          <div className={cx(classes.flex, classes.expire)}>
+            {checkIfExpired({ duration: props.duration, created_at: props.created_at }) && (
+              <>
+                <RiRestTimeFill size={14} />
+                <Text size="xs" ml={5}>
+
+                  Asking author has expired {dayjs(props.created_at).fromNow()}
+                </Text>
+              </>
+            )}
+          </div>
+          <PostFooter {...props} />
         </div>
-        <PostFooter {...props} />
       </div>
     </div>
   );

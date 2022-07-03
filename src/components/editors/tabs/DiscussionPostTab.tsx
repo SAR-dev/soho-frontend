@@ -74,6 +74,7 @@ interface SelectModel {
 }
 
 export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
+  const { classes, cx } = useStyles();
   const { author } = useParams<"author">();
   const { sName } = useParams<"sName">();
   const { cName } = useParams<"cName">();
@@ -87,7 +88,6 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
       setChannels([...res.data.results])
     }
   })
-  const { classes, cx } = useStyles();
 
   const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
@@ -103,7 +103,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     if (author && sName) setQueryKey(["sub_cat_posts", author, sName])
     if (author && cName) setQueryKey(["cat_posts", author, cName])
     if ((author && pType)) setQueryKey(["type_posts", author, pType])
-    if ((author && !sName && !cName && !pType)) setQueryKey(["type_posts", author, "discussion"])
+    if ((author && !sName && !cName && !pType)) setQueryKey(["type_posts", author, "all"])
   }, []);
 
   const insertText = (text: string) => {
@@ -121,7 +121,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     setLoading(true)
     setErrors([])
     const data = {
-      content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
+      content: text?.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       images: images,
       category: category,
       sub_category: sub_category,

@@ -8,7 +8,7 @@ export function CommentFooter({commentsCount, clapCount}:{commentsCount: number,
     <Group spacing="lg">
       <CommentReplyCount commentsCount={commentsCount} color="red" />
       <CommentClapCount clapCount={clapCount} />
-      <AwardCount />
+      {/* <AwardCount /> */}
     </Group>
   );
 }

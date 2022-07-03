@@ -44,7 +44,7 @@ interface DataParam {
     subscribed: boolean;
     post_count: number;
     author: Author;
-    common_member: Author;
+    slogan: string;
     is_admin: boolean;
     is_moderator: boolean;
     created_at: Date;

@@ -1,6 +1,6 @@
 export interface createChannelInterface {
     name: string
-    color?: string
+    emoji?: string
 }
 
 export interface createSubChannelInterface {

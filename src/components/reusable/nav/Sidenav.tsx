@@ -138,7 +138,7 @@ interface DataParam {
     subscribed: boolean;
     post_count: number;
     author: Author;
-    common_member: Author;
+    slogan: string;
     is_admin: boolean;
     is_moderator: boolean;
     created_at: Date;
@@ -186,7 +186,7 @@ export function Sidenav() {
 
           <Group className={classes.collectionsHeader} position="apart">
             <Text size="xs" weight={500} color="dimmed">
-              Channels
+              SOHO
             </Text>
             {data?.data?.is_admin && (
               <Tooltip label="Create Channel" withArrow position="right">

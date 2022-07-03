@@ -79,7 +79,7 @@ export default function UserLists() {
                     onClick={() => setActive(label)}
                     className={cx(classes.mainLink, { [classes.mainLinkActive]: label === active }, { [classes.initialMainLink]: i === 0 })}
                 >
-                    <Image src={avatar} height="sm" width="sm" fit="cover" withPlaceholder />
+                    <Avatar src={avatar} size="sm" radius="xl" />
                 </UnstyledButton>
             </Tooltip>
         </div>

@@ -107,7 +107,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
     setLoading(true)
     setErrors([])
     const data = {
-      content: text.replace(/<p><br[\/]?><[\/]?p>/g, ''),
+      content: text?.replace(/<p><br[\/]?><[\/]?p>/g, ''),
       post_type: 'poll',
       choices: polls.map(e => e.id),
       duration: duration * parseInt(format)
