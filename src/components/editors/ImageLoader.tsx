@@ -6,7 +6,7 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import axios from "axios";
-import { imageUploader, toBase64 } from "../../helpers";
+import { imageUploader, parseErrors, toBase64 } from "../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { X } from "tabler-icons-react";
 import Carousel, { Modal, ModalGateway } from "react-images";
@@ -42,8 +42,8 @@ export function ImageLoader({ img, images, addImage }: Props) {
       imageUploader(img).then(res => {
         if (res.error) {
           notifications.showNotification({
-            title: `Error ${res.error.response.status}`,
-            message: res.error.response.data.detail,
+            title: "Image not uploaded",
+            message: parseErrors(res.error)[0],
             color: "red",
             icon: <X size={18} />,
           });

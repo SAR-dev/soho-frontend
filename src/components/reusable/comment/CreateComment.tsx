@@ -5,10 +5,11 @@ import { TextEditor } from "../../editors/TextEditor";
 import { Author } from "../post/layers/Author";
 import { Check, InfoCircle, Send, X } from "tabler-icons-react";
 import { EmojiPopover } from "../../editors/EmojiPopover";
-import { createComment } from "../../../helpers";
+import { createComment, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { AuthorDataParam } from "@interfaces/author";
+import { MdClose } from "react-icons/md";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -65,7 +66,7 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
                 setLoading(false)
                 notifications.showNotification({
                     title: "Error creating the comment!",
-                    message: "Couldn't create the comment. If there is any problem, fix it. Try again.",
+                    message: parseErrors(res.error)[0],
                     color: "red",
                     icon: <X size={18} />,
                 });
@@ -104,7 +105,10 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
                         <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
                         <Group>
                             <EmojiPopover insertText={insertText} />
-                            <Button size="xs" ml="auto" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
+                            <Button size="xs" ml="auto" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
+                                Close
+                            </Button>
+                            <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
                                 Submit
                             </Button>
                         </Group>

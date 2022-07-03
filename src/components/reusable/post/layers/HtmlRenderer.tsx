@@ -9,28 +9,28 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     fontSize: theme.fontSizes.sm,
     marginTop: theme.spacing.xs,
     marginBottom: theme.spacing.lg,
-    display: 'block'
+    // display: 'block'
   },
 }));
 
 export function HtmlRenderer({ body, id }: { body: string, id: number }) {
   const { author } = useParams<"author">();
+  const { classes, cx } = useStyles();
 
   const options: HTMLReactParserOptions = {
     replace: domNode => {
       if (domNode instanceof Element && domNode.attribs && domNode.attribs.name === 'link') {
         return <Anchor
-          className={classes.typography}
+          className={cx(classes.typography, "link")}
           component={Link}
           to={`/c/${author}/p/${id}?details=true`}
         >
-          Read More
+          ...Read More
         </Anchor>
       }
     }
   };
 
-  const { classes, cx } = useStyles();
   return (
     <TypographyStylesProvider className={classes.typography}>
       <Linkify options={{target: "_blank"}}>

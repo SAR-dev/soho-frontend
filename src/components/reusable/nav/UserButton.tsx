@@ -1,6 +1,7 @@
-import React from 'react';
-import { Group, Avatar, Text, createStyles, Skeleton, Stack } from '@mantine/core';
-import { Plus, UserCircle, Users } from 'tabler-icons-react';
+import React, { useState } from 'react';
+import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button } from '@mantine/core';
+import { AlertCircle, Plus, UserCircle, Users } from 'tabler-icons-react';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -80,6 +81,7 @@ interface Author {
 
 export function UserButton({ data, isLoading }: { data?: Props, isLoading: boolean }) {
   const { classes } = useStyles();
+  const [opened, setOpened] = useState(false)
 
   return (
     <div className={classes.user}>
@@ -104,15 +106,36 @@ export function UserButton({ data, isLoading }: { data?: Props, isLoading: boole
               <Text color="dimmed" size="xs">
                 {`${data?.common_member?.first_name} ${data?.common_member?.last_name}`} also joined here
               </Text>
-              <Group spacing="xs" className={classes.members}>
-                <div className={classes.membersCount}>
-                  <Users size={14} />
-                  <Text size="xs" color="gray" ml={5}>{data?.subscribers_count} Members</Text>
+              <Popover
+                opened={opened}
+                onClose={() => setOpened(false)}
+                style={{ width: "100%" }}
+                target={
+                  <Group spacing="xs" className={classes.members} onClick={() => setOpened((o) => !o)}>
+                    <div className={classes.membersCount}>
+                      <Users size={14} />
+                      <Text size="xs" color="gray" ml={5}>{data?.subscribers_count} Members</Text>
+                    </div>
+                    <div className={classes.action}>
+                      <Plus size={14} />
+                    </div>
+                  </Group>
+                }
+                width={260}
+                position="bottom"
+                withArrow
+              >
+                <div style={{ display: 'flex' }}>
+                  <Alert title="Wanna Join!" withCloseButton onClose={() => setOpened(false)}>
+                    <Text size="xs">
+                      Please read the community rules carefully before joining.
+                    </Text>
+                    <Button size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/join`}>
+                      Details Page
+                    </Button>
+                  </Alert>
                 </div>
-                <div className={classes.action}>
-                  <Plus size={14} />
-                </div>
-              </Group>
+              </Popover>
             </>
           )}
         </div>

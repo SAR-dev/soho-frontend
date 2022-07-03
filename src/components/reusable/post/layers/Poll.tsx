@@ -1,7 +1,7 @@
 import { Choice, PostDataParam } from "../../../interfaces/post";
 import { createStyles, Box, Loader } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { getPostKey, selectPoll } from "../../../../helpers";
+import { getPostKey, parseErrors, selectPoll } from "../../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { X } from "tabler-icons-react";
 import { useQueryClient } from "react-query";
@@ -95,7 +95,7 @@ export function Poll({ active = true, choice, totalVotes, data }: Params) {
                     setLoading(false)
                     notifications.showNotification({
                         title: "Error creating the comment!",
-                        message: "Couldn't vote in the poll. If there is any problem, fix it. Try again.",
+                        message: parseErrors(res.error)[0],
                         color: "red",
                         icon: <X size={18} />,
                     });

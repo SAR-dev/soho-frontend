@@ -171,7 +171,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
           <AlertCircle size={18} color="yellow" />
         }>
           <Text size="xs" weight={600} color="yellow" mb="xs">Fix these errors</Text>
-          {errors.map(e => <List.Item><Text size="xs" weight={600} color="yellow">{e}</Text></List.Item>)}
+          {errors.map((e, i) => <List.Item key={i}><Text size="xs" weight={600} color="yellow">{e}</Text></List.Item>)}
         </List>
       )}
       <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />

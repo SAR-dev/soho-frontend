@@ -9,14 +9,14 @@ import { useState } from "react";
 import { MdWavingHand } from "react-icons/md";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { doubleDigit, getPostKey, votePost } from "src/helpers";
+import { doubleDigit, getPostKey, parseErrors, votePost } from "src/helpers";
 import { X } from "tabler-icons-react";
 
 interface DataParam {
   data: PostDataParam
 }
 
-export function ClapCount({ postId, clapCount }: { postId: number, clapCount: number }) {
+export function PostClapCount({ postId, clapCount }: { postId: number, clapCount: number }) {
   const notifications = useNotifications();
   const queryClient = useQueryClient()
   const params = useParams()
@@ -30,7 +30,7 @@ export function ClapCount({ postId, clapCount }: { postId: number, clapCount: nu
         setLoading(false)
         notifications.showNotification({
           title: "Error creating the comment!",
-          message: "Couldn't clap in the post. If there is any problem, fix it. Try again.",
+          message: parseErrors(res.error)[0],
           color: "red",
           icon: <X size={18} />,
         });

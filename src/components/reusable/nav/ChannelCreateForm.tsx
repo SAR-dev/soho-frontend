@@ -12,7 +12,7 @@ import {
     ActionIcon,
 } from "@mantine/core";
 import { Tag, GitBranch, X, Refresh } from "tabler-icons-react";
-import { createChannel, createSubChannel, getChannels } from "../../../helpers";
+import { createChannel, createSubChannel, getChannels, parseErrors } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
@@ -84,7 +84,7 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                 if (res.error) {
                     notifications.showNotification({
                         title: `Error ${res.error.response.status}`,
-                        message: res.error.response.data.detail,
+                        message: parseErrors(res.error)[0],
                         color: "red",
                         icon: <X size={18} />,
                     });

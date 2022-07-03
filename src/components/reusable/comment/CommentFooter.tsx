@@ -1,13 +1,13 @@
 import { Group } from "@mantine/core";
-import { ReplyCount } from "../post/layers/ReplyCount";
-import { ClapCount } from "../post/layers/ClapCount";
+import { CommentReplyCount } from "./CommentReplyCount";
 import { AwardCount } from "../post/layers/AwardCount";
+import { CommentClapCount } from "./CommentClapCount";
 
-export function CommentFooter() {
+export function CommentFooter({commentsCount, clapCount}:{commentsCount: number, clapCount: number}) {
   return (
     <Group spacing="lg">
-      <ReplyCount color="red" />
-      <ClapCount />
+      <CommentReplyCount commentsCount={commentsCount} color="red" />
+      <CommentClapCount clapCount={clapCount} />
       <AwardCount />
     </Group>
   );

@@ -1,4 +1,5 @@
 import {
+  Text,
   createStyles,
 } from "@mantine/core";
 import { ImageCarousel } from "./layers/ImageCarousel";
@@ -10,6 +11,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 import { PostDataParam } from "@interfaces/post";
+import { AlertCircle, InfoCircle } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -20,13 +22,20 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         ? theme.colors.dark[8]
         : theme.colors.gray[0],
     display: "flex",
+  },
+  flex: {
+    display: "flex",
+    alignItems: "center",
+  },
+  announcement: {
+    color: theme.colors.blue[3]
   }
 }));
 
 dayjs.extend(relativeTime)
 
 export function DiscussionPostCard({ ...props }: PostDataParam) {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const [images, setImages] = useState<string[]>([])
 
   useEffect(() => {
@@ -45,7 +54,17 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
         {images.length !== 0 && (
           <ImageCarousel sources={images} />
         )}
-        <PostFooter {...props} />
+        {props.post_type === "announcement" ? (
+          <div className={cx(classes.flex, classes.announcement)}>
+            <InfoCircle size={14} />
+            <Text size="sm" ml={5}>
+              You can neither comment nor react in announcement post.
+            </Text>
+          </div>
+        ) : (
+          <PostFooter {...props} />
+        )}
+
       </div>
     </div>
   );

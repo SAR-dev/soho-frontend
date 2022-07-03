@@ -4,8 +4,10 @@ import { Comment } from "./Comment";
 import { CommentAward } from "./CommentAward";
 import { useQuery } from "react-query";
 import { doubleDigit, getComments } from "../../../helpers";
-import { CommentDataParam } from "@interfaces/comment";
+import { CommentDataParam, TreeCommentDataParam } from "@interfaces/comment";
 import { NoResults } from "../../reusable/NoResults";
+import arrayToTree from "array-to-tree";
+import { CommentPlaceholder } from "./CommentPlaceholder";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -54,26 +56,40 @@ export interface DataParam {
 
 export function Comments({ postId }: { postId: number }) {
     const { classes } = useStyles();
-    const [comments, setComments] = useState<CommentDataParam[]>()
     const [uniqueUsers, setUniqueUsers] = useState<string[]>([])
+
+    const [treeComments, setTreeComments] = useState<TreeCommentDataParam[]>()
 
     const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['comments', postId], () => getComments({ postId: postId }), {
         onSuccess: res => {
-            setComments([...res.data.results])
             setUniqueUsers(uniqueUserAvatars())
+            if (data?.data.results) {
+                setTreeComments(arrayToTree(data?.data.results, {
+                    parentProperty: 'parent',
+                    customID: 'id'
+                }))
+            }
         }
     })
 
     const [sortBy, setSortBy] = useState('');
 
-    const uniqueUserAvatars = () => [...new Set(comments?.map(item => item.author.avatar))];
+    const uniqueUserAvatars = () => [...new Set(data?.data.results?.map(item => item.author.avatar))];
+
+    if (isLoading) return (
+        <Stack spacing="lg" mt="lg">
+            {[...Array(6)].map((e, i) => (
+                <CommentPlaceholder key={i} />
+            ))}
+        </Stack>
+    )
 
     return (
         <div className={classes.wrapper}>
             <Group>
                 <Text size="sm" color="dimmed" weight={600}>Conversation</Text>
                 <Text size="sm" color="dimmed" weight={600}>{doubleDigit(uniqueUsers.length)} Participants</Text>
-                <Text size="sm" color="dimmed" weight={600}>{comments && doubleDigit(comments?.length)} Comments</Text>
+                <Text size="sm" color="dimmed" weight={600}>{data?.data.results && doubleDigit(data?.data.results?.length)} Comments</Text>
                 <Select
                     placeholder="Sort By"
                     data={[{ value: '1', label: 'Date' }, { value: '2', label: 'Popularity' }, { value: '3', label: 'Replies' }, { value: '4', label: 'Claps' }]}
@@ -84,20 +100,19 @@ export function Comments({ postId }: { postId: number }) {
                     ml="auto"
                 />
             </Group>
-            {comments?.length === 0 && <NoResults />}
-            <AvatarsGroup limit={10} total={uniqueUsers.length} mt="lg">
-                {uniqueUsers.map((_, i) =>
-                    <Avatar src={_} className={classes.avatar} key={i} />
-                )}
-            </AvatarsGroup>
+            {data?.data.results?.length === 0 && <NoResults />}
+            {uniqueUsers.length > 8 && (
+                <AvatarsGroup limit={10} total={uniqueUsers.length} mt="lg">
+                    {uniqueUsers.map((_, i) =>
+                        <Avatar src={_} className={classes.avatar} key={i} />
+                    )}
+                </AvatarsGroup>
+            )}
             <Stack spacing="lg" mt="lg">
-                {comments?.map((el, i) => (
-                    <Comment comment={el} postId={postId} key={i} />
+                {treeComments?.map((el, i) => (
+                    <Comment comment={el} postId={postId} commentsCount={el.children?.length} key={i} />
                 ))}
-                {/* <Comment />
-                <CommentAward />
-                <CommentAward />
-                <Comment /> */}
+                {/* <CommentAward /> */}
             </Stack>
         </div>
     );

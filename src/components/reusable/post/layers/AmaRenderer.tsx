@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { createComment, getPostKey } from "src/helpers";
+import { createComment, getPostKey, parseErrors } from "src/helpers";
 import { ArrowRight, BellRinging, Check, LivePhoto, X } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -47,7 +47,7 @@ export function AmaRenderer({ body, release_time, postId, expired }: { body: str
         setLoading(false)
         notifications.showNotification({
           title: "Error creating the comment!",
-          message: "Couldn't create the comment. If there is any problem, fix it. Try again.",
+          message: parseErrors(res.error)[0],
           color: "red",
           icon: <X size={18} />,
         });

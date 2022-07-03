@@ -1,13 +1,16 @@
 import { Avatar, Group, createStyles, Text, Stack, TypographyStylesProvider, ActionIcon, Tooltip } from '@mantine/core';
 import { CommentFooter } from './CommentFooter';
-import { Reply } from './Reply';
 import { MdWavingHand, MdReply, MdReport } from "react-icons/md";
 import { FaGift } from 'react-icons/fa';
 import { ReplyFooter } from './ReplyFooter';
-import { CommentDataParam } from '@interfaces/comment';
-import { CreateComment } from './CreateComment';
+import { CommentDataParam, TreeCommentDataParam } from '@interfaces/comment';
 import { CreateReply } from './CreateReply';
 import { useState } from 'react';
+import { parseErrors, voteComment } from 'src/helpers';
+import { useNotifications } from '@mantine/notifications';
+import { X } from 'tabler-icons-react';
+import { useQueryClient } from 'react-query';
+import { Reply } from './Reply';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     cwrapper: {
@@ -72,9 +75,45 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }
 }));
 
-export function CommentReplyLayout({ layout, data, postId }: { layout: 'comment' | 'reply', data: CommentDataParam, postId: number }) {
+export interface DataParam {
+    data: {
+        count: number;
+        next: null;
+        previous: null;
+        results: CommentDataParam[];
+    }
+}
+
+export function CommentReplyLayout({ layout, data, postId, commentsCount }: { layout: 'comment' | 'reply', data: TreeCommentDataParam, postId: number, commentsCount: number }) {
     const { classes, cx } = useStyles();
+    const notifications = useNotifications();
+    const queryClient = useQueryClient()
+
     const [showReplyEditor, setShowReplyEditor] = useState(false)
+
+    const [loading, setLoading] = useState(false)
+
+    const submit = () => {
+        setLoading(true)
+        voteComment(data.id).then(res => {
+            if (res.error) {
+                setLoading(false)
+                notifications.showNotification({
+                    title: "Error clapping the comment!",
+                    message: parseErrors(res.error)[0],
+                    color: "red",
+                    icon: <X size={18} />,
+                });
+            } else {
+                setLoading(false)
+                const oldData: any = queryClient.getQueryData<DataParam>(['comments', postId])
+                const newData = oldData
+                const commentIndex = newData.data.results.findIndex((e: { id: number }) => e.id === data.id)
+                newData.data.results[commentIndex].num_vote_up = res.data.count
+                queryClient.setQueryData(['comments', postId], { ...newData })
+            }
+        })
+    }
 
     return (
         <>
@@ -90,15 +129,17 @@ export function CommentReplyLayout({ layout, data, postId }: { layout: 'comment'
                     <Text size="sm" weight={600} color="dimmed">2 hours ago</Text>
                     <Group spacing="xs" ml="auto" className={cx(classes.menu, { ['comment-menus']: layout === 'comment' }, { ['reply-menus']: layout === 'reply' })}>
                         <Tooltip label="Clap" position="top">
-                            <ActionIcon variant="filled" size="xs">
-                                <MdWavingHand size={14} />
+                            <ActionIcon variant="filled" size="xs" loading={loading} onClick={() => submit()}>
+                                <MdWavingHand size={14} className="wave" />
                             </ActionIcon>
                         </Tooltip>
-                        <Tooltip label="Add Reply" position="top">
-                            <ActionIcon variant="filled" size="xs" onClick={() => setShowReplyEditor(true)}>
-                                <MdReply size={14} />
-                            </ActionIcon>
-                        </Tooltip>
+                        {layout === "comment" && (
+                            <Tooltip label="Add Reply" position="top">
+                                <ActionIcon variant="filled" size="xs" onClick={() => setShowReplyEditor(true)}>
+                                    <MdReply size={14} />
+                                </ActionIcon>
+                            </Tooltip>
+                        )}
                         <Tooltip label="Give Award" position="top">
                             <ActionIcon variant="filled" size="xs">
                                 <FaGift size={14} />
@@ -114,21 +155,21 @@ export function CommentReplyLayout({ layout, data, postId }: { layout: 'comment'
                 <TypographyStylesProvider className={classes.typography}>
                     <div dangerouslySetInnerHTML={{ __html: data.content }} />
                 </TypographyStylesProvider>
-                {layout === "comment" && <CommentFooter />}
-                {layout === "reply" && <ReplyFooter />}
+                {layout === "comment" && <CommentFooter commentsCount={commentsCount} clapCount={data.num_vote_up} />}
+                {layout === "reply" && <ReplyFooter clapCount={data.num_vote_up} />}
             </Stack>
             {layout === 'comment' && showReplyEditor && (
                 <Stack p={15} ml={10} className={classes.createReply} pb="md">
                     <CreateReply comment={data} setShow={setShowReplyEditor} postId={postId} />
                 </Stack>
             )}
-            {/* {layout === "comment" && (
+            {layout === "comment" && data.children && (
                 <Stack pl={15} ml={10} className={classes.replies} pb="md">
-                    <Reply />
-                    <Reply />
-                    <Reply />
+                    {data.children.map((reply, i) => (
+                        <Reply reply={reply} postId={postId} />
+                    ))}
                 </Stack>
-            )} */}
+            )}
         </>
     )
 }

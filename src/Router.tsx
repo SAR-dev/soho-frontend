@@ -16,6 +16,7 @@ import { SHome } from "./components/pages/c/s/SHome";
 import { PType } from "./components/pages/t/PType";
 import { PDetails } from "./components/pages/p/PDetails";
 import { useNotifications } from "@mantine/notifications";
+import { CJoin } from "@pages/c/CJoin";
 import { X } from "tabler-icons-react";
 
 const polling = {
@@ -27,8 +28,8 @@ const polling = {
 
 function Router() {
   const { setToken, removeToken } = useStore();
-    const notifications = useNotifications();
-    useLayoutEffect(() => {
+  const notifications = useNotifications();
+  useLayoutEffect(() => {
     const t = getTokenFromLocal();
     if (t) {
       setTokenToLocal(t);
@@ -48,7 +49,7 @@ function Router() {
           message: "Please sign in again to continue",
           color: "red",
           icon: <X size={18} />,
-      });
+        });
       }
     });
   }, []);
@@ -56,20 +57,21 @@ function Router() {
   return (
     <>
       {/* <Online polling={polling}> */}
-        <BrowserRouter>
-          <Routes>
-            <Route path="*" element={<Error404 />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/c/:author" element={<PType />} />
-            <Route path="/c/:author/p/:pId" element={<PDetails />} />
-            <Route path="/c/:author/t/:pType" element={<PType />} />
-            <Route path="/c/:author/ch/:cName" element={<CHome />} />
-            <Route path="/c/:author/sch/:sName" element={<SHome />} />
-          </Routes>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="*" element={<Error404 />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/c/:author" element={<PType />} />
+          <Route path="/c/:author/join" element={<CJoin />} />
+          <Route path="/c/:author/p/:pId" element={<PDetails />} />
+          <Route path="/c/:author/t/:pType" element={<PType />} />
+          <Route path="/c/:author/ch/:cName" element={<CHome />} />
+          <Route path="/c/:author/sch/:sName" element={<SHome />} />
+        </Routes>
+      </BrowserRouter>
       {/* </Online> */}
       {/* <Offline polling={polling}> */}
-        {/* <Error503 /> */}
+      {/* <Error503 /> */}
       {/* </Offline> */}
     </>
   );

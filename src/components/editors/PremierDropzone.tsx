@@ -2,7 +2,7 @@ import { Group, Text, useMantineTheme, MantineTheme, createStyles, Image, Paper,
 import { Upload, Photo, X, Icon as TablerIcon, InfoCircle } from 'tabler-icons-react';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useState } from 'react';
-import { imageUploader } from '../../helpers';
+import { imageUploader, parseErrors } from '../../helpers';
 import { useNotifications } from '@mantine/notifications';
 
 const IMG_H = 300
@@ -85,8 +85,8 @@ export function PremierDropzone() {
     imageUploader(img).then(res => {
       if (res.error) {
         notifications.showNotification({
-          title: `Error ${res.error.response.status}`,
-          message: res.error.response.data.detail,
+          title: "Image not uploaded",
+          message: parseErrors(res.error)[0],
           color: "red",
           icon: <X size={18} />,
         });

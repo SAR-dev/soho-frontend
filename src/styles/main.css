@@ -82,3 +82,9 @@ body {
     transform: rotate(0deg);
   }
 } */
+
+/* Link CSS */
+.link {
+  color: #909296 !important;
+  font-weight: 500;
+}

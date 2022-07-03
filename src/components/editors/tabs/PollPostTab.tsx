@@ -169,7 +169,7 @@ const PollItem = ({ poll, polls, setPolls }: { poll: Poll, polls: Poll[], setPol
       if (res.error) {
         notifications.showNotification({
           title: "Error deleting the poll!",
-          message: "Couldn't delete the poll. If there is any problem, fix it. Try again.",
+          message: parseErrors(res.error)[0],
           color: "red",
           icon: <X size={18} />,
         });
@@ -207,7 +207,7 @@ const PollEditor = ({ polls, setPolls }: { polls: Poll[], setPolls: (params: any
       if (res.error) {
         notifications.showNotification({
           title: "Error creating the poll!",
-          message: "Couldn't create the poll. If there is any problem, fix it. Try again.",
+          message: parseErrors(res.error)[0],
           color: "red",
           icon: <X size={18} />,
         });

@@ -5,7 +5,7 @@ import { TextEditor } from "../../editors/TextEditor";
 import { Author } from "../post/layers/Author";
 import { Check, InfoCircle, Send, X } from "tabler-icons-react";
 import { EmojiPopover } from "../../editors/EmojiPopover";
-import { createComment, createReply } from "../../../helpers";
+import { createComment, createReply, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { CommentDataParam } from "@interfaces/comment";
@@ -83,7 +83,7 @@ export function CreateReply({ comment, setShow, postId }: { comment: CommentData
                 setLoading(false)
                 notifications.showNotification({
                     title: "Error creating the comment!",
-                    message: "Couldn't create the comment. If there is any problem, fix it. Try again.",
+                    message: parseErrors(res.error)[0],
                     color: "red",
                     icon: <X size={18} />,
                 });

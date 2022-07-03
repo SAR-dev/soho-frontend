@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStyles, Text, Title, TextInput, Button, Image } from '@mantine/core';
-import image from '../../images/nodata.svg';
+import image from '@images/nodata.svg';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

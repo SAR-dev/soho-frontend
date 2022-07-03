@@ -58,7 +58,7 @@ export function PType() {
                 ) : (
                     <>
                         {data?.data.results?.map((el, i) => {
-                            if (el.post_type === "discussion") return (
+                            if (el.post_type === "discussion" || el.post_type == "announcement") return (
                                 <DiscussionPostCard {...el} key={i} />)
                             if (el.post_type === "poll") return (
                                 <PollPostCard {...el} key={i} />)

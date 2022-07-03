@@ -48,6 +48,15 @@ export async function getLoggedInUser() {
 // COMMUNITY
 export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
 
+export function subscribe({ username, token }: { username: string, token: string, }): Promise<any> {
+  return axios.post(`group/${username}/subscribe/${token}/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
 // CHANNEL
 export const getChannels = async ({ username }: { username?: string }) => await axios.get(`group/${username}/categories/`, defaultConfig())
 
@@ -57,7 +66,7 @@ export function createChannel({ username, data }: { username: string, data: crea
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -67,7 +76,7 @@ export function createSubChannel({ username, category, data }: { username: strin
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -80,7 +89,7 @@ export function imageUploader(img: File): Promise<any> {
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -91,7 +100,7 @@ export function createSubscriberPost({ username, data }: { username?: string, da
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -101,7 +110,7 @@ export function createAuthorPost({ username, data }: { username?: string, data: 
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -111,7 +120,7 @@ export function votePost(id: number): Promise<any> {
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -130,7 +139,7 @@ export function createPoll({ data }: { data: createPollInterface }): Promise<any
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -140,7 +149,7 @@ export function deletePoll(id: number): Promise<any> {
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -150,7 +159,7 @@ export function selectPoll({ postId, pollId }: { postId: number, pollId: number 
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -161,7 +170,7 @@ export function createComment({ postId, content }: { postId: number, content: st
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
     })
 };
 
@@ -171,7 +180,17 @@ export function createReply({ postId, commentId, content }: { postId: number, co
       return { data: res.data }
     })
     .catch((err) => {
-      return { error: err }
+      return { error: err.response.data }
+    })
+};
+
+export function voteComment(id: number): Promise<any> {
+  return axios.post(`comment/${id}/vote/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
     })
 };
 
@@ -195,11 +214,15 @@ export const toBase64 = (file: Blob) =>
     reader.onerror = (error) => reject(error);
   });
 
-export const parseErrors = (data: { response: { data: { [x: string]: any; }; }; }) => {
-  const keys = Object.keys(data.response.data)
+export const parseErrors = (data: any) => {
+  const keys = Object.keys(data)
   const msgs = keys.map(key => {
-    const msg = data.response.data[key]
-    return (msg[0])
+    const msg = data[key]
+    if (Array.isArray(msg)) {
+      return (msg[0])
+    } else {
+      return msg
+    }
   })
   return msgs
 }

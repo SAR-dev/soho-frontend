@@ -12,21 +12,19 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export function ReplyCount({ authorName, postId, commentsCount, color = "dimmed" }: {
+export function CommentReplyCount({ commentsCount, color = "dimmed" }: {
   color?: "dimmed" | "red",
-  authorName: string,
-  postId: number,
   commentsCount: number
 }) {
   const { classes } = useStyles();
 
   return (
-    <Center component={Link} to={`/c/${authorName}/p/${postId}?details=true`} className={classes.wrapper}>
+    <Center className={classes.wrapper}>
       <Text size="sm" weight={500} color={color}>
         {doubleDigit(commentsCount)}
       </Text>
       <Text size="sm" weight={500} color={color} style={{ marginLeft: 5 }}>
-        Comments
+        Replies
       </Text>
     </Center>
   );
