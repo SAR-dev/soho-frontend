@@ -24,20 +24,19 @@ const useStyles = createStyles((theme) => ({
         display: "flex"
     },
     cards: {
-        width: 365,
         flexShrink: 0,
-        paddingTop: theme.spacing.sm,
+        paddingTop: 3,
         paddingRight: theme.spacing.sm,
         paddingLeft: theme.spacing.sm,
     },
     sticky: {
         position: 'sticky',
-        top: 12
+        top: 3
     }
 }));
 
 function NavLayout({ children }: { children: ReactNode }) {
-    const { classes } = useStyles();
+    const { classes, cx } = useStyles();
     return (
         <Paper className={classes.mainpaper}>
             <DoubleNav />
@@ -46,10 +45,10 @@ function NavLayout({ children }: { children: ReactNode }) {
                 <ScrollArea className={classes.mainBody}>
                     <div className={classes.wrapper}>
                         {children}
-                        <div className={classes.cards}>
+                        <div className={cx(classes.cards, "right-nav")}>
                             <SimpleGrid cols={1} className={classes.sticky}>
                                 <TopClaps />
-                                <Moderators />
+                                {/* <Moderators /> */}
                             </SimpleGrid>
                         </div>
                     </div>

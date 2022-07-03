@@ -48,7 +48,7 @@ body {
 }
 
 /* Waving Hand */
-/* .wave:hover {
+.wave:hover {
   animation-name: wave-animation;
   animation-duration: 2.5s;
   animation-iteration-count: infinite;
@@ -81,10 +81,36 @@ body {
   100% {
     transform: rotate(0deg);
   }
-} */
+}
 
 /* Link CSS */
 .link {
   color: #909296 !important;
   font-weight: 500;
+}
+
+/* LEFT NAV */
+@media only screen and (max-width: 1400px) {
+  .left-nav {
+    width: 340px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .left-nav {
+    width: 385px;
+  }
+}
+
+/* RIGHT NAV */
+@media only screen and (max-width: 1400px) {
+  .right-nav {
+    width: 315px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .right-nav {
+    width: 365px;
+  }
 }

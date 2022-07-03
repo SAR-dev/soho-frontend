@@ -1,7 +1,11 @@
 import { useState, ReactNode } from 'react';
-import { createStyles, UnstyledButton, Tooltip, Title, Avatar } from '@mantine/core';
+import { createStyles, UnstyledButton, Tooltip, Title, Avatar, Image, Text } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import { useQuery } from 'react-query';
+import { getSubscribedList } from 'src/helpers';
+import { SubscriberDataParam } from '@interfaces/subscribers';
+import initials from 'initials';
 
 const useStyles = createStyles((theme) => ({
     container: { textAlign: "center" },
@@ -48,46 +52,34 @@ const useStyles = createStyles((theme) => ({
     placeholder: { zIndex: 100 }
 }));
 
-const mainLinksMockdata = [
-    { label: 'pepperonigown' },
-    { label: 'centorchid' },
-    { label: 'swampgeek' },
-    { label: 'wallyleast' },
-    { label: 'decreaseassess' },
-    { label: 'journalinspector' },
-    { label: 'adidasvideo' },
-    { label: 'withinjellied' },
-    { label: 'carillonturkish' },
-    { label: 'parrelrecipe' },
-    { label: 'provisionfretful' },
-    { label: 'marbledtomorrow' },
-    { label: 'sugarplumvacant' },
-    { label: 'surfacebalk' },
-    { label: 'victoriousprogram' },
-    { label: 'etherealhop' },
-    { label: 'shirtwig' },
-    { label: 'naturesounder' },
-    { label: 'watchfullistener' },
-    { label: 'ecstaticglistening' },
-    { label: 'shiveradmired' },
-    { label: 'golfereye' },
-    { label: 'bavintea' },
-    { label: 'seedlingsaddle' },
-];
+export interface DataParam {
+    data: {
+        count: number;
+        next: null;
+        previous: null;
+        results: SubscriberDataParam[];
+    }
+}
 
 export default function UserLists() {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Releases');
-    const [items, setItems] = useState(mainLinksMockdata)
+    const [items, setItems] = useState<SubscriberDataParam[]>()
 
-    const SortableItemC = SortableElement(({ label, i }: { label: string, i: number }) => (
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['subscribes'], () => getSubscribedList(), {
+        onSuccess: res => setItems([...res.data.results])
+    })
+
+    if (isLoading) return (<></>)
+
+    const SortableItemC = SortableElement(({ label, i, avatar }: { label: string, i: number, avatar: string }) => (
         <div className={classes.placeholder}>
             <Tooltip label={label} position="right" withArrow transitionDuration={0}>
                 <UnstyledButton
                     onClick={() => setActive(label)}
                     className={cx(classes.mainLink, { [classes.mainLinkActive]: label === active }, { [classes.initialMainLink]: i === 0 })}
                 >
-                    <Avatar src={"https://avatars.dicebear.com/api/micah/seed" + label + ".svg"} size={"sm"} />
+                    <Image src={avatar} height="sm" width="sm" fit="cover" withPlaceholder />
                 </UnstyledButton>
             </Tooltip>
         </div>
@@ -98,15 +90,16 @@ export default function UserLists() {
     });
 
     function onSortEnd({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }): any {
-        const res = arrayMove(items, oldIndex, newIndex)
-        setItems(res)
+        if (items) {
+            const res = arrayMove(items, oldIndex, newIndex)
+            setItems(res)
+        }
     };
-
 
     return (
         <SortableContainerC onSortEnd={onSortEnd} pressDelay={200}>
-            {items.map((el, index) => (
-                <SortableItemC key={index} label={el.label} index={index} i={index} />
+            {items?.map((el, index) => (
+                <SortableItemC key={index} label={`${el.author.first_name} ${el.author.last_name}`} avatar={el.author.avatar} index={index} i={index} />
             ))}
         </SortableContainerC>
     );

@@ -20,14 +20,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 export function PostDetails({...props}: PostDataParam) {
     const { classes } = useStyles();
     return (
-        <Stack spacing={0}>
+        <Stack spacing={3}>
             <Stack className={classes.wrapper}>
                 {props.post_type === "discussion" && <DiscussionPostCard {...props} />}
                 {props.post_type === "poll" && <PollPostCard {...props} />}
                 {props.post_type === "ama" && <AmaPostCard {...props} />}
                 <CreateComment postId={props.id} author={props.author} />
             </Stack>
-            <Divider />
             <Stack className={classes.wrapper}>
                 <Comments postId={props.id} />
             </Stack>

@@ -4,7 +4,6 @@ import UserLists from './UserLists';
 
 const useStyles = createStyles((theme) => ({
   mainNav: {
-    width: 385,
     flexShrink: 0,
     height: '100vh',
     borderRight: 0
@@ -47,7 +46,7 @@ export default function DoubleNav() {
   const { classes, cx } = useStyles();
 
   return (
-    <Navbar className={classes.mainNav}>
+    <Navbar className={cx(classes.mainNav, "left-nav")}>
       <Navbar.Section grow className={classes.wrapper}>
         <div className={classes.aside}>
           <UserLists />

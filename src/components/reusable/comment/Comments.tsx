@@ -77,7 +77,7 @@ export function Comments({ postId }: { postId: number }) {
     const uniqueUserAvatars = () => [...new Set(data?.data.results?.map(item => item.author.avatar))];
 
     if (isLoading) return (
-        <Stack spacing="lg" mt="lg">
+        <Stack spacing="lg" mt="lg" className={classes.wrapper}>
             {[...Array(6)].map((e, i) => (
                 <CommentPlaceholder key={i} />
             ))}

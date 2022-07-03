@@ -11,6 +11,7 @@ import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { doubleDigit, getPostKey, parseErrors, votePost } from "src/helpers";
 import { X } from "tabler-icons-react";
+import {ClapIcon} from "@reusable/ClapIcon";
 
 interface DataParam {
   data: PostDataParam
@@ -56,7 +57,7 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
   return (
     <Center>
       <ActionIcon variant="transparent" loading={loading} onClick={() => submit()}>
-        <MdWavingHand size={16} className="wave" />
+        <ClapIcon size={16} name="wave" />
       </ActionIcon>
       <Text size="sm" weight={500} style={{ marginLeft: 2 }}>
         {doubleDigit(clapCount)}

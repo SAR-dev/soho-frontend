@@ -1,3 +1,4 @@
+import { LeaderboardDataParam } from "@interfaces/leaderboard";
 import {
   Paper,
   SegmentedControl,
@@ -8,9 +9,13 @@ import {
   Text,
   Badge,
   Center,
+  Skeleton,
 } from "@mantine/core";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { MdWavingHand } from "react-icons/md";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { getLeaderboard, shortenText } from "src/helpers";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -67,9 +72,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const times = [
-  { key: "1", name: "Daily" },
-  { key: "7", name: "Weekly" },
-  { key: "30", name: "Monthly" },
+  { value: "weekly", name: "Weekly" },
+  { value: "monthly", name: "Monthly" },
+  { value: "alltime", name: "All-time" },
 ];
 
 const users = [
@@ -95,11 +100,23 @@ const users = [
   },
 ];
 
+export interface DataParam {
+  data: {
+    count: number;
+    next: null;
+    previous: null;
+    results: LeaderboardDataParam[];
+  }
+}
+
 export function TopClaps() {
   const { classes } = useStyles();
-  const [value, setValue] = useState("1");
+  const { author } = useParams<"author">();
+  const [value, setValue] = useState(times[0].value);
 
-  return (
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['leaderboard', author, value], () => getLeaderboard({ username: author, timespan: value }))
+
+  const LeaderBoardWrapper = ({ children }: { children: ReactNode }) => (
     <Paper className={classes.wrapper}>
       <Text size="xs" color="dimmed" align="center" className={classes.header}>
         Top Contributors
@@ -115,36 +132,67 @@ export function TopClaps() {
               <Text size="xs">{el.name}</Text>
             </Center>
           ),
-          value: el.key,
+          value: el.value,
         }))}
         className={classes.menus}
       />
       <SimpleGrid cols={1} spacing="md">
-        {users.map((user, i) => (
-          <div className={classes.userCard} key={i}>
-            <Group spacing="sm">
-              <Avatar
-                size={35}
-                src={`https://avatars.dicebear.com/api/micah/${user.name}.svg`}
-                radius={35}
-                className={classes.avatar}
-              />
-              <div>
-                <Text size="xs" weight={500}>
-                  {user.name}
-                </Text>
-                <Text color="dimmed" style={{fontSize: 12}}>
-                  @username
-                </Text>
-              </div>
-            </Group>
-            <Badge className={classes.badge}>
-              <MdWavingHand className={classes.clapIcon} />
-              34
-            </Badge>
-          </div>
-        ))}
+        {children}
       </SimpleGrid>
     </Paper>
+  )
+
+  if (isLoading) return (
+    <LeaderBoardWrapper>
+      {[...Array(10)].map((el, i) => (
+        <div className={classes.userCard} key={i}>
+          <Group spacing="sm">
+            <Skeleton circle height={35} className={classes.avatar} />
+            <div>
+              <Text size="xs" weight={500} mb={5}>
+                <Skeleton height={14} width={150} />
+              </Text>
+              <Text color="dimmed" style={{ fontSize: 12 }}>
+                <Skeleton height={14} width={100} />
+              </Text>
+            </div>
+          </Group>
+        </div>
+      ))}
+    </LeaderBoardWrapper>
+  )
+
+  return (
+    <LeaderBoardWrapper>
+      {data?.data.results.length === 0 && (
+        <Text size="xs" ml={5} align="center">
+          No records found here
+        </Text>
+      )}
+      {data?.data.results.map((el, i) => (
+        <div className={classes.userCard} key={i}>
+          <Group spacing="sm">
+            <Avatar
+              size={35}
+              src={el.reciever.avatar}
+              radius={35}
+              className={classes.avatar}
+            />
+            <div>
+              <Text size="xs" weight={500}>
+                {`${el.reciever.first_name} ${el.reciever.last_name}`}
+              </Text>
+              <Text color="dimmed" style={{ fontSize: 12 }}>
+                {`@${shortenText(el.reciever.username, 10)}`}
+              </Text>
+            </div>
+          </Group>
+          <Badge className={classes.badge}>
+            <MdWavingHand className={classes.clapIcon} />
+            {el.claps}
+          </Badge>
+        </div>
+      ))}
+    </LeaderBoardWrapper>
   );
 }

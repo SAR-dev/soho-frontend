@@ -48,6 +48,10 @@ export async function getLoggedInUser() {
 // COMMUNITY
 export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
 
+export const getSubscribedList = async () => await axios.get(`group/subscribed/`, defaultConfig())
+
+export const getLeaderboard = async ({ username, timespan }: { username?: string, timespan: string }) => await axios.get(`group/${username}/leaderboard/${timespan}/`, defaultConfig())
+
 export function subscribe({ username, token }: { username: string, token: string, }): Promise<any> {
   return axios.post(`group/${username}/subscribe/${token}/`, null, defaultConfig())
     .then((res) => {
@@ -57,6 +61,7 @@ export function subscribe({ username, token }: { username: string, token: string
       return { error: err.response.data }
     })
 };
+
 // CHANNEL
 export const getChannels = async ({ username }: { username?: string }) => await axios.get(`group/${username}/categories/`, defaultConfig())
 
@@ -249,5 +254,13 @@ export const checkIfExpired = ({ duration, created_at }: { duration: string | nu
     return true
   } else {
     return false
+  }
+}
+
+export const shortenText = (text: string, maxLength: number) => {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...'
+  } else {
+    return text.substring(0, maxLength)
   }
 }
