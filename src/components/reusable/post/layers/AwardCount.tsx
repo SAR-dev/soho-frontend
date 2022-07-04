@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Eye, Plus } from "tabler-icons-react";
 import { PostAwardModal } from "./PostAwardModal";
 import SVG, { Props as SVGProps } from "react-inlinesvg";
+import { AwardPopover } from "./AwardPopover";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   selectedImage: {
@@ -32,26 +33,7 @@ export function AwardCount({ available_awards, postId, awards }: { available_awa
         {available_awards?.map((e, i) => (
           <>
             {getAwardCount(e.id) !== 0 && (
-              <Button
-                styles={(theme) => ({
-                  root: {
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[6]
-                        : theme.colors.gray[2],
-                  },
-
-                  leftIcon: {
-                    marginRight: 5,
-                  },
-                })}
-                size="xs"
-                compact
-                leftIcon={<SVG className={classes.selectedImage} src={e.logo} preProcessor={(code) => code?.replace(/(height=".*?")|(width=".*?")/g, '')} />}
-                key={i}
-              >
-                {getAwardCount(e.id)}
-              </Button>
+              <AwardPopover award={e} count={getAwardCount(e.id)} />
             )}
           </>
         ))}
