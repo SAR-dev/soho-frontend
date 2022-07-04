@@ -9,6 +9,8 @@ import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 
+const LIMIT = 8
+
 const useStyles = createStyles((theme, _params, getRef) => ({
     modal: { width: 750, paddingBottom: theme.spacing.md },
     wrapper: {
@@ -66,7 +68,7 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
     const queryClient = useQueryClient()
     const params = useParams()
     const [price, setPrice] = useState('0');
-    // const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1)
 
     const [active, setActive] = useState<number>()
     const [activeAward, setActiveAward] = useState<AvailableAward | null>()
@@ -146,7 +148,7 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                             ]}
                         />
                         <SimpleGrid cols={4} spacing="sm">
-                            {filteredAwards.map((award, i) => (
+                            {filteredAwards.slice((LIMIT * page - LIMIT), (LIMIT * page)).map((award, i) => (
                                 <Paper shadow="sm" className={cx(classes.wrapper, { [classes.active]: award.id === active, [classes.inactive]: award.id !== active })} onClick={() => setActive(award.id)} key={i}>
                                     <SVG className={classes.image} src={award.logo} preProcessor={(code) => code?.replace(/(height=".*?")|(width=".*?")/g, '')} />
                                     <Text align="center" weight={700} size="xs">{award.name}</Text>
@@ -158,7 +160,7 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                                 No award available at this price
                             </Text>
                         )}
-                        {/* <Pagination page={page} onChange={setPage} total={10} withEdges size="sm" mx="auto" /> */}
+                        <Pagination page={page} onChange={setPage} total={Math.ceil(filteredAwards.length / LIMIT)} withEdges size="sm" mx="auto" />
                     </Stack>
                 </Grid.Col>
                 <Grid.Col span={4}>
