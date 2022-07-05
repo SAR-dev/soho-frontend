@@ -86,6 +86,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
       const auth = getAuth();
       signOut(auth)
     }
+    // TODO ON SUCCESS SHOW COKKIE USAGE NOTIFICATION
   })
 
   return (

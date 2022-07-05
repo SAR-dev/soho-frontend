@@ -44,6 +44,7 @@ function Router() {
       } else {
         removeTokenFromLocal();
         removeToken();
+        // TODO SHOW MODAL INSTEAD
         notifications.showNotification({
           title: "Signed out!",
           message: "Please sign in again to continue",

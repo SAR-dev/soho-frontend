@@ -36,6 +36,7 @@ interface Props {
   setLoading: (params: boolean) => void;
 }
 
+// TODO Fix this tab
 export function PremierPostTab({ toogle, setLoading }: Props) {
   const { classes, cx } = useStyles();
   const [visibility, setVisibility] = useState<any | null>(null);
