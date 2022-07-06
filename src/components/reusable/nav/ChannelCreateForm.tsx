@@ -6,15 +6,11 @@ import {
     Badge,
     SegmentedControl,
     Select,
-    ColorPicker,
-    Text,
-    ColorInput,
-    ActionIcon,
     Center,
     TextInput,
     createStyles,
 } from "@mantine/core";
-import { Tag, GitBranch, X, Refresh } from "tabler-icons-react";
+import { Tag, GitBranch, X } from "tabler-icons-react";
 import { createChannel, createSubChannel, getChannels, parseErrors } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
@@ -55,8 +51,6 @@ interface SelectModel {
     label: string;
     value: string;
 }
-
-const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
   const { classes, cx } = useStyles();

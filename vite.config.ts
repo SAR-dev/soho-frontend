@@ -8,6 +8,6 @@ export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(),
-    // ViteFaviconsPlugin("./favicon.svg")
+    // ViteFaviconsPlugin("./favicon.svg"),
   ],
 })
