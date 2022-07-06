@@ -1,9 +1,10 @@
 import { Button } from "@mantine/core";
 import React from "react";
-import { X } from 'tabler-icons-react';
+import { Cookie, X } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useModals } from "@mantine/modals";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
     return (
@@ -35,8 +36,9 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
     );
 }
 
-export function GoogleLogin({setToken}:{setToken: (token:string) => void}) {
+export function GoogleLogin({ setToken }: { setToken: (token: string) => void }) {
     const notifications = useNotifications();
+    const modals = useModals();
 
     const signinWithGoogle = () => {
         const provider = new GoogleAuthProvider();
@@ -47,6 +49,15 @@ export function GoogleLogin({setToken}:{setToken: (token:string) => void}) {
                 if (token) {
                     setToken(token)
                 }
+                notifications.showNotification({
+                    title: "Cookie Usage",
+                    message: "By continuing to use this website you accept our Cokkie Usage policy. Please understand we use cookie only for optimized performance",
+                    color: "blue",
+                    icon: <Cookie size={18} />,
+                    autoClose: false
+                });
+                modals.closeAll()
+
             }).catch((error) => {
                 notifications.showNotification({
                     title: `Error ${error.code}`,

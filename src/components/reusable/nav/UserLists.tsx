@@ -1,11 +1,9 @@
 import { useState, ReactNode } from 'react';
-import { createStyles, UnstyledButton, Tooltip, Title, Avatar, Image, Text } from '@mantine/core';
-import { useListState } from '@mantine/hooks';
+import { createStyles, UnstyledButton, Tooltip, Avatar } from '@mantine/core';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { useQuery } from 'react-query';
 import { getSubscribedList } from 'src/helpers';
 import { SubscriberDataParam } from '@interfaces/subscribers';
-import initials from 'initials';
 
 const useStyles = createStyles((theme) => ({
     container: { textAlign: "center" },
@@ -97,7 +95,7 @@ export default function UserLists() {
     };
 
     return (
-        <SortableContainerC onSortEnd={onSortEnd} pressDelay={200}>
+        <SortableContainerC onSortEnd={onSortEnd} pressDelay={200} axis="y" lockAxis='y'>
             {items?.map((el, index) => (
                 <SortableItemC key={index} label={`${el.author.first_name} ${el.author.last_name}`} avatar={el.author.avatar} index={index} i={index} />
             ))}

@@ -31,11 +31,11 @@ export function AwardCount({ available_awards, postId, awards }: { available_awa
     <>
       <Group spacing={2}>
         {available_awards?.map((e, i) => (
-          <>
+          <div key={i}>
             {getAwardCount(e.id) !== 0 && (
               <AwardPopover award={e} count={getAwardCount(e.id)} />
             )}
-          </>
+          </div>
         ))}
         <Button
           styles={(theme) => ({

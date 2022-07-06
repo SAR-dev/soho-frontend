@@ -1,6 +1,6 @@
 import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button, Loader } from "@mantine/core";
 import { useState } from "react";
-import { Notification, Home2, ArrowLeft, UserCircle } from 'tabler-icons-react';
+import { Notification, Home2, ArrowLeft, UserCircle, Cookie } from 'tabler-icons-react';
 import { signOut, getAuth } from "firebase/auth";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import { getLoggedInUser } from "../../../helpers";
 import { GoogleLogin } from "./GoogleLogin";
 import { TwitterLogin } from "./TwitterLogin";
+import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -74,6 +75,7 @@ interface DataParam {
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { pId } = useParams<"pId">();
   const navigate = useNavigate();
+  const notifications = useNotifications();
 
   const [drawer, setDrawer] = useState(false);
 
@@ -85,8 +87,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
     onError: () => {
       const auth = getAuth();
       signOut(auth)
-    }
-    // TODO ON SUCCESS SHOW COKKIE USAGE NOTIFICATION
+    },
   })
 
   return (

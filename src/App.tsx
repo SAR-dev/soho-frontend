@@ -8,6 +8,8 @@ import Router from "./Router";
 import { NotificationsProvider } from "@mantine/notifications";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { SigninModalManager } from "@reusable/modal/SigninModalManager";
+import { ModalsProvider } from "@mantine/modals";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +30,9 @@ function App() {
       >
         <MantineProvider theme={{ colorScheme }}>
           <NotificationsProvider>
+            <ModalsProvider modals={{ signin: SigninModalManager }}>
               <Router />
+            </ModalsProvider>
           </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

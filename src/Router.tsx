@@ -18,6 +18,7 @@ import { PDetails } from "./components/pages/p/PDetails";
 import { useNotifications } from "@mantine/notifications";
 import { CJoin } from "@pages/c/CJoin";
 import { X } from "tabler-icons-react";
+import { useModals } from "@mantine/modals";
 
 const polling = {
   enabled: true,
@@ -27,8 +28,15 @@ const polling = {
 };
 
 function Router() {
+  const modals = useModals();
   const { setToken, removeToken } = useStore();
-  const notifications = useNotifications();
+
+  const openContextModal = () =>
+    modals.openContextModal('signin', {
+      title: 'Sign In',
+      innerProps: {}
+    });
+
   useLayoutEffect(() => {
     const t = getTokenFromLocal();
     if (t) {
@@ -44,13 +52,7 @@ function Router() {
       } else {
         removeTokenFromLocal();
         removeToken();
-        // TODO SHOW MODAL INSTEAD
-        notifications.showNotification({
-          title: "Signed out!",
-          message: "Please sign in again to continue",
-          color: "red",
-          icon: <X size={18} />,
-        });
+        openContextModal();
       }
     });
   }, []);
