@@ -40,9 +40,9 @@ interface DataParam {
 
 const editors = [
   { key: "discussion", name: 'Discussion', icon: <MdEmojiPeople size={16} /> },
-  { key: "poll", name: "Poll", icon: <FaPoll size={16} /> },
-  { key: "ama", name: "AMA", icon: <MdQuestionAnswer size={16} /> },
   { key: "premier", name: "Premier", icon: <Video size={16} /> },
+  { key: "ama", name: "AMA", icon: <MdQuestionAnswer size={16} /> },
+  { key: "poll", name: "Poll", icon: <FaPoll size={16} /> },
   // { key: "drop", name: "Drop", icon: <BsDropletHalf /> },
 ]
 

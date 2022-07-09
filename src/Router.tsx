@@ -18,6 +18,7 @@ import { PDetails } from "./components/pages/p/PDetails";
 import { CJoin } from "@pages/c/CJoin";
 import { useModals } from "@mantine/modals";
 import { Settings } from "@pages/s/Settings";
+import { Rules } from "@pages/t/Rules";
 
 const polling = {
   enabled: true,
@@ -66,6 +67,7 @@ function Router() {
           <Route path="/c/:author" element={<PType />} />
           <Route path="/c/:author/join" element={<CJoin />} />
           <Route path="/c/:author/p/:pId" element={<PDetails />} />
+          <Route path="/c/:author/t/rules" element={<Rules />} />
           <Route path="/c/:author/t/:pType" element={<PType />} />
           <Route path="/c/:author/ch/:cName" element={<CHome />} />
           <Route path="/c/:author/sch/:sName" element={<SHome />} />

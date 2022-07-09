@@ -21,6 +21,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { PostTypes } from './PostTypes';
 import { getCommunity } from '../../../helpers';
+import { ActivityBottom } from './ActivityBottom';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -159,7 +160,6 @@ interface Author {
 export function Sidenav() {
   const { author } = useParams<"author">();
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState('Discussion');
   const [opened, setOpened] = useState(false);
 
   const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
@@ -199,16 +199,7 @@ export function Sidenav() {
           <Channels />
         </Navbar.Section>
         <Navbar.Section className={classes.footer}>
-          <Group>
-            <MdWavingHand size={14} className={classes.footerIcon} />
-            <Text size="xs" lineClamp={1}>
-              <Text component='span' size="xs" weight={600} mr={3}>
-                Sayed Rafi
-              </Text>
-              clapped your
-              <Text component='span' size="xs" weight={600} ml={3}>post</Text>
-            </Text>
-          </Group>
+          <ActivityBottom />
         </Navbar.Section>
       </Navbar>
       <Modal

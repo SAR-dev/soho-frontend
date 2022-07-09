@@ -163,9 +163,9 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
                     <CreateReply comment={data} setShow={setShowReplyEditor} postId={postId} />
                 </Stack>
             )}
-            {layout === "comment" && data.children && (
+            {layout === "comment" && data.children?.length !== 0 && (
                 <Stack pl={15} ml={10} className={classes.replies} pb="md">
-                    {data.children.map((reply, i) => (
+                    {data?.children?.map((reply, i) => (
                         <Reply reply={reply} postId={postId} key={i} />
                     ))}
                 </Stack>

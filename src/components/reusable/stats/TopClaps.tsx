@@ -183,7 +183,7 @@ export function TopClaps() {
                 {`${el.reciever.first_name} ${el.reciever.last_name}`}
               </Text>
               <Text color="dimmed" style={{ fontSize: 12 }}>
-                {`@${shortenText(el.reciever.username, 10)}`}
+                {`@${shortenText(el.reciever.username, 20)}`}
               </Text>
             </div>
           </Group>

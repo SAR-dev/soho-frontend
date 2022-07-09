@@ -8,7 +8,7 @@ export interface PostDataParam {
     sub_category: Category;
     release_time: string | null;
     duration: string | null;
-    thumbnail: string | null;
+    thumbnail: Image | null;
     is_blur: boolean;
     post_type: string;
     can_vote: boolean;

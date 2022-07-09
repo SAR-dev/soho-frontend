@@ -9,6 +9,7 @@ import {
     Center,
     TextInput,
     createStyles,
+    Text,
 } from "@mantine/core";
 import { Tag, GitBranch, X } from "tabler-icons-react";
 import { createChannel, createSubChannel, getChannels, parseErrors } from "../../../helpers";
@@ -20,8 +21,11 @@ import { EmojiPopover } from "@editors/EmojiPopover";
 const useStyles = createStyles((theme) => ({
     wFull: {
         width: "100%"
+    },
+    flex: {
+        display: 'flex'
     }
-  }));
+}));
 
 interface DataParam {
     data: {
@@ -53,8 +57,8 @@ interface SelectModel {
 }
 
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
-  const { classes, cx } = useStyles();
-  const { author } = useParams<"author">();
+    const { classes, cx } = useStyles();
+    const { author } = useParams<"author">();
     const [parentChannels, setParentChannels] = useState<SelectModel[]>([])
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
         onSuccess: res => {
@@ -67,7 +71,6 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
 
     const queryClient = useQueryClient();
     const notifications = useNotifications();
-
 
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState("channel");
@@ -138,9 +141,10 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                 ]}
             />
             {value === "channel" && (
-                <>
+                <Center my="md">
+                    <EmojiPopover insertText={insertText} />
                     <Input
-                        icon={<Tag size={16} />}
+                        icon={emoji.length === 0 ? <Tag size={16} /> : <Text>{emoji}</Text>}
                         placeholder="Your Channel Name"
                         rightSectionWidth={70}
                         styles={{ rightSection: { pointerEvents: "none" } }}
@@ -149,18 +153,15 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                                 new
                             </Badge>
                         }
-                        my="md"
                         value={channelName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setChannelName(e.target.value)
                         }
+                        size="xs"
+                        ml="sm"
                     />
-                    <Center className={classes.wFull}>
-                        <EmojiPopover insertText={insertText} />
-                        <TextInput size="xs" ml="sm" className={cx(classes.wFull, "thick-border")} value={emoji} readOnly />
-                    </Center>
 
-                </>
+                </Center>
             )}
             {value === "subchannel" && (
                 <>

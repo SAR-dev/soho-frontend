@@ -13,6 +13,7 @@ import { useState } from "react";
 import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { NoResults } from "../../reusable/NoResults";
 import { PostDataParam } from "@interfaces/post";
+import { PremierPostCard } from "@reusable/post/PremierPostCard";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -64,6 +65,8 @@ export function PType() {
                                 <PollPostCard {...el} key={i} />)
                             if (el.post_type === "ama") return (
                                 <AmaPostCard {...el} key={i} />)
+                            if (el.post_type === "premier") return (
+                                <PremierPostCard {...el} key={i} />)
                         })}
                         {data?.data.results?.length === 0 && <NoResults />}
                     </>

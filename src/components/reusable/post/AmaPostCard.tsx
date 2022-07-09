@@ -48,7 +48,7 @@ export function AmaPostCard({ ...props }: PostDataParam) {
         <div>
           <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
           {props.content && (
-            <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({ duration: props.duration, created_at: props.created_at })} />
+            <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({ duration: props.duration, created_at: props.created_at })} bookmarked={props.bookmarked} />
           )}
           <div className={cx(classes.flex, classes.expire)}>
             {checkIfExpired({ duration: props.duration, created_at: props.created_at }) && (

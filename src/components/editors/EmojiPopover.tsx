@@ -6,7 +6,8 @@ export function EmojiPopover({ insertText }: { insertText: any}) {
 
   return (
     <Menu
-      control={<ActionIcon variant="filled">
+      control={
+      <ActionIcon variant="filled">
         <MoodSmile size={16} />
       </ActionIcon>}
       size="auto"

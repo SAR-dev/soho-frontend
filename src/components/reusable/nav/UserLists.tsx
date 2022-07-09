@@ -4,6 +4,7 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import { useQuery } from 'react-query';
 import { getSubscribedList } from 'src/helpers';
 import { SubscriberDataParam } from '@interfaces/subscribers';
+import { Link, useParams } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
     container: { textAlign: "center" },
@@ -61,8 +62,8 @@ export interface DataParam {
 
 export default function UserLists() {
     const { classes, cx } = useStyles();
-    const [active, setActive] = useState('Releases');
     const [items, setItems] = useState<SubscriberDataParam[]>()
+    const { author } = useParams<"author">();
 
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['subscribes'], () => getSubscribedList(), {
         onSuccess: res => setItems([...res.data.results])
@@ -70,12 +71,13 @@ export default function UserLists() {
 
     if (isLoading) return (<></>)
 
-    const SortableItemC = SortableElement(({ label, i, avatar }: { label: string, i: number, avatar: string }) => (
+    const SortableItemC = SortableElement(({ label, i, avatar, username }: { label: string, i: number, avatar: string, username: string }) => (
         <div className={classes.placeholder}>
             <Tooltip label={label} position="right" withArrow transitionDuration={0}>
                 <UnstyledButton
-                    onClick={() => setActive(label)}
-                    className={cx(classes.mainLink, { [classes.mainLinkActive]: label === active }, { [classes.initialMainLink]: i === 0 })}
+                    component={Link}
+                    to={`/c/${username}`}
+                    className={cx(classes.mainLink, { [classes.mainLinkActive]: author === username }, { [classes.initialMainLink]: i === 0 })}
                 >
                     <Avatar src={avatar} size="sm" radius="xl" />
                 </UnstyledButton>
@@ -97,7 +99,7 @@ export default function UserLists() {
     return (
         <SortableContainerC onSortEnd={onSortEnd} pressDelay={200} axis="y" lockAxis='y'>
             {items?.map((el, index) => (
-                <SortableItemC key={index} label={`${el.author.first_name} ${el.author.last_name}`} avatar={el.author.avatar} index={index} i={index} />
+                <SortableItemC key={index} label={`${el.author.first_name} ${el.author.last_name}`} avatar={el.author.avatar} username={el.author.username} index={index} i={index} />
             ))}
         </SortableContainerC>
     );

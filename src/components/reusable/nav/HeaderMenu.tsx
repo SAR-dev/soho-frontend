@@ -1,4 +1,4 @@
-import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button, Loader } from "@mantine/core";
+import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button, Loader, Indicator } from "@mantine/core";
 import { useState } from "react";
 import { Notification, Home2, ArrowLeft, UserCircle, Cookie } from 'tabler-icons-react';
 import { signOut, getAuth } from "firebase/auth";
@@ -8,10 +8,11 @@ import useStore from "../../../store";
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
 import { useQuery } from "react-query";
-import { getLoggedInUser } from "../../../helpers";
+import { getLoggedInUser, getNotifications } from "../../../helpers";
 import { GoogleLogin } from "./GoogleLogin";
 import { TwitterLogin } from "./TwitterLogin";
 import { useNotifications } from "@mantine/notifications";
+import { NotificationDataParam } from "@interfaces/notification";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -64,6 +65,16 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+export interface DataParam {
+  data: {
+      count: number;
+      next: string | null;
+      previous: string | null;
+      results: NotificationDataParam[];
+      unread: number;
+  }
+}
+
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { pId } = useParams<"pId">();
   const navigate = useNavigate();
@@ -71,7 +82,8 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const [drawer, setDrawer] = useState(false);
 
   const { classes } = useStyles();
-  const { setToken, token } = useStore()
+  const { setToken, token } = useStore();
+  const [notificationCount, setNotificationCount] = useState(0)
 
   const { status, data, error, isFetching, isLoading } = useQuery<UserDataParam, Error>("me", getLoggedInUser, {
     enabled: token !== null,
@@ -79,6 +91,12 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
       const auth = getAuth();
       signOut(auth)
     },
+  })
+
+  const { } = useQuery<DataParam, Error>(['notifications'], () => getNotifications(), {
+    onSuccess: res => {
+      setNotificationCount(res.data.unread)
+    }
   })
 
   return (
@@ -128,7 +146,9 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                   <Home2 size={18} />
                 </ActionIcon>
                 <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
-                  <Notification size={18} />
+                  <Indicator inline label={notificationCount} size={16}>
+                    <Notification size={18} />
+                  </Indicator>
                 </ActionIcon>
                 <ThemeSwitcher size={18} />
                 <UserMenu username={data?.username} />

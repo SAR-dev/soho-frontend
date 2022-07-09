@@ -57,9 +57,36 @@ export function updateLoggedInUser({ data }: { data: MeUpdateInterface }): Promi
 };
 
 
+// NOTIFICATIONS
+export const getNotifications = async () => await axios.get(`activity/notifications/`, defaultConfig())
+
+export const getLatestActivity = async ({ username }: { username?: string }) => await axios.get(`activity/list/${username}/`, defaultConfig())
+
+export function markNotificationDone(id: number): Promise<any> {
+  return axios.post(`activity/notifications/${id}/done/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function markAllNotificationDone(): Promise<any> {
+  return axios.post(`activity/notifications/done/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
 
 // COMMUNITY
 export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
+
+export const getCommunityRules = async ({ username }: { username?: string }) => await axios.get(`group/${username}/rules/`, defaultConfig())
 
 export const getSubscribedList = async () => await axios.get(`group/subscribed/`, defaultConfig())
 
@@ -144,6 +171,26 @@ export function createSubscriberPost({ username, data }: { username?: string, da
 
 export function createAuthorPost({ username, data }: { username?: string, data: createPostInterface }): Promise<any> {
   return axios.post(`post/create/group/${username}/author/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function bookmarkPost(id: number): Promise<any> {
+  return axios.post(`post/${id}/bookmark/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function unBookmarkPost(id: number): Promise<any> {
+  return axios.delete(`post/${id}/bookmark/`, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

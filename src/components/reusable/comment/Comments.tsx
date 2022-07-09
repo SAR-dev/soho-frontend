@@ -6,8 +6,9 @@ import { useQuery } from "react-query";
 import { doubleDigit, getComments } from "../../../helpers";
 import { CommentDataParam, TreeCommentDataParam } from "@interfaces/comment";
 import { NoResults } from "../../reusable/NoResults";
-import arrayToTree from "array-to-tree";
+import {arrayToTree} from "performant-array-to-tree";
 import { CommentPlaceholder } from "./CommentPlaceholder";
+import sortArray from 'sort-array'
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -64,10 +65,15 @@ export function Comments({ postId }: { postId: number }) {
         onSuccess: res => {
             setUniqueUsers(uniqueUserAvatars())
             if (data?.data.results) {
-                setTreeComments(arrayToTree(data?.data.results, {
-                    parentProperty: 'parent',
-                    customID: 'id'
-                }))
+                const sorted = arrayToTree(data?.data.results, {
+                    childrenField: "children",
+                    parentId: "parent",
+                    id: "id",
+                    dataField: ""
+                })
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                setTreeComments(sorted)
             }
         }
     })
@@ -92,7 +98,7 @@ export function Comments({ postId }: { postId: number }) {
                 <Text size="sm" color="dimmed" weight={600}>{data?.data.results && doubleDigit(data?.data.results?.length)} Comments</Text>
                 <Select
                     placeholder="Sort By"
-                    data={[{ value: '1', label: 'Date' }, { value: '2', label: 'Popularity' }, { value: '3', label: 'Replies' }, { value: '4', label: 'Claps' }]}
+                    data={[{ value: 'created_at', label: 'Date' }, { value: 'num_vote_up', label: 'Popularity' }, { value: 'num_vote_up', label: 'Claps' }]}
                     value={sortBy}
                     onChange={e => setSortBy(e!)}
                     required
@@ -109,7 +115,7 @@ export function Comments({ postId }: { postId: number }) {
                 </AvatarsGroup>
             )}
             <Stack spacing="lg" mt="lg">
-                {treeComments?.map((el, i) => (
+                {treeComments && sortArray(treeComments, {by: sortBy, order: 'desc'}).map((el, i) => (
                     <Comment comment={el} postId={postId} commentsCount={el.children?.length} key={i} />
                 ))}
                 {/* <CommentAward /> */}
