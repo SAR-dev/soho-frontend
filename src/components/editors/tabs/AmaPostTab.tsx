@@ -9,6 +9,7 @@ import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { createAuthorPost, parseErrors } from "../../../helpers";
+import { ErrorMessage } from "@reusable/ErrorMessage";
 
 const useStyles = createStyles((theme) => ({
   editor: {
@@ -166,14 +167,7 @@ export function AmaPostTab({ toogle, setLoading }: Props) {
           Submit
         </Button>
       </Group>
-      {errors.length !== 0 && (
-        <List size="xs" mt="xs" className={classes.errorHolder} icon={
-          <AlertCircle size={18} color="yellow" />
-        }>
-          <Text size="xs" weight={600} color="yellow" mb="xs">Fix these errors</Text>
-          {errors.map((e, i) => <List.Item key={i}><Text size="xs" weight={600} color="yellow">{e}</Text></List.Item>)}
-        </List>
-      )}
+      <ErrorMessage errors={errors} />
       <CalenderModal opened={showCalender} setOpened={setShowCalender} datetime={datetime} setDatetime={setDatetime} />
     </>
   );

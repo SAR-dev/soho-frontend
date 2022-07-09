@@ -20,6 +20,7 @@ import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { createAuthorPost, createPoll, deletePoll, parseErrors } from "../../../helpers";
 import { getHotkeyHandler } from "@mantine/hooks";
+import { ErrorMessage } from "@reusable/ErrorMessage";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -153,6 +154,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
           Submit
         </Button>
       </Group>
+      <ErrorMessage errors={errors} />
     </>
   );
 }

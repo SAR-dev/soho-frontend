@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
+import { ErrorMessage } from "@reusable/ErrorMessage";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -227,14 +228,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           Submit
         </Button>
       </Group>
-      {errors.length !== 0 && (
-        <List size="xs" mt="xs" className={classes.errorHolder} icon={
-          <AlertCircle size={18} color="yellow" />
-        }>
-          <Text size="xs" weight={600} color="yellow" mb="xs">Fix these errors</Text>
-          {errors.map(e => <List.Item><Text size="xs" weight={600} color="yellow">{e}</Text></List.Item>)}
-        </List>
-      )}
+      <ErrorMessage errors={errors} />
     </>
   );
 }

@@ -72,13 +72,12 @@ const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
   </Group>
 );
 
-export function PremierDropzone() {
+export function PremierDropzone({ setId }: { setId: (params?: number) => void }) {
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
   const notifications = useNotifications();
   const [loading, setLoading] = useState(false)
   const [src, setSrc] = useState<any>()
-  const [id, setId] = useState()
 
   function uploadImage(img: File) {
     setLoading(true)
@@ -108,7 +107,10 @@ export function PremierDropzone() {
           <Center
             inline
             className={classes.footer}
-            onClick={() => setSrc(null)}
+            onClick={() => {
+              setSrc(null)
+              setId()
+            }}
           >
             <InfoCircle size={16} className={classes.icon} />
             <Text color="dimmed" size="xs">

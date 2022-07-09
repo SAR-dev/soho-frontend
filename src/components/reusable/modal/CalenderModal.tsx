@@ -3,6 +3,9 @@ import { Modal, Button, Stack, Text, createStyles } from '@mantine/core';
 import { Calendar, TimeInput } from '@mantine/dates';
 import { Clock } from 'tabler-icons-react';
 import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+
+dayjs.extend(isSameOrAfter)
 
 const useStyles = createStyles((theme) => ({
     bordered: {
@@ -51,7 +54,7 @@ export function CalenderModal({ opened, setOpened, datetime, setDatetime }: Prop
             <Stack spacing="lg">
                 <Stack spacing="sm" className={classes.bordered}>
                     <Text color="dimmed" weight={600} size="sm">Pick Date</Text>
-                    <Calendar value={date} onChange={setDate} style={{ margin: "auto" }} />
+                    <Calendar value={date} onChange={setDate} style={{ margin: "auto" }} excludeDate={(date) => !dayjs(date).isSameOrAfter(dayjs(), 'day')} />
                 </Stack>
                 <Stack spacing="sm" className={classes.bordered}>
                     <Text color="dimmed" weight={600} size="sm">Pick Time</Text>

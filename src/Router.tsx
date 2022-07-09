@@ -15,10 +15,9 @@ import { Home } from "./components/pages/Home";
 import { SHome } from "./components/pages/c/s/SHome";
 import { PType } from "./components/pages/t/PType";
 import { PDetails } from "./components/pages/p/PDetails";
-import { useNotifications } from "@mantine/notifications";
 import { CJoin } from "@pages/c/CJoin";
-import { X } from "tabler-icons-react";
 import { useModals } from "@mantine/modals";
+import { Settings } from "@pages/s/Settings";
 
 const polling = {
   enabled: true,
@@ -70,6 +69,8 @@ function Router() {
           <Route path="/c/:author/t/:pType" element={<PType />} />
           <Route path="/c/:author/ch/:cName" element={<CHome />} />
           <Route path="/c/:author/sch/:sName" element={<SHome />} />
+          <Route path="/s/:author" element={<Settings />} />
+          <Route path="/s/:author/t/:sType" element={<Settings />} />
         </Routes>
       </BrowserRouter>
       {/* </Online> */}

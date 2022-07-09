@@ -1,7 +1,8 @@
 import axios from "axios";
-import { createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface } from "@interfaces/api";
+import { CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { serialize } from 'object-to-formdata';
 
 dayjs.extend(relativeTime)
 
@@ -45,6 +46,18 @@ export async function getLoggedInUser() {
   return data
 }
 
+export function updateLoggedInUser({ data }: { data: MeUpdateInterface }): Promise<any> {
+  return axios.put(`account/me/`, serialize(data), defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+
+
 // COMMUNITY
 export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
 
@@ -54,6 +67,26 @@ export const getLeaderboard = async ({ username, timespan }: { username?: string
 
 export function subscribe({ username, token }: { username: string, token: string, }): Promise<any> {
   return axios.post(`group/${username}/subscribe/${token}/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function getUpdateCommunity({ username }: { username?: string }): Promise<any> {
+  return axios.get(`group/${username}/update/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function updateCommunity({ username, data }: { username?: string, data: CommunityUpdateInterface }): Promise<any> {
+  return axios.put(`group/${username}/update/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })
@@ -223,7 +256,7 @@ export async function asyncForEach<T>(
   }
 }
 
-export const toBase64 = (file: Blob) =>
+export const toBase64 = (file: File) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -275,4 +308,8 @@ export const shortenText = (text: string, maxLength: number) => {
   } else {
     return text.substring(0, maxLength)
   }
+}
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

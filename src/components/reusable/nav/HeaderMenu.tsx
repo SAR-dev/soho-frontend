@@ -64,25 +64,16 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-interface DataParam {
-  id: number;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-  username: string
-}
-
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { pId } = useParams<"pId">();
   const navigate = useNavigate();
-  const notifications = useNotifications();
 
   const [drawer, setDrawer] = useState(false);
 
   const { classes } = useStyles();
   const { setToken, token } = useStore()
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([token], getLoggedInUser, {
+  const { status, data, error, isFetching, isLoading } = useQuery<UserDataParam, Error>("me", getLoggedInUser, {
     enabled: token !== null,
     onError: () => {
       const auth = getAuth();
@@ -140,7 +131,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                   <Notification size={18} />
                 </ActionIcon>
                 <ThemeSwitcher size={18} />
-                <UserMenu />
+                <UserMenu username={data?.username} />
               </>
             ) : (
               <>

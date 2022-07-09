@@ -1,6 +1,7 @@
 import { createStyles, Menu, Text, ActionIcon, Divider } from "@mantine/core";
 import { Settings, Search, Photo, MessageCircle, ArrowBarLeft, ArrowsLeftRight, DotsCircleHorizontal } from 'tabler-icons-react';
 import { getAuth, signOut } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
     link: {
@@ -24,7 +25,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function UserMenu() {
+export function UserMenu({username}: {username?: string}) {
     const { classes } = useStyles();
 
     const signOutAndClearLocale = () => {
@@ -37,20 +38,10 @@ export function UserMenu() {
             <DotsCircleHorizontal size={18} />
         </ActionIcon>}>
             <Menu.Label>Application</Menu.Label>
-            <Menu.Item icon={<Settings size={14} />}>Settings</Menu.Item>
-            <Menu.Item icon={<MessageCircle size={14} />}>Messages</Menu.Item>
-            <Menu.Item icon={<Photo size={14} />}>Gallery</Menu.Item>
-            <Menu.Item
-                icon={<Search size={14} />}
-                rightSection={<Text size="xs" color="dimmed">⌘K</Text>}
-            >
-                Search
-            </Menu.Item>
-
+            <Menu.Item icon={<Settings size={14} />} component={Link} to={`/s/${username}`}>Settings</Menu.Item>
+            <Menu.Item icon={<Photo size={14} />} component={Link} to={`/g/${username}`}>Gallery</Menu.Item>
             <Divider />
-
             <Menu.Label>Danger zone</Menu.Label>
-            <Menu.Item icon={<ArrowsLeftRight size={14} />}>Transfer my data</Menu.Item>
             <Menu.Item color="red" icon={<ArrowBarLeft size={14} />} onClick={() => signOutAndClearLocale()}>Sign Out</Menu.Item>
         </Menu>
     );
