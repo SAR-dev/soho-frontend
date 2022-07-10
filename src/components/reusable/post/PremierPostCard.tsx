@@ -6,6 +6,8 @@ import {
   Avatar,
   Button,
   Stack,
+  ActionIcon,
+  Tooltip,
 } from "@mantine/core";
 import { ImageCarousel } from "./layers/ImageCarousel";
 import { HtmlRenderer } from "./layers/HtmlRenderer";
@@ -16,7 +18,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 import { PostDataParam } from "@interfaces/post";
-import { AlertCircle, BellRinging, Check, InfoCircle, LivePhoto, X } from "tabler-icons-react";
+import { AlertCircle, BellPlus, BellRinging, Check, InfoCircle, LayersLinked, LivePhoto, Users, X } from "tabler-icons-react";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -165,22 +167,33 @@ export function PremierPostCard({ ...props }: PostDataParam) {
           <Image my="sm" src={props.thumbnail?.image} height={350} width="100%" fit="cover" withPlaceholder />
           <div className={classes.flex}>
             <Group spacing="xs" className={classes.wFull}>
-              <Avatar src={props.author.avatar} radius="xl" size={35} />
+              <div style={{ position: "relative" }}>
+                <Avatar src={props.author.avatar} radius="xl" size={35} />
+                <LivePhoto className="rotate" color="yellow" size={18} style={{ position: "absolute", bottom: -5, right: -5 }} />
+              </div>
               <Stack spacing={0}>
                 <Text size="sm" weight={700}>
                   {`${props.author.first_name} ${props.author.last_name}`}
                 </Text>
                 <div className={classes.flex}>
-                  <LivePhoto className="rotate" color="yellow" size={18} />
-                  <Text size="xs" color="yellow" mx={5}>Premiering at {dayjs(props.release_time).format('MMM DD  hh:mm A')}</Text>
-                  <Text size="xs" color="dimmed">{doubleDigit(props.bookmarks_count)} waiting</Text>
+                  <Text size="xs" color="yellow">Premiering at {dayjs(props.release_time).format('MMM DD  hh:mm A')}</Text>
                 </div>
               </Stack>
-              <Stack spacing={0} ml="auto">
-                <Button size="xs" className={classes.notification} loading={marking} onClick={props.bookmarked ? unbookmark : bookmark} >
-                  Turn Reminder <BellRinging size={14} style={{ marginLeft: 5, marginRight: 5 }} /> {props.bookmarked ? "Off" : "On"}
-                </Button>
-              </Stack>
+              <Group spacing="xs" ml="auto">
+                <Tooltip label={`${props.bookmarks_count} people waiting`} position="top">
+                  <Button size="xs" color="gray" variant="light" leftIcon={<Users size={14} />}>{props.bookmarks_count}</Button>
+                </Tooltip>
+                <Tooltip label="Premier link" position="top">
+                  <ActionIcon color="gray" variant="light" >
+                    <LayersLinked size={14} />
+                  </ActionIcon>
+                </Tooltip>
+                <Tooltip label={props.bookmarked ? "Unsubscribe alert!" : "Subscribe alert"} position="top">
+                  <ActionIcon color={props.bookmarked ? "gray" : "blue"} variant="light" loading={marking} onClick={props.bookmarked ? unbookmark : bookmark} >
+                    {props.bookmarked ? <BellRinging size={14} /> : <BellPlus size={14} />}
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
             </Group>
           </div>
         </div>
