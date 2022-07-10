@@ -7,22 +7,18 @@ import {
   Button,
   Stack,
   ActionIcon,
+  Anchor,
   Tooltip,
 } from "@mantine/core";
-import { ImageCarousel } from "./layers/ImageCarousel";
-import { HtmlRenderer } from "./layers/HtmlRenderer";
-import { Author } from "./layers/Author";
-import { PostHeader } from "./layers/PostHeader";
-import { PostFooter } from "./layers/PostFooter";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PostDataParam } from "@interfaces/post";
-import { AlertCircle, BellPlus, BellRinging, Check, InfoCircle, LayersLinked, LivePhoto, Users, X } from "tabler-icons-react";
+import { BellPlus, BellRinging, Check, LayersLinked, LivePhoto, Users, X } from "tabler-icons-react";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { bookmarkPost, doubleDigit, getPostKey, parseErrors, unBookmarkPost } from "src/helpers";
+import { bookmarkPost, getPostKey, parseErrors, unBookmarkPost } from "src/helpers";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   cover: {
@@ -71,7 +67,6 @@ interface DataParam {
 
 export function PremierPostCard({ ...props }: PostDataParam) {
   const { classes, cx } = useStyles();
-  const [loading, setLoading] = useState(false)
   const [marking, setMarking] = useState(false)
   const notifications = useNotifications();
   const queryClient = useQueryClient()
@@ -184,9 +179,11 @@ export function PremierPostCard({ ...props }: PostDataParam) {
                   <Button size="xs" color="gray" variant="light" leftIcon={<Users size={14} />}>{props.bookmarks_count}</Button>
                 </Tooltip>
                 <Tooltip label="Premier link" position="top">
-                  <ActionIcon color="gray" variant="light" >
-                    <LayersLinked size={14} />
-                  </ActionIcon>
+                  <a href={props.link ? props.link : ""} target="_blank">
+                    <ActionIcon color="gray" variant="light">
+                      <LayersLinked size={14} />
+                    </ActionIcon>
+                  </a>
                 </Tooltip>
                 <Tooltip label={props.bookmarked ? "Unsubscribe alert!" : "Subscribe alert"} position="top">
                   <ActionIcon color={props.bookmarked ? "gray" : "blue"} variant="light" loading={marking} onClick={props.bookmarked ? unbookmark : bookmark} >
