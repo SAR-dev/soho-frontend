@@ -19,6 +19,7 @@ import { CJoin } from "@pages/c/CJoin";
 import { useModals } from "@mantine/modals";
 import { Settings } from "@pages/s/Settings";
 import { Rules } from "@pages/t/Rules";
+import { CLeave } from "@pages/c/CLeave";
 
 const polling = {
   enabled: true,
@@ -66,6 +67,7 @@ function Router() {
           <Route path="/" element={<Home />} />
           <Route path="/c/:author" element={<PType />} />
           <Route path="/c/:author/join" element={<CJoin />} />
+          <Route path="/c/:author/leave" element={<CLeave />} />
           <Route path="/c/:author/p/:pId" element={<PDetails />} />
           <Route path="/c/:author/t/rules" element={<Rules />} />
           <Route path="/c/:author/t/:pType" element={<PType />} />

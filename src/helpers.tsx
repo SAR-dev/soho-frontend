@@ -92,8 +92,18 @@ export const getSubscribedList = async () => await axios.get(`group/subscribed/`
 
 export const getLeaderboard = async ({ username, timespan }: { username?: string, timespan: string }) => await axios.get(`group/${username}/leaderboard/${timespan}/`, defaultConfig())
 
-export function subscribe({ username, token }: { username: string, token: string, }): Promise<any> {
-  return axios.post(`group/${username}/subscribe/${token}/`, null, defaultConfig())
+export function subscribe({ username }: { username: string}): Promise<any> {
+  return axios.post(`group/${username}/subscribe/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function unsubscribe({ username }: { username: string}): Promise<any> {
+  return axios.delete(`group/${username}/subscribe/`, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

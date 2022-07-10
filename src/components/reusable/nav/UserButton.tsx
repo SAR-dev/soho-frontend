@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button } from '@mantine/core';
-import { AlertCircle, Plus, UserCircle, Users } from 'tabler-icons-react';
+import { AlertCircle, Minus, Plus, UserCircle, Users } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
+import { CommunityDataParam } from '@interfaces/community';
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -52,34 +53,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-interface Props {
-  id: number;
-  title: null;
-  about: null;
-  members_name: string;
-  color: string;
-  status: string;
-  subscribers_count: number;
-  subscribed: boolean;
-  post_count: number;
-  author: Author;
-  slogan: string;
-  is_admin: boolean;
-  is_moderator: boolean;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface Author {
-  id?: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-  is_active: boolean;
-  avatar: string;
-}
-
-export function UserButton({ data, isLoading }: { data?: Props, isLoading: boolean }) {
+export function UserButton({ data, isLoading }: { data?: CommunityDataParam, isLoading: boolean }) {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false)
 
@@ -119,7 +93,7 @@ export function UserButton({ data, isLoading }: { data?: Props, isLoading: boole
                       <Text size="xs" color="gray" ml={5}>{data?.subscribers_count} Members</Text>
                     </div>
                     <div className={classes.action}>
-                      <Plus size={14} />
+                      {data.subscribed ? <Minus size={14} /> : <Plus size={14} />}
                     </div>
                   </Group>
                 }
@@ -128,14 +102,25 @@ export function UserButton({ data, isLoading }: { data?: Props, isLoading: boole
                 withArrow
               >
                 <div style={{ display: 'flex' }}>
-                  <Alert title="Wanna Join!" withCloseButton onClose={() => setOpened(false)}>
-                    <Text size="xs">
-                      Please read the community rules carefully before joining.
-                    </Text>
-                    <Button size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/join`}>
-                      Details Page
-                    </Button>
-                  </Alert>
+                  {data.subscribed ? (
+                    <Alert color="red" title="Wanna Leave!!!" withCloseButton onClose={() => setOpened(false)}>
+                      <Text size="xs">
+                        Are you sure you want to leave this community? This can not be undone!!!
+                      </Text>
+                      <Button color="red" size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/leave`}>
+                        I'm Sure
+                      </Button>
+                    </Alert>
+                  ) : (
+                    <Alert title="Wanna Join!" withCloseButton onClose={() => setOpened(false)}>
+                      <Text size="xs">
+                        Please read the community rules carefully before joining.
+                      </Text>
+                      <Button size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/join`}>
+                        Details Page
+                      </Button>
+                    </Alert>
+                  )}
                 </div>
               </Popover>
             </>

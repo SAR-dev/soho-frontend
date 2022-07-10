@@ -13,6 +13,7 @@ import { GoogleLogin } from "./GoogleLogin";
 import { TwitterLogin } from "./TwitterLogin";
 import { useNotifications } from "@mantine/notifications";
 import { NotificationDataParam } from "@interfaces/notification";
+import { UserDataParam } from "@interfaces/user";
 
 const useStyles = createStyles((theme) => ({
   header: {

@@ -28,18 +28,11 @@ export function ActivityBottom() {
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['activities', author], () => getLatestActivity({username: author}))
 
 
-    const getIcon = (verb: string) => {
+    const getIcon = (verb?: string) => {
         if (verb === "clapped") return <ClapIcon size={16} />
         if (verb === "awarded") return <FaAward className={classes.icon} size={16} />
         if (verb === "replied") return <FaReplyAll className={classes.icon} size={16} />
         return <AiFillLike className={classes.icon} size={16} />
-    }
-
-    const getMessage = (el: NotificationDataParam) => {
-        const sender = `${el.sender.first_name} ${el.sender.last_name}`
-        const verb = el.verb
-        const target = el.target_type
-        return `${sender} ${verb} on a ${target}`
     }
 
     if(isLoading) return (

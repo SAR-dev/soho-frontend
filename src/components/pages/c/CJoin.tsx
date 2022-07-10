@@ -1,75 +1,81 @@
-import { CommunityLayout } from '@layouts/CommunityLayout';
-import { Button, createStyles, Modal, Notification, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
-import { JoiningForm } from '@reusable/settings/JoiningForm';
-import { HtmlRenderer } from '@reusable/post/layers/HtmlRenderer';
+import { Avatar, Button, Center, createStyles, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
+import { BrandOpenSource, Users, X } from 'tabler-icons-react';
+import { CommunityDataParam } from '@interfaces/community';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery, useQueryClient } from 'react-query';
+import { capitalizeFirstLetter, getCommunity, parseErrors, subscribe } from 'src/helpers';
 import { useState } from 'react';
-import { parseErrors, subscribe } from 'src/helpers';
 import { useNotifications } from '@mantine/notifications';
-import { useQueryClient } from 'react-query';
-import { Check, X } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
+    mainpaper: {
+        height: "100vh",
+        display: "flex",
+        borderRadius: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+    },
     card: {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-        padding: theme.spacing.xl
+        padding: theme.spacing.xl,
+        borderRadius: theme.radius.sm,
+        background: theme.colors.dark[6],
+        width: 400
+    },
+    rounded: {
+        borderRadius: "100%",
+    },
+    avatarContainer: {
+        borderRadius: "100%",
+        borderWidth: 4,
+        borderStyle: "solid",
+        borderColor: theme.colors.blue[5],
+        padding: theme.spacing.xs,
+        width: "max-content",
+        margin: "auto"
     },
     title: {
-        lineHeight: 1,
+        fontSize: 30,
+        fontWeight: 700
     },
+    iconColor: {
+        color: theme.colors.yellow[5]
+    },
+    joiningButton: {
+        width: 150,
+        margin: "auto"
+    },
+    align: {
+        width: "max-content",
+        margin: "auto"
+    }
 }));
 
-const joining_form = {
-    "title": "Joining Application Form",
-    "description": "Read the conditions carefully before proceeding. We try our best to make our community safe for everyone.",
-    "data": [
-        { "title": "Messages", "description": "Direct messages you have received from other users" },
-        { "title": "Review requests", "description": "Code review requests from your team members" },
-        { "title": "Comments", "description": "Daily digest with comments on your posts" },
-        {
-            "title": "Recommendations",
-            "description": "Digest with best community posts from previous week"
-        }
-    ]
+interface DataParam {
+    data: CommunityDataParam
 }
 
-const html_rules = `
-<p>Welcome to the biggest React job board in the world! This is like Hacker News' Who's Hiring but just for React. Top Level comments must be Job Opportunities.</p>
-<ol>
-<li><strong>Excessive Self-Promotion :</strong>&nbsp;It&#39;s ok to promote your own content, or content that you&#39;re otherwise vested in, but it should not constitute a majority of your contributions.</li>
-<li><strong>Where&#39;s the Javascript? :&nbsp;</strong>&nbsp;Demos can be fun, but they really don&#39;t provide for much discussion unless code is provided as well.</li>
-<li><strong>Low-effort content (listicles, memes, etc.) :</strong>&nbsp;Low-effort content such as listicles, memes, clickbait, etc. is prohibited.</li>
-<li><strong>Advertising :&nbsp;</strong>Advertising paid products and services is prohibited.</li>
-<li><strong>Some Self-promotion OK, Spam not OK :&nbsp;</strong>&nbsp;Per Reddit guidelines for self-promotion, you are definitely welcome to promote your own content as part of your participation in this community, but if you repeatedly post low quality crap you will be banned. If you need further guidelines on spam, see Reddit&#39;s guidelines on Spam.</li>
-</ol>
-<p>Finally, have fun&nbsp;😁</p>`
-
 export function CJoin() {
-    const { classes } = useStyles();
-    const navigate = useNavigate();
+    const { classes, cx } = useStyles();
     const { author } = useParams<"author">();
-    const [token, setToken] = useState("")
-    const [values, setValues] = useState(Array(joining_form.data.length).fill(false))
+
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
+
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
-    const [joined, setJoined] = useState(false)
 
     const notifications = useNotifications();
     const queryClient = useQueryClient()
 
-    const handleValues = ({checked, index}: {checked: boolean, index: number}) => {
-        const arr = [...values];
-        arr[index] = checked;
-        setValues([...arr])
-    }
-
     const submit = () => {
         setLoading(true)
         const username = author ? author : ''
-        subscribe({ username: username, token: token }).then(res => {
+        subscribe({ username: username }).then(res => {
             if (res.error) {
                 setLoading(false)
                 notifications.showNotification({
-                    title: "Error creating the comment!",
+                    title: "Error joining!",
                     message: parseErrors(res.error)[0],
                     color: "red",
                     icon: <X size={18} />,
@@ -77,56 +83,45 @@ export function CJoin() {
             } else {
                 setLoading(false)
                 queryClient.invalidateQueries(['community', author])
-                setJoined(true)
+                navigate(`/c/${author}`)
             }
         })
     }
 
-    const redirectToGroup = () => {
-        navigate(`/c/${author}`)
-    }
+    if (isLoading) return (
+        <Paper className={classes.mainpaper}>
+            <Skeleton width={400} height={400} />
+        </Paper>
+    )
 
     return (
-        <CommunityLayout>
-            <SimpleGrid cols={1} spacing={3}>
-                <Stack className={classes.card}>
-                    <Text size="lg" weight={500} className={classes.title}>
-                        Community rules
-                    </Text>
-                    <HtmlRenderer body={html_rules} id={999} />
-                </Stack>
-                <Stack className={classes.card}>
-                    <Text size="lg" weight={500} className={classes.title}>
-                        Joining Code
-                    </Text>
-                    <Text size="xs" color="dimmed" mt={2}>
-                        You need a joining code to join. If you didn't recieve any contact the community admin or moiderators.
-                    </Text>
-                    <TextInput className='thick-border' placeholder='Code goes here' value={token} onChange={e => setToken(e.target.value)} />
-                </Stack>
-                <div className={classes.card}>
-                    <JoiningForm title={joining_form.title} description={joining_form.description} data={joining_form.data} values={values} handleValues={handleValues} />
+        <Paper className={classes.mainpaper} style={{ backgroundImage: `url('${data?.data.cover}')` }}>
+            <Stack className={classes.card}>
+                <div className={classes.avatarContainer}>
+                    <Avatar src={data?.data.author.avatar} size="xl" className={classes.rounded} />
                 </div>
-                <div className={classes.card}>
-                    <Button fullWidth disabled={!values.every(v => v === true)} onClick={() => submit()} loading={loading}>
-                        I understood the rules, now just let me in !!!
-                    </Button>
-                </div>
-            </SimpleGrid>
-            <Modal
-                opened={joined}
-                centered
-                onClose={() => redirectToGroup()}
-                title="Successful!"
-                withCloseButton={false}
-            >
-                <Stack>
-                    <Notification icon={<Check size={18} />} color="teal" title="Application Granted" disallowClose>
-                        You have successfully joined the community. Have fun and follow the rules. Let's create a better community together.
-                    </Notification>
-                    <Button fullWidth onClick={() => redirectToGroup()}>Return</Button>
+                <Stack spacing={0}>
+                    <Text align='center' className={classes.title}>{`${data?.data.author.first_name} ${data?.data.author.last_name}`}</Text>
+                    <Text align='center' size="sm" color="dimmed" weight={500}>{data?.data.slogan}</Text>
                 </Stack>
-            </Modal>
-        </CommunityLayout>
+                <div>
+                    <Group className={classes.align}>
+                        <Center>
+                            <Users size={18} className={classes.iconColor} />
+                            <Text weight={600} size="md" color="dimmed" ml={5}>{data?.data.subscribers_count} {data?.data.members_name}</Text>
+                        </Center>
+                        <Center>
+                            <BrandOpenSource size={18} className={classes.iconColor} />
+                            <Text weight={600} size="md" color="dimmed" ml={5}>{data && capitalizeFirstLetter(data.data.status)} Community</Text>
+                        </Center>
+                    </Group>
+                </div>
+                <Stack spacing={0}>
+                    <Text align='center' className={cx(classes.title, classes.iconColor)}>$ {data?.data.status === "public" ? 0 : 10}</Text>
+                    <Text align='center' weight={700} size="sm">ONE TIME JOINING PAYMENT</Text>
+                </Stack>
+                <Button size="xs" className={classes.joiningButton} loading={loading} onClick={() => submit()}>JOIN</Button>
+            </Stack>
+        </Paper>
     )
 }

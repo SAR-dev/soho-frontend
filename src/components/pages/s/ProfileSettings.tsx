@@ -1,4 +1,5 @@
 import { MeUpdateInterface } from "@interfaces/api";
+import { UserDataParam } from "@interfaces/user";
 import { Avatar, Button, createStyles, Loader, Stack, Text, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";

@@ -3,8 +3,6 @@ import {
   createStyles,
   Navbar,
   TextInput,
-  UnstyledButton,
-  Badge,
   Text,
   Group,
   ActionIcon,
@@ -12,16 +10,16 @@ import {
   ScrollArea,
   Modal,
 } from '@mantine/core';
-import { Search, Plus, Microphone2, ListCheck, Video } from 'tabler-icons-react';
+import { Search, Plus } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
-import { MdEmojiPeople, MdQuestionAnswer, MdWavingHand } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { PostTypes } from './PostTypes';
 import { getCommunity } from '../../../helpers';
 import { ActivityBottom } from './ActivityBottom';
+import { CommunityDataParam } from '@interfaces/community';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -128,32 +126,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface DataParam {
-  data: {
-    id: number;
-    title: null;
-    about: null;
-    members_name: string;
-    color: string;
-    status: string;
-    subscribers_count: number;
-    subscribed: boolean;
-    post_count: number;
-    author: Author;
-    slogan: string;
-    is_admin: boolean;
-    is_moderator: boolean;
-    created_at: Date;
-    updated_at: Date;
-  }
-}
-
-interface Author {
-  id?: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-  is_active: boolean;
-  avatar: string;
+  data: CommunityDataParam
 }
 
 

@@ -1,4 +1,4 @@
-interface UserDataParam {
+export interface UserDataParam {
     id: number;
     first_name: string;
     last_name: string;

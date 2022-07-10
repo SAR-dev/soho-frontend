@@ -10,6 +10,7 @@ export interface CommunityDataParam {
     post_count: number;
     author: Author;
     slogan: string;
+    cover?: string;
     is_admin: boolean;
     is_moderator: boolean;
     created_at: Date;
