@@ -78,6 +78,9 @@ export interface DataParam {
 
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { pId } = useParams<"pId">();
+  const { pType } = useParams<"pType">();
+  const { cName } = useParams<"cName">();
+  const { sName } = useParams<"sName">();
   const navigate = useNavigate();
 
   const [drawer, setDrawer] = useState(false);
@@ -100,6 +103,13 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
     }
   })
 
+  const getHeaderText = () => {
+    if(pType) return pType.toUpperCase()
+    if(cName) return cName.toUpperCase()
+    if(sName) return sName.toUpperCase()
+    return "FEED"
+  }
+
   return (
     <>
       <Header height={NavHeight} className={classes.header}>
@@ -109,7 +119,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
               Go Back
             </Button>
           ) : (
-            <Text className={classes.linkText}>FEED</Text>
+            <Text className={classes.linkText}>{getHeaderText()}</Text>
           )}
           <Group spacing={10} className={classes.links}>
             {token ? (
