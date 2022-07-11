@@ -38,7 +38,7 @@ export function UserMenu({username}: {username?: string}) {
             <DotsCircleHorizontal size={18} />
         </ActionIcon>}>
             <Menu.Label>Application</Menu.Label>
-            <Menu.Item icon={<Settings size={14} />} component={Link} to={`/s/${username}`}>Settings</Menu.Item>
+            <Menu.Item icon={<Settings size={14} />} component={Link} to={`/s/${username}/t/profile`}>Settings</Menu.Item>
             <Menu.Item icon={<Photo size={14} />} component={Link} to={`/g/${username}`}>Gallery</Menu.Item>
             <Divider />
             <Menu.Label>Danger zone</Menu.Label>

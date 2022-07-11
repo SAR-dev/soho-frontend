@@ -9,8 +9,8 @@ import { Link, useParams } from 'react-router-dom';
 const useStyles = createStyles((theme) => ({
     container: { textAlign: "center" },
     mainLink: {
-        width: 44,
-        height: 44,
+        // width: 44,
+        // height: 44,
         borderRadius: "100%",
         display: 'flex',
         alignItems: 'center',
@@ -79,7 +79,7 @@ export default function UserLists() {
                     to={`/c/${username}`}
                     className={cx(classes.mainLink, { [classes.mainLinkActive]: author === username }, { [classes.initialMainLink]: i === 0 })}
                 >
-                    <Avatar src={avatar} size="sm" radius="xl" />
+                    <Avatar src={avatar} size="md" radius="xl" />
                 </UnstyledButton>
             </Tooltip>
         </div>

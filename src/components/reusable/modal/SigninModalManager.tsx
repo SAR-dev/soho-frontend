@@ -11,7 +11,7 @@ export const SigninModalManager = ({ context, id }: ContextModalProps) => {
         <>
             <Group>
                 <GoogleLogin setToken={setToken} />
-                <TwitterLogin setToken={setToken} />
+                {/* <TwitterLogin setToken={setToken} /> */}
             </Group>
             <Button fullWidth mt="md" onClick={() => context.closeModal(id)}>
                 I'll Sign in Later

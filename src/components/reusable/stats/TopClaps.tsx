@@ -1,3 +1,4 @@
+import { CommunityDataParam } from "@interfaces/community";
 import { LeaderboardDataParam } from "@interfaces/leaderboard";
 import {
   Paper,
@@ -15,7 +16,7 @@ import { ReactNode, useState } from "react";
 import { MdWavingHand } from "react-icons/md";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getLeaderboard, shortenText } from "src/helpers";
+import { getCommunity, getLeaderboard, shortenText } from "src/helpers";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -77,30 +78,7 @@ const times = [
   { value: "alltime", name: "All-time" },
 ];
 
-const users = [
-  {
-    name: "Robert Wolfkisser",
-    username: "@rob_wolf",
-  },
-  {
-    name: "Jill Jailbreaker",
-    username: "@jj",
-  },
-  {
-    name: "Henry Silkeater",
-    username: "@henry",
-  },
-  {
-    name: "Bill Horsefighter",
-    username: "@bhorsefighter",
-  },
-  {
-    name: "Jeremy Footviewer",
-    username: "@jeremy",
-  },
-];
-
-export interface DataParam {
+export interface LDataParam {
   data: {
     count: number;
     next: null;
@@ -109,17 +87,25 @@ export interface DataParam {
   }
 }
 
+interface CDataParam {
+  data: CommunityDataParam
+}
+
 export function TopClaps() {
   const { classes } = useStyles();
   const { author } = useParams<"author">();
   const [value, setValue] = useState(times[0].value);
+  const [members_name, set_members_name] = useState("Contributors")
 
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['leaderboard', author, value], () => getLeaderboard({ username: author, timespan: value }))
+  const { status, data, error, isFetching, isLoading } = useQuery<LDataParam, Error>(['leaderboard', author, value], () => getLeaderboard({ username: author, timespan: value }))
+  const { } = useQuery<CDataParam, Error>(['community', author], () => getCommunity({ username: author }), {
+    onSuccess: res => set_members_name(res.data.members_name)
+  })
 
   const LeaderBoardWrapper = ({ children }: { children: ReactNode }) => (
     <Paper className={classes.wrapper}>
       <Text size="xs" color="dimmed" align="center" className={classes.header}>
-        Top Contributors
+        Top {members_name}
       </Text>
       <SegmentedControl
         value={value}

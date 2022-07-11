@@ -119,6 +119,10 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   }
 
   const submit = () => {
+    if(!category || sub_category){
+      setErrors(["A category and sub category must be selected here."])
+      return
+    }
     setLoading(true)
     setErrors([])
     const data = {

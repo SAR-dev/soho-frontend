@@ -5,6 +5,7 @@ import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useModals } from "@mantine/modals";
+import { useNavigate } from "react-router-dom";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
     return (
@@ -39,6 +40,7 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 export function GoogleLogin({ setToken }: { setToken: (token: string) => void }) {
     const notifications = useNotifications();
     const modals = useModals();
+    const navigate = useNavigate();
 
     const signinWithGoogle = () => {
         const provider = new GoogleAuthProvider();
@@ -57,7 +59,7 @@ export function GoogleLogin({ setToken }: { setToken: (token: string) => void })
                     autoClose: false
                 });
                 modals.closeAll()
-
+                navigate(0)
             }).catch((error) => {
                 notifications.showNotification({
                     title: `Error ${error.code}`,

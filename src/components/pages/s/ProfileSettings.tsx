@@ -86,10 +86,10 @@ export function ProfileSettings() {
                 setLoading(false)
                 const oldData: any = queryClient.getQueryData<UserDataParam>(['me'])
                 const newData = oldData
-                newData.data.username = res.data.username
-                newData.data.first_name = res.data.first_name
-                newData.data.last_name = res.data.last_name
-                newData.data.avatar = res.data.avatar
+                newData.username = res.data.username
+                newData.first_name = res.data.first_name
+                newData.last_name = res.data.last_name
+                newData.avatar = res.data.avatar
                 queryClient.setQueryData(['me'], { ...newData })
             }
         })

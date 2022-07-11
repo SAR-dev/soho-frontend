@@ -89,7 +89,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { setToken, token } = useStore();
   const [notificationCount, setNotificationCount] = useState(0)
 
-  const { status, data, error, isFetching, isLoading } = useQuery<UserDataParam, Error>("me", getLoggedInUser, {
+  const { status, data, error, isFetching, isLoading } = useQuery<UserDataParam, Error>(["me"], () => getLoggedInUser(), {
     enabled: token !== null,
     onError: () => {
       const auth = getAuth();
@@ -107,7 +107,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
     if(pType) return pType.toUpperCase()
     if(cName) return cName.toUpperCase()
     if(sName) return sName.toUpperCase()
-    return "FEED"
+    return "SOHO"
   }
 
   return (
@@ -157,9 +157,9 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                   <Home2 size={18} />
                 </ActionIcon>
                 <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
-                  <Indicator inline label={notificationCount} size={16}>
+                  {notificationCount === 0 ? (<Notification size={18} />) : (<Indicator inline label={notificationCount} size={16}>
                     <Notification size={18} />
-                  </Indicator>
+                  </Indicator>)}
                 </ActionIcon>
                 <ThemeSwitcher size={18} />
                 <UserMenu username={data?.username} />
@@ -167,7 +167,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
             ) : (
               <>
                 <GoogleLogin setToken={setToken} />
-                <TwitterLogin setToken={setToken} />
+                {/* <TwitterLogin setToken={setToken} /> */}
               </>
             )
             }

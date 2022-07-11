@@ -86,7 +86,6 @@ export function EditorCreator({ toogle }: Props) {
             offset={10}
             position="bottom-end"
             className="circular"
-            label={<HiBadgeCheck />}
             withBorder
           >
             <Skeleton circle height={60} />

@@ -21,23 +21,22 @@ export function Author({...props}: AuthorDataParam) {
 
   return (
     <div className={classes.avatarWrapper}>
-      <Indicator
+      {/* <Indicator
         inline
         size={18}
         offset={10}
         position="bottom-end"
         className="circular"
-        label={<HiBadgeCheck />}
         withBorder
         style={{zIndex: 2}}
-      >
+      > */}
         <Avatar
           size={60}
           src={props.avatar}
           alt={`${props.first_name} ${props.last_name}`}
           className={classes.avatar}
         />
-      </Indicator>
+      {/* </Indicator> */}
     </div>
   );
 }

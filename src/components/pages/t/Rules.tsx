@@ -49,7 +49,7 @@ export function Rules() {
                 <Text size="lg" weight={500} className={classes.title}>
                     Community rules
                 </Text>
-                {data?.data.rules === null &&  <Text>There is no rules given by the admin here.</Text>}
+                {(data?.data.rules === null || (data && data.data.rules.length <= 3)) &&  <Text>There is no rules given by the admin here.</Text>}
                 {data?.data && data.data.rules !== null && <HtmlRenderer body={data.data.rules} id={999} />}
             </Stack>
         </CommunityLayout>

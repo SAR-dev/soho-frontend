@@ -103,22 +103,37 @@ export function UserButton({ data, isLoading }: { data?: CommunityDataParam, isL
               >
                 <div style={{ display: 'flex' }}>
                   {data.subscribed ? (
-                    <Alert color="red" title="Wanna Leave!!!" withCloseButton onClose={() => setOpened(false)}>
-                      <Text size="xs">
-                        Are you sure you want to leave this community? This can not be undone!!!
-                      </Text>
-                      <Button color="red" size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/leave`}>
-                        I'm Sure
-                      </Button>
-                    </Alert>
+                    <>
+                      {(data.is_admin || data.is_moderator) ? (
+                        <Alert withCloseButton onClose={() => setOpened(false)}>
+                          <Text size="xs">
+                            Admin or Moderators can't leave their community.
+                          </Text>
+                        </Alert>
+                      ) : (
+                        <Alert color="red" title="Wanna Leave!!!" withCloseButton onClose={() => setOpened(false)}>
+                          <Text size="xs">
+                            Are you sure you want to leave this community? This can not be undone!!!
+                          </Text>
+                          <Button color="red" size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/leave`}>
+                            I'm Sure
+                          </Button>
+                        </Alert>
+                      )}
+                    </>
                   ) : (
                     <Alert title="Wanna Join!" withCloseButton onClose={() => setOpened(false)}>
                       <Text size="xs">
                         Please read the community rules carefully before joining.
                       </Text>
-                      <Button size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/join`}>
-                        Details Page
-                      </Button>
+                      <Group mt="sm" >
+                        <Button size="xs" component={Link} to={`/c/${data.author.username}/t/rules`}>
+                          Read Rules
+                        </Button>
+                        <Button size="xs" component={Link} to={`/c/${data.author.username}/join`}>
+                          Details
+                        </Button>
+                      </Group>
                     </Alert>
                   )}
                 </div>

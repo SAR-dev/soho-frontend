@@ -53,7 +53,7 @@ function Router() {
       } else {
         removeTokenFromLocal();
         removeToken();
-        if(window.location.pathname.split("/").length !== 1){
+        if(window.location.pathname.split("/").length <= 1 ){
           openContextModal();
         }
       }
