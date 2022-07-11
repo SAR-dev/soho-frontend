@@ -71,11 +71,11 @@ export function PostTypes() {
                         <link.icon size={20} className={classes.mainLinkIcon} />
                         <span>{link.label}</span>
                     </div>
-                    {link.notifications && (
+                    {/* {link.notifications && (
                         <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
                             {link.notifications}
                         </Badge>
-                    )}
+                    )} */}
                 </UnstyledButton>
             ))}
         </>
