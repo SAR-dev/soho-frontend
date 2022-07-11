@@ -88,7 +88,7 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
 
     return (
         <div className={classes.wrapper}>
-            <Author />
+            <Author {...author} />
             <div className={classes.editorWrapper}>
                 <Stack className={classes.commentCreatorHeader} spacing={3}>
                     <Group spacing={3}>
