@@ -53,7 +53,9 @@ function Router() {
       } else {
         removeTokenFromLocal();
         removeToken();
-        openContextModal();
+        if(window.location.pathname.split("/").length !== 1){
+          openContextModal();
+        }
       }
     });
   }, []);
