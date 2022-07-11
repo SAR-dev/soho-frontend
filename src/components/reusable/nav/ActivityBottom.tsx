@@ -25,7 +25,7 @@ export function ActivityBottom() {
     const { author } = useParams<"author">();
     const { classes, cx } = useStyles();
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['activities', author], () => getLatestActivity({username: author}))
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['activities', author], () => getLatestActivity({ username: author }))
 
 
     const getIcon = (verb?: string) => {
@@ -35,20 +35,24 @@ export function ActivityBottom() {
         return <AiFillLike className={classes.icon} size={16} />
     }
 
-    if(isLoading) return (
+    if (isLoading) return (
         <Skeleton height={30} width="100%" />
     )
 
     return (
-        <Group>
-            {getIcon(data?.data.results[0].verb)}
-            <Text size="xs" lineClamp={1}>
-                <Text component='span' size="xs" weight={600} mr={3}>
-                    {`${data?.data.results[0].sender.first_name} ${data?.data.results[0].sender.last_name}`}
-                </Text>
-                {data?.data.results[0].verb} a
-                <Text component='span' size="xs" weight={600} ml={3}>{data?.data.results[0].target_type}</Text>
-            </Text>
-        </Group>
+        <>
+            {data?.data.results.length !== 0 && (
+                <Group>
+                    {getIcon(data?.data.results[0].verb)}
+                    <Text size="xs" lineClamp={1}>
+                        <Text component='span' size="xs" weight={600} mr={3}>
+                            {`${data?.data.results[0].sender.first_name} ${data?.data.results[0].sender.last_name}`}
+                        </Text>
+                        {data?.data.results[0].verb} a
+                        <Text component='span' size="xs" weight={600} ml={3}>{data?.data.results[0].target_type}</Text>
+                    </Text>
+                </Group>
+            )}
+        </>
     )
 }
