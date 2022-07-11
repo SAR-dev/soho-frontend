@@ -1,3 +1,4 @@
+import { AuthorDataParam } from "@interfaces/author";
 import { createStyles, Avatar, Indicator } from "@mantine/core";
 import { HiBadgeCheck } from "react-icons/hi";
 
@@ -15,7 +16,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export function Author() {
+export function Author({...props}: AuthorDataParam) {
   const { classes } = useStyles();
 
   return (
@@ -32,8 +33,8 @@ export function Author() {
       >
         <Avatar
           size={60}
-          src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
-          alt="Sayed Rafi"
+          src={props.avatar}
+          alt={`${props.first_name} ${props.last_name}`}
           className={classes.avatar}
         />
       </Indicator>

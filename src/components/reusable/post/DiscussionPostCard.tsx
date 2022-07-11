@@ -56,7 +56,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
   return (
     <div className={classes.cover}>
       <div className={classes.wrapper}>
-        <Author />
+        <Author {...props.author} />
         <div>
           <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
           {props.content && (

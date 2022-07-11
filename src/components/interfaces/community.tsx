@@ -18,7 +18,7 @@ export interface CommunityDataParam {
 }
 
 interface Author {
-    id?: number;
+    id: number;
     username: string;
     first_name: string;
     last_name: string;

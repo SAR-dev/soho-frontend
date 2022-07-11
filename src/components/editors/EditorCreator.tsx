@@ -1,9 +1,11 @@
-import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator, ActionIcon, Alert } from "@mantine/core";
+import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator, ActionIcon, Alert, Skeleton } from "@mantine/core";
 import { AlertCircle, BrandTwitter, Photo } from "tabler-icons-react";
 import { HiBadgeCheck } from "react-icons/hi";
 import { isError, useQuery } from "react-query";
-import { getCommunity } from "../../helpers";
+import { capitalizeFirstLetter, getCommunity } from "../../helpers";
 import { useParams } from "react-router-dom";
+import { CommunityDataParam } from "@interfaces/community";
+import { Author } from "@reusable/post/layers/Author";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -60,32 +62,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface DataParam {
-  data: {
-    id: number;
-    title: null;
-    about: null;
-    members_name: string;
-    color: string;
-    status: string;
-    subscribers_count: number;
-    subscribed: boolean;
-    post_count: number;
-    author: Author;
-    slogan: string;
-    is_admin: boolean;
-    is_moderator: boolean;
-    created_at: Date;
-    updated_at: Date;
-  }
-}
-
-interface Author {
-  id?: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-  is_active: boolean;
-  avatar: string;
+  data: CommunityDataParam
 }
 
 interface Props {
@@ -112,18 +89,12 @@ export function EditorCreator({ toogle }: Props) {
             label={<HiBadgeCheck />}
             withBorder
           >
-            <Avatar
-              size={60}
-              src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
-              alt="Sayed Rafi"
-              className={classes.avatar}
-            />
+            <Skeleton circle height={60} />
           </Indicator>
           <Input
             className={cx(classes.input, "thick-border")}
             width="100%"
             placeholder="Sayed Rafi, What's on your mind ?"
-            // icon={<BrandTwitter size={20} />}
             rightSectionWidth={75}
             styles={{ rightSection: { pointerEvents: "none" } }}
             rightSection={
@@ -155,32 +126,16 @@ export function EditorCreator({ toogle }: Props) {
           <Paper radius={0} onClick={() => data.data.subscribed && !isLoading ? toogle() : ''}>
             <Paper className={classes.container}>
               <div className={classes.flex}>
-                <Indicator
-                  inline
-                  size={18}
-                  offset={10}
-                  position="bottom-end"
-                  className="circular"
-                  label={<HiBadgeCheck />}
-                  withBorder
-                >
-                  <Avatar
-                    size={60}
-                    src="https://relayfm.s3.amazonaws.com/uploads/person/avatar/2/user_avatar_braddowdy_artwork.png"
-                    alt="Sayed Rafi"
-                    className={classes.avatar}
-                  />
-                </Indicator>
+                <Author {...data.data.author} />
                 <Input
                   className={cx(classes.input, "thick-border")}
                   width="100%"
-                  placeholder="Sayed Rafi, What's on your mind ?"
-                  // icon={<BrandTwitter size={20} />}
+                  placeholder={`${data.data.author.first_name} ${data.data.author.last_name}, What's on your mind ?`}
                   rightSectionWidth={75}
                   styles={{ rightSection: { pointerEvents: "none" } }}
                   rightSection={
                     <Badge color="blue" variant="filled">
-                      Public
+                      {data.data.status}
                     </Badge>
                   }
                   disabled={!data?.data?.subscribed}
