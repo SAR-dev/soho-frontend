@@ -26,8 +26,8 @@ const useStyles = createStyles((theme) => ({
     cards: {
         flexShrink: 0,
         paddingTop: 3,
-        paddingRight: theme.spacing.sm,
-        paddingLeft: theme.spacing.sm,
+        paddingRight: theme.spacing.xs,
+        paddingLeft: 5,
     },
     sticky: {
         position: 'sticky',

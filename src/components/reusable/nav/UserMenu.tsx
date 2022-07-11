@@ -39,7 +39,6 @@ export function UserMenu({username}: {username?: string}) {
         </ActionIcon>}>
             <Menu.Label>Application</Menu.Label>
             <Menu.Item icon={<Settings size={14} />} component={Link} to={`/s/${username}/t/profile`}>Settings</Menu.Item>
-            <Menu.Item icon={<Photo size={14} />} component={Link} to={`/g/${username}`}>Gallery</Menu.Item>
             <Divider />
             <Menu.Label>Danger zone</Menu.Label>
             <Menu.Item color="red" icon={<ArrowBarLeft size={14} />} onClick={() => signOutAndClearLocale()}>Sign Out</Menu.Item>

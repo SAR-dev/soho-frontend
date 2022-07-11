@@ -4,6 +4,7 @@ import {
   ActionIcon,
   createStyles,
 } from "@mantine/core";
+import { ClapIcon } from "@reusable/ClapIcon";
 import { MdWavingHand } from "react-icons/md";
 import { doubleDigit } from "src/helpers";
 
@@ -20,7 +21,7 @@ export function CommentClapCount({ clapCount }: { clapCount: number }) {
   return (
     <Center>
       <ActionIcon variant="transparent" className={classes.plain}>
-        <MdWavingHand size={16} className="wave" />
+        <ClapIcon size={16} name="wave" />
       </ActionIcon>
       <Text size="sm" weight={500} style={{ marginLeft: 2 }}>
         {doubleDigit(clapCount)}

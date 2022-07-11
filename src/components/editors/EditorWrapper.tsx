@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Paper, createStyles, SegmentedControl, Center, Text, LoadingOverlay } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { FaPoll } from "react-icons/fa";
-import { BsDropletHalf } from "react-icons/bs";
+import { BsChatSquareDotsFill } from "react-icons/bs";
 import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
 import { DiscussionPostTab } from "./tabs/DiscussionPostTab";
 import { AmaPostTab } from "./tabs/AmaPostTab";
@@ -39,7 +39,7 @@ interface DataParam {
 
 
 const editors = [
-  { key: "discussion", name: 'Discussion', icon: <MdEmojiPeople size={16} /> },
+  { key: "discussion", name: 'Discussion', icon: <BsChatSquareDotsFill size={16} /> },
   { key: "premier", name: "Premier", icon: <Video size={16} /> },
   { key: "ama", name: "AMA", icon: <MdQuestionAnswer size={16} /> },
   { key: "poll", name: "Poll", icon: <FaPoll size={16} /> },

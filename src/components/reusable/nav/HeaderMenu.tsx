@@ -116,7 +116,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
         <div className={classes.inner}>
           {pId ? (
             <Button variant="default" color="dark" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
-              Go Back
+              Return
             </Button>
           ) : (
             <Text className={classes.linkText}>{getHeaderText()}</Text>

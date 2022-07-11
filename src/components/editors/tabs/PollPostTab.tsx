@@ -151,7 +151,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
           Close
         </Button>
         <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>
-          Submit
+        Publish
         </Button>
       </Group>
       <ErrorMessage errors={errors} />

@@ -3,6 +3,7 @@ import { Microphone2, ListCheck, Video } from 'tabler-icons-react';
 import { MdEmojiPeople, MdQuestionAnswer } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { FaPoll } from 'react-icons/fa';
+import {BsChatSquareDotsFill} from "react-icons/bs";
 
 const useStyles = createStyles((theme) => ({
     mainLink: {
@@ -49,7 +50,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const links = [
-    { icon: MdEmojiPeople, label: 'Discussion', slug: "discussion"},
+    { icon: BsChatSquareDotsFill, label: 'Discussion', slug: "discussion"},
     { icon: FaPoll, label: 'Poll', slug: "poll"},
     { icon: Video, label: 'Premier', slug: "premier", },
     { icon: MdQuestionAnswer, label: 'AMA', slug: "ama"},

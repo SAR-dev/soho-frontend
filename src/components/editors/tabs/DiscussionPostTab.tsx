@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, List, Text } from "@mantine/core";
+import { createStyles, Group, Button, Select, List, Text, Switch } from "@mantine/core";
 import { Editor } from "@mantine/rte";
 import { ImageDropzone } from "../ImageDropzone";
 import { AlertCircle, Check, Eye, Hash, Send } from "tabler-icons-react";
@@ -119,7 +119,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   }
 
   const submit = () => {
-    if(!category || sub_category){
+    if (!category || sub_category) {
       setErrors(["A category and sub category must be selected here."])
       return
     }
@@ -216,20 +216,17 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           className={classes.dropdown}
           disabled={isLoading}
         />
-        <Button
+        <Switch
+          label="Announcement"
+          checked={checked} 
           size="xs"
-          className={cx({ [classes.footerButton]: !checked })}
-          color="gray"
-          leftIcon={checked && <Check size={16} />}
-          onClick={() => setChecked((checked) => !checked)}
-        >
-          Announcement
-        </Button>
+          onChange={(event) => setChecked(event.currentTarget.checked)}
+        />
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>
         <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>
-          Submit
+          Publish
         </Button>
       </Group>
       <ErrorMessage errors={errors} />
