@@ -49,11 +49,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const links = [
-    { icon: MdEmojiPeople, label: 'Discussion', slug: "discussion", notifications: 3 },
-    { icon: FaPoll, label: 'Poll', slug: "poll", notifications: 4 },
-    { icon: MdQuestionAnswer, label: 'AMA', slug: "ama", notifications: 4 },
+    { icon: MdEmojiPeople, label: 'Discussion', slug: "discussion"},
+    { icon: FaPoll, label: 'Poll', slug: "poll"},
+    { icon: MdQuestionAnswer, label: 'AMA', slug: "ama"},
     { icon: Video, label: 'Premier', slug: "premier", },
-    // { icon: BsDropletHalf, label: 'Drop'slug: "drop", },
+    // { icon: BsDropletHalf, label: 'Drop'slug: "drop", notifications: 4 },
     { icon: Microphone2, label: 'Announcement', slug: "announcement", },
     { icon: ListCheck, label: 'Rules', slug: "rules", },
 ];
