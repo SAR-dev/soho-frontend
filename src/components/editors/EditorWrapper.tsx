@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { Paper, createStyles, SegmentedControl, Center, Text, LoadingOverlay } from "@mantine/core";
-import { Editor } from "@mantine/rte";
 import { FaPoll } from "react-icons/fa";
 import { BsChatSquareDotsFill } from "react-icons/bs";
 import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
@@ -57,12 +56,7 @@ export function EditorWrapper({ toogle }: Props) {
 
   const [value, setValue] = useState("discussion");
   const { classes } = useStyles();
-  const editorRef = useRef<Editor>(null);
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    editorRef?.current?.focus();
-  }, []);
 
   return (
     <Paper radius={0} style={{ position: 'relative' }}>

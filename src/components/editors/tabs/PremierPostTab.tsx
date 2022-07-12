@@ -1,13 +1,12 @@
 import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, TextInput, Tooltip, List, Text } from "@mantine/core";
-import { Editor } from "@mantine/rte";
-import { Check, Link, Send, Calendar, AlertCircle } from "tabler-icons-react";
+import { createStyles, Group, Button, TextInput, Tooltip } from "@mantine/core";
+import { Check, Link, Send, Calendar } from "tabler-icons-react";
 import { PremierDropzone } from "../PremierDropzone";
 import dayjs from 'dayjs';
 import { CalenderModal } from "../../reusable/modal/CalenderModal";
 import { useParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "react-query";
-import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
+import { useQueryClient } from "react-query";
+import { createAuthorPost, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "../../reusable/ErrorMessage";
 
@@ -60,7 +59,6 @@ export function PremierPostTab({ toogle, setLoading }: Props) {
   const queryClient = useQueryClient()
 
   const { classes, cx } = useStyles();
-  const editorRef = useRef<Editor>(null);
   const [showCalender, setShowCalender] = useState(false)
   const [queryKey, setQueryKey] = useState<string[]>([])
   const [errors, setErrors] = useState<string[]>([])
@@ -70,7 +68,6 @@ export function PremierPostTab({ toogle, setLoading }: Props) {
   const [datetime, setDatetime] = useState<Date | null>(null);
 
   useEffect(() => {
-    editorRef?.current?.focus();
     if (author) setQueryKey(["type_posts", author, "premier"])
   }, []);
 
