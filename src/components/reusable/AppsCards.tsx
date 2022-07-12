@@ -11,7 +11,7 @@ import {
 } from 'tabler-icons-react';
 
 const mockdata = [
-  { title: 'Credit cards', icon: CreditCard, color: 'violet' },
+  { title: 'Visit Homepage', icon: CreditCard, color: 'violet' },
   { title: 'Banks nearby', icon: BuildingBank, color: 'indigo' },
   { title: 'Transfers', icon: Repeat, color: 'blue' },
   { title: 'Refunds', icon: ReceiptRefund, color: 'green' },

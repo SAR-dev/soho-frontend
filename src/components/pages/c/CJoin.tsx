@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { capitalizeFirstLetter, getCommunity, parseErrors, subscribe } from 'src/helpers';
 import { useState } from 'react';
 import { useNotifications } from '@mantine/notifications';
+import { Error404 } from '@pages/Error404';
 
 const useStyles = createStyles((theme) => ({
     mainpaper: {
@@ -93,6 +94,8 @@ export function CJoin() {
             <Skeleton width={400} height={400} />
         </Paper>
     )
+
+    if(isError) return <Error404 />
 
     return (
         <Paper className={classes.mainpaper} style={{ backgroundImage: `url('${data?.data.cover}')` }}>

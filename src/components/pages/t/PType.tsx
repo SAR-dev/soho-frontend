@@ -14,6 +14,7 @@ import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { NoResults } from "../../reusable/NoResults";
 import { PostDataParam } from "@interfaces/post";
 import { PremierPostCard } from "@reusable/post/PremierPostCard";
+import { FetchError } from "@reusable/FetchError";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -44,7 +45,13 @@ export function PType() {
     const { pType } = useParams<"pType">();
     const [clicked, toogle] = useBooleanToggle(false);
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['type_posts', author, pType || "all"], () => getPostsFromType({ username: author, type: pType || "all" }))
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['type_posts', author, pType || "all"], () => getPostsFromType({ username: author, type: pType || "all" }))
+
+    if (isError) return (
+        <CommunityLayout>
+            <FetchError />
+        </CommunityLayout>
+    )
 
     return (
         <CommunityLayout>

@@ -13,6 +13,7 @@ import { useState } from "react";
 import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { NoResults } from "../../reusable/NoResults";
 import { PostDataParam } from "@interfaces/post";
+import { FetchError } from "@reusable/FetchError";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -44,7 +45,13 @@ export function CHome() {
     const { cName } = useParams<"cName">();
     const [clicked, toogle] = useBooleanToggle(false);
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['cat_posts', author, cName], () => getPostsFromCategory({ username: author, category: cName }))
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['cat_posts', author, cName], () => getPostsFromCategory({ username: author, category: cName }))
+
+    if (isError) return (
+        <CommunityLayout>
+            <FetchError />
+        </CommunityLayout>
+    )
 
     return (
         <CommunityLayout>
