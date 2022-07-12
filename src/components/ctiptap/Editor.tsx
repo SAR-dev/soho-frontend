@@ -179,7 +179,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
   );
 };
 
-export function Editor({ text, setText, limit=5000 }: { text: string, setText: (params: string) => void, limit?: number } ) {
+export function Editor({ text, setText, limit=5000 }: { text: string, setText: (params: string) => void, limit?: number }) {
   const { classes, cx } = useStyles();
   // const limit = 1000;
   const editor = useEditor({

@@ -1,7 +1,7 @@
 import { Editor } from './Editor'
 
-export function Ctiptap({...props}) {
+export function Ctiptap({ text, setText, limit=5000 }: { text: string, setText: (params: string) => void, limit?: number }) {
     return (
-        <Editor {...props} />
+        <Editor text={text} setText={setText} limit={limit} />
     )
 }
