@@ -169,9 +169,9 @@ const MenuBar = ({ editor }: { editor: any }) => {
         <EmojiPicker
           theme="dark"
           previewPosition="none"
-          emojiButtonSize={30}
-          emojiSize={24}
-          perLine={10}
+          // emojiButtonSize={30}
+          // emojiSize={24}
+          // perLine={10}
           onEmojiSelect={(e: any) => editor.commands.insertContent(e.native)}
         />
       </Menu>
@@ -181,7 +181,6 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
 export function Editor({ text, setText, limit=5000 }: { text: string, setText: (params: string) => void, limit?: number }) {
   const { classes, cx } = useStyles();
-  // const limit = 1000;
   const editor = useEditor({
     extensions: [
       StarterKit,

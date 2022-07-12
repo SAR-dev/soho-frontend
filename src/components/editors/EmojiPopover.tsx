@@ -18,9 +18,9 @@ export function EmojiPopover({ insertText }: { insertText: any}) {
         <EmojiPicker
           theme="dark"
           previewPosition="none"
-          emojiButtonSize={30}
-          emojiSize={24}
-          perLine={10}
+          // emojiButtonSize={30}
+          // emojiSize={24}
+          // perLine={10}
           onEmojiSelect={(e: any) => insertText(e.native)}
         />
       </Menu.Item>
