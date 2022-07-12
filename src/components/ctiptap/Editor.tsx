@@ -147,18 +147,6 @@ const MenuBar = ({ editor }: { editor: any }) => {
       >
         <PageBreak size={14} />
       </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().undo().run()}
-        variant="filled"
-      >
-        <FaUndo size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().redo().run()}
-        variant="filled"
-      >
-        <FaRedo size={14} />
-      </ActionIcon>
       <Menu
         control={
           <ActionIcon variant="filled">
@@ -175,6 +163,18 @@ const MenuBar = ({ editor }: { editor: any }) => {
           onEmojiSelect={(e: any) => editor.commands.insertContent(e.native)}
         />
       </Menu>
+      <ActionIcon
+        onClick={() => editor.chain().focus().undo().run()}
+        variant="filled"
+      >
+        <FaUndo size={14} />
+      </ActionIcon>
+      <ActionIcon
+        onClick={() => editor.chain().focus().redo().run()}
+        variant="filled"
+      >
+        <FaRedo size={14} />
+      </ActionIcon>
     </Group>
   );
 };
