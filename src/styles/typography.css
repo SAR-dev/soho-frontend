@@ -1848,3 +1848,91 @@
 .markdown-body-light ::-webkit-calendar-picker-indicator {
   filter: invert(50%);
 }
+
+.markdown-body-dark pre .hljs-comment,
+.markdown-body-dark pre .hljs-quote {
+  color: #616161;
+}
+.markdown-body-dark pre .hljs-variable,
+.markdown-body-dark pre .hljs-template-variable,
+.markdown-body-dark pre .hljs-attribute,
+.markdown-body-dark pre .hljs-tag,
+.markdown-body-dark pre .hljs-name,
+.markdown-body-dark pre .hljs-regexp,
+.markdown-body-dark pre .hljs-link,
+.markdown-body-dark pre .hljs-selector-id,
+.markdown-body-dark pre .hljs-selector-class {
+  color: #f98181;
+}
+.markdown-body-dark pre .hljs-number,
+.markdown-body-dark pre .hljs-meta,
+.markdown-body-dark pre .hljs-built_in,
+.markdown-body-dark pre .hljs-builtin-name,
+.markdown-body-dark pre .hljs-literal,
+.markdown-body-dark pre .hljs-type,
+.markdown-body-dark pre .hljs-params {
+  color: #fbbc88;
+}
+.markdown-body-dark pre .hljs-string,
+.markdown-body-dark pre .hljs-symbol,
+.markdown-body-dark pre .hljs-bullet {
+  color: #b9f18d;
+}
+.markdown-body-dark pre .hljs-title,
+.markdown-body-dark pre .hljs-section {
+  color: #faf594;
+}
+.markdown-body-dark pre .hljs-keyword,
+.markdown-body-dark pre .hljs-selector-tag {
+  color: #70cff8;
+}
+.markdown-body-dark pre .hljs-emphasis {
+  font-style: italic;
+}
+.markdown-body-dark pre .hljs-strong {
+  font-weight: 700;
+}
+
+.markdown-body-light pre .hljs-comment,
+.markdown-body-light pre .hljs-quote {
+  color: #616161;
+}
+.markdown-body-light pre .hljs-variable,
+.Prosemarkdown-body-lightMmarkdown-body-lightirror pre .hljs-template-variable,
+.markdown-body-light pre .hljs-attribute,
+.markdown-body-light pre .hljs-tag,
+.markdown-body-light pre .hljs-name,
+.Prosmarkdown-body-lighteMirror pre .hljs-regexp,
+.markdown-body-light pre .hljs-link,
+.markdown-body-light pre .hljs-selector-id,
+.markdown-body-light pre .hljs-selector-class {
+  color: #f98181;
+}
+.markdown-body-light pre .hljs-number,
+.markdown-body-light pre .hljs-meta,
+.markdown-body-light pre .hljs-built_in,
+.markdown-body-light pre .hljs-builtin-name,
+.markdown-body-light pre .hljs-literal,
+.markdown-body-light pre .hljs-type,
+.markdown-body-light pre .hljs-params {
+  color: #fbbc88;
+}
+.markdown-body-light pre .hljs-string,
+.markdown-body-light pre .hljs-symbol,
+.markdown-body-light pre .hljs-bullet {
+  color: #b9f18d;
+}
+.markdown-body-light pre .hljs-title,
+.markdown-body-light pre .hljs-section {
+  color: #faf594;
+}
+.markdown-body-light pre .hljs-keyword,
+.markdown-body-light pre .hljs-selector-tag {
+  color: #70cff8;
+}
+.markdown-body-light pre .hljs-emphasis {
+  font-style: italic;
+}
+.markdown-body-light pre .hljs-strong {
+  font-weight: 700;
+}

@@ -27,7 +27,11 @@ import Text from "@tiptap/extension-text";
 import Typography from "@tiptap/extension-typography";
 import Code from "@tiptap/extension-code";
 import Highlight from "@tiptap/extension-highlight";
+// import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Gapcursor from '@tiptap/extension-gapcursor'
 import { EmojiPicker } from "@reusable/EmojiPicker";
+import Link from "@tiptap/extension-link";
+// import lowlight from 'lowlight'
 
 const useStyles = createStyles((theme) => ({
   menu: {
@@ -128,6 +132,24 @@ const MenuBar = ({ editor }: { editor: any }) => {
       >
         <AiOutlineCode size={14} />
       </ActionIcon>
+      {/* <ActionIcon
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        variant="filled"
+        color={editor.isActive("codeblock") ? "blue" : "gray"}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 48 48"
+          width="14px"
+          height="14px"
+        >
+          <path
+            fill="#3F51B5"
+            d="M36 34L33 31.5 39.8 24 33 16.5 36 14 45 24zM13 34L4 24 13 14 16 16.5 9.1 24 16 31.5z"
+          />
+          <path fill="#2196F3" d="M21 39L17.2 37.7 27 9 30.8 10.3z" />
+        </svg>
+      </ActionIcon> */}
       <ActionIcon
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         variant="filled"
@@ -157,9 +179,6 @@ const MenuBar = ({ editor }: { editor: any }) => {
         <EmojiPicker
           theme="dark"
           previewPosition="none"
-          // emojiButtonSize={30}
-          // emojiSize={24}
-          // perLine={10}
           onEmojiSelect={(e: any) => editor.commands.insertContent(e.native)}
         />
       </Menu>
@@ -179,7 +198,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
   );
 };
 
-export function Editor({ text, setText, limit=5000 }: { text: string, setText: (params: string) => void, limit?: number }) {
+export function Editor({ text, setText, limit = 5000 }: { text: string, setText: (params: string) => void, limit?: number }) {
   const { classes, cx } = useStyles();
   const editor = useEditor({
     extensions: [
@@ -193,7 +212,12 @@ export function Editor({ text, setText, limit=5000 }: { text: string, setText: (
       Highlight,
       CharacterCount.configure({
         limit
-      })
+      }),
+      // CodeBlockLowlight.configure({
+      //   lowlight,
+      // }),
+      Gapcursor,
+      Link
     ],
     content: text,
     onUpdate: ({ editor }) => {

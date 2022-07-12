@@ -9,7 +9,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     fontSize: theme.fontSizes.sm,
     marginTop: theme.spacing.xs,
     marginBottom: theme.spacing.lg,
-    // display: 'block'
   },
 }));
 
