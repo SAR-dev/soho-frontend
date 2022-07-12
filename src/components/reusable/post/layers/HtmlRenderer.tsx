@@ -32,10 +32,10 @@ export function HtmlRenderer({ body, id }: { body: string, id: number }) {
   };
 
   return (
-    <TypographyStylesProvider className={classes.typography}>
+    <div className={cx(classes.typography, "markdown-body-dark")}>
       <Linkify options={{target: "_blank"}}>
         {parse(body, options)}
       </Linkify>
-    </TypographyStylesProvider>
+    </div>
   );
 }

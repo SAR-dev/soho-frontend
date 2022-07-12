@@ -16,7 +16,6 @@ import { AiOutlineCode } from "react-icons/ai";
 import { MdHorizontalRule } from "react-icons/md";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import "./editor.css";
-import "./typography.css";
 import "./emojiPicker.css";
 import { SmilieReplacer } from "./SmileReplacer";
 import CharacterCount from "@tiptap/extension-character-count";

@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import App from './App';
 import "./styles/main.css"
+import "./styles/typography.css"
 
 ReactDOM.render(
   <App />,
