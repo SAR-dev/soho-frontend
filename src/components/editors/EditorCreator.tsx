@@ -125,7 +125,23 @@ export function EditorCreator({ toogle }: Props) {
           <Paper radius={0} onClick={() => data.data.subscribed && !isLoading ? toogle() : ''}>
             <Paper className={classes.container}>
               <div className={classes.flex}>
-                <Author {...data.data.author} />
+                <Indicator
+                  inline
+                  size={10}
+                  offset={10}
+                  position="bottom-end"
+                  className="circular"
+                  withBorder
+                  style={{ zIndex: 2 }}
+                  color={data.data.color}
+                >
+                  <Avatar
+                    size={60}
+                    src={data.data.author.avatar}
+                    alt={`${data.data.author.first_name} ${data.data.author.last_name}`}
+                    className={classes.avatar}
+                  />
+                </Indicator>
                 <Input
                   className={cx(classes.input, "thick-border")}
                   width="100%"
