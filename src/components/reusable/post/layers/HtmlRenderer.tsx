@@ -1,4 +1,4 @@
-import { createStyles, TypographyStylesProvider, Anchor } from "@mantine/core";
+import { createStyles, Anchor } from "@mantine/core";
 import { Link, useParams } from "react-router-dom";
 import parse, { HTMLReactParserOptions } from 'html-react-parser';
 import { Element } from 'domhandler/lib/node';
