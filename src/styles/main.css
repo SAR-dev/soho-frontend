@@ -90,7 +90,10 @@ body {
 }
 
 /* LEFT NAV */
-@media only screen and (max-width: 1400px) {
+.left-nav {
+  width: 385px;
+}
+/* @media only screen and (max-width: 1400px) {
   .left-nav {
     width: 340px;
   }
@@ -100,10 +103,13 @@ body {
   .left-nav {
     width: 385px;
   }
-}
+} */
 
 /* RIGHT NAV */
-@media only screen and (max-width: 1400px) {
+.right-nav {
+  width: 365px;
+}
+/* @media only screen and (max-width: 1400px) {
   .right-nav {
     width: 315px;
   }
@@ -113,4 +119,4 @@ body {
   .right-nav {
     width: 365px;
   }
-}
+} */
