@@ -32,6 +32,7 @@ function App() {
   useEffect(() => {
     // @ts-ignore
     window.document.body.style.zoom = getZoom()
+    window.document.body.style.overflowY = "clip"
     return () => {
       // @ts-ignore
       document.body.style.zoom = 1;
