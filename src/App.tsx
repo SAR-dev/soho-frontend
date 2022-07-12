@@ -26,13 +26,14 @@ function App() {
 
   const getZoom = () => {
     const stand_width = 1536
-    const zoom = width / stand_width
-    return zoom
+    return (width / stand_width)
   }
 
   useEffect(() => {
+    // @ts-ignore
     window.document.body.style.zoom = getZoom()
     return () => {
+      // @ts-ignore
       document.body.style.zoom = 1;
     };
   }, [])
