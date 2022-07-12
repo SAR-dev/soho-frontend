@@ -32,6 +32,7 @@ import Link from "@tiptap/extension-link";
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { EmojiPicker } from "@reusable/EmojiPicker";
+import { ReactNode } from "react";
 
 const useStyles = createStyles((theme) => ({
   menu: {
@@ -40,11 +41,11 @@ const useStyles = createStyles((theme) => ({
   },
   end: {
     display: "flex",
-    justifyContent: "end"
+    marginLeft: "auto"
   }
 }));
 
-const MenuBar = ({ editor }: { editor: any }) => {
+const MenuBar = ({ editor, minimal=false, children }: { editor: any, minimal?: boolean, children?: ReactNode }) => {
   const { classes, cx } = useStyles();
   if (!editor) {
     return null;
@@ -88,6 +89,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <Strikethrough size={14} />
         </ActionIcon>
       </Tooltip>
+      {!minimal && (
       <Tooltip label="Code" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().toggleCode().run()}
@@ -97,18 +99,11 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <CodeIcon size={14} />
         </ActionIcon>
       </Tooltip>
+      )}
       {/* <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         clear marks
       </Button> */}
-      <Tooltip label="Clear styles" position="top">
-        <ActionIcon
-          onClick={() => editor.chain().focus().clearNodes().run()}
-          variant="filled"
-          color="gray"
-        >
-          <ClearFormatting size={14} />
-        </ActionIcon>
-      </Tooltip>
+      {!minimal && (
       <Tooltip label="Main heading" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -118,6 +113,8 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <FaHeading size={14} />
         </ActionIcon>
       </Tooltip>
+      )}
+      {!minimal && (
       <Tooltip label="Sub heading" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -127,6 +124,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <Heading size={14} />
         </ActionIcon>
       </Tooltip>
+      )}
       <Tooltip label="Bullet list" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -145,7 +143,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <ListNumbers size={14} />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label="Multiline Code" position="top">
+      {/* <Tooltip label="Multiline Code" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           variant="filled"
@@ -153,7 +151,8 @@ const MenuBar = ({ editor }: { editor: any }) => {
         >
           <AiOutlineCode size={14} />
         </ActionIcon>
-      </Tooltip>
+      </Tooltip> */}
+      {!minimal && (
       <Tooltip label="Blockquote" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
@@ -163,14 +162,15 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <Blockquote size={14} />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label="Horizontal line" position="top">
+      )}
+      {/* <Tooltip label="Horizontal line" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
           variant="filled"
         >
           <MdHorizontalRule size={14} />
         </ActionIcon>
-      </Tooltip>
+      </Tooltip> */}
       {/* <Tooltip label="Line break" position="top">
         <ActionIcon
           onClick={() => editor.chain().focus().setHardBreak().run()}
@@ -181,12 +181,14 @@ const MenuBar = ({ editor }: { editor: any }) => {
       </Tooltip> */}
       <Tooltip label="Highlighter" position="top">
         <Menu control={
-          <ActionIcon variant="filled" mr="sm">
+          <ActionIcon variant="filled">
             <FaHighlighter size={14} />
           </ActionIcon>
         }>
           <ColorPicker format="rgb" onChange={e => editor.chain().focus().toggleHighlight({ color: e }).run()} />
         </Menu>
+      </Tooltip>
+      <Tooltip label="Text Color" position="top">
         <Menu control={
           <ActionIcon variant="filled">
             <MdFormatColorText size={14} />
@@ -195,7 +197,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <ColorPicker format="rgb" onChange={e => editor.chain().focus().setColor(e).run()} />
         </Menu>
       </Tooltip>
-      <Tooltip label="Text Color" position="top">
+      <Tooltip label="Emoji" position="top">
         <Menu
           control={
             <ActionIcon variant="filled">
@@ -209,6 +211,15 @@ const MenuBar = ({ editor }: { editor: any }) => {
             onEmojiSelect={(e: any) => editor.commands.insertContent(e.native)}
           />
         </Menu>
+      </Tooltip>
+      <Tooltip label="Clear styles" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().clearNodes().run()}
+          variant="filled"
+          color="gray"
+        >
+          <ClearFormatting size={14} />
+        </ActionIcon>
       </Tooltip>
       <Tooltip label="Undo" position="top">
         <ActionIcon
@@ -226,11 +237,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
           <FaRedo size={14} />
         </ActionIcon>
       </Tooltip>
+      {children}
     </Group>
   );
 };
 
-export function Editor({ text, setText, limit = 5000 }: { text: string, setText: (params: string) => void, limit?: number }) {
+export function Editor({ text, setText, limit = 5000, minimal=false }: { text: string, setText: (params: string) => void, limit?: number, minimal?: boolean }) {
   const { classes, cx } = useStyles();
   const editor = useEditor({
     extensions: [
@@ -273,23 +285,24 @@ export function Editor({ text, setText, limit = 5000 }: { text: string, setText:
 
   return (
     <div>
-      <MenuBar editor={editor} />
+      <MenuBar editor={editor} minimal={minimal}>
+        {editor && (
+          <div className={classes.end}>
+            <Center>
+              <svg width="16" height="16" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#5C5F66" strokeWidth="20" />
+                <circle strokeDasharray={100} strokeDashoffset={`calc(${100 - percentage})`} cx="60" cy="60" r="54" fill="none" stroke={getColor()} strokeWidth="12" pathLength="100" />
+              </svg>
+              <PText size="xs" weight={600} ml={5} color={getColor()}>
+                {editor.storage.characterCount.characters()}/{limit}
+              </PText>
+            </Center>
+          </div>
+        )}
+      </MenuBar>
       <div className={cx(classes.menu, "markdown-body-dark")}>
         <EditorContent editor={editor} />
       </div>
-      {editor && (
-        <div className={classes.end}>
-          <Center mt="xs">
-            <svg width="16" height="16" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="54" fill="none" stroke="#5C5F66" strokeWidth="20" />
-              <circle strokeDasharray={100} strokeDashoffset={`calc(${100 - percentage})`} cx="60" cy="60" r="54" fill="none" stroke={getColor()} strokeWidth="12" pathLength="100" />
-            </svg>
-            <PText size="xs" weight={600} ml={5} color={getColor()}>
-              {editor.storage.characterCount.characters()}/{limit} characters
-            </PText>
-          </Center>
-        </div>
-      )}
     </div>
   );
 };

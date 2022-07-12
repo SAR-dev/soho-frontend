@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { createStyles, Group, Select, Text, Stack, AvatarsGroup, Avatar } from "@mantine/core";
+import { createStyles, Group, Select, Text, Stack, AvatarsGroup, Avatar, Center } from "@mantine/core";
 import { Comment } from "./Comment";
 import { CommentAward } from "./CommentAward";
 import { useQuery } from "react-query";
-import { doubleDigit, getComments } from "../../../helpers";
+import { capitalizeFirstLetter, doubleDigit, getComments } from "../../../helpers";
 import { CommentDataParam, TreeCommentDataParam } from "@interfaces/comment";
 import { NoResults } from "../../reusable/NoResults";
 import {arrayToTree} from "performant-array-to-tree";
 import { CommentPlaceholder } from "./CommentPlaceholder";
 import sortArray from 'sort-array'
+import { FaCodeBranch } from "react-icons/fa";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -55,7 +56,7 @@ export interface DataParam {
     }
 }
 
-export function Comments({ postId }: { postId: number }) {
+export function Comments({ postId, members_name }: { postId: number, members_name: string }) {
     const { classes } = useStyles();
     const [uniqueUsers, setUniqueUsers] = useState<string[]>([])
 
@@ -93,9 +94,12 @@ export function Comments({ postId }: { postId: number }) {
     return (
         <div className={classes.wrapper}>
             <Group>
-                <Text size="sm" color="dimmed" weight={600}>Conversation</Text>
-                <Text size="sm" color="dimmed" weight={600}>{doubleDigit(uniqueUsers.length)} Participants</Text>
-                <Text size="sm" color="dimmed" weight={600}>{data?.data.results && doubleDigit(data?.data.results?.length)} Comments</Text>
+                <Center>
+                    <FaCodeBranch size={16} />
+                    <Text size="sm" color="dimmed" ml={5} weight={600}>Conversation</Text>
+                </Center>
+                <Text size="sm" color="dimmed" weight={600}>{doubleDigit(uniqueUsers.length)} {`${capitalizeFirstLetter(members_name)}s`}</Text>
+                <Text size="sm" color="dimmed" weight={600}>{data?.data.results && doubleDigit(data?.data.results?.length)} Responses</Text>
                 <Select
                     placeholder="Sort By"
                     data={[{ value: 'created_at', label: 'Date' }, { value: 'num_vote_up', label: 'Popularity' }, { value: 'num_vote_up', label: 'Claps' }]}

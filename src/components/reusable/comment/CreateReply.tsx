@@ -102,13 +102,13 @@ export function CreateReply({ comment, setShow, postId }: { comment: CommentData
                     <Text color="blue" size="sm" ml={5}>{`${comment.author.first_name} ${comment.author.last_name}`}</Text>
                 </Group>
             </Group>
-            <Ctiptap text={text} setText={setText} />
-            <Group>
-                <Button size="xs" ml="auto" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
+            <Ctiptap text={text} setText={setText} minimal={true} />
+            <Group mt="sm">
+                <Button size="xs" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
                     Close
                 </Button>
-                <Button size="xs" leftIcon={<MdReply size={16} />} onClick={() => submit()} loading={loading}>
-                    Submit Reply
+                <Button size="xs" ml="auto" leftIcon={<MdReply size={16} />} onClick={() => submit()} loading={loading}>
+                    Whisper
                 </Button>
             </Group>
         </Stack>

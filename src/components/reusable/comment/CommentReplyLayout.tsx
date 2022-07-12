@@ -134,7 +134,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
                             </ActionIcon>
                         </Tooltip>
                         {layout === "comment" && (
-                            <Tooltip label="Add Reply" position="top">
+                            <Tooltip label="Whisper" position="top">
                                 <ActionIcon variant="filled" size="xs" onClick={() => setShowReplyEditor(true)}>
                                     <MdReply size={14} />
                                 </ActionIcon>

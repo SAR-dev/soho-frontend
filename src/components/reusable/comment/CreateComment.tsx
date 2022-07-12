@@ -78,26 +78,26 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
             <div className={classes.editorWrapper}>
                 <Stack className={classes.commentCreatorHeader} spacing={3}>
                     <Group spacing={3}>
-                        <Text size="sm">Comment as</Text>
+                        <Text size="sm">Respond as</Text>
                         <Text color="blue" size="sm" ml={5}>{`${author.first_name} ${author.last_name}`}</Text>
                     </Group>
                     <div className={classes.info}>
                         <InfoCircle size={14} />
-                        <Text size="xs" color="dimmed">Please read the community rules before commenting</Text>
+                        <Text size="xs" color="dimmed">Please read the community rules before responsing</Text>
                     </div>
                 </Stack>
                 {show ? (
                     <>
-                        <Ctiptap text={text} setText={setText} />
-                        <Group>
-                            <Button size="xs" ml="auto" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
+                        <Ctiptap text={text} setText={setText} minimal={true} />
+                        <Group mt="sm">
+                            <Button size="xs" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
                                 Close
                             </Button>
-                            <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
-                                Submit
+                            <Button size="xs" ml="auto" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
+                                Respond
                             </Button>
                         </Group>
-                    </>) : (<Button size="xs" fullWidth onClick={() => setShow(true)}>Write a comment</Button>)}
+                    </>) : (<Button size="xs" fullWidth onClick={() => setShow(true)}>Write a response</Button>)}
             </div>
         </div>
     );

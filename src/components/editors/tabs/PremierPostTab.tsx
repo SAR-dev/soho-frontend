@@ -76,7 +76,7 @@ export function PremierPostTab({ toogle, setLoading }: Props) {
     setErrors([])
     const data = {
       post_type: 'premier',
-      link: link,
+      // link: link,
       release_time: datetime,
       thumbnail: thumbnail
     }
@@ -101,7 +101,7 @@ export function PremierPostTab({ toogle, setLoading }: Props) {
   return (
     <>
       <PremierDropzone setId={setThumbnail} />
-      <TextInput value={link} onChange={e => setLink(e.target.value)} variant="default" className="thick-border" placeholder="Drop premiere link" icon={<Link size={16} />} size="xs" mb="sm" />
+      {/* <TextInput value={link} onChange={e => setLink(e.target.value)} variant="default" className="thick-border" placeholder="Drop premiere link" icon={<Link size={16} />} size="xs" mb="sm" /> */}
       <Group>
         <Tooltip label="Select Premier Time" position="top">
           <Button className={cx(classes.calenderButton, { [classes.activeCalender]: datetime, [classes.inactiveCalender]: !datetime })} leftIcon={<Calendar size={16} />} variant="light" color="gray" size="xs" onClick={() => setShowCalender(true)}>

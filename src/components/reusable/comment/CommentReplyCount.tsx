@@ -24,7 +24,7 @@ export function CommentReplyCount({ commentsCount, color = "dimmed" }: {
         {doubleDigit(commentsCount)}
       </Text>
       <Text size="sm" weight={500} color={color} style={{ marginLeft: 5 }}>
-        Replies
+        Whispers
       </Text>
     </Center>
   );

@@ -178,13 +178,13 @@ export function PremierPostCard({ ...props }: PostDataParam) {
                 <Tooltip label={`${props.bookmarks_count} people waiting`} position="top">
                   <Button size="xs" color="gray" variant="light" leftIcon={<Users size={14} />}>{props.bookmarks_count}</Button>
                 </Tooltip>
-                <Tooltip label="Premier link" position="top">
+                {/* <Tooltip label="Premier link" position="top">
                   <a href={props.link ? props.link : ""} target="_blank">
                     <ActionIcon color="gray" variant="light">
                       <LayersLinked size={14} />
                     </ActionIcon>
                   </a>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip label={props.bookmarked ? "Unsubscribe alert!" : "Subscribe alert"} position="top">
                   <ActionIcon color={props.bookmarked ? "gray" : "blue"} variant="light" loading={marking} onClick={props.bookmarked ? unbookmark : bookmark} >
                     {props.bookmarked ? <BellRinging size={14} /> : <BellPlus size={14} />}

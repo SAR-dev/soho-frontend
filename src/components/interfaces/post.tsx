@@ -54,6 +54,7 @@ export interface PostDataParam {
     id: number;
     status: string;
     author: Author;
+    members_name: string;
     subscribers_count: number;
     subscribed: boolean;
     post_count: number;

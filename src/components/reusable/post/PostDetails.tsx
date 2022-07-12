@@ -28,7 +28,7 @@ export function PostDetails({...props}: PostDataParam) {
                 <CreateComment postId={props.id} author={props.author} />
             </Stack>
             <Stack className={classes.wrapper}>
-                <Comments postId={props.id} />
+                <Comments postId={props.id} members_name={props.group.members_name} />
             </Stack>
         </Stack>
     )
