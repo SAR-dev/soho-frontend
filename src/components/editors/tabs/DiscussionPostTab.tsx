@@ -1,15 +1,13 @@
-import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, List, Text, Switch } from "@mantine/core";
-import { Editor } from "@mantine/rte";
+import { useState, useEffect } from "react";
+import { createStyles, Group, Button, Select, Switch } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
-import { AlertCircle, Check, Eye, Hash, Send } from "tabler-icons-react";
-import { EmojiPopover } from "../EmojiPopover";
-import { TextEditor } from "../TextEditor";
+import { Check, Eye, Hash, Send } from "tabler-icons-react";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
+import { Ctiptap } from "src/components/ctiptap";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -94,25 +92,16 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const [category, setCategory] = useState<any | null>(null);
   const [sub_category, set_sub_category] = useState<any | null>(null);
   const [checked, setChecked] = useState(false);
-  const editorRef = useRef<Editor>(null);
   const [images, setImages] = useState<Array<number>>([])
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
 
   useEffect(() => {
-    editorRef?.current?.focus();
     if (author && sName) setQueryKey(["sub_cat_posts", author, sName])
     if (author && cName) setQueryKey(["cat_posts", author, cName])
     if ((author && pType)) setQueryKey(["type_posts", author, pType])
     if ((author && !sName && !cName && !pType)) setQueryKey(["type_posts", author, "all"])
   }, []);
-
-  const insertText = (text: string) => {
-    const quillRef = editorRef?.current?.getEditor();
-    var range = quillRef?.getSelection();
-    let position = range ? range.index : 0;
-    quillRef?.insertText(position, text);
-  };
 
   const addImage = (id: number) => {
     setImages(images => [...images, id])
@@ -190,10 +179,9 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   return (
     <>
-      <TextEditor editorRef={editorRef} text={text} setText={setText} insertText={insertText} />
+      <Ctiptap text={text} setText={setText} />
       <ImageDropzone disabled={false} images={images} addImage={addImage} />
       <Group>
-        <EmojiPopover insertText={insertText} />
         <Select
           placeholder="Channel"
           data={getChannelsList()}

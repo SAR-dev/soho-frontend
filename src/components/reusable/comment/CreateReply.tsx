@@ -1,15 +1,12 @@
-import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Switch, Button, Text, Stack, Avatar } from "@mantine/core";
-import { Editor } from "@mantine/rte";
-import { TextEditor } from "../../editors/TextEditor";
-import { Author } from "../post/layers/Author";
-import { Check, InfoCircle, Send, X } from "tabler-icons-react";
-import { EmojiPopover } from "../../editors/EmojiPopover";
-import { createComment, createReply, parseErrors } from "../../../helpers";
+import { useState } from "react";
+import { createStyles, Group, Button, Text, Stack, Avatar } from "@mantine/core";
+import { Check, X } from "tabler-icons-react";
+import { createReply, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { CommentDataParam } from "@interfaces/comment";
 import { MdClose, MdReply } from "react-icons/md";
+import { Ctiptap } from "src/components/ctiptap";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -58,23 +55,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export function CreateReply({ comment, setShow, postId }: { comment: CommentDataParam, setShow: (params: boolean) => void, postId: number }) {
     const { classes } = useStyles();
-    const editorRef = useRef<Editor>(null);
     const notifications = useNotifications();
     const queryClient = useQueryClient()
 
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        editorRef?.current?.focus();
-    }, []);
-
-    const insertText = (text: string) => {
-        const quillRef = editorRef?.current?.getEditor();
-        var range = quillRef?.getSelection();
-        let position = range ? range.index : 0;
-        quillRef?.insertText(position, text);
-    };
 
     const submit = () => {
         setLoading(true)
@@ -117,9 +102,8 @@ export function CreateReply({ comment, setShow, postId }: { comment: CommentData
                     <Text color="blue" size="sm" ml={5}>{`${comment.author.first_name} ${comment.author.last_name}`}</Text>
                 </Group>
             </Group>
-            <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
+            <Ctiptap text={text} setText={setText} />
             <Group>
-                <EmojiPopover insertText={insertText} />
                 <Button size="xs" ml="auto" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
                     Close
                 </Button>

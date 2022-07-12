@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   createStyles,
   Group,
@@ -9,18 +9,15 @@ import {
   Tooltip,
   NumberInput,
 } from "@mantine/core";
-import { Editor } from "@mantine/rte";
-import { ImageDropzone } from "../ImageDropzone";
 import { Check, Minus, Plus, Send, X } from "tabler-icons-react";
-import { EmojiPopover } from "../EmojiPopover";
 import { Poll } from "../../reusable/post/layers/Poll";
-import { TextEditor } from "../TextEditor";
 import { useParams } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { createAuthorPost, createPoll, deletePoll, parseErrors } from "../../../helpers";
 import { getHotkeyHandler } from "@mantine/hooks";
 import { ErrorMessage } from "@reusable/ErrorMessage";
+import { Ctiptap } from "src/components/ctiptap";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -84,7 +81,6 @@ export function PollPostTab({ toogle, setLoading }: Props) {
 
   const { classes, cx } = useStyles();
   const [text, setText] = useState("");
-  const editorRef = useRef<Editor>(null);
   const [duration, setDuration] = useState(1)
   const [format, setFormat] = useState<string>(times[1].value)
   const [errors, setErrors] = useState<string[]>([])
@@ -93,16 +89,8 @@ export function PollPostTab({ toogle, setLoading }: Props) {
   const [polls, setPolls] = useState<Poll[]>([])
 
   useEffect(() => {
-    editorRef?.current?.focus();
     if (author) setQueryKey(["type_posts", author, "poll"])
   }, []);
-
-  const insertText = (text: string) => {
-    const quillRef = editorRef?.current?.getEditor();
-    var range = quillRef?.getSelection();
-    let position = range ? range.index : 0;
-    quillRef?.insertText(position, text);
-  };
 
   const submit = () => {
     setLoading(true)
@@ -133,14 +121,13 @@ export function PollPostTab({ toogle, setLoading }: Props) {
 
   return (
     <>
-      <TextEditor editorRef={editorRef} text={text} setText={setText} insertText={insertText} />
+      <Ctiptap text={text} setText={setText} />
       {polls.map((e, i) => (
         <PollItem poll={e} polls={polls} setPolls={setPolls} key={i} />
       ))}
       <PollEditor polls={polls} setPolls={setPolls} />
 
       <Group>
-        <EmojiPopover insertText={insertText} />
         <Tooltip label="Select Duration" position="top">
           <Group spacing="xs">
             <NumberInput size="xs" className={classes.small} min={1} value={duration} onChange={(val: number) => setDuration(val)} />

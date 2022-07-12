@@ -1,15 +1,13 @@
-import { useRef, useState, useEffect } from "react";
-import { createStyles, Group, Switch, Button, Text, Stack } from "@mantine/core";
-import { Editor } from "@mantine/rte";
-import { TextEditor } from "../../editors/TextEditor";
+import { useState } from "react";
+import { createStyles, Group, Button, Text, Stack } from "@mantine/core";
 import { Author } from "../post/layers/Author";
 import { Check, InfoCircle, Send, X } from "tabler-icons-react";
-import { EmojiPopover } from "../../editors/EmojiPopover";
 import { createComment, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { AuthorDataParam } from "@interfaces/author";
 import { MdClose } from "react-icons/md";
+import { Ctiptap } from "src/components/ctiptap";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -40,24 +38,12 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export function CreateComment({ postId, author }: { postId: number, author: AuthorDataParam }) {
     const { classes } = useStyles();
-    const editorRef = useRef<Editor>(null);
     const notifications = useNotifications();
     const [show, setShow] = useState(false)
     const queryClient = useQueryClient()
 
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        editorRef?.current?.focus();
-    }, []);
-
-    const insertText = (text: string) => {
-        const quillRef = editorRef?.current?.getEditor();
-        var range = quillRef?.getSelection();
-        let position = range ? range.index : 0;
-        quillRef?.insertText(position, text);
-    };
 
     const submit = () => {
         setLoading(true)
@@ -102,9 +88,8 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
                 </Stack>
                 {show ? (
                     <>
-                        <TextEditor editorRef={editorRef} text={text} setText={setText} focus={false} insertText={insertText} />
+                        <Ctiptap text={text} setText={setText} />
                         <Group>
-                            <EmojiPopover insertText={insertText} />
                             <Button size="xs" ml="auto" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
                                 Close
                             </Button>

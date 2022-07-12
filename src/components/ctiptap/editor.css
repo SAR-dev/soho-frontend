@@ -1,0 +1,32 @@
+.ProseMirror.ProseMirror-focused {
+  outline: none;
+}
+
+.ProseMirror {
+  padding: 1rem;
+  background-color: transparent;
+  border-radius: 0.25rem;
+  min-height: 120px;
+}
+
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da4f;
+  pointer-events: none;
+  height: 0;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.character-count {
+  display: flex;
+  align-items: center;
+  color: #68cef8;
+}
+.character-count--warning {
+  color: #fb5151;
+}
+.character-count__text {
+  color: #868e96;
+}
