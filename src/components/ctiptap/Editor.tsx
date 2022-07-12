@@ -1,4 +1,4 @@
-import { ActionIcon, Center, ColorPicker, createStyles, Group, Menu, Text as PText } from "@mantine/core";
+import { ActionIcon, Center, ColorPicker, createStyles, Group, Menu, Text as PText, Tooltip } from "@mantine/core";
 import {
   Bold,
   Italic,
@@ -52,144 +52,180 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
   return (
     <Group spacing="xs" p="sm" mb="sm" className={classes.menu}>
-      <ActionIcon
-        onClick={() => editor.chain().focus().setParagraph().run()}
-        variant="filled"
-        color={editor.isActive("paragraph") ? "blue" : "gray"}
-      >
-        <FaParagraph size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        variant="filled"
-        color={editor.isActive("bold") ? "blue" : "gray"}
-      >
-        <Bold size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        variant="filled"
-        color={editor.isActive("italic") ? "blue" : "gray"}
-      >
-        <Italic size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        variant="filled"
-        color={editor.isActive("strike") ? "blue" : "gray"}
-      >
-        <Strikethrough size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        variant="filled"
-        color={editor.isActive("code") ? "blue" : "gray"}
-      >
-        <CodeIcon size={14} />
-      </ActionIcon>
+      <Tooltip label="Paragraph" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().setParagraph().run()}
+          variant="filled"
+          color={editor.isActive("paragraph") ? "blue" : "gray"}
+        >
+          <FaParagraph size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Bold" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          variant="filled"
+          color={editor.isActive("bold") ? "blue" : "gray"}
+        >
+          <Bold size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Italic or Curved" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          variant="filled"
+          color={editor.isActive("italic") ? "blue" : "gray"}
+        >
+          <Italic size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Strikethrough" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          variant="filled"
+          color={editor.isActive("strike") ? "blue" : "gray"}
+        >
+          <Strikethrough size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Code" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          variant="filled"
+          color={editor.isActive("code") ? "blue" : "gray"}
+        >
+          <CodeIcon size={14} />
+        </ActionIcon>
+      </Tooltip>
       {/* <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         clear marks
       </Button> */}
-      <ActionIcon
-        onClick={() => editor.chain().focus().clearNodes().run()}
-        variant="filled"
-        color="gray"
-      >
-        <ClearFormatting size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        variant="filled"
-        color={editor.isActive("heading", { level: 1 }) ? "blue" : "gray"}
-      >
-        <FaHeading size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        variant="filled"
-        color={editor.isActive("heading", { level: 2 }) ? "blue" : "gray"}
-      >
-        <Heading size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        variant="filled"
-        color={editor.isActive("bulletList") ? "blue" : "gray"}
-      >
-        <List size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        variant="filled"
-        color={editor.isActive("orderedList") ? "blue" : "gray"}
-      >
-        <ListNumbers size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        variant="filled"
-        color={editor.isActive("codeblock") ? "blue" : "gray"}
-      >
-        <AiOutlineCode size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        variant="filled"
-        color={editor.isActive("blockquote") ? "blue" : "gray"}
-      >
-        <Blockquote size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        variant="filled"
-      >
-        <MdHorizontalRule size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().setHardBreak().run()}
-        variant="filled"
-      >
-        <PageBreak size={14} />
-      </ActionIcon>
-      <Menu control={
-        <ActionIcon variant="filled">
-          <FaHighlighter size={14} />
+      <Tooltip label="Clear styles" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().clearNodes().run()}
+          variant="filled"
+          color="gray"
+        >
+          <ClearFormatting size={14} />
         </ActionIcon>
-      }>
-        <ColorPicker format="rgb" onChange={e => editor.chain().focus().toggleHighlight({ color: e }).run()} />
-      </Menu>
-      <Menu control={
-        <ActionIcon variant="filled">
-          <MdFormatColorText size={14} />
+      </Tooltip>
+      <Tooltip label="Main heading" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          variant="filled"
+          color={editor.isActive("heading", { level: 1 }) ? "blue" : "gray"}
+        >
+          <FaHeading size={14} />
         </ActionIcon>
-      }>
-        <ColorPicker format="rgb" onChange={e => editor.chain().focus().setColor(e).run()} />
-      </Menu>
-      <Menu
-        control={
-          <ActionIcon variant="filled">
-            <BsEmojiSunglasses size={14} />
+      </Tooltip>
+      <Tooltip label="Sub heading" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          variant="filled"
+          color={editor.isActive("heading", { level: 2 }) ? "blue" : "gray"}
+        >
+          <Heading size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Bullet list" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          variant="filled"
+          color={editor.isActive("bulletList") ? "blue" : "gray"}
+        >
+          <List size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Ordered list" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          variant="filled"
+          color={editor.isActive("orderedList") ? "blue" : "gray"}
+        >
+          <ListNumbers size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Multiline Code" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          variant="filled"
+          color={editor.isActive("codeblock") ? "blue" : "gray"}
+        >
+          <AiOutlineCode size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Blockquote" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          variant="filled"
+          color={editor.isActive("blockquote") ? "blue" : "gray"}
+        >
+          <Blockquote size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Horizontal line" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
+          variant="filled"
+        >
+          <MdHorizontalRule size={14} />
+        </ActionIcon>
+      </Tooltip>
+      {/* <Tooltip label="Line break" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().setHardBreak().run()}
+          variant="filled"
+        >
+          <PageBreak size={14} />
+        </ActionIcon>
+      </Tooltip> */}
+      <Tooltip label="Highlighter" position="top">
+        <Menu control={
+          <ActionIcon variant="filled" mr="sm">
+            <FaHighlighter size={14} />
           </ActionIcon>
-        }
-      >
-        <EmojiPicker
-          theme="dark"
-          previewPosition="none"
-          onEmojiSelect={(e: any) => editor.commands.insertContent(e.native)}
-        />
-      </Menu>
-      <ActionIcon
-        onClick={() => editor.chain().focus().undo().run()}
-        variant="filled"
-      >
-        <FaUndo size={14} />
-      </ActionIcon>
-      <ActionIcon
-        onClick={() => editor.chain().focus().redo().run()}
-        variant="filled"
-      >
-        <FaRedo size={14} />
-      </ActionIcon>
+        }>
+          <ColorPicker format="rgb" onChange={e => editor.chain().focus().toggleHighlight({ color: e }).run()} />
+        </Menu>
+        <Menu control={
+          <ActionIcon variant="filled">
+            <MdFormatColorText size={14} />
+          </ActionIcon>
+        }>
+          <ColorPicker format="rgb" onChange={e => editor.chain().focus().setColor(e).run()} />
+        </Menu>
+      </Tooltip>
+      <Tooltip label="Text Color" position="top">
+        <Menu
+          control={
+            <ActionIcon variant="filled">
+              <BsEmojiSunglasses size={14} />
+            </ActionIcon>
+          }
+        >
+          <EmojiPicker
+            theme="dark"
+            previewPosition="none"
+            onEmojiSelect={(e: any) => editor.commands.insertContent(e.native)}
+          />
+        </Menu>
+      </Tooltip>
+      <Tooltip label="Undo" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().undo().run()}
+          variant="filled"
+        >
+          <FaUndo size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Redo" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().redo().run()}
+          variant="filled"
+        >
+          <FaRedo size={14} />
+        </ActionIcon>
+      </Tooltip>
     </Group>
   );
 };
