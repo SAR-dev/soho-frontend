@@ -370,3 +370,29 @@ export const shortenText = (text: string, maxLength: number) => {
 export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function mapOrder({array, order, key}: {array: any[], order: number[], key: string}) {
+  array.sort(function (a, b) {
+    var A = a[key],
+      B = b[key];
+
+    if (order.indexOf(A) > order.indexOf(B)) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  return array;
+}
+// const res = mapOrder(
+//   [
+//     { id: 2, label: "Two" },
+//     { id: 3, label: "Three" },
+//     { id: 5, label: "Five" },
+//     { id: 4, label: "Four" },
+//     { id: 1, label: "One" }
+//   ],
+//   [1, 2, 3, 4, 5],
+//   "id"
+// );

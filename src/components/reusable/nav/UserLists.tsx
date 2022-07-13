@@ -2,9 +2,10 @@ import { useState, ReactNode } from 'react';
 import { createStyles, UnstyledButton, Tooltip, Avatar } from '@mantine/core';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { useQuery } from 'react-query';
-import { getSubscribedList } from 'src/helpers';
+import { getSubscribedList, mapOrder } from 'src/helpers';
 import { SubscriberDataParam } from '@interfaces/subscribers';
 import { Link, useParams } from 'react-router-dom';
+import { useLocalStorage } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
     container: { textAlign: "center" },
@@ -65,8 +66,13 @@ export default function UserLists() {
     const [items, setItems] = useState<SubscriberDataParam[]>()
     const { author } = useParams<"author">();
 
+    const [subs, setSubs] = useLocalStorage<number[]>({
+        key: 'subs',
+        defaultValue: [],
+    });
+
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['subscribes'], () => getSubscribedList(), {
-        onSuccess: res => setItems([...res.data.results])
+        onSuccess: res => setItems(mapOrder({ array: res.data.results, order: subs, key: "id" }))
     })
 
     if (isLoading) return (<></>)
@@ -93,6 +99,7 @@ export default function UserLists() {
         if (items) {
             const res = arrayMove(items, oldIndex, newIndex)
             setItems(res)
+            setSubs(res.map(e => e.id))
         }
     };
 
