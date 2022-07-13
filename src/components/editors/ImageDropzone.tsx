@@ -77,7 +77,6 @@ export function ImageDropzone({ disabled, images, addImage }: Props) {
         className={classes.footer}
         onClick={() => fileRef?.current?.click()}
         mt={sources.length === 0 ? 0 : 'xs'}
-        mb="xs"
       >
         <InfoCircle size={16} className={classes.icon} />
         <Text color="dimmed" size="xs">

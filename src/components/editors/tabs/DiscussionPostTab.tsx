@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, Switch } from "@mantine/core";
+import { createStyles, Group, Button, Select, Switch, Center } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
 import { Check, Eye, Hash, Send } from "tabler-icons-react";
 import { useParams } from "react-router-dom";
@@ -8,6 +8,7 @@ import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { Ctiptap } from "src/components/ctiptap";
+import { LimitCounter } from "src/components/ctiptap/LimitCounter";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -34,6 +35,9 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colorScheme === 'dark'
       ? theme.fn.rgba(theme.colors.yellow[1], 0.25)
       : theme.colors[theme.primaryColor][0],
+  },
+  mlAuto: {
+    marginLeft: "auto"
   }
 }));
 
@@ -71,6 +75,8 @@ interface SelectModel {
   label: string;
   value: string;
 }
+
+const textLimit = 5000
 
 export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const { classes, cx } = useStyles();
@@ -179,8 +185,13 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   return (
     <>
-      <Ctiptap text={text} setText={setText} />
-      <ImageDropzone disabled={false} images={images} addImage={addImage} />
+      <Ctiptap text={text} setText={setText} limit={textLimit} />
+      <Center mb="sm">
+        <ImageDropzone disabled={false} images={images} addImage={addImage} />
+        <div className={classes.mlAuto}>
+          <LimitCounter count={text.length} limit={textLimit} />
+        </div>
+      </Center>
       <Group>
         <Select
           placeholder="Channel"
@@ -206,7 +217,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
         />
         <Switch
           label="Announcement"
-          checked={checked} 
+          checked={checked}
           size="xs"
           onChange={(event) => setChecked(event.currentTarget.checked)}
         />

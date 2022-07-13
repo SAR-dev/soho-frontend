@@ -1,4 +1,4 @@
-import { ActionIcon, Center, ColorPicker, createStyles, Group, Menu, Text as PText, Tooltip } from "@mantine/core";
+import { ActionIcon, ColorPicker, createStyles, Group, Menu, Tooltip } from "@mantine/core";
 import {
   Bold,
   Italic,
@@ -9,11 +9,9 @@ import {
   List,
   ListNumbers,
   Blockquote,
-  PageBreak
 } from "tabler-icons-react";
 import { FaHeading, FaHighlighter, FaParagraph, FaRedo, FaUndo } from "react-icons/fa";
-import { AiOutlineCode } from "react-icons/ai";
-import { MdFormatColorText, MdHorizontalRule } from "react-icons/md";
+import { MdFormatColorText } from "react-icons/md";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import "./editor.css";
 import "./emojiPicker.css";
@@ -32,20 +30,18 @@ import Link from "@tiptap/extension-link";
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { EmojiPicker } from "@reusable/EmojiPicker";
-import { ReactNode } from "react";
 
 const useStyles = createStyles((theme) => ({
   menu: {
     background: theme.colors.dark[6],
     borderRadius: theme.radius.sm
   },
-  end: {
-    display: "flex",
-    marginLeft: "auto"
+  wrapper: {
+    marginBottom: theme.spacing.sm
   }
 }));
 
-const MenuBar = ({ editor, minimal=false, children }: { editor: any, minimal?: boolean, children?: ReactNode }) => {
+const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) => {
   const { classes, cx } = useStyles();
   if (!editor) {
     return null;
@@ -237,7 +233,6 @@ const MenuBar = ({ editor, minimal=false, children }: { editor: any, minimal?: b
           <FaRedo size={14} />
         </ActionIcon>
       </Tooltip>
-      {children}
     </Group>
   );
 };
@@ -271,38 +266,12 @@ export function Editor({ text, setText, limit = 5000, minimal=false }: { text: s
     }
   });
 
-  const percentage = editor
-    ? Math.round((100 / limit) * editor.storage.characterCount.characters())
-    : 0;
-
-  const getColor = () => {
-    if (percentage <= 25) return "#12B886"
-    else if (percentage <= 50) return "#15AABF"
-    else if (percentage <= 75) return "#F76707"
-    else if (percentage <= 100) return "#E64980"
-    else return "#C92A2A"
-  }
-
   return (
-    <div>
-      <MenuBar editor={editor} minimal={minimal}>
-        {editor && (
-          <div className={classes.end}>
-            <Center>
-              <svg width="16" height="16" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="54" fill="none" stroke="#5C5F66" strokeWidth="20" />
-                <circle strokeDasharray={100} strokeDashoffset={`calc(${100 - percentage})`} cx="60" cy="60" r="54" fill="none" stroke={getColor()} strokeWidth="12" pathLength="100" />
-              </svg>
-              <PText size="xs" weight={600} ml={5} color={getColor()}>
-                {editor.storage.characterCount.characters()}/{limit}
-              </PText>
-            </Center>
-          </div>
-        )}
-      </MenuBar>
+    <div className={classes.wrapper}>
+      <MenuBar editor={editor} minimal={minimal} />
       <div className={cx(classes.menu, "markdown-body-dark")}>
         <EditorContent editor={editor} />
       </div>
     </div>
   );
-};
+}

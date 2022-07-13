@@ -74,6 +74,8 @@ const times = [
   { label: "DD", value: String(60 * 60 * 24) },
 ]
 
+const textLimit = 5000
+
 export function PollPostTab({ toogle, setLoading }: Props) {
   const { author } = useParams<"author">();
   const notifications = useNotifications();
@@ -121,7 +123,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
 
   return (
     <>
-      <Ctiptap text={text} setText={setText} />
+      <Ctiptap text={text} setText={setText} limit={textLimit} />
       {polls.map((e, i) => (
         <PollItem poll={e} polls={polls} setPolls={setPolls} key={i} />
       ))}
@@ -138,7 +140,7 @@ export function PollPostTab({ toogle, setLoading }: Props) {
           Close
         </Button>
         <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>
-        Publish
+          Publish
         </Button>
       </Group>
       <ErrorMessage errors={errors} />

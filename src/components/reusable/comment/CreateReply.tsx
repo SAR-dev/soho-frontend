@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createStyles, Group, Button, Text, Stack, Avatar } from "@mantine/core";
+import { createStyles, Group, Button, Text, Stack, Avatar, LoadingOverlay } from "@mantine/core";
 import { Check, X } from "tabler-icons-react";
 import { createReply, parseErrors } from "../../../helpers";
 import { useNotifications } from "@mantine/notifications";
@@ -7,6 +7,7 @@ import { useQueryClient } from "react-query";
 import { CommentDataParam } from "@interfaces/comment";
 import { MdClose, MdReply } from "react-icons/md";
 import { Ctiptap } from "src/components/ctiptap";
+import { LimitCounter } from "src/components/ctiptap/LimitCounter";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -52,6 +53,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
                 : theme.colors.gray[4],
     },
 }));
+
+const textLimit = 1000
 
 export function CreateReply({ comment, setShow, postId }: { comment: CommentDataParam, setShow: (params: boolean) => void, postId: number }) {
     const { classes } = useStyles();
@@ -102,15 +105,19 @@ export function CreateReply({ comment, setShow, postId }: { comment: CommentData
                     <Text color="blue" size="sm" ml={5}>{`${comment.author.first_name} ${comment.author.last_name}`}</Text>
                 </Group>
             </Group>
-            <Ctiptap text={text} setText={setText} minimal={true} />
-            <Group mt="sm">
-                <Button size="xs" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
-                    Close
-                </Button>
-                <Button size="xs" ml="auto" leftIcon={<MdReply size={16} />} onClick={() => submit()} loading={loading}>
-                    Whisper
-                </Button>
-            </Group>
+            <Stack spacing={8} style={{ position: "relative" }}>
+                <Ctiptap text={text} setText={setText} minimal={true} />
+                <Group>
+                    <LimitCounter count={text.length} limit={textLimit} />
+                    <Button size="xs" ml="auto" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
+                        Close
+                    </Button>
+                    <Button size="xs" leftIcon={<MdReply size={16} />} onClick={() => submit()} loading={loading}>
+                        Whisper
+                    </Button>
+                </Group>
+                <LoadingOverlay visible={loading} />
+            </Stack>
         </Stack>
     );
 }

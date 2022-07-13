@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createStyles, Group, Button, Text, Stack } from "@mantine/core";
+import { createStyles, Group, Button, Text, Stack, LoadingOverlay } from "@mantine/core";
 import { Author } from "../post/layers/Author";
 import { Check, InfoCircle, Send, X } from "tabler-icons-react";
 import { createComment, parseErrors } from "../../../helpers";
@@ -8,6 +8,7 @@ import { useQueryClient } from "react-query";
 import { AuthorDataParam } from "@interfaces/author";
 import { MdClose } from "react-icons/md";
 import { Ctiptap } from "src/components/ctiptap";
+import { LimitCounter } from "src/components/ctiptap/LimitCounter";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -35,6 +36,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         }
     }
 }));
+
+const textLimit = 1000
 
 export function CreateComment({ postId, author }: { postId: number, author: AuthorDataParam }) {
     const { classes } = useStyles();
@@ -87,17 +90,19 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
                     </div>
                 </Stack>
                 {show ? (
-                    <>
+                    <div style={{ position: "relative" }}>
                         <Ctiptap text={text} setText={setText} minimal={true} />
-                        <Group mt="sm">
-                            <Button size="xs" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
+                        <Group>
+                            <LimitCounter count={text.length} limit={textLimit} />
+                            <Button ml="auto" size="xs" leftIcon={<MdClose size={16} />} onClick={() => setShow(false)} disabled={loading}>
                                 Close
                             </Button>
-                            <Button size="xs" ml="auto" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
+                            <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()} loading={loading}>
                                 Respond
                             </Button>
                         </Group>
-                    </>) : (<Button size="xs" fullWidth onClick={() => setShow(true)}>Write a response</Button>)}
+                        <LoadingOverlay visible={loading} />
+                    </div>) : (<Button size="xs" fullWidth onClick={() => setShow(true)}>Write a response</Button>)}
             </div>
         </div>
     );
