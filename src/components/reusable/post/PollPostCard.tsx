@@ -42,13 +42,14 @@ dayjs.extend(relativeTime)
 
 export function PollPostCard({ ...props }: PostDataParam) {
   const { classes, cx } = useStyles();
+  const temperature = parseFloat(Math.pow((props.num_vote_up * 1.25 + props.comments_count * .85), .3).toFixed(2))
 
   return (
     <div className={classes.cover}>
       <div className={classes.wrapper}>
         <Author {...props.author} />
         <div className={classes.wFull}>
-          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
+          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
           {props.content && (
             <HtmlRenderer body={props.content} id={props.id} />
           )}

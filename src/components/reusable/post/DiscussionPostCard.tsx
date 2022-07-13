@@ -47,6 +47,7 @@ dayjs.extend(relativeTime)
 export function DiscussionPostCard({ ...props }: PostDataParam) {
   const { classes, cx } = useStyles();
   const [images, setImages] = useState<string[]>([])
+  const temperature = parseFloat(Math.pow((props.num_vote_up * 1.25 + props.comments_count * .85), .3).toFixed(2))
 
   useEffect(() => {
     setImages(props.images?.map(x => x.image))
@@ -58,7 +59,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
       <div className={classes.wrapper}>
         <Author {...props.author} />
         <div>
-          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={props.num_vote_up} postedAt={dayjs(props.created_at).fromNow()} />
+          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
           {props.content && (
             <HtmlRenderer body={props.content} id={props.id} />
           )}
