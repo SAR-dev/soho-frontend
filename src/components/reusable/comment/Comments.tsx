@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { createStyles, Group, Select, Text, Stack, AvatarsGroup, Avatar, Center } from "@mantine/core";
 import { Comment } from "./Comment";
 import { CommentAward } from "./CommentAward";
@@ -65,8 +65,8 @@ export function Comments({ postId, members_name }: { postId: number, members_nam
     const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['comments', postId], () => getComments({ postId: postId }), {
         onSuccess: res => {
             setUniqueUsers(uniqueUserAvatars())
-            if (data?.data.results) {
-                const sorted = arrayToTree(data?.data.results, {
+            if (res?.data.results) {
+                const sorted = arrayToTree(res?.data.results, {
                     childrenField: "children",
                     parentId: "parent",
                     id: "id",

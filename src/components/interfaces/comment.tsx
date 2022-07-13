@@ -27,6 +27,7 @@ export interface CommentDataParam {
     hands_raised: boolean;
     hands_count:  number;
     created_at:   Date;
+    children?:    CommentDataParam[]
 }
 
 export interface Author {
