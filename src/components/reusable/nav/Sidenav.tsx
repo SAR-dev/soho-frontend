@@ -141,7 +141,7 @@ export function Sidenav() {
     <>
       <Navbar className={classes.navbar}>
         <TextInput
-          placeholder="Search"
+          placeholder="Type and press Enter to search"
           size="xs"
           icon={<Search size={12} />}
           rightSectionWidth={70}

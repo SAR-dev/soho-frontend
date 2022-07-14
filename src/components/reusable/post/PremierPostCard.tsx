@@ -57,7 +57,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         : theme.colors[theme.primaryColor][1],
     color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
   },
-}));
+  avatar: {
+    borderRadius: "100%",
+    padding: 3,
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
+    ["img"]: {
+      borderRadius: "100%"
+    },
+  }}));
 
 dayjs.extend(relativeTime)
 
@@ -163,8 +170,8 @@ export function PremierPostCard({ ...props }: PostDataParam) {
           <div className={classes.flex}>
             <Group spacing="xs" className={classes.wFull}>
               <div style={{ position: "relative" }}>
-                <Avatar src={props.author.avatar} radius="xl" size={35} />
-                <LivePhoto className="rotate" color="yellow" size={18} style={{ position: "absolute", bottom: -5, right: -5 }} />
+                <Avatar src={props.author.avatar} radius="xl" size={60} className={classes.avatar} />
+                <LivePhoto className="rotate" color="yellow" size={25} style={{ position: "absolute", bottom: 0, right: -2 }} />
               </div>
               <Stack spacing={0}>
                 <Text size="sm" weight={700}>

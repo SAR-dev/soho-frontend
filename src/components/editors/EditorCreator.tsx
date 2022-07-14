@@ -93,7 +93,7 @@ export function EditorCreator({ toogle }: Props) {
           <Input
             className={cx(classes.input, "thick-border")}
             width="100%"
-            placeholder="Sayed Rafi, What's on your mind ?"
+            placeholder="Notice me senpai !!!"
             rightSectionWidth={75}
             styles={{ rightSection: { pointerEvents: "none" } }}
             rightSection={

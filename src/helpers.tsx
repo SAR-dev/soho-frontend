@@ -86,6 +86,8 @@ export function markAllNotificationDone(): Promise<any> {
 // COMMUNITY
 export const getCommunity = async ({ username }: { username?: string }) => await axios.get(`group/${username}/`, defaultConfig())
 
+export const searchCommunity = async ({ text }: { text?: string }) => await axios.get(`group/subscribed?${text}`, defaultConfig())
+
 export const getCommunityRules = async ({ username }: { username?: string }) => await axios.get(`group/${username}/rules/`, defaultConfig())
 
 export const getSubscribedList = async () => await axios.get(`group/subscribed/`, defaultConfig())

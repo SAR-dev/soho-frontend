@@ -4,15 +4,11 @@ import DoubleNav from '../reusable/nav/DoubleNav'
 import { HeaderMenu } from '../reusable/nav/HeaderMenu'
 import { TopClaps } from '../reusable/stats/TopClaps'
 import { Moderators } from '../reusable/stats/Moderators'
+import BaseLayout from './BaseLayout'
 
 const NavHeight = 50
 
 const useStyles = createStyles((theme) => ({
-    mainpaper: {
-        height: "100vh",
-        display: "flex",
-        borderRadius: 0
-    },
     subpaper: {
         height: "100vh",
         width: "100%"
@@ -38,7 +34,7 @@ const useStyles = createStyles((theme) => ({
 function NavLayout({ children }: { children: ReactNode }) {
     const { classes, cx } = useStyles();
     return (
-        <Paper className={classes.mainpaper}>
+        <BaseLayout>
             <DoubleNav />
             <Paper className={classes.subpaper}>
                 <HeaderMenu NavHeight={NavHeight} />
@@ -54,7 +50,7 @@ function NavLayout({ children }: { children: ReactNode }) {
                     </div>
                 </ScrollArea>
             </Paper>
-        </Paper>
+        </BaseLayout>
     )
 }
 

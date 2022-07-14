@@ -20,6 +20,7 @@ import { useModals } from "@mantine/modals";
 import { Settings } from "@pages/s/Settings";
 import { Rules } from "@pages/t/Rules";
 import { CLeave } from "@pages/c/CLeave";
+import { Search } from "@pages/c/Search";
 
 const polling = {
   enabled: true,
@@ -67,6 +68,7 @@ function Router() {
         <Routes>
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<Home />} />
+          <Route path="/c/search" element={<Search />} />
           <Route path="/c/:author" element={<PType />} />
           <Route path="/c/:author/join" element={<CJoin />} />
           <Route path="/c/:author/leave" element={<CLeave />} />
