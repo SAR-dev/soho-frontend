@@ -60,6 +60,8 @@ export function updateLoggedInUser({ data }: { data: MeUpdateInterface }): Promi
 // NOTIFICATIONS
 export const getNotifications = async () => await axios.get(`activity/notifications/`, defaultConfig())
 
+export const getClapsCount = async () => await axios.get(`activity/claps/`, defaultConfig())
+
 export const getLatestActivity = async ({ username }: { username?: string }) => await axios.get(`activity/list/${username}/`, defaultConfig())
 
 export function markNotificationDone(id: number): Promise<any> {
@@ -94,7 +96,7 @@ export const getSubscribedList = async () => await axios.get(`group/subscribed/`
 
 export const getLeaderboard = async ({ username, timespan }: { username?: string, timespan: string }) => await axios.get(`group/${username}/leaderboard/${timespan}/`, defaultConfig())
 
-export function subscribe({ username }: { username: string}): Promise<any> {
+export function subscribe({ username }: { username: string }): Promise<any> {
   return axios.post(`group/${username}/subscribe/`, null, defaultConfig())
     .then((res) => {
       return { data: res.data }
@@ -104,7 +106,7 @@ export function subscribe({ username }: { username: string}): Promise<any> {
     })
 };
 
-export function unsubscribe({ username }: { username: string}): Promise<any> {
+export function unsubscribe({ username }: { username: string }): Promise<any> {
   return axios.delete(`group/${username}/subscribe/`, defaultConfig())
     .then((res) => {
       return { data: res.data }
@@ -339,9 +341,18 @@ export const parseErrors = (data: any) => {
 export const doubleDigit = (num: number) => ("0" + num).slice(-2);
 
 export const timeLengthToSeconds = (time_length: string) => {
-  var a = time_length.split(':');
-  var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-  return seconds
+  const pattern = "^(?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$"
+  if (time_length.match(pattern)) {
+    const a = time_length.split(':');
+    const seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    return seconds
+  } else {
+    const [day, time] = time_length.split(' ');
+    const a = time.split(':');
+    const time_seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    const day_seconds = (+day) * 60 * 60 * 24
+    return (time_seconds + day_seconds)
+  }
 }
 
 export const getPostKey = (params: string | undefined) => {
@@ -373,7 +384,7 @@ export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function mapOrder({array, order, key}: {array: any[], order: number[], key: string}) {
+export function mapOrder({ array, order, key }: { array: any[], order: number[], key: string }) {
   array.sort(function (a, b) {
     var A = a[key],
       B = b[key];

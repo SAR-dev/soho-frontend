@@ -14,12 +14,13 @@ import { Search, Plus } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { PostTypes } from './PostTypes';
 import { getCommunity } from '../../../helpers';
 import { ActivityBottom } from './ActivityBottom';
 import { CommunityDataParam } from '@interfaces/community';
+import { getHotkeyHandler } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -134,8 +135,16 @@ export function Sidenav() {
   const { author } = useParams<"author">();
   const { classes, cx } = useStyles();
   const [opened, setOpened] = useState(false);
+  const [text, setText] = useState("")
+  const navigate = useNavigate()
 
   const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
+
+  const submit = () => {
+    if (text.length !== 0) {
+      navigate(`/c/search?author__username__icontains=${text}`)
+    }
+  }
 
   return (
     <>
@@ -148,6 +157,11 @@ export function Sidenav() {
           styles={{ rightSection: { pointerEvents: 'none' } }}
           mb="sm"
           className='thick-border'
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={getHotkeyHandler([
+            ['mod+Enter', submit],
+          ])}
         />
 
         <UserButton data={data?.data} isLoading={isLoading} />

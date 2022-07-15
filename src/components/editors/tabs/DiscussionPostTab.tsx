@@ -85,14 +85,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const { cName } = useParams<"cName">();
   const { pType } = useParams<"pType">();
   const notifications = useNotifications();
-
   const queryClient = useQueryClient()
-  const [channels, setChannels] = useState<Result[]>([])
-  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
-    onSuccess: res => {
-      setChannels([...res.data.results])
-    }
-  })
 
   const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
@@ -102,12 +95,34 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
 
+  const [channels, setChannels] = useState<Result[]>([])
+  const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
+    onSuccess: res => {
+      setChannels([...res.data.results])
+    }
+  })
+
   useEffect(() => {
     if (author && sName) setQueryKey(["sub_cat_posts", author, sName])
     if (author && cName) setQueryKey(["cat_posts", author, cName])
     if ((author && pType)) setQueryKey(["type_posts", author, pType])
     if ((author && !sName && !cName && !pType)) setQueryKey(["type_posts", author, "all"])
   }, []);
+
+  useEffect(() => {
+    if (cName) {
+      const cat = channels.find(e => e.slug === cName)
+      if(cat) setCategory(cat.id.toString())
+
+    }
+    if(sName) {
+      const cat = channels.find(ch => ch.sub_categories.some(item => item.slug === sName));
+      const scat = cat?.sub_categories.find(e => e.slug === sName)
+      if(cat) setCategory(cat.id.toString())
+      if(scat) set_sub_category(scat.id.toString())
+    }
+  }, [channels])
+
 
   const addImage = (id: number) => {
     setImages(images => [...images, id])

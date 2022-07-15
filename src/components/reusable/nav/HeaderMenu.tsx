@@ -14,6 +14,7 @@ import { TwitterLogin } from "./TwitterLogin";
 import { useNotifications } from "@mantine/notifications";
 import { NotificationDataParam } from "@interfaces/notification";
 import { UserDataParam } from "@interfaces/user";
+import { ClapsCounter } from "./ClapsCounter";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -68,15 +69,16 @@ const useStyles = createStyles((theme) => ({
 
 export interface DataParam {
   data: {
-      count: number;
-      next: string | null;
-      previous: string | null;
-      results: NotificationDataParam[];
-      unread: number;
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: NotificationDataParam[];
+    unread: number;
   }
 }
 
 export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
+  const { classes } = useStyles();
   const { pId } = useParams<"pId">();
   const { pType } = useParams<"pType">();
   const { cName } = useParams<"cName">();
@@ -85,7 +87,6 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
 
   const [drawer, setDrawer] = useState(false);
 
-  const { classes } = useStyles();
   const { setToken, token } = useStore();
   const [notificationCount, setNotificationCount] = useState(0)
 
@@ -104,9 +105,9 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   })
 
   const getHeaderText = () => {
-    if(pType) return pType.toUpperCase()
-    if(cName) return cName.toUpperCase()
-    if(sName) return sName.toUpperCase()
+    if (pType) return pType.toUpperCase()
+    if (cName) return cName.toUpperCase()
+    if (sName) return sName.toUpperCase()
     return "SOHO"
   }
 
@@ -138,20 +139,23 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                   </Button>
                 )}
                 {data && (
-                  <Button
-                    leftIcon={<Avatar src={data.avatar} size={22} radius="xl">
-                      <UserCircle />
-                    </Avatar>}
-                    radius="md"
-                    variant="light"
-                    title="Navigate to own community"
-                    className={classes.link}
-                    style={{ paddingLeft: 10, paddingRight: 10 }}
-                    component={Link}
-                    to={`/c/${data.username}`}
-                  >
-                    {`${data.first_name} ${data.last_name}`}
-                  </Button>
+                  <>
+                    <Button
+                      leftIcon={<Avatar src={data.avatar} size={22} radius="xl">
+                        <UserCircle />
+                      </Avatar>}
+                      radius="md"
+                      variant="light"
+                      title="Navigate to own community"
+                      className={classes.link}
+                      style={{ paddingLeft: 10, paddingRight: 10 }}
+                      component={Link}
+                      to={`/c/${data.username}`}
+                    >
+                      {`${data.first_name} ${data.last_name}`}
+                    </Button>
+                    <ClapsCounter />
+                  </>
                 )}
                 <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
                   <Home2 size={18} />

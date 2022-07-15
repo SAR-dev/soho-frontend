@@ -17,6 +17,22 @@ export interface CommunityDataParam {
     updated_at: Date;
 }
 
+export interface CommunitySearchDataParam {
+    id: number;
+    title?: string;
+    about?: string;
+    members_name: string;
+    color: string;
+    status: string;
+    subscribers_count: number;
+    subscribed: boolean;
+    author: Author;
+    slogan: string;
+    cover?: string;
+    created_at: Date;
+    updated_at: Date;
+}
+
 interface Author {
     id: number;
     username: string;

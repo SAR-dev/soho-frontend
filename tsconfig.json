@@ -18,6 +18,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@favicon/*": ["src/favicon/*"],
       "@editors/*": ["src/components/editors/*"],
       "@layouts/*": ["src/components/layouts/*"],
       "@pages/*": ["src/components/pages/*"],
