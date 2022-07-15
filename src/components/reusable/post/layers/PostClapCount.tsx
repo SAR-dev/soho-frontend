@@ -30,7 +30,7 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
       if (res.error) {
         setLoading(false)
         notifications.showNotification({
-          title: "Error creating the comment!",
+          title: "Error adding claps!",
           message: parseErrors(res.error)[0],
           color: "red",
           icon: <X size={18} />,
