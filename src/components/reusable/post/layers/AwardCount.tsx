@@ -1,4 +1,4 @@
-import { AvailableAward } from "@interfaces/post";
+import { AvailableAward, Award } from "@interfaces/post";
 import { Group, Button, Modal, createStyles } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { useState } from "react";
@@ -14,17 +14,12 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   }
 }));
 
-export function AwardCount({ available_awards, postId, awards }: { available_awards: AvailableAward[], postId: number, awards: any }) {
+export function AwardCount({ available_awards, postId, awards }: { available_awards: AvailableAward[], postId: number, awards: Award[] }) {
   const { classes, cx } = useStyles();
   const [opened, setOpened] = useState(false);
 
   const getAwardCount = (id: number) => {
-    const voters = awards[id.toString()]
-    if (voters) {
-      return voters.length
-    } else {
-      return 0
-    }
+    return awards.filter(e => e.award === id).length
   }
 
   return (

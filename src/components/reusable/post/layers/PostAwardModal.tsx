@@ -116,15 +116,22 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                         const pId = params.pId
                         const oldData: any = queryClient.getQueryData<DataParam>(['post_details', pId])
                         const newData = oldData
-                        console.log(res.data)
-                        newData.data.awards = res.data
+                        const obj = {
+                            post: pId,
+                            award: active
+                        }
+                        newData.data.awards.push(obj)
                         queryClient.setQueryData(['post_details', pId], { ...newData })
                     } else {
                         const queryKey = [getPostKey(Object.keys(params)[1]), params.author, params[Object.keys(params)[1]] === undefined ? "all" : params[Object.keys(params)[1]]]
                         const oldData: any = queryClient.getQueryData<DataParam>([...queryKey])
                         const newData = oldData
                         const postIndex = newData.data.results.findIndex((e: { id: number }) => e.id === postId)
-                        newData.data.results[postIndex].awards = res.data
+                        const obj = {
+                            post: postId,
+                            award: active
+                        }
+                        newData.data.results[postIndex].awards.push(obj)
                         queryClient.setQueryData([...queryKey], { ...newData })
                     }
                 }

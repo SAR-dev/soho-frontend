@@ -39,12 +39,12 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function NoResults() {
+export function NoResults({text}:{text?: string}) {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>
       <div className={classes.body}>
-        <Title className={classes.title}>No Results...</Title>
+        <Title className={classes.title}>No {text ? text : "Results"}...</Title>
         <Text size="sm" color="dimmed">
           We couldn't find any data to show you here. Please visit another section.
         </Text>

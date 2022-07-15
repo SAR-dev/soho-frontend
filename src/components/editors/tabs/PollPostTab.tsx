@@ -8,8 +8,10 @@ import {
   TextInput,
   Tooltip,
   NumberInput,
+  Center,
+  Text
 } from "@mantine/core";
-import { Check, Minus, Plus, Send, X } from "tabler-icons-react";
+import { Check, InfoCircle, Minus, Plus, Send, X } from "tabler-icons-react";
 import { Poll } from "../../reusable/post/layers/Poll";
 import { useParams } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
@@ -18,6 +20,7 @@ import { createAuthorPost, createPoll, deletePoll, parseErrors } from "../../../
 import { getHotkeyHandler } from "@mantine/hooks";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { Ctiptap } from "src/components/ctiptap";
+import { LimitCounter } from "src/components/ctiptap/LimitCounter";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -55,7 +58,13 @@ const useStyles = createStyles((theme) => ({
   },
   small: {
     width: 100
-  }
+  },
+  mlAuto: {
+    marginLeft: "auto"
+  },
+  icon: {
+    marginRight: 3,
+  },
 }));
 
 interface Props {
@@ -124,6 +133,17 @@ export function PollPostTab({ toogle, setLoading }: Props) {
   return (
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
+      <Center mb="sm">
+        <Center>
+          <InfoCircle size={16} className={classes.icon} />
+          <Text color="dimmed" size="xs">
+            Add poll options carefully. You can not change them later!
+          </Text>
+        </Center>
+        <div className={classes.mlAuto}>
+          <LimitCounter count={text.length} limit={textLimit} />
+        </div>
+      </Center>
       {polls.map((e, i) => (
         <PollItem poll={e} polls={polls} setPolls={setPolls} key={i} />
       ))}

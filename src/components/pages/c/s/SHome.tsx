@@ -68,7 +68,7 @@ export function SHome() {
                             if (el.post_type === "discussion") return (
                                 <DiscussionPostCard {...el} key={i} />)
                         })}
-                        {data?.data.results?.length === 0 && <NoResults />}
+                        {data?.data.results?.length === 0 && <NoResults text="Posts" />}
                     </>
                 )}
             </SimpleGrid>

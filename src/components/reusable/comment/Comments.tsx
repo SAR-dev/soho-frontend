@@ -110,7 +110,7 @@ export function Comments({ postId, members_name }: { postId: number, members_nam
                     ml="auto"
                 />
             </Group>
-            {data?.data.results?.length === 0 && <NoResults />}
+            {data?.data.results?.length === 0 && <NoResults text="Comments" />}
             {uniqueUsers.length > 8 && (
                 <AvatarsGroup limit={10} total={uniqueUsers.length} mt="lg">
                     {uniqueUsers.map((_, i) =>
