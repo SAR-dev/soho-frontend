@@ -15,15 +15,19 @@ import { X } from "tabler-icons-react";
 import { ClapIcon } from "@reusable/ClapIcon";
 import Lottie from 'react-lottie-player'
 import animationData from 'src/animations/88219-upvote-splash-animation.json'
+import CountUp from "react-countup";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
-    position: "relative"
+    position: "relative",
   },
   animation: {
     position: "absolute",
     top: 0,
     marginTop: -100
+  },
+  countW: {
+    width: 22
   }
 }));
 
@@ -78,8 +82,8 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
       <ActionIcon variant="transparent" loading={loading} onClick={() => submit()}>
         <ClapIcon size={16} name="wave" />
       </ActionIcon>
-      <Text size="sm" weight={500} style={{ marginLeft: 2 }}>
-        {doubleDigit(clapCount)}
+      <Text size="sm" weight={500} className={classes.countW} style={{ marginLeft: 2 }}>
+        <CountUp end={clapCount} />
       </Text>
       {play && (
         <div className={classes.animation}>
