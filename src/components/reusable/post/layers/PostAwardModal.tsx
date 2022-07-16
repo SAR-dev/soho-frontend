@@ -8,12 +8,14 @@ import { addAwardToPost, doubleDigit, getPostKey, parseErrors } from "src/helper
 import { useNotifications } from "@mantine/notifications";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import Lottie from 'react-lottie-player'
+import animationData from 'src/animations/96489-top-badge-animation.json'
 
 const LIMIT = 8
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     modal: { width: 750, paddingBottom: theme.spacing.md },
-    wrapper: {
+    main: {
         paddingBottom: theme.spacing.sm,
         cursor: "pointer",
         '&:hover': {
@@ -55,6 +57,18 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     selectedImage: {
         objectFit: 'contain',
         height: 120
+    },
+    wrapper: {
+        position: "relative"
+    },
+    animation: {
+        position: "absolute",
+        marginLeft: "auto",
+        marginRight: "auto",
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        marginTop: 50
     }
 }));
 
@@ -75,6 +89,7 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
     const [filteredAwards, setFilteredAwards] = useState<AvailableAward[]>([])
 
     const [loading, setLoading] = useState(false)
+    const [play, setPlay] = useState(false)
 
     useEffect(() => {
         const found = available_awards.find(el => el.id === active)
@@ -104,6 +119,7 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                     });
                 } else {
                     setLoading(false)
+                    setPlay(true)
                     notifications.showNotification({
                         title: "Award Rewarded",
                         message: "Your award has been added to the post and author.",
@@ -157,7 +173,7 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                         />
                         <SimpleGrid cols={4} spacing="sm">
                             {filteredAwards.slice((LIMIT * page - LIMIT), (LIMIT * page)).map((award, i) => (
-                                <Paper shadow="sm" className={cx(classes.wrapper, { [classes.active]: award.id === active, [classes.inactive]: award.id !== active })} onClick={() => setActive(award.id)} key={i}>
+                                <Paper shadow="sm" className={cx(classes.main, { [classes.active]: award.id === active, [classes.inactive]: award.id !== active })} onClick={() => setActive(award.id)} key={i}>
                                     <SVG className={classes.image} src={award.logo} preProcessor={(code) => code?.replace(/(height=".*?")|(width=".*?")/g, '')} />
                                     <Text align="center" weight={700} size="xs">{award.name}</Text>
                                 </Paper>
@@ -175,13 +191,24 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                     <div className={classes.stretch}>
                         {activeAward ? (
                             <>
-                                <Stack spacing="xs" mb="xs">
+                                <Stack spacing="xs" mb="xs" className={classes.wrapper}>
                                     <SVG className={classes.selectedImage} src={activeAward.logo} preProcessor={(code) => code?.replace(/(height=".*?")|(width=".*?")/g, '')} />
                                     <Stack spacing={5}>
                                         <Text align="center" weight={700}>{activeAward.name}</Text>
                                         <Badge radius="xs" className={classes.badge}>$ {' '}{`${activeAward.price}`}</Badge>
                                     </Stack>
                                     <Text color="dimmed" size="xs" align="center">{activeAward.description}</Text>
+                                    {play && (
+                                        <div className={classes.animation}>
+                                            <Lottie
+                                                loop={false}
+                                                animationData={animationData}
+                                                play
+                                                style={{ width: 220, height: 220, margin: "auto" }}
+                                                onComplete={() => setPlay(false)}
+                                            />
+                                        </div>
+                                    )}
                                 </Stack>
                                 <Button size="xs" fullWidth onClick={() => submit()} loading={loading}>Gift</Button>
                             </>
