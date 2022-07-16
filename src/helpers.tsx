@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface } from "@interfaces/api";
+import { CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { serialize } from 'object-to-formdata';
@@ -151,6 +151,16 @@ export function createChannel({ username, data }: { username: string, data: crea
 
 export function createSubChannel({ username, category, data }: { username: string, category: string, data: createSubChannelInterface }): Promise<any> {
   return axios.post(`group/${username}/categories/${category}/subcategory/create/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function relocateSubChannel({ username, sub_category, data }: { username: string, sub_category: string, data: relocateSubChannelInterface }): Promise<any> {
+  return axios.put(`group/${username}/subcategory/${sub_category}/relocate/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

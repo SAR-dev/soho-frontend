@@ -1,10 +1,11 @@
+import { Category } from '@interfaces/category';
 import { createStyles } from '@mantine/core';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import sortArray from 'sort-array';
 import { getChannels } from '../../../helpers';
-import { LinksGroup } from './LinksGroup';
+import { ChannelLinksGroup, SubChannelLinksGroup } from './LinksGroup';
 
 const useStyles = createStyles((theme) => ({
     navbar: {
@@ -40,32 +41,22 @@ interface DataParam {
         count: number;
         next: null;
         previous: null;
-        results: Result[];
+        results: Category[];
     }
-}
-
-interface Result {
-    id: number;
-    emoji: string;
-    name: string;
-    slug: string;
-    about: null;
-    sub_categories: SubCategory[];
-}
-
-interface SubCategory {
-    id: number;
-    name: string;
-    slug: string;
 }
 
 export function Channels() {
     const { author } = useParams<"author">();
     const { classes } = useStyles();
-    const [channels, setChannels] = useState<Result[]>()
+    const [channels, setChannels] = useState<Category[]>()
+    const [defaultChannel, setDefaultChannel] = useState<Category>()
+
     const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['channels', author], () => getChannels({username: author}), {
         onSuccess: res => {
-            setChannels([...res.data.results])
+            const def = res.data.results.find(e => e.name === 'default')
+            const rest = res.data.results.filter(e => e.name !== 'default')
+            setDefaultChannel(def)
+            setChannels([...rest])
         }
     })
 
@@ -74,7 +65,8 @@ export function Channels() {
 
     return (
         <div className={classes.linksInner}>
-            {channels && sortArray(channels, { by: "name" }).map((item, i) => <LinksGroup {...item} author={author} key={i} />)}
+            {data && sortArray(data.data.results.filter(e => e.name !== 'default'), { by: "name" }).map((item, i) => <ChannelLinksGroup {...item} author={author} key={i} />)}
+            {data && <SubChannelLinksGroup category={data.data.results.find(e => e.name === 'default')} author={author} />}
         </div>
     );
 }

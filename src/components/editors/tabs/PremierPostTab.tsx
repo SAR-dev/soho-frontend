@@ -52,7 +52,6 @@ interface Props {
   setLoading: (params: boolean) => void;
 }
 
-// TODO Fix this tab
 export function PremierPostTab({ toogle, setLoading }: Props) {
   const { author } = useParams<"author">();
   const notifications = useNotifications();

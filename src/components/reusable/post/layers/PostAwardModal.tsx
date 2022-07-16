@@ -127,7 +127,6 @@ export const PostAwardModal = ({ available_awards, postId }: { available_awards:
                         icon: <Check size={18} />,
                         autoClose: 5000,
                     });
-                    // TODO SHOW AWARD GIVEN ANIMATION USING FRAMER
                     if (params.pId) {
                         const pId = params.pId
                         const oldData: any = queryClient.getQueryData<DataParam>(['post_details', pId])

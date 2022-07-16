@@ -42,7 +42,6 @@ export function SettingsLayout({ children }: { children: ReactNode }) {
     const { setToken, token } = useStore()
     const navigate = useNavigate();
 
-    // TODO: Authorize
     useLayoutEffect(() => {
       if(!token){
         navigate("/")

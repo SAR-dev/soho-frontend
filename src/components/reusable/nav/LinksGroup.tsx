@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon } from '@mantine/core';
+import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon, Group } from '@mantine/core';
 import { ChevronRight, Circle, Hash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { FaDotCircle } from "react-icons/fa";
 import Emoji from "react-emoji-render";
+import { Category, SubCategory } from '@interfaces/category';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -33,6 +34,7 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     paddingLeft: 25,
     marginLeft: 25,
+    width: "100%",
     fontSize: theme.fontSizes.xs,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     borderLeft: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
@@ -59,13 +61,25 @@ export interface Props {
   author?: string;
 }
 
-export interface SubCategory {
-  id: number;
-  name: string;
-  slug: string;
+export function SubChannelLinksGroup({ category, author }: {category?: Category, author?: string}) {
+  const { classes, theme } = useStyles();
+  return (
+    <>
+      {category?.sub_categories.map((link, i) => (
+        <div className={classes.control} key={i}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/sch/${link.slug}`} className={classes.cat} >
+            <ThemeIcon color="gray" >
+              <Hash size={14} />
+            </ThemeIcon>
+            <Box ml="md">{link.name}</Box>
+          </Box>
+        </div>
+      ))}
+    </>
+  )
 }
 
-export function LinksGroup({ id, emoji, name, slug, about, sub_categories, author }: Props) {
+export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author }: Props) {
   const { classes, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
   const [opened, setOpened] = useState(false);
@@ -82,15 +96,15 @@ export function LinksGroup({ id, emoji, name, slug, about, sub_categories, autho
 
   return (
     <>
-      <div className={classes.control}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/ch/${slug}`} className={classes.cat} >
+      <div className={classes.control} style={{cursor: "pointer"}} onClick={() => setOpened(!opened)}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }} className={classes.cat} >
           <ThemeIcon color="gray" >
             <Text><Emoji text={emoji} /></Text>
           </ThemeIcon>
           <Box ml="md">{name}</Box>
         </Box>
         {hasLinks && (
-          <ActionIcon size={18} variant="default" onClick={() => setOpened(!opened)}>
+          <ActionIcon size={18} variant="default">
             <ChevronRight
               className={classes.chevron}
               size={14}

@@ -7,6 +7,10 @@ export interface createSubChannelInterface {
     name: string
 }
 
+export interface relocateSubChannelInterface {
+    category: number;
+}
+
 export interface createPostInterface {
     content?: string;
     images?: number[];
