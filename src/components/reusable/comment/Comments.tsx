@@ -98,7 +98,7 @@ export function Comments({ postId, members_name }: { postId: number, members_nam
                     <FaCodeBranch size={16} />
                     <Text size="sm" color="dimmed" ml={5} weight={600}>Conversation</Text>
                 </Center>
-                <Text size="sm" color="dimmed" weight={600}>{doubleDigit(uniqueUsers.length)} {`${capitalizeFirstLetter(members_name)}s`}</Text>
+                <Text size="sm" color="dimmed" weight={600}>{doubleDigit(uniqueUsers.length)} {`${capitalizeFirstLetter(members_name)}`}</Text>
                 <Text size="sm" color="dimmed" weight={600}>{data?.data.results && doubleDigit(data?.data.results?.length)} Responses</Text>
                 <Select
                     placeholder="Sort By"
