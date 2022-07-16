@@ -38,7 +38,23 @@ const useStyles = createStyles((theme) => ({
   },
   mlAuto: {
     marginLeft: "auto"
-  }
+  },
+  right: {
+    justifyContent: 'right'
+  },
+  left: {
+    justifyContent: 'left'
+  },
+  mysm: {
+    marginTop: theme.spacing.sm,
+    marginBottom: theme.spacing.sm,
+  },
+  mbsm: {
+    marginBottom: theme.spacing.sm,
+  },
+  flex: {
+    display: 'flex'
+  },
 }));
 
 interface Props {
@@ -112,14 +128,14 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   useEffect(() => {
     if (cName) {
       const cat = channels.find(e => e.slug === cName)
-      if(cat) setCategory(cat.id.toString())
+      if (cat) setCategory(cat.id.toString())
 
     }
-    if(sName) {
+    if (sName) {
       const cat = channels.find(ch => ch.sub_categories.some(item => item.slug === sName));
       const scat = cat?.sub_categories.find(e => e.slug === sName)
-      if(cat) setCategory(cat.id.toString())
-      if(scat) set_sub_category(scat.id.toString())
+      if (cat) setCategory(cat.id.toString())
+      if (scat) set_sub_category(scat.id.toString())
     }
   }, [channels])
 
@@ -201,12 +217,19 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   return (
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
-      <Center mb="sm">
+      <div className={cx(classes.mysm, { [classes.flex]: images.length === 0 })}>
+        {images.length !== 0 && (
+          <div className={cx(classes.left, classes.flex, classes.mbsm)}>
+            <LimitCounter count={text.length} limit={textLimit} />
+          </div>
+        )}
         <ImageDropzone disabled={false} images={images} addImage={addImage} />
-        <div className={classes.mlAuto}>
-          <LimitCounter count={text.length} limit={textLimit} />
-        </div>
-      </Center>
+        {images.length === 0 && (
+          <div className={cx(classes.mlAuto, classes.right)}>
+            <LimitCounter count={text.length} limit={textLimit} />
+          </div>
+        )}
+      </div>
       <Group>
         <Select
           placeholder="Channel"
