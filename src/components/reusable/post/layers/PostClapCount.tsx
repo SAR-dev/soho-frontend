@@ -3,6 +3,7 @@ import {
   Text,
   Center,
   ActionIcon,
+  createStyles,
 } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { useState } from "react";
@@ -11,18 +12,34 @@ import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { doubleDigit, getPostKey, parseErrors, votePost } from "src/helpers";
 import { X } from "tabler-icons-react";
-import {ClapIcon} from "@reusable/ClapIcon";
+import { ClapIcon } from "@reusable/ClapIcon";
+import Lottie from 'react-lottie-player'
+import animationData from 'src/animations/88219-upvote-splash-animation.json'
+
+const useStyles = createStyles((theme, _params, getRef) => ({
+  wrapper: {
+    position: "relative"
+  },
+  animation: {
+    position: "absolute",
+    top: 0,
+    marginTop: -100
+  }
+}));
+
 
 interface DataParam {
   data: PostDataParam
 }
 
 export function PostClapCount({ postId, clapCount }: { postId: number, clapCount: number }) {
+  const { classes, cx } = useStyles();
   const notifications = useNotifications();
   const queryClient = useQueryClient()
   const params = useParams()
 
   const [loading, setLoading] = useState(false)
+  const [play, setPlay] = useState(false)
 
   const submit = () => {
     setLoading(true)
@@ -37,6 +54,7 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
         });
       } else {
         setLoading(false)
+        setPlay(true)
         if (params.pId) {
           const pId = params.pId
           const oldData: any = queryClient.getQueryData<DataParam>(['post_details', pId])
@@ -54,15 +72,26 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
       }
     })
   }
-  
+
   return (
-    <Center>
+    <Center className={classes.wrapper}>
       <ActionIcon variant="transparent" loading={loading} onClick={() => submit()}>
         <ClapIcon size={16} name="wave" />
       </ActionIcon>
       <Text size="sm" weight={500} style={{ marginLeft: 2 }}>
         {doubleDigit(clapCount)}
       </Text>
+      {play && (
+        <div className={classes.animation}>
+          <Lottie
+            loop={false}
+            animationData={animationData}
+            play
+            style={{ width: 150, height: 150 }}
+            onComplete={() => setPlay(false)}
+          />
+        </div>
+      )}
     </Center>
   );
 }

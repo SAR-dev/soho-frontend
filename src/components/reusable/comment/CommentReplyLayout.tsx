@@ -72,7 +72,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
             ? theme.colors.dark[4]
             : theme.colors.gray[4],
         backgroundColor: theme.colors.dark[7],
-    }
+    },
 }));
 
 export interface DataParam {
@@ -90,7 +90,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
     const queryClient = useQueryClient()
 
     const [showReplyEditor, setShowReplyEditor] = useState(false)
-
+    const [play, setPlay] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const submit = () => {
@@ -106,6 +106,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
                 });
             } else {
                 setLoading(false)
+                setPlay(true)
                 const oldData: any = queryClient.getQueryData<DataParam>(['comments', postId])
                 const newData = oldData
                 const commentIndex = newData.data.results.findIndex((e: { id: number }) => e.id === data.id)
@@ -155,8 +156,8 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
                 <TypographyStylesProvider className={classes.typography}>
                     <div dangerouslySetInnerHTML={{ __html: data.content }} />
                 </TypographyStylesProvider>
-                {layout === "comment" && <CommentFooter commentsCount={commentsCount} clapCount={data.num_vote_up} />}
-                {layout === "reply" && <ReplyFooter clapCount={data.num_vote_up} />}
+                {layout === "comment" && <CommentFooter play={play} setPlay={setPlay} commentsCount={commentsCount} clapCount={data.num_vote_up} />}
+                {layout === "reply" && <ReplyFooter play={play} setPlay={setPlay} clapCount={data.num_vote_up} />}
             </Stack>
             {layout === 'comment' && showReplyEditor && (
                 <Stack p={15} ml={10} className={classes.createReply} pb="md">
