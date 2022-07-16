@@ -113,7 +113,7 @@ const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) =
       {!minimal && (
       <Tooltip label="Sub heading" position="top">
         <ActionIcon
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           variant="filled"
           color={editor.isActive("heading", { level: 2 }) ? "blue" : "gray"}
         >
