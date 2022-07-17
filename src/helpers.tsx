@@ -408,14 +408,3 @@ export function mapOrder({ array, order, key }: { array: any[], order: number[],
 
   return array;
 }
-// const res = mapOrder(
-//   [
-//     { id: 2, label: "Two" },
-//     { id: 3, label: "Three" },
-//     { id: 5, label: "Five" },
-//     { id: 4, label: "Four" },
-//     { id: 1, label: "One" }
-//   ],
-//   [1, 2, 3, 4, 5],
-//   "id"
-// );

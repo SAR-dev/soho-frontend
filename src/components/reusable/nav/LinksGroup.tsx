@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaDotCircle } from "react-icons/fa";
 import Emoji from "react-emoji-render";
 import { Category, SubCategory } from '@interfaces/category';
+import { SortableItemC } from './Channels';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -34,7 +35,8 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     paddingLeft: 25,
     marginLeft: 25,
-    width: "100%",
+    width: "auto",
+    textAlign: "left",
     fontSize: theme.fontSizes.xs,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     borderLeft: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
@@ -59,50 +61,63 @@ export interface Props {
   about: null;
   sub_categories: SubCategory[];
   author?: string;
+  editing: boolean;
+  startIndex: number;
 }
 
-export function SubChannelLinksGroup({ category, author }: {category?: Category, author?: string}) {
+export function SubChannelLinksGroup({ sub_category, author }: { sub_category: SubCategory, author?: string }) {
   const { classes, theme } = useStyles();
   return (
-    <>
-      {category?.sub_categories.map((link, i) => (
-        <div className={classes.control} key={i}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/sch/${link.slug}`} className={classes.cat} >
-            <ThemeIcon color="gray" >
-              <Hash size={14} />
-            </ThemeIcon>
-            <Box ml="md">{link.name}</Box>
-          </Box>
-        </div>
-      ))}
-    </>
+    <div className={classes.control}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/sch/${sub_category.slug}`} className={classes.cat} >
+        <ThemeIcon color="gray" >
+          <Hash size={14} />
+        </ThemeIcon>
+        <Box ml="md">{sub_category.name}</Box>
+      </Box>
+    </div>
   )
 }
 
-export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author }: Props) {
+export function ChannelHeader({ emoji, name }: { emoji: string, name: string }) {
   const { classes, theme } = useStyles();
-  const hasLinks = sub_categories.length !== 0;
-  const [opened, setOpened] = useState(false);
-  const items = (hasLinks ? sub_categories : []).map((link, i) => (
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }} className={classes.cat} >
+      <ThemeIcon color="gray" >
+        <Text><Emoji text={emoji} /></Text>
+      </ThemeIcon>
+      <Box ml="md">{name}</Box>
+    </Box>
+  )
+}
+
+export function SubChannelHeader({ author, slug, name }: { author?: string, slug: string, name: string }) {
+  const { classes, theme } = useStyles();
+  return (
     <Text
       component={Link}
       className={classes.link}
-      to={`/c/${author}/sch/${link.slug}`}
-      key={i}
+      to={`/c/${author}/sch/${slug}`}
     >
-      {link.name}
+      {name}
     </Text>
+  )
+}
+
+export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author, editing, startIndex }: Props) {
+  const { classes, theme } = useStyles();
+  const hasLinks = sub_categories.length !== 0;
+  const [opened, setOpened] = useState(editing);
+  const items = (hasLinks ? sub_categories : []).map((link, i) => (
+    <SortableItemC key={startIndex + i} index={startIndex + i} >
+      <SubChannelHeader author={author} slug={link.slug} name={link.name} />
+    </SortableItemC>
   ));
 
   return (
     <>
-      <div className={classes.control} style={{cursor: "pointer"}} onClick={() => setOpened(!opened)}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }} className={classes.cat} >
-          <ThemeIcon color="gray" >
-            <Text><Emoji text={emoji} /></Text>
-          </ThemeIcon>
-          <Box ml="md">{name}</Box>
-        </Box>
+      <div className={classes.control} style={{ cursor: "pointer" }} onClick={() => setOpened(!opened)}>
+        <ChannelHeader emoji={emoji} name={name} />
         {hasLinks && (
           <ActionIcon size={18} variant="default">
             <ChevronRight

@@ -5,6 +5,7 @@ export interface Category {
     slug: string;
     about: null;
     sub_categories: SubCategory[];
+    children?: SubCategory[];
 }
 
 export interface SubCategory {

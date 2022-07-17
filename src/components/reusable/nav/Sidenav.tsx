@@ -10,7 +10,7 @@ import {
   ScrollArea,
   Modal,
 } from '@mantine/core';
-import { Search, Plus } from 'tabler-icons-react';
+import { Search, Plus, ArrowsSort } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
@@ -135,6 +135,7 @@ export function Sidenav() {
   const { author } = useParams<"author">();
   const { classes, cx } = useStyles();
   const [opened, setOpened] = useState(false);
+  const [editing, setEditing] = useState(false)
   const [text, setText] = useState("")
   const navigate = useNavigate()
 
@@ -176,14 +177,21 @@ export function Sidenav() {
               SOHO
             </Text>
             {data?.data?.is_admin && (
-              <Tooltip label="Create Channel" withArrow position="right">
-                <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
-                  <Plus size={12} />
-                </ActionIcon>
-              </Tooltip>
+              <Group>
+                <Tooltip label="Sort Channels" withArrow position="right">
+                  <ActionIcon variant="default" size={18} onClick={() => setEditing(editing => !editing)}>
+                    <ArrowsSort size={12} />
+                  </ActionIcon>
+                </Tooltip>
+                <Tooltip label="Create Channel" withArrow position="right">
+                  <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
+                    <Plus size={12} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
             )}
           </Group>
-          <Channels />
+          <Channels editing={editing} setEditing={setEditing} />
         </Navbar.Section>
         <Navbar.Section className={classes.footer}>
           <ActivityBottom />
