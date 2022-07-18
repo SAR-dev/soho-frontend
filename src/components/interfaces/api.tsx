@@ -41,3 +41,7 @@ export interface CommunityUpdateInterface {
 export interface AvatarUpdateInterface {
     avatar: File;
 }
+
+export interface UpdateRulesInterface {
+    rules: string;
+}

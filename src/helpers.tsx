@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface } from "@interfaces/api";
+import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, UpdateRulesInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { serialize } from 'object-to-formdata';
@@ -138,6 +138,16 @@ export function getUpdateCommunity({ username }: { username?: string }): Promise
 
 export function updateCommunity({ username, data }: { username?: string, data: CommunityUpdateInterface }): Promise<any> {
   return axios.put(`group/${username}/update/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function updateCommunityRules ({ username, data }: { username?: string, data: UpdateRulesInterface }): Promise<any> {
+  return axios.put(`group/${username}/rules/update/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })
@@ -417,4 +427,8 @@ export function mapOrder({ array, order, key }: { array: any[], order: number[],
   });
 
   return array;
+}
+
+export function uniqueId(): string {
+  return 'id' + (new Date()).getTime()
 }
