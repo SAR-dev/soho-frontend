@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface } from "@interfaces/api";
+import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { serialize } from 'object-to-formdata';
@@ -45,6 +45,16 @@ export async function getLoggedInUser() {
   const { data } = await axios.get(`account/me/`, defaultConfig())
   return data
 }
+
+export function updateAvatarOfLoggedInUser({ data }: { data: AvatarUpdateInterface }): Promise<any> {
+  return axios.put(`account/avatar/`, serialize(data), defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
 
 export function updateLoggedInUser({ data }: { data: MeUpdateInterface }): Promise<any> {
   return axios.put(`account/me/`, serialize(data), defaultConfig())

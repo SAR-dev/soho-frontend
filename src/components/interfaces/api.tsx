@@ -37,3 +37,7 @@ export interface CommunityUpdateInterface {
     members_name: string;
     token: string;
 }
+
+export interface AvatarUpdateInterface {
+    avatar: File;
+}

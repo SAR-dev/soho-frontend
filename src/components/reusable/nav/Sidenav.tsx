@@ -165,7 +165,7 @@ export function Sidenav() {
           ])}
         />
 
-        <UserButton data={data?.data} isLoading={isLoading} />
+        <UserButton data={data?.data} isLoading={isLoading} author={author} />
 
         <Navbar.Section className={classes.section} grow component={ScrollArea} style={{ marginBottom: 0 }}>
           <div className={classes.mainLinks}>

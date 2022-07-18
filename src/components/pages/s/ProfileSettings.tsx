@@ -50,7 +50,7 @@ export function ProfileSettings() {
         (async () => {
             if (avatar) {
                 const url = await toBase64(avatar);
-                if(typeof url === "string") set_avatar_src(url);
+                if (typeof url === "string") set_avatar_src(url);
             }
         })();
     }, [avatar])
@@ -84,18 +84,26 @@ export function ProfileSettings() {
                     autoClose: 5000,
                 });
                 setLoading(false)
-                const oldData: any = queryClient.getQueryData<UserDataParam>(['me'])
-                const newData = oldData
-                newData.username = res.data.username
-                newData.first_name = res.data.first_name
-                newData.last_name = res.data.last_name
-                newData.avatar = res.data.avatar
-                queryClient.setQueryData(['me'], { ...newData })
+                const oldData1: any = queryClient.getQueryData<UserDataParam>(['me'])
+                const newData1 = oldData1
+                newData1.username = res.data.username
+                newData1.first_name = res.data.first_name
+                newData1.last_name = res.data.last_name
+                newData1.avatar = res.data.avatar
+                queryClient.setQueryData(['me'], { ...newData1 })
+
+                const oldData2: any = queryClient.getQueryData<UserDataParam>(['community', res.data.username])
+                const newData2 = oldData2
+                newData2.username = res.data.username
+                newData2.first_name = res.data.first_name
+                newData2.last_name = res.data.last_name
+                newData2.avatar = res.data.avatar
+                queryClient.setQueryData(['community', res.data.username], { ...newData2 })
             }
         })
     }
 
-    if (isLoading) return (<Loader color="green" variant="bars"  />)
+    if (isLoading) return (<Loader color="green" variant="bars" />)
 
     return (
         <div>

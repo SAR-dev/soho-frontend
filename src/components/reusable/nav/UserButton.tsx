@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button } from '@mantine/core';
-import { AlertCircle, Minus, Plus, UserCircle, Users } from 'tabler-icons-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button, ActionIcon, Tooltip, Loader } from '@mantine/core';
+import { AlertCircle, Check, Minus, Plus, Upload, UserCircle, Users, X } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { CommunityDataParam } from '@interfaces/community';
+import { parseErrors, toBase64, updateAvatarOfLoggedInUser } from 'src/helpers';
+import { BsSave } from 'react-icons/bs';
+import { FaSave } from 'react-icons/fa';
+import { AvatarUpdateInterface } from '@interfaces/api';
+import { useNotifications } from '@mantine/notifications';
+import { useQueryClient } from 'react-query';
+import { UserDataParam } from '@interfaces/user';
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _params, getRef) => ({
   user: {
     display: 'block',
     marginBottom: theme.spacing.md,
@@ -50,20 +57,102 @@ const useStyles = createStyles((theme) => ({
     borderLeftWidth: 1,
     borderLeftStyle: "solid",
     borderLeftColor: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
+  },
+  relative: {
+    position: "relative",
+    [`&:hover .${getRef("uploader")}`]: {
+      opacity: 1,
+    },
+  },
+  uploader: {
+    ref: getRef("uploader"),
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    opacity: 0
+  },
+  circle: {
+    borderRadius: "100%"
   }
 }));
 
-export function UserButton({ data, isLoading }: { data?: CommunityDataParam, isLoading: boolean }) {
+interface CDataParam {
+  data: CommunityDataParam
+}
+
+export function UserButton({ data, isLoading, author }: { data?: CommunityDataParam, isLoading: boolean, author?: string }) {
   const { classes } = useStyles();
+  const notifications = useNotifications();
+  const queryClient = useQueryClient()
+
   const [opened, setOpened] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const [loading, setLoading] = useState(false)
+
+  const handleChange = async (e: any) => {
+    setLoading(true)
+
+    const updatedData: AvatarUpdateInterface = {
+      avatar: e.target.files[0]
+    }
+
+    updateAvatarOfLoggedInUser({ data: updatedData }).then(res => {
+      if (res.error) {
+        setLoading(false)
+        notifications.showNotification({
+          title: "Avatar not updated",
+          message: parseErrors(res.error)[0],
+          color: "red",
+          icon: <X size={18} />,
+        });
+      } else {
+        notifications.showNotification({
+          title: "Updated",
+          message: "Your avatar has been updated.",
+          color: "teal",
+          icon: <Check size={18} />,
+          autoClose: 5000,
+        });
+        setLoading(false)
+        const oldData1: any = queryClient.getQueryData<UserDataParam>(['me'])
+        const newData1 = oldData1
+        newData1.avatar = res.data.avatar
+        queryClient.setQueryData(['me'], { ...newData1 })
+
+        const oldData2: any = queryClient.getQueryData<CDataParam>(['community', author])
+        const newData2 = oldData2
+        newData2.data.author.avatar = res.data.avatar
+        queryClient.setQueryData(['community', author], { ...newData2 })
+      }
+    })
+  };
 
   return (
     <div className={classes.user}>
       <Group>
-        <Avatar src={data?.author?.avatar} size="lg" radius="xl" className={classes.avatar}>
-          <UserCircle size="lg" />
-        </Avatar>
-
+        <div className={classes.relative}>
+          {loading ? (
+            <Loader size={54} style={{ borderRadius: "100%" }} className={classes.avatar} />
+          ) : (
+            <Avatar src={data?.author.avatar} size="lg" radius="xl" className={classes.avatar} />
+          )}
+          {data?.is_admin && (
+            <Tooltip label="Select Avatar" position="bottom" className={classes.uploader}>
+              <ActionIcon loading={loading} color="blue" variant="filled" size="xs" className={classes.circle} onClick={() => fileRef?.current?.click()}>
+                <Upload size={12} />
+              </ActionIcon>
+            </Tooltip>
+          )}
+        </div>
+        <input
+          ref={fileRef}
+          onChange={handleChange}
+          multiple
+          type="file"
+          accept="image/*"
+          hidden
+        />
         <div style={{ flex: 1 }}>
           {isLoading && (<>
             <Stack spacing="xs">
