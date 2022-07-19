@@ -146,7 +146,7 @@ export function updateCommunity({ username, data }: { username?: string, data: C
     })
 };
 
-export function updateCommunityRules ({ username, data }: { username?: string, data: UpdateRulesInterface }): Promise<any> {
+export function updateCommunityRules({ username, data }: { username?: string, data: UpdateRulesInterface }): Promise<any> {
   return axios.put(`group/${username}/rules/update/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
@@ -327,6 +327,26 @@ export function createReply({ postId, commentId, content }: { postId: number, co
 
 export function voteComment(id: number): Promise<any> {
   return axios.post(`comment/${id}/vote/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function pinComment(id: number): Promise<any> {
+  return axios.post(`comment/${id}/pinned/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function unpinComment(id: number): Promise<any> {
+  return axios.delete(`comment/${id}/pinned/`, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

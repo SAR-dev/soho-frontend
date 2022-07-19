@@ -1,16 +1,17 @@
-import { Avatar, Group, createStyles, Text, Stack, TypographyStylesProvider, ActionIcon, Tooltip } from '@mantine/core';
+import { Avatar, Group, createStyles, Text, Stack, TypographyStylesProvider, ActionIcon, Tooltip, Badge } from '@mantine/core';
 import { CommentFooter } from './CommentFooter';
 import { MdWavingHand, MdReply, MdReport } from "react-icons/md";
 import { FaGift } from 'react-icons/fa';
 import { ReplyFooter } from './ReplyFooter';
 import { CommentDataParam, TreeCommentDataParam } from '@interfaces/comment';
 import { CreateReply } from './CreateReply';
-import { useState } from 'react';
-import { parseErrors, voteComment } from 'src/helpers';
+import { useEffect, useState } from 'react';
+import { parseErrors, pinComment, unpinComment, voteComment } from 'src/helpers';
 import { useNotifications } from '@mantine/notifications';
-import { X } from 'tabler-icons-react';
+import { Check, Pin, Pinned, X } from 'tabler-icons-react';
 import { useQueryClient } from 'react-query';
 import { Reply } from './Reply';
+import { PostDataParam } from '@interfaces/post';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     cwrapper: {
@@ -73,6 +74,18 @@ const useStyles = createStyles((theme, _params, getRef) => ({
             : theme.colors.gray[4],
         backgroundColor: theme.colors.dark[7],
     },
+    badge: {
+        display: "flex",
+        alignItems: "center"
+    },
+    flex: {
+        display: "flex"
+    },
+    pinned: {
+        // backgroundColor: theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25),
+        // padding: theme.spacing.sm,
+        // borderRadius: theme.radius.xs
+    }
 }));
 
 export interface DataParam {
@@ -84,7 +97,11 @@ export interface DataParam {
     }
 }
 
-export function CommentReplyLayout({ layout, data, postId, commentsCount }: { layout: 'comment' | 'reply', data: TreeCommentDataParam, postId: number, commentsCount: number }) {
+export interface PDataParam {
+    data: PostDataParam
+}
+
+export function CommentReplyLayout({ layout, data, postId, commentsCount, is_admin, is_moderator, pinned_comment }: { layout: 'comment' | 'reply', data: TreeCommentDataParam, postId: number, commentsCount: number, is_admin: boolean, is_moderator: boolean, pinned_comment?: number }) {
     const { classes, cx } = useStyles();
     const notifications = useNotifications();
     const queryClient = useQueryClient()
@@ -92,6 +109,16 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
     const [showReplyEditor, setShowReplyEditor] = useState(false)
     const [play, setPlay] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [pinned, setPinned] = useState(false)
+
+    useEffect(() => {
+        if (data.id === pinned_comment) {
+            setPinned(true)
+        } else {
+            setPinned(false)
+        }
+    }, [pinned_comment, data])
+
 
     const submit = () => {
         setLoading(true)
@@ -107,18 +134,79 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
             } else {
                 setLoading(false)
                 setPlay(true)
-                const oldData: any = queryClient.getQueryData<DataParam>(['comments', postId])
+                const oldData: any = queryClient.getQueryData<DataParam>(['comments', postId.toString()])
                 const newData = oldData
                 const commentIndex = newData.data.results.findIndex((e: { id: number }) => e.id === data.id)
                 newData.data.results[commentIndex].num_vote_up = res.data.count
-                queryClient.setQueryData(['comments', postId], { ...newData })
+                queryClient.setQueryData(['comments', postId.toString()], { ...newData })
+            }
+        })
+    }
+
+    const markPin = () => {
+        setLoading(true)
+        pinComment(data.id).then(res => {
+            if (res.error) {
+                setLoading(false)
+                notifications.showNotification({
+                    title: "Error pinning the comment!",
+                    message: parseErrors(res.error)[0],
+                    color: "red",
+                    icon: <X size={18} />,
+                });
+            } else {
+                notifications.showNotification({
+                    title: "Comment pinned",
+                    message: "Selected comment has been unpinned",
+                    color: "teal",
+                    icon: <Check size={18} />,
+                    autoClose: 5000,
+                });
+                setLoading(false)
+                const oldData: any = queryClient.getQueryData<PDataParam>(['post_details', postId.toString()])
+                const newData = oldData
+                newData.data.pinned_comment = res.data.pinned_comment
+                queryClient.setQueryData(['post_details', postId.toString()], { ...newData })
+            }
+        })
+    }
+
+    const unmarkPin = () => {
+        setLoading(true)
+        unpinComment(data.id).then(res => {
+            if (res.error) {
+                setLoading(false)
+                notifications.showNotification({
+                    title: "Error pinning the comment!",
+                    message: parseErrors(res.error)[0],
+                    color: "red",
+                    icon: <X size={18} />,
+                });
+            } else {
+                notifications.showNotification({
+                    title: "Comment unpinned",
+                    message: "Selected comment has been unpinned.",
+                    color: "teal",
+                    icon: <Check size={18} />,
+                    autoClose: 5000,
+                });
+                setLoading(false)
+                const oldData: any = queryClient.getQueryData<PDataParam>(['post_details', postId.toString()])
+                const newData = oldData
+                newData.data.pinned_comment = res.data.pinned_comment
+                queryClient.setQueryData(['post_details', postId.toString()], { ...newData })
             }
         })
     }
 
     return (
         <>
-            <Stack spacing={8} className={cx({ [classes.cwrapper]: layout === 'comment' }, { [classes.rwrapper]: layout === 'reply' })}>
+            <Stack spacing={8} className={cx({ [classes.cwrapper]: layout === 'comment' }, { [classes.rwrapper]: layout === 'reply' }, {[classes.pinned]: pinned})}>
+                {pinned && (
+                <div className={classes.flex}>
+                    <Badge className={classes.badge} radius="xs" leftSection={<Pinned style={{display: "flex"}} size={14} />}>Pinned Comment</Badge>
+                </div>
+                )}
                 <Group spacing="xs">
                     <Avatar
                         size={20}
@@ -140,6 +228,23 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount }: { la
                                     <MdReply size={14} />
                                 </ActionIcon>
                             </Tooltip>
+                        )}
+                        {(is_admin || is_moderator) && (
+                            <>
+                                {pinned ? (
+                                    <Tooltip label="Unpin comment" position="top">
+                                        <ActionIcon variant="filled" size="xs" loading={loading} onClick={() => unmarkPin()}>
+                                            <Pinned size={14} />
+                                        </ActionIcon>
+                                    </Tooltip>
+                                ) : (
+                                    <Tooltip label="Pin comment" position="top">
+                                        <ActionIcon variant="filled" size="xs" loading={loading} onClick={() => markPin()}>
+                                            <Pin size={14} />
+                                        </ActionIcon>
+                                    </Tooltip>
+                                )}
+                            </>
                         )}
                         <Tooltip label="Give Award" position="top">
                             <ActionIcon variant="filled" size="xs">

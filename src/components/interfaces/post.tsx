@@ -26,6 +26,7 @@ export interface PostDataParam {
   awards: Award[];
   created_at: Date;
   updated_at: Date;
+  pinned_comment?: number;
 }
 
 export interface Author {

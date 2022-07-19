@@ -12,8 +12,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export function HtmlRenderer({ body, id }: { body: string, id: number }) {
-  const { author } = useParams<"author">();
+export function HtmlRenderer({ body, id, author }: { body: string, id: number, author?: string }) {
   const { classes, cx } = useStyles();
 
   const options: HTMLReactParserOptions = {
@@ -32,7 +31,7 @@ export function HtmlRenderer({ body, id }: { body: string, id: number }) {
 
   return (
     <div className={cx(classes.typography, "markdown-body-dark")}>
-      <Linkify options={{target: "_blank"}}>
+      <Linkify options={{ target: "_blank" }}>
         {parse(body, options)}
       </Linkify>
     </div>

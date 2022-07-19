@@ -6,10 +6,11 @@ import { useQuery } from "react-query";
 import { capitalizeFirstLetter, doubleDigit, getComments } from "../../../helpers";
 import { CommentDataParam, TreeCommentDataParam } from "@interfaces/comment";
 import { NoResults } from "../../reusable/NoResults";
-import {arrayToTree} from "performant-array-to-tree";
+import { arrayToTree } from "performant-array-to-tree";
 import { CommentPlaceholder } from "./CommentPlaceholder";
 import sortArray from 'sort-array'
 import { FaCodeBranch } from "react-icons/fa";
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -56,8 +57,11 @@ export interface DataParam {
     }
 }
 
-export function Comments({ postId, members_name }: { postId: number, members_name: string }) {
+export function Comments({ is_admin, is_moderator, postId, members_name, pinned_comment }: { postId: number, members_name: string, is_admin: boolean, is_moderator: boolean, pinned_comment?: number }) {
     const { classes } = useStyles();
+    const [parent] = useAutoAnimate<HTMLDivElement>({
+        duration: 500
+    })
     const [uniqueUsers, setUniqueUsers] = useState<string[]>([])
 
     const [treeComments, setTreeComments] = useState<TreeCommentDataParam[]>()
@@ -118,9 +122,13 @@ export function Comments({ postId, members_name }: { postId: number, members_nam
                     )}
                 </AvatarsGroup>
             )}
-            <Stack spacing="lg" mt="lg">
-                {treeComments && sortArray(treeComments, {by: sortBy, order: 'desc'}).map((el, i) => (
-                    <Comment comment={el} postId={postId} commentsCount={el.children?.length} key={i} />
+            <Stack spacing="lg" mt="lg"  ref={parent}>
+                {treeComments && sortArray(treeComments, {
+                    by: [sortBy, 'unpinned'], order: 'desc', computed: {
+                        unpinned: repository => repository.id !== pinned_comment
+                    }
+                }).map((el, i) => (
+                    <Comment is_admin={is_admin} is_moderator={is_moderator} pinned_comment={pinned_comment} comment={el} postId={postId} commentsCount={el.children?.length} key={el.id} />
                 ))}
                 {/* <CommentAward /> */}
             </Stack>
