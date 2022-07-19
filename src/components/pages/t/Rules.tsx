@@ -6,7 +6,7 @@ import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { PostDetails } from "@reusable/post/PostDetails";
 import { FetchError } from "../../reusable/FetchError";
 import { PostDataParam } from "@interfaces/post";
-import { Button, createStyles, Group, LoadingOverlay, Stack, Text, ThemeIcon } from "@mantine/core";
+import { Button, createStyles, Group, LoadingOverlay, Paper, Stack, Text, ThemeIcon } from "@mantine/core";
 import { HtmlRenderer } from "@reusable/post/layers/HtmlRenderer";
 import { RulesDataParam } from "@interfaces/rules";
 import { Check, CircleCheck, Plus, Upload } from "tabler-icons-react";
@@ -30,7 +30,7 @@ interface DataParam {
     data: RulesDataParam
 }
 
-const textLimit = 1000
+const textLimit = 15000
 
 export function Rules() {
     const { classes } = useStyles();
@@ -42,7 +42,11 @@ export function Rules() {
     const [text, setText] = useState("")
     const [errors, setErrors] = useState<string[]>([])
 
-    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['rules', author], () => getCommunityRules({ username: author }))
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['rules', author], () => getCommunityRules({ username: author }), {
+        onSuccess: res => {
+            setText(res.data.rules)
+        }
+    })
 
     if (isLoading) return (
         <CommunityLayout>
@@ -95,8 +99,8 @@ export function Rules() {
                     <Text>There is no rules given by the admin here.</Text>
                 )}
                 {show ? (
-                    <div style={{ position: 'relative' }}>
-                        <Text size="sm" mb="sm">Add Community Rule</Text>
+                    <Paper style={{ position: 'relative' }}>
+                        <Text size="sm" mb="sm">Update Community Rules</Text>
                         <Ctiptap text={text} setText={setText} limit={textLimit} minimal={true} />
                         <Group spacing="xs">
                             <LimitCounter count={text.length} limit={textLimit} />
@@ -105,7 +109,7 @@ export function Rules() {
                         </Group>
                         <ErrorMessage errors={errors} />
                         <LoadingOverlay visible={loading} />
-                    </div>
+                    </Paper>
                 ) : (
                     <div className="markdown-body-dark">
                         {(data && data.data.rules.length >= 10) && <HtmlRenderer body={data.data.rules} id={9999} />}
