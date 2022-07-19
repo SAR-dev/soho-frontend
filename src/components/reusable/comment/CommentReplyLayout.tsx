@@ -229,7 +229,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
                                 </ActionIcon>
                             </Tooltip>
                         )}
-                        {(is_admin || is_moderator) && (
+                        {layout === "comment" && (is_admin || is_moderator) && (
                             <>
                                 {pinned ? (
                                     <Tooltip label="Unpin comment" position="top">
@@ -272,7 +272,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
             {layout === "comment" && data.children?.length !== 0 && (
                 <Stack pl={15} ml={10} className={classes.replies} pb="md">
                     {data?.children?.map((reply, i) => (
-                        <Reply reply={reply} postId={postId} key={i} />
+                        <Reply reply={reply} postId={postId} is_admin={is_admin} is_moderator={is_moderator} key={i} />
                     ))}
                 </Stack>
             )}
