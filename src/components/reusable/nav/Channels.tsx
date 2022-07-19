@@ -1,17 +1,11 @@
-import { Category, SubCategory } from '@interfaces/category';
-import { Box, Collapse, createStyles, Text, ThemeIcon } from '@mantine/core';
+import { Category } from '@interfaces/category';
+import { createStyles } from '@mantine/core';
 import { ReactNode, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getChannels } from '../../../helpers';
-import { ChannelHeader, ChannelLinksGroup, SubChannelHeader, SubChannelLinksGroup } from './LinksGroup';
-import Nestable from 'react-nestable';
-import Emoji from 'react-emoji-render';
-import {
-    SortableContainer,
-    SortableElement,
-    arrayMove
-} from "react-sortable-hoc";
+import { ChannelLinksGroup, SubChannelLinksGroup } from './LinksGroup';
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
 
 const useStyles = createStyles((theme) => ({
     control: {
@@ -71,75 +65,33 @@ interface DataParam {
     }
 }
 
-export const SortableContainerC = SortableContainer(({ children }: { children: ReactNode }) => {
-    const { classes } = useStyles();
-    return <div className={classes.container}>{children}</div>;
-});
-
-export const SortableItemC = SortableElement(({ children }: { children: ReactNode }) => {
-    return <div>{children}</div>;
-});
-
 export function Channels({ editing, setEditing }: { editing: boolean, setEditing: (params: boolean) => void }) {
     const { author } = useParams<"author">();
     const { classes } = useStyles();
-    const [nested, setNested] = useState<Category[]>()
 
-    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
-        onSuccess: res => {
-            setNested(res.data.results.map(e => {
-                return { ...e, children: e.sub_categories }
-            }))
-        }
-    })
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }))
 
     if (isLoading) return <></>
     if (isError) return <></>
 
-    function onSortEnd({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }): any {
-        // if (items) {
-        //     const res = arrayMove(items, oldIndex, newIndex)
-        //     setItems(res)
-        //     setSubs(res.map(e => e.id))
-        // }
-        console.log(oldIndex, newIndex)
-    };
-
-    function getStartIndex(i: number): number {
-        if (data) {
-            if (i === 0) {
-                return 0
-            } else {
-                return data?.data.results.slice(0, i).reduce(
-                    (acc, obj) => acc + obj.sub_categories.length,
-                    0
-                );
-            }
-        } else return 0
-    }
-
     return (
         <div className={classes.linksInner}>
-            <SortableContainerC onSortEnd={onSortEnd} pressDelay={200} axis="y" lockAxis='y'>
                 {editing ? (
                     <>
                         {data && data.data.results.map((item, i) => (
-                            <ChannelLinksGroup {...item} author={author} editing={editing} key={i} startIndex={getStartIndex(i)} />
+                            <ChannelLinksGroup {...item} author={author} editing={editing} key={i} />
                         ))}
                     </>
                 ) : (
                     <>
                         {data && data.data.results.filter(e => e.name !== 'default').map((item, i) => (
-                            <ChannelLinksGroup {...item} author={author} editing={editing} key={i} startIndex={getStartIndex(i)} />
+                            <ChannelLinksGroup {...item} author={author} editing={editing} key={i} />
                         ))}
                         {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
-                            <SortableItemC key={i} index={i} >
-                                <SubChannelLinksGroup sub_category={item} author={author} />
-                            </SortableItemC>
+                            <SubChannelLinksGroup sub_category={item} author={author} key={i} />
                         ))}
                     </>
                 )}
-            </SortableContainerC>
         </div>
     );
 }

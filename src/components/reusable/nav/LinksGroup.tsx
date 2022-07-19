@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { FaDotCircle } from "react-icons/fa";
 import Emoji from "react-emoji-render";
 import { Category, SubCategory } from '@interfaces/category';
-import { SortableItemC } from './Channels';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -62,7 +61,6 @@ export interface Props {
   sub_categories: SubCategory[];
   author?: string;
   editing: boolean;
-  startIndex: number;
 }
 
 export function SubChannelLinksGroup({ sub_category, author }: { sub_category: SubCategory, author?: string }) {
@@ -104,14 +102,12 @@ export function SubChannelHeader({ author, slug, name }: { author?: string, slug
   )
 }
 
-export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author, editing, startIndex }: Props) {
+export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author, editing }: Props) {
   const { classes, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
   const [opened, setOpened] = useState(editing);
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
-    <SortableItemC key={startIndex + i} index={startIndex + i} >
-      <SubChannelHeader author={author} slug={link.slug} name={link.name} />
-    </SortableItemC>
+      <SubChannelHeader author={author} slug={link.slug} name={link.name} key={i} />
   ));
 
   return (

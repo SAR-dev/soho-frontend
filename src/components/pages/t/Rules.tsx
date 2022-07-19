@@ -59,27 +59,25 @@ export function Rules() {
     const submit = () => {
         setLoading(true)
         setErrors([])
-        if (data) {
-            const updatedData = { rules: text }
-            updateCommunityRules({ username: author, data: updatedData }).then(res => {
-                if (res.error) {
-                    setErrors(parseErrors(res.error))
-                    setLoading(false)
-                } else {
-                    notifications.showNotification({
-                        title: "Rules Updated",
-                        message: "Please wait for a while to see changes.",
-                        color: "teal",
-                        icon: <Check size={18} />,
-                        autoClose: 5000,
-                    });
-                    queryClient.invalidateQueries(["rules", author])
-                    setText("")
-                    setLoading(false)
-                    setShow(false)
-                }
-            })
-        }
+        const updatedData = { rules: text }
+        updateCommunityRules({ username: author, data: updatedData }).then(res => {
+            if (res.error) {
+                setErrors(parseErrors(res.error))
+                setLoading(false)
+            } else {
+                notifications.showNotification({
+                    title: "Rules Updated",
+                    message: "Please wait for a while to see changes.",
+                    color: "teal",
+                    icon: <Check size={18} />,
+                    autoClose: 5000,
+                });
+                queryClient.invalidateQueries(["rules", author])
+                setText("")
+                setLoading(false)
+                setShow(false)
+            }
+        })
     }
 
     return (
@@ -93,7 +91,9 @@ export function Rules() {
                         <Button ml="auto" size="xs" leftIcon={<Upload size={14} />} onClick={() => setShow(true)}>Update Rules</Button>
                     )}
                 </Group>
-                {(data && data.data.rules.length < 10) && <Text>There is no rules given by the admin here.</Text>}
+                {data && data.data.rules.length < 10 && (
+                    <Text>There is no rules given by the admin here.</Text>
+                )}
                 {show ? (
                     <div style={{ position: 'relative' }}>
                         <Text size="sm" mb="sm">Add Community Rule</Text>
@@ -101,7 +101,7 @@ export function Rules() {
                         <Group spacing="xs">
                             <LimitCounter count={text.length} limit={textLimit} />
                             <Button loading={loading} ml="auto" size="xs" color="gray" onClick={() => setShow(false)}>Close</Button>
-                            <Button loading={loading} size="xs" onClick={() => submit()}>Submit</Button>
+                            <Button loading={loading} size="xs" onClick={() => submit()}>Update Rules</Button>
                         </Group>
                         <ErrorMessage errors={errors} />
                         <LoadingOverlay visible={loading} />
