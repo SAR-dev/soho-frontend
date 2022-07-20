@@ -21,7 +21,9 @@ import { getCommunity } from '../../../helpers';
 import { ActivityBottom } from './ActivityBottom';
 import { CommunityDataParam } from '@interfaces/community';
 import { getHotkeyHandler } from '@mantine/hooks';
-import { MdOutlineClose } from 'react-icons/md';
+import { BiFolderPlus } from 'react-icons/bi';
+import { MdOutlineTag } from "react-icons/md";
+import { SubChannelCreateForm } from './SubChannelCreateForm';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -135,10 +137,12 @@ interface DataParam {
 export function Sidenav() {
   const { author } = useParams<"author">();
   const { classes, cx } = useStyles();
-  const [opened, setOpened] = useState(false);
-  const [editing, setEditing] = useState(false)
-  const [text, setText] = useState("")
   const navigate = useNavigate()
+
+  const [text, setText] = useState("")
+  const [channel, setChannel] = useState(false);
+  const [subChannel, setSubChannel] = useState(false);
+  const [defaultSlug, setDefaultSlug] = useState("")
 
   const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
 
@@ -179,20 +183,20 @@ export function Sidenav() {
             </Text>
             {data?.data?.is_admin && (
               <Group>
-                <Tooltip label={editing ? "End Sorting" : "Sort Channels"} withArrow position="right">
-                  <ActionIcon variant="default" size={18} onClick={() => setEditing(editing => !editing)}>
-                    {editing ? <MdOutlineClose size={12} /> : <ArrowsSort size={12} />}
+                <Tooltip label="Create Folder" withArrow position="right">
+                  <ActionIcon variant="default" size={18} onClick={() => setChannel(true)}>
+                    <BiFolderPlus size={12} />
                   </ActionIcon>
                 </Tooltip>
                 <Tooltip label="Create Channel" withArrow position="right">
-                  <ActionIcon variant="default" size={18} onClick={() => setOpened(true)}>
-                    <Plus size={12} />
+                  <ActionIcon variant="default" size={18} onClick={() => setSubChannel(true)}>
+                    <MdOutlineTag size={12} />
                   </ActionIcon>
                 </Tooltip>
               </Group>
             )}
           </Group>
-          <Channels editing={editing} setEditing={setEditing} />
+          <Channels setDefaultSlug={setDefaultSlug} />
         </Navbar.Section>
         <Navbar.Section className={classes.footer}>
           <ActivityBottom />
@@ -200,11 +204,19 @@ export function Sidenav() {
       </Navbar>
       <Modal
         centered
-        opened={opened}
-        onClose={() => setOpened(false)}
+        opened={channel}
+        onClose={() => setChannel(false)}
         title="Create a Folder"
       >
-        <ChannelCreateForm setOpened={setOpened} />
+        <ChannelCreateForm setOpened={setChannel} />
+      </Modal>
+      <Modal
+        centered
+        opened={subChannel}
+        onClose={() => setSubChannel(false)}
+        title="Create a Channel"
+      >
+        <SubChannelCreateForm setOpened={setSubChannel} channel={defaultSlug} />
       </Modal>
     </>
   );

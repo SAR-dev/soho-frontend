@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon, Modal, Group } from '@mantine/core';
+import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon, Modal, Group, Tooltip } from '@mantine/core';
 import { ChevronRight, DragDrop2, Hash, Plus } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import Emoji from "react-emoji-render";
@@ -76,6 +76,12 @@ const useStyles = createStyles((theme) => ({
   chevron: {
     transition: 'transform 200ms ease',
   },
+
+  drop: {
+    height: 6,
+    marginTop: -3,
+    marginBottom: -3,
+  }
 }));
 
 export interface Props {
@@ -86,7 +92,6 @@ export interface Props {
   about: null;
   sub_categories: SubCategory[];
   author?: string;
-  editing: boolean;
 }
 
 export function SubChannelLinksGroup({ sub_category, author }: { sub_category: SubCategory, author?: string }) {
@@ -141,10 +146,10 @@ export function SubChannelHeader({ author, slug, name }: { author?: string, slug
   )
 }
 
-export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author, editing }: Props) {
+export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author }: Props) {
   const { classes, cx, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
-  const [opened, setOpened] = useState(editing);
+  const [opened, setOpened] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [modal, setModal] = useState(false)
 
@@ -177,27 +182,17 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
 
   return (
     <>
-      <div className={classes.control}>
+      <div className={cx(classes.control, { [classes.active]: isHovering })} ref={dropRef}>
         <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
           <ChannelHeader emoji={emoji} name={capitalizeFirstLetter(name)} />
         </div>
-        {hasLinks && (
+        <Tooltip label="Create Channel Here" withArrow position="right">
           <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>
-            <Plus
-            />
+            <Plus size={12} />
           </ActionIcon>
-        )}
+        </Tooltip>
       </div>
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
-      {editing && (
-        <Text
-          className={cx(classes.placeholder, { [classes.inactive]: !isHovering }, { [classes.active]: isHovering })}
-          ref={dropRef}
-        >
-          <DragDrop2 size={16} style={{ marginRight: 5 }} />
-          {isHovering ? 'Release here' : 'Drop here'}
-        </Text>
-      )}
       <Modal
         centered
         opened={modal}

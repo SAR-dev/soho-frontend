@@ -65,33 +65,28 @@ interface DataParam {
     }
 }
 
-export function Channels({ editing, setEditing }: { editing: boolean, setEditing: (params: boolean) => void }) {
+export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) => void }) {
     const { author } = useParams<"author">();
     const { classes } = useStyles();
 
-    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }))
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
+        onSuccess: res => {
+            const def = res.data.results.find(e => e.name === "default")
+            if(def) setDefaultSlug(def.slug)
+        }
+    })
 
     if (isLoading) return <></>
     if (isError) return <></>
 
     return (
         <div className={classes.linksInner}>
-                {editing ? (
-                    <>
-                        {data && data.data.results.map((item, i) => (
-                            <ChannelLinksGroup {...item} author={author} editing={editing} key={i} />
-                        ))}
-                    </>
-                ) : (
-                    <>
-                        {data && data.data.results.filter(e => e.name !== 'default').map((item, i) => (
-                            <ChannelLinksGroup {...item} author={author} editing={editing} key={i} />
-                        ))}
-                        {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
-                            <SubChannelLinksGroup sub_category={item} author={author} key={i} />
-                        ))}
-                    </>
-                )}
+            {data && data.data.results.filter(e => e.name !== 'default').map((item, i) => (
+                <ChannelLinksGroup {...item} author={author} key={i} />
+            ))}
+            {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
+                <SubChannelLinksGroup sub_category={item} author={author} key={i} />
+            ))}
         </div>
     );
 }
