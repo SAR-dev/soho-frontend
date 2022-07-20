@@ -186,7 +186,7 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
         <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
           <ChannelHeader emoji={emoji} name={capitalizeFirstLetter(name)} />
         </div>
-        <Tooltip label="Create Channel Here" withArrow position="right">
+        <Tooltip label="Create Soho Here" withArrow position="right">
           <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>
             <Plus size={12} />
           </ActionIcon>
@@ -197,7 +197,7 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
         centered
         opened={modal}
         onClose={() => setModal(false)}
-        title="Create a Channel"
+        title="Create a Soho"
       >
         <SubChannelCreateForm setOpened={setModal} channel={slug} />
       </Modal>

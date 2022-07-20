@@ -44,7 +44,7 @@ export function SubChannelCreateForm({ setOpened, channel }: { setOpened: (param
         <Paper radius="md">
             <Input
                 icon={<GitBranch size={16} />}
-                placeholder="Your Channel Name"
+                placeholder="Your Soho Name"
                 rightSectionWidth={70}
                 styles={{ rightSection: { pointerEvents: "none" } }}
                 rightSection={

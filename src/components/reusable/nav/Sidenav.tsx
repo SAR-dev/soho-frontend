@@ -214,7 +214,7 @@ export function Sidenav() {
         centered
         opened={subChannel}
         onClose={() => setSubChannel(false)}
-        title="Create a Channel"
+        title="Create a Soho"
       >
         <SubChannelCreateForm setOpened={setSubChannel} channel={defaultSlug} />
       </Modal>
