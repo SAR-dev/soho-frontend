@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon } from '@mantine/core';
-import { ChevronRight, DragDrop2, Hash } from 'tabler-icons-react';
+import { Box, Collapse, ThemeIcon, Text, createStyles, ActionIcon, Modal, Group } from '@mantine/core';
+import { ChevronRight, DragDrop2, Hash, Plus } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import Emoji from "react-emoji-render";
 import { SubCategory } from '@interfaces/category';
 import { useDrop, useDrag } from 'ahooks';
 import { capitalizeFirstLetter } from 'src/helpers';
+import { SubChannelCreateForm } from './SubChannelCreateForm';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -145,6 +146,7 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
   const hasLinks = sub_categories.length !== 0;
   const [opened, setOpened] = useState(editing);
   const [isHovering, setIsHovering] = useState(false);
+  const [modal, setModal] = useState(false)
 
   const dropRef = useRef(null);
 
@@ -175,16 +177,13 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
 
   return (
     <>
-      <div className={classes.control} style={{ cursor: "pointer" }} onClick={() => setOpened(!opened)}>
-        <ChannelHeader emoji={emoji} name={capitalizeFirstLetter(name)} />
+      <div className={classes.control}>
+        <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
+          <ChannelHeader emoji={emoji} name={capitalizeFirstLetter(name)} />
+        </div>
         {hasLinks && (
-          <ActionIcon size={18} variant="default">
-            <ChevronRight
-              className={classes.chevron}
-              size={14}
-              style={{
-                transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
-              }}
+          <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>
+            <Plus
             />
           </ActionIcon>
         )}
@@ -199,6 +198,14 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
           {isHovering ? 'Release here' : 'Drop here'}
         </Text>
       )}
+      <Modal
+        centered
+        opened={modal}
+        onClose={() => setModal(false)}
+        title="Create a Channel"
+      >
+        <SubChannelCreateForm setOpened={setModal} channel={slug} />
+      </Modal>
     </>
   );
 }

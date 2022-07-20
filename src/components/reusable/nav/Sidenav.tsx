@@ -202,7 +202,7 @@ export function Sidenav() {
         centered
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Create a Channel"
+        title="Create a Folder"
       >
         <ChannelCreateForm setOpened={setOpened} />
       </Modal>
