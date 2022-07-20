@@ -21,6 +21,7 @@ import { getCommunity } from '../../../helpers';
 import { ActivityBottom } from './ActivityBottom';
 import { CommunityDataParam } from '@interfaces/community';
 import { getHotkeyHandler } from '@mantine/hooks';
+import { MdOutlineClose } from 'react-icons/md';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -178,9 +179,9 @@ export function Sidenav() {
             </Text>
             {data?.data?.is_admin && (
               <Group>
-                <Tooltip label="Sort Channels" withArrow position="right">
+                <Tooltip label={editing ? "End Sorting" : "Sort Channels"} withArrow position="right">
                   <ActionIcon variant="default" size={18} onClick={() => setEditing(editing => !editing)}>
-                    <ArrowsSort size={12} />
+                    {editing ? <MdOutlineClose size={12} /> : <ArrowsSort size={12} />}
                   </ActionIcon>
                 </Tooltip>
                 <Tooltip label="Create Channel" withArrow position="right">
