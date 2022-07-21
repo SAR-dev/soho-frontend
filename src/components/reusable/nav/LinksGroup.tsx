@@ -18,6 +18,12 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.sm,
     fontWeight: 500,
     lineHeight: 1,
+    color: theme.colors.gray[6],
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
   },
 
   collectionLink: {
@@ -32,7 +38,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
   },
@@ -42,26 +48,6 @@ const useStyles = createStyles((theme) => ({
     fontSize: 16, 
     width: 22, 
     textAlign: "center"
-  },
-
-  link: {
-    fontWeight: 500,
-    display: 'block',
-    textDecoration: 'none',
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    paddingLeft: 25,
-    marginLeft: 25,
-    width: "auto",
-    textAlign: "left",
-    fontSize: theme.fontSizes.xs,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    borderLeft: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    },
   },
 
   placeholder: {
@@ -132,22 +118,9 @@ export function SubChannel({ sub_category, author }: { sub_category: SubCategory
 export function ChannelHeader({ name }: { name: string }) {
   const { classes, theme } = useStyles();
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <div className={classes.collectionIcon}><Hash size={14} /></div> {name}
     </div>
-  )
-}
-
-export function SubChannelHeader({ author, slug, name, emoji }: { author?: string, slug: string, name: string, emoji: string }) {
-  const { classes, theme } = useStyles();
-  return (
-    <Text
-      component={Link}
-      className={classes.link}
-      to={`/c/${author}/sch/${slug}`}
-    >
-      {name}
-    </Text>
   )
 }
 
