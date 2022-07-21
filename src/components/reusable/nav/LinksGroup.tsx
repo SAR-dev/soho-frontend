@@ -9,6 +9,7 @@ import { SubChannelCreateForm } from './SubChannelCreateForm';
 import { GoTriangleRight } from 'react-icons/go';
 import { useQueryClient } from 'react-query';
 import { useNotifications } from '@mantine/notifications';
+import {RiDragMoveLine} from "react-icons/ri"
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -26,6 +27,10 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
+  },
+
+  hidden: {
+    opacity: 0
   },
 
   collectionLink: {
@@ -75,6 +80,8 @@ const useStyles = createStyles((theme) => ({
 
   active: {
     backgroundColor: theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.5),
+    opacity: 1,
+    transition: "opacity .15s ease-in"
   },
 
   chevron: {
@@ -209,7 +216,8 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
       )}
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
       {name === "default" && (
-        <div id={slug} style={{height: 32, borderRadius: 3}} className={cx({ [classes.active]: isHovering })} ref={loading ? undefined : dropRef}>
+        <div id={slug} className={cx(classes.collectionLink, { [classes.active]: isHovering }, { [classes.hidden]: !isHovering })} ref={loading ? undefined : dropRef}>
+          <div className={classes.collectionIcon}><RiDragMoveLine size={16} /></div> Drop Here
           {loading && (
             <Loader size="xs" ml="auto" />
           )}
