@@ -86,7 +86,7 @@ export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) 
             ))}
             {/* <Space h="xs" /> */}
             {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
-                <SubChannel sub_category={item} author={author} key={i} />
+                <SubChannel sub_category={item} author={author} chevron={true} key={i} />
             ))}
         </div>
     );

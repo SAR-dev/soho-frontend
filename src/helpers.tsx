@@ -179,7 +179,7 @@ export function createSubChannel({ username, category, data }: { username: strin
     })
 };
 
-export function relocateSubChannel({ username, sub_category, data }: { username: string, sub_category: string, data: relocateSubChannelInterface }): Promise<any> {
+export function relocateSubChannel({ username, sub_category, data }: { username?: string, sub_category: string, data: relocateSubChannelInterface }): Promise<any> {
   return axios.put(`group/${username}/subcategory/${sub_category}/relocate/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
