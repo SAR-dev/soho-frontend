@@ -6,7 +6,7 @@ import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { PostDetails } from "@reusable/post/PostDetails";
 import { FetchError } from "../../reusable/FetchError";
 import { PostDataParam } from "@interfaces/post";
-import { Button, createStyles, Group, LoadingOverlay, Paper, Stack, Text, ThemeIcon } from "@mantine/core";
+import { Button, Center, createStyles, Group, LoadingOverlay, Paper, Stack, Text, ThemeIcon } from "@mantine/core";
 import { HtmlRenderer } from "@reusable/post/layers/HtmlRenderer";
 import { RulesDataParam } from "@interfaces/rules";
 import { Check, CircleCheck, Plus, Upload } from "tabler-icons-react";
@@ -15,6 +15,7 @@ import { useState } from "react";
 import { LimitCounter } from "src/components/ctiptap/LimitCounter";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useNotifications } from "@mantine/notifications";
+import { defaultRules } from "./defaultRules";
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -41,6 +42,7 @@ export function Rules() {
     const [loading, setLoading] = useState(false)
     const [text, setText] = useState("")
     const [errors, setErrors] = useState<string[]>([])
+    const [i, setI] = useState(0)
 
     const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['rules', author], () => getCommunityRules({ username: author }), {
         onSuccess: res => {
@@ -84,24 +86,34 @@ export function Rules() {
         })
     }
 
+    const setTemplate = () => {
+        setText(defaultRules)
+        setI(i => i + 1)
+    }
+
     return (
         <CommunityLayout>
             <Stack className={classes.card}>
-                <Group>
-                    <Text size="lg" weight={500} className={classes.title}>
-                        Community rules
-                    </Text>
-                    {data?.data.is_admin && (
-                        <Button ml="auto" size="xs" leftIcon={<Upload size={14} />} onClick={() => setShow(true)}>Update Rules</Button>
+                {!show && (<>
+                    <Group>
+                        <Text size="lg" weight={500} className={classes.title}>
+                            Community rules
+                        </Text>
+                        {data?.data.is_admin && (
+                            <Button ml="auto" size="xs" leftIcon={<Upload size={14} />} onClick={() => setShow(true)}>Update Rules</Button>
+                        )}
+                    </Group>
+                    {data && data.data.rules.length < 10 && (
+                        <Text>There is no rules given by the admin here.</Text>
                     )}
-                </Group>
-                {data && data.data.rules.length < 10 && (
-                    <Text>There is no rules given by the admin here.</Text>
-                )}
+                </>)}
                 {show ? (
                     <Paper style={{ position: 'relative' }}>
-                        <Text size="sm" mb="sm">Update Community Rules</Text>
-                        <Ctiptap text={text} setText={setText} limit={textLimit} minimal={true} />
+                        <Center mb="xs">
+                            <Text size="sm" mb="sm">Update Community Rules</Text>
+                            <Button size="xs" ml="auto" onClick={() => setTemplate()}>Set Default Rules Template</Button>
+                        </Center>
+                        <Ctiptap text={text} setText={setText} limit={textLimit} minimal={true} key={i} />
                         <Group spacing="xs">
                             <LimitCounter count={text.length} limit={textLimit} />
                             <Button loading={loading} ml="auto" size="xs" color="gray" onClick={() => setShow(false)}>Close</Button>
