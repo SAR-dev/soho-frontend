@@ -141,7 +141,7 @@ export function ChannelHeader({ name }: { name: string }) {
   const { classes, theme } = useStyles();
   return (
     <div style={{ display: "flex" }}>
-      {name}
+      {name.toUpperCase()}
     </div>
   )
 }

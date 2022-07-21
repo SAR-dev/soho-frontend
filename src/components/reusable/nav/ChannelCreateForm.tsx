@@ -55,7 +55,7 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                     }
                     value={channelName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setChannelName(e.target.value)
+                        setChannelName(e.target.value.toUpperCase())
                     }
                     size="xs"
                     onKeyDown={getHotkeyHandler([
