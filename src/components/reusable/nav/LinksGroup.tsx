@@ -152,7 +152,7 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
   const dropRef = useRef(null);
 
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
-    <SubChannel author={author} sub_category={link} key={i} />
+    <SubChannel author={author} sub_category={link} chevron={name === "default"} key={i} />
   ));
 
   useDrop(dropRef, {
@@ -191,21 +191,30 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
 
   return (
     <div>
-      <div id={slug} className={cx(classes.control, { [classes.active]: isHovering })} ref={loading ? undefined : dropRef}>
-        <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
-          <ChannelHeader name={capitalizeFirstLetter(name)} />
+      {name !== "default" && (
+        <div id={slug} className={cx(classes.control, { [classes.active]: isHovering })} ref={loading ? undefined : dropRef}>
+          <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
+            <ChannelHeader name={capitalizeFirstLetter(name)} />
+          </div>
+          {loading ? (
+            <Loader size="xs" />
+          ) : (
+            <Tooltip label="Create Soho Here" withArrow position="right">
+              <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>
+                <Plus size={12} />
+              </ActionIcon>
+            </Tooltip>
+          )}
         </div>
-        {loading ? (
-          <Loader size="xs" />
-        ) : (
-          <Tooltip label="Create Soho Here" withArrow position="right">
-            <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>
-              <Plus size={12} />
-            </ActionIcon>
-          </Tooltip>
-        )}
-      </div>
+      )}
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
+      {name === "default" && (
+        <div id={slug} style={{height: 32, borderRadius: 3}} className={cx({ [classes.active]: isHovering })} ref={loading ? undefined : dropRef}>
+          {loading && (
+            <Loader size="xs" ml="auto" />
+          )}
+        </div>
+      )}
       <Modal
         centered
         opened={modal}
