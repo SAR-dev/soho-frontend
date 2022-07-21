@@ -86,10 +86,8 @@ const useStyles = createStyles((theme) => ({
 
 export interface Props {
   id: number;
-  emoji: string;
   name: string;
   slug: string;
-  about: null;
   sub_categories: SubCategory[];
   author?: string;
 }
@@ -113,7 +111,7 @@ export function SubChannelLinksGroup({ sub_category, author }: { sub_category: S
     <div className={classes.control} ref={dragRef}>
       <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/sch/${sub_category.slug}`} className={classes.cat} >
         <ThemeIcon color="gray" >
-          <Hash size={14} />
+          <Text><Emoji text={sub_category.emoji} /></Text>
         </ThemeIcon>
         <Box ml="md">{dragging ? "Dragging" : sub_category.name}</Box>
       </Box>
@@ -121,19 +119,19 @@ export function SubChannelLinksGroup({ sub_category, author }: { sub_category: S
   )
 }
 
-export function ChannelHeader({ emoji, name }: { emoji: string, name: string }) {
+export function ChannelHeader({ name }: { name: string }) {
   const { classes, theme } = useStyles();
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }} className={classes.cat} >
       <ThemeIcon color="gray" >
-        <Text><Emoji text={emoji} /></Text>
+        <Hash size={14} />
       </ThemeIcon>
       <Box ml="md">{name}</Box>
     </Box>
   )
 }
 
-export function SubChannelHeader({ author, slug, name }: { author?: string, slug: string, name: string }) {
+export function SubChannelHeader({ author, slug, name, emoji }: { author?: string, slug: string, name: string, emoji: string }) {
   const { classes, theme } = useStyles();
   return (
     <Text
@@ -146,7 +144,7 @@ export function SubChannelHeader({ author, slug, name }: { author?: string, slug
   )
 }
 
-export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories, author }: Props) {
+export function ChannelLinksGroup({ id, name, slug, sub_categories, author }: Props) {
   const { classes, cx, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
   const [opened, setOpened] = useState(false);
@@ -156,7 +154,7 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
   const dropRef = useRef(null);
 
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
-    <SubChannelHeader author={author} slug={link.slug} name={link.name} key={i} />
+    <SubChannelHeader author={author} slug={link.slug} name={link.name} emoji={link.emoji} key={i} />
   ));
 
   useDrop(dropRef, {
@@ -184,7 +182,7 @@ export function ChannelLinksGroup({ id, emoji, name, slug, about, sub_categories
     <>
       <div className={cx(classes.control, { [classes.active]: isHovering })} ref={dropRef}>
         <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
-          <ChannelHeader emoji={emoji} name={capitalizeFirstLetter(name)} />
+          <ChannelHeader name={capitalizeFirstLetter(name)} />
         </div>
         <Tooltip label="Create Soho Here" withArrow position="right">
           <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>

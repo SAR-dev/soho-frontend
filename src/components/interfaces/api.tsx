@@ -1,10 +1,10 @@
 export interface createChannelInterface {
     name: string
-    emoji?: string
 }
 
 export interface createSubChannelInterface {
-    name: string
+    name: string;
+    emoji: string;
 }
 
 export interface relocateSubChannelInterface {

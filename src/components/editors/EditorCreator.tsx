@@ -82,7 +82,7 @@ export function EditorCreator({ toogle }: Props) {
         <div className={classes.flex}>
           <Indicator
             inline
-            size={18}
+            size={10}
             offset={10}
             position="bottom-end"
             className="circular"

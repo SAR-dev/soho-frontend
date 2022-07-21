@@ -5,7 +5,7 @@ export interface PostDataParam {
   images: Image[];
   link: string | null;
   category: Category;
-  sub_category: Category;
+  sub_category: SubCategory;
   release_time: string | null;
   duration: string | null;
   thumbnail: Image | null;
@@ -48,7 +48,13 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
-  color?: string;
+}
+
+export interface SubCategory {
+  id: number;
+  name: string;
+  slug: string;
+  emoji: string;
 }
 
 export interface Group {

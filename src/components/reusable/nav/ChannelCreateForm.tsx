@@ -18,18 +18,12 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
 
     const [loading, setLoading] = useState(false);
     const [channelName, setChannelName] = useState("");
-    const [emoji, setEmoji] = useState("")
-
-    const insertText = (text: string) => {
-        setEmoji(text)
-    };
 
     const submit = () => {
         const username = author || "";
         setLoading(true);
         const data = {
             name: channelName,
-            emoji: emoji
         };
         createChannel({ username, data }).then((res) => {
             if (res.error) {
@@ -50,9 +44,7 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
     return (
         <Paper radius="md">
             <Center my="md">
-                <EmojiPopover insertText={insertText} />
                 <Input
-                    icon={emoji.length === 0 ? <Tag size={16} /> : <Text>{emoji}</Text>}
                     placeholder="Folder Name"
                     rightSectionWidth={70}
                     styles={{ rightSection: { pointerEvents: "none" } }}
@@ -66,7 +58,6 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                         setChannelName(e.target.value)
                     }
                     size="xs"
-                    ml="sm"
                 />
 
             </Center>
