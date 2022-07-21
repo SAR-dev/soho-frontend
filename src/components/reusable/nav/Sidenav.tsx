@@ -166,7 +166,7 @@ export function Sidenav() {
           value={text}
           onChange={e => setText(e.target.value)}
           onKeyDown={getHotkeyHandler([
-            ['mod+Enter', submit],
+            ['Enter', submit],
           ])}
         />
 
