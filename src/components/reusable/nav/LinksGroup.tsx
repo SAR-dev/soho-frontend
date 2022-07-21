@@ -119,7 +119,7 @@ export function ChannelHeader({ name }: { name: string }) {
   const { classes, theme } = useStyles();
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <div className={classes.collectionIcon}><Hash size={14} /></div> {name}
+      <div className={classes.collectionIcon}><Hash size={16} /></div> {name}
     </div>
   )
 }
