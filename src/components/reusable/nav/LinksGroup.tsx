@@ -9,15 +9,23 @@ import { capitalizeFirstLetter } from 'src/helpers';
 import { SubChannelCreateForm } from './SubChannelCreateForm';
 
 const useStyles = createStyles((theme) => ({
+  main: {
+    // marginBottom: theme.spacing.xs
+  },
   control: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    fontSize: theme.fontSizes.xs,
-    padding: `8px ${theme.spacing.xs}px`,
+    fontSize: 10,
+    paddingLeft: theme.spacing.xs,
+    paddingRight: theme.spacing.xs,
+    paddingTop: 5,
+    paddingBottom: 5,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
     lineHeight: 1,
+    letterSpacing: 1,
+    color: theme.colors.gray[6]
   },
 
   collectionLink: {
@@ -42,16 +50,6 @@ const useStyles = createStyles((theme) => ({
     fontSize: 16, 
     width: 22, 
     textAlign: "center"
-  },
-
-  cat: {
-    textDecoration: 'none',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    },
   },
 
   link: {
@@ -143,7 +141,7 @@ export function ChannelHeader({ name }: { name: string }) {
   const { classes, theme } = useStyles();
   return (
     <div style={{ display: "flex" }}>
-      <div className={classes.collectionIcon}><Hash size={14} /></div> {name}
+      {name}
     </div>
   )
 }
@@ -196,7 +194,7 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
   });
 
   return (
-    <div>
+    <div className={classes.main}>
       <div className={cx(classes.control, { [classes.active]: isHovering })} ref={dropRef}>
         <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
           <ChannelHeader name={capitalizeFirstLetter(name)} />

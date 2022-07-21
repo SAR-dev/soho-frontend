@@ -1,5 +1,5 @@
 import { Category } from '@interfaces/category';
-import { createStyles } from '@mantine/core';
+import { createStyles, Space } from '@mantine/core';
 import { ReactNode, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -84,6 +84,7 @@ export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) 
             {data && data.data.results.filter(e => e.name !== 'default').map((item, i) => (
                 <Channel {...item} author={author} key={i} />
             ))}
+            <Space h="xs" />
             {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
                 <SubChannel sub_category={item} author={author} key={i} />
             ))}

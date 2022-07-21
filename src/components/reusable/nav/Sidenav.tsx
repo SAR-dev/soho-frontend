@@ -177,12 +177,12 @@ export function Sidenav() {
             <PostTypes />
           </div>
 
-          <Group className={classes.collectionsHeader} position="apart">
+          <Group mb="sm" className={classes.collectionsHeader} position="apart">
             <Text size="xs" weight={500} color="dimmed">
               SOHO
             </Text>
             {data?.data?.is_admin && (
-              <Group>
+              <Group spacing="xs">
                 <Tooltip label="Create Folder" withArrow position="right">
                   <ActionIcon variant="default" size={18} onClick={() => setChannel(true)}>
                     <BiFolderPlus size={12} />
