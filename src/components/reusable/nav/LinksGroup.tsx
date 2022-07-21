@@ -17,6 +17,31 @@ const useStyles = createStyles((theme) => ({
     padding: `8px ${theme.spacing.xs}px`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
+    lineHeight: 1,
+  },
+
+  collectionLink: {
+    display: 'flex',
+    alignItems: "center",
+    padding: `8px ${theme.spacing.xs}px`,
+    textDecoration: 'none',
+    borderRadius: theme.radius.sm,
+    fontSize: theme.fontSizes.xs,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    lineHeight: 1,
+    fontWeight: 500,
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
+  },
+
+  collectionIcon: {
+    marginRight: 9, 
+    fontSize: 16, 
+    width: 22, 
+    textAlign: "center"
   },
 
   cat: {
@@ -92,7 +117,7 @@ export interface Props {
   author?: string;
 }
 
-export function SubChannelLinksGroup({ sub_category, author }: { sub_category: SubCategory, author?: string }) {
+export function SubChannel({ sub_category, author }: { sub_category: SubCategory, author?: string }) {
   const { classes, theme } = useStyles();
   const [dragging, setDragging] = useState(false);
 
@@ -108,26 +133,18 @@ export function SubChannelLinksGroup({ sub_category, author }: { sub_category: S
   });
 
   return (
-    <div className={classes.control} ref={dragRef}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to={`/c/${author}/sch/${sub_category.slug}`} className={classes.cat} >
-        <ThemeIcon color="gray" >
-          <Text><Emoji text={sub_category.emoji} /></Text>
-        </ThemeIcon>
-        <Box ml="md">{dragging ? "Dragging" : sub_category.name}</Box>
-      </Box>
-    </div>
+    <Link to={`/c/${author}/sch/${sub_category.slug}`} className={classes.collectionLink} ref={dragRef}>
+      <div className={classes.collectionIcon}>{sub_category.emoji}</div> {sub_category.name}
+    </Link>
   )
 }
 
 export function ChannelHeader({ name }: { name: string }) {
   const { classes, theme } = useStyles();
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }} className={classes.cat} >
-      <ThemeIcon color="gray" >
-        <Hash size={14} />
-      </ThemeIcon>
-      <Box ml="md">{name}</Box>
-    </Box>
+    <div style={{ display: "flex" }}>
+      <div className={classes.collectionIcon}><Hash size={14} /></div> {name}
+    </div>
   )
 }
 
@@ -144,17 +161,17 @@ export function SubChannelHeader({ author, slug, name, emoji }: { author?: strin
   )
 }
 
-export function ChannelLinksGroup({ id, name, slug, sub_categories, author }: Props) {
+export function Channel({ id, name, slug, sub_categories, author }: Props) {
   const { classes, cx, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
-  const [opened, setOpened] = useState(false);
+  const [opened, setOpened] = useState(true);
   const [isHovering, setIsHovering] = useState(false);
   const [modal, setModal] = useState(false)
 
   const dropRef = useRef(null);
 
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
-    <SubChannelHeader author={author} slug={link.slug} name={link.name} emoji={link.emoji} key={i} />
+    <SubChannel author={author} sub_category={link} key={i} />
   ));
 
   useDrop(dropRef, {
@@ -179,7 +196,7 @@ export function ChannelLinksGroup({ id, name, slug, sub_categories, author }: Pr
   });
 
   return (
-    <>
+    <div>
       <div className={cx(classes.control, { [classes.active]: isHovering })} ref={dropRef}>
         <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
           <ChannelHeader name={capitalizeFirstLetter(name)} />
@@ -199,6 +216,6 @@ export function ChannelLinksGroup({ id, name, slug, sub_categories, author }: Pr
       >
         <SubChannelCreateForm setOpened={setModal} channel={slug} />
       </Modal>
-    </>
+    </div>
   );
 }

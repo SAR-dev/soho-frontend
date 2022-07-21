@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Paper, Button, Input, Badge, Center, createStyles, Text } from "@mantine/core";
-import { Tag, X } from "tabler-icons-react";
+import { Paper, Button, Input, Badge, Center, createStyles } from "@mantine/core";
+import { X } from "tabler-icons-react";
 import { createChannel, parseErrors } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
-import { EmojiPopover } from "@editors/EmojiPopover";
+import { getHotkeyHandler } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({}));
 
@@ -28,7 +28,7 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
         createChannel({ username, data }).then((res) => {
             if (res.error) {
                 notifications.showNotification({
-                    title: "Error creating channel",
+                    title: "Error creating folder",
                     message: parseErrors(res.error)[0],
                     color: "red",
                     icon: <X size={18} />,
@@ -58,6 +58,9 @@ export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
                         setChannelName(e.target.value)
                     }
                     size="xs"
+                    onKeyDown={getHotkeyHandler([
+                        ['Enter', submit],
+                      ])}
                 />
 
             </Center>

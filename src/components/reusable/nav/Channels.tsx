@@ -4,7 +4,7 @@ import { ReactNode, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getChannels } from '../../../helpers';
-import { ChannelLinksGroup, SubChannelLinksGroup } from './LinksGroup';
+import { Channel, SubChannel } from './LinksGroup';
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 
 const useStyles = createStyles((theme) => ({
@@ -82,10 +82,10 @@ export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) 
     return (
         <div className={classes.linksInner}>
             {data && data.data.results.filter(e => e.name !== 'default').map((item, i) => (
-                <ChannelLinksGroup {...item} author={author} key={i} />
+                <Channel {...item} author={author} key={i} />
             ))}
             {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
-                <SubChannelLinksGroup sub_category={item} author={author} key={i} />
+                <SubChannel sub_category={item} author={author} key={i} />
             ))}
         </div>
     );

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Paper, Button, Input, Badge, Select, createStyles, Center, Text } from "@mantine/core";
-import { Tag, GitBranch, X } from "tabler-icons-react";
-import { createSubChannel, getChannels } from "../../../helpers";
+import { Paper, Button, Input, Badge, createStyles, Center, Text } from "@mantine/core";
+import { GitBranch, X } from "tabler-icons-react";
+import { createSubChannel, parseErrors } from "../../../helpers";
 import { useParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 import { EmojiPopover } from "@editors/EmojiPopover";
+import { getHotkeyHandler } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({}));
 
@@ -34,8 +35,8 @@ export function SubChannelCreateForm({ setOpened, channel }: { setOpened: (param
         createSubChannel({ username, category: channel, data }).then((res) => {
             if (res.error) {
                 notifications.showNotification({
-                    title: `Error ${res.error.response.status}`,
-                    message: res.error.response.data.detail,
+                    title: `Error creating Soho`,
+                    message: parseErrors(res.error)[0],
                     color: "red",
                     icon: <X size={18} />,
                 });
@@ -67,6 +68,9 @@ export function SubChannelCreateForm({ setOpened, channel }: { setOpened: (param
                     }
                     size="xs"
                     ml="sm"
+                    onKeyDown={getHotkeyHandler([
+                        ['Enter', submit],
+                      ])}
                 />
             </Center>
             <Button fullWidth mt="xl" onClick={submit} loading={loading}>

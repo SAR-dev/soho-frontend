@@ -188,7 +188,7 @@ export function Sidenav() {
                     <BiFolderPlus size={12} />
                   </ActionIcon>
                 </Tooltip>
-                <Tooltip label="Create Channel" withArrow position="right">
+                <Tooltip label="Create Soho" withArrow position="right">
                   <ActionIcon variant="default" size={18} onClick={() => setSubChannel(true)}>
                     <MdOutlineTag size={12} />
                   </ActionIcon>
