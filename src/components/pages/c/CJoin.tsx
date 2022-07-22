@@ -7,6 +7,7 @@ import { capitalizeFirstLetter, getCommunity, parseErrors, subscribe } from 'src
 import { useState } from 'react';
 import { useNotifications } from '@mantine/notifications';
 import { Error404 } from '@pages/Error404';
+import { FaUserNinja } from 'react-icons/fa';
 
 const useStyles = createStyles((theme) => ({
     mainpaper: {
@@ -19,9 +20,9 @@ const useStyles = createStyles((theme) => ({
         backgroundSize: "cover"
     },
     card: {
-        padding: theme.spacing.xl,
+        padding: "50px 30px",
         borderRadius: theme.radius.sm,
-        background: theme.colors.dark[6],
+        background: theme.fn.rgba(theme.colors.dark[6], 0.95),
         width: 400
     },
     rounded: {
@@ -31,21 +32,21 @@ const useStyles = createStyles((theme) => ({
         borderRadius: "100%",
         borderWidth: 4,
         borderStyle: "solid",
-        borderColor: theme.colors.blue[5],
+        borderColor: theme.colors.dark[8],
         padding: theme.spacing.xs,
         width: "max-content",
         margin: "auto"
     },
     title: {
         fontSize: 30,
-        fontWeight: 700
+        fontWeight: 700,
+        lineHeight: 1
     },
     iconColor: {
         color: theme.colors.yellow[5]
     },
     joiningButton: {
-        width: 150,
-        margin: "auto"
+        margin: "auto",
     },
     align: {
         width: "max-content",
@@ -119,11 +120,11 @@ export function CJoin() {
                         </Center>
                     </Group>
                 </div>
-                <Stack spacing={0}>
+                {/* <Stack spacing={0}>
                     <Text align='center' className={cx(classes.title, classes.iconColor)}>$ {data?.data.status === "public" ? 0 : 10}</Text>
                     <Text align='center' weight={700} size="sm">ONE TIME JOINING PAYMENT</Text>
-                </Stack>
-                <Button size="xs" className={classes.joiningButton} loading={loading} onClick={() => submit()}>JOIN</Button>
+                </Stack> */}
+                <Button leftIcon={<FaUserNinja />} className={classes.joiningButton} loading={loading} onClick={() => submit()}>Join Community</Button>
             </Stack>
         </Paper>
     )
