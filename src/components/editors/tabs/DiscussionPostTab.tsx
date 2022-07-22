@@ -88,8 +88,10 @@ interface SubCategory {
 }
 
 interface SelectModel {
+  id: number;
   label: string;
   value: string;
+  slug: string;
 }
 
 const textLimit = 5000
@@ -111,10 +113,12 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
 
-  const [channels, setChannels] = useState<Result[]>([])
+  const [subChannels, setSubChannels] = useState<SelectModel[]>([])
   const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['channels', author], () => getChannels({ username: author }), {
     onSuccess: res => {
-      setChannels([...res.data.results])
+      setSubChannels(res.data.results.map(e => e.sub_categories.map(el => { 
+        return { id: el.id, label: el.name, value: String(el.id), slug: el.slug } 
+      })).flat())
     }
   })
 
@@ -126,18 +130,11 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   }, []);
 
   useEffect(() => {
-    if (cName) {
-      const cat = channels.find(e => e.slug === cName)
-      if (cat) setCategory(cat.id.toString())
-
-    }
     if (sName) {
-      const cat = channels.find(ch => ch.sub_categories.some(item => item.slug === sName));
-      const scat = cat?.sub_categories.find(e => e.slug === sName)
-      if (cat) setCategory(cat.id.toString())
+      const scat = subChannels.find(e => e.slug === sName)
       if (scat) set_sub_category(scat.id.toString())
     }
-  }, [channels])
+  }, [subChannels])
 
 
   const addImage = (id: number) => {
@@ -145,8 +142,8 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   }
 
   const submit = () => {
-    if (!category || !sub_category) {
-      setErrors(["A category and sub category must be selected here."])
+    if (!sub_category) {
+      setErrors(["A channel must be selected here."])
       return
     }
     setLoading(true)
@@ -196,24 +193,6 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   }
 
-  const getChannelsList = () => {
-    return channels.map(el => {
-      return { label: el.name, value: String(el.id) }
-    })
-  }
-
-  function getSubChannelsList(): SelectModel[] {
-    if (category) {
-      const ch = channels.find(el => String(el.id) === category)
-      if (ch) {
-        return ch.sub_categories.map(el => {
-          return { label: el.name, value: String(el.id) }
-        })
-      } else return []
-
-    } else return []
-  }
-
   return (
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
@@ -233,18 +212,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
       <Group>
         <Select
           placeholder="Channel"
-          data={getChannelsList()}
-          icon={<Hash size={16} />}
-          nothingFound="No options"
-          value={category}
-          onChange={(e) => setCategory(e)}
-          size="xs"
-          className={classes.dropdown}
-          disabled={isLoading}
-        />
-        <Select
-          placeholder="Sub-Channel"
-          data={getSubChannelsList()}
+          data={subChannels}
           icon={<Eye size={16} />}
           nothingFound="No options"
           value={sub_category}
