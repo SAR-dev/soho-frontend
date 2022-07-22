@@ -1,6 +1,6 @@
 import { CommunityUpdateInterface, MeUpdateInterface } from "@interfaces/api";
-import { CommunityDataParam } from "@interfaces/community";
-import { Avatar, Button, createStyles, Loader, Stack, Text, TextInput } from "@mantine/core";
+import { CommunityDataParam, CommunityUpdateDataParam } from "@interfaces/community";
+import { Avatar, Button, Center, createStyles, Image, Loader, Stack, Text, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
@@ -8,7 +8,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { getCommunity, getLoggedInUser, getUpdateCommunity, parseErrors, toBase64, updateCommunity, updateLoggedInUser } from "src/helpers";
 import useStore from "src/store";
-import { Check } from "tabler-icons-react";
+import { Check, Photo } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -18,12 +18,19 @@ const useStyles = createStyles((theme) => ({
         width: 300
     },
     uploader: {
-        cursor: "pointer"
+        cursor: "pointer",
+        borderRadius: theme.radius.sm
+    },
+    placeholder: {
+        height: 200, 
+        width: "100%", 
+        display: "flex", 
+        justifyContent: "center"
     }
 }));
 
 interface DataParam {
-    data: CommunityUpdateInterface
+    data: CommunityUpdateDataParam
 }
 
 
@@ -39,15 +46,30 @@ export function GroupSettings() {
     const [members_name, set_members_name] = useState("")
     const [slogan, set_slogan] = useState("")
     const [token, set_token] = useState("")
-
+    const [cover, setCover] = useState<File>()
+    const [cover_src, set_cover_src] = useState("")
 
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['update-community', author], () => getUpdateCommunity({ username: author }), {
         onSuccess: res => {
             set_members_name(res.data.members_name)
             set_slogan(res.data.slogan)
             set_token(res.data.token)
+            if (cover_src.length === 0) { set_cover_src(res.data.cover) }
         }
     })
+
+    useEffect(() => {
+        (async () => {
+            if (cover) {
+                const url = await toBase64(cover);
+                if (typeof url === "string") set_cover_src(url);
+            }
+        })();
+    }, [cover])
+
+    const handleChange = async (e: any) => {
+        setCover(e.target.files[0])
+    };
 
     const submit = () => {
         setLoading(true)
@@ -55,6 +77,10 @@ export function GroupSettings() {
 
         const updatedData: CommunityUpdateInterface = {
             members_name, slogan, token
+        }
+
+        if (cover) {
+            updatedData.cover = cover
         }
 
         updateCommunity({ username: author, data: updatedData }).then(res => {
@@ -102,10 +128,31 @@ export function GroupSettings() {
                     value={token}
                     onChange={e => set_token(e.target.value.toUpperCase())}
                 />
+                <div>
+                    <Image
+                        height={200}
+                        width="100%"
+                        fit="cover"
+                        className={classes.uploader} alt="With custom placeholder"
+                        withPlaceholder
+                        placeholder={<div className={classes.placeholder}><Center><Photo size={80} /></Center></div>} 
+                        onClick={() => fileRef?.current?.click()} 
+                        src={cover_src} 
+                    />
+                    <Text color="dimmed" size="xs">Click cover to update</Text>
+                </div>
                 <ErrorMessage errors={errors} />
 
                 <Button onClick={() => submit()} mt="sm" loading={loading}>Update</Button>
             </Stack>
+            <input
+                ref={fileRef}
+                onChange={handleChange}
+                multiple
+                type="file"
+                accept="image/*"
+                hidden
+            />
         </div>
     )
 }

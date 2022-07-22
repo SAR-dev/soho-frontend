@@ -41,3 +41,10 @@ interface Author {
     is_active: boolean;
     avatar: string;
 }
+
+export interface CommunityUpdateDataParam {
+    slogan: string; 
+    members_name: string;
+    token: string;
+    cover: string;
+}

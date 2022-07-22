@@ -137,7 +137,7 @@ export function getUpdateCommunity({ username }: { username?: string }): Promise
 };
 
 export function updateCommunity({ username, data }: { username?: string, data: CommunityUpdateInterface }): Promise<any> {
-  return axios.put(`group/${username}/update/`, data, defaultConfig())
+  return axios.put(`group/${username}/update/`, serialize(data), defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

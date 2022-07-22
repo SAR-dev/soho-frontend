@@ -36,6 +36,7 @@ export interface CommunityUpdateInterface {
     slogan: string; 
     members_name: string;
     token: string;
+    cover?: File;
 }
 
 export interface AvatarUpdateInterface {

@@ -24,7 +24,6 @@ const useStyles = createStyles((theme) => ({
 export function ProfileSettings() {
     const { classes, cx } = useStyles();
     const fileRef = useRef<HTMLInputElement>(null);
-    const { setToken, token } = useStore()
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState<string[]>([])
     const notifications = useNotifications();
