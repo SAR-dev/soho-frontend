@@ -52,7 +52,7 @@ export function Home() {
                 ) : (
                     <Stack align="center">
                         <GoogleLogin setToken={setToken} />
-                        <TwitterLogin setToken={setToken} />
+                        {/* <TwitterLogin setToken={setToken} /> */}
                     </Stack>
                 )}
             </Center>
