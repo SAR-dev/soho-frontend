@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
   header: {
     width: "100%",
     paddingLeft: theme.spacing.lg,
-    paddingRight: theme.spacing.lg,
+    paddingRight: theme.spacing.sm,
     borderBottomWidth: 3
   },
   linkText: {
@@ -140,6 +140,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                 )}
                 {data && (
                   <>
+                    <ClapsCounter />
                     <Button
                       leftIcon={<Avatar src={data.avatar} size={22} radius="xl">
                         <UserCircle />
@@ -154,12 +155,11 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                     >
                       {`${data.first_name} ${data.last_name}`}
                     </Button>
-                    <ClapsCounter />
                   </>
                 )}
-                <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
+                {/* <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
                   <Home2 size={18} />
-                </ActionIcon>
+                </ActionIcon> */}
                 <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
                   {notificationCount === 0 ? (<Notification size={18} />) : (<Indicator inline label={notificationCount} size={16}>
                     <Notification size={18} />

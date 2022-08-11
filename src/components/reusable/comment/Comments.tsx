@@ -115,7 +115,7 @@ export function Comments({ is_admin, is_moderator, postId, members_name, pinned_
                 />
             </Group>
             {data?.data.results?.length === 0 && <NoResults text="Comments" />}
-            {uniqueUsers.length > 8 && (
+            {uniqueUsers.length > 5 && (
                 <AvatarsGroup limit={10} total={uniqueUsers.length} mt="lg">
                     {uniqueUsers.map((_, i) =>
                         <Avatar src={_} className={classes.avatar} key={i} />

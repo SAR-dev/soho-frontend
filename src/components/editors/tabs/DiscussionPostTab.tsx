@@ -94,7 +94,7 @@ interface SelectModel {
   slug: string;
 }
 
-const textLimit = 5000
+const textLimit = 2500
 
 export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const { classes, cx } = useStyles();
@@ -143,7 +143,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
 
   const submit = () => {
     if (!sub_category) {
-      setErrors(["A channel must be selected here."])
+      setErrors(["A SOHO must be selected here."])
       return
     }
     setLoading(true)
@@ -211,7 +211,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
       </div>
       <Group>
         <Select
-          placeholder="Channel"
+          placeholder="SOHO"
           data={subChannels}
           icon={<Eye size={16} />}
           nothingFound="No options"
@@ -221,12 +221,14 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           className={classes.dropdown}
           disabled={isLoading}
         />
+        {is_admin && (
         <Switch
           label="Announcement"
           checked={checked}
           size="xs"
           onChange={(event) => setChecked(event.currentTarget.checked)}
         />
+        )}
         <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
           Close
         </Button>

@@ -70,14 +70,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
           {images.length !== 0 && (
             <ImageCarousel sources={images} />
           )}
-          {props.post_type === "announcement" ? (
-            <div className={cx(classes.flex, classes.announcement)}>
-              <InfoCircle size={14} />
-              <Text size="sm" ml={5}>
-                You can neither comment nor react in announcement post.
-              </Text>
-            </div>
-          ) : (
+          {props.post_type !== "announcement" && (
             <PostFooter {...props} />
           )}
 

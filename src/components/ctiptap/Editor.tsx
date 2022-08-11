@@ -9,6 +9,7 @@ import {
   List,
   ListNumbers,
   Blockquote,
+  Underline as UnderlineText
 } from "tabler-icons-react";
 import { FaHeading, FaHighlighter, FaParagraph, FaRedo, FaUndo } from "react-icons/fa";
 import { MdFormatColorText } from "react-icons/md";
@@ -24,6 +25,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Typography from "@tiptap/extension-typography";
 import Code from "@tiptap/extension-code";
+import Underline from '@tiptap/extension-underline'
 import Highlight from "@tiptap/extension-highlight";
 import Gapcursor from '@tiptap/extension-gapcursor'
 import Link from "@tiptap/extension-link";
@@ -65,6 +67,15 @@ const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) =
           color={editor.isActive("bold") ? "blue" : "gray"}
         >
           <Bold size={14} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Underline" position="top">
+        <ActionIcon
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          variant="filled"
+          color={editor.isActive("underline") ? "blue" : "gray"}
+        >
+          <UnderlineText size={14} />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Italic or Curved" position="top">
@@ -175,7 +186,7 @@ const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) =
           <PageBreak size={14} />
         </ActionIcon>
       </Tooltip> */}
-      <Tooltip label="Highlighter" position="top">
+      {/* <Tooltip label="Highlighter" position="top">
         <Menu control={
           <ActionIcon variant="filled">
             <FaHighlighter size={14} />
@@ -183,7 +194,7 @@ const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) =
         }>
           <ColorPicker format="rgb" onChange={e => editor.chain().focus().toggleHighlight({ color: e }).run()} />
         </Menu>
-      </Tooltip>
+      </Tooltip> */}
       <Tooltip label="Text Color" position="top">
         <Menu control={
           <ActionIcon variant="filled">
@@ -258,6 +269,7 @@ export function Editor({ text, setText, limit = 5000, minimal=false }: { text: s
       CharacterCount.configure({
         limit
       }),
+      Underline
     ],
     content: text,
     onUpdate: ({ editor }) => {

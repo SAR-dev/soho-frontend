@@ -2,6 +2,9 @@
   "name": "soho",
   "private": true,
   "version": "0.0.0",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -34,6 +37,7 @@
     "@tiptap/extension-text": "^2.0.0-beta.17",
     "@tiptap/extension-text-style": "^2.0.0-beta.26",
     "@tiptap/extension-typography": "^2.0.0-beta.22",
+    "@tiptap/extension-underline": "^2.0.0-beta.25",
     "@tiptap/react": "^2.0.0-beta.114",
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@types/react-lottie": "^1.2.6",

@@ -6,8 +6,7 @@ import CountUp from 'react-countup';
 
 const useStyles = createStyles((theme) => ({
     link: {
-        borderRadius: theme.radius.sm,
-        width: 80,
+        borderRadius: theme.radius.lg,
         color:
             theme.colorScheme === "dark"
                 ? theme.colors.dark[0]
@@ -41,8 +40,7 @@ export function ClapsCounter() {
         <>
             {data && (
                 <Button title="Recieved claps" radius="md" variant="light" className={classes.link} leftIcon={<ClapIcon size={16} name="wave" />}>
-                    {/* {doubleDigit(data.data.claps)} */}
-                    <CountUp end={data.data.claps} />
+                    {doubleDigit(data.data.claps)}
                 </Button>
             )}
         </>

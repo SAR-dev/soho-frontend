@@ -83,7 +83,7 @@ const times = [
   { label: "DD", value: String(60 * 60 * 24) },
 ]
 
-const textLimit = 5000
+const textLimit = 2500
 
 export function PollPostTab({ toogle, setLoading }: Props) {
   const { author } = useParams<"author">();

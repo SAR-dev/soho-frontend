@@ -26,7 +26,7 @@ export function PostReplyCount({ authorName, postId, commentsCount, color = "dim
         {doubleDigit(commentsCount)}
       </Text>
       <Text size="sm" weight={500} color={color} style={{ marginLeft: 5 }}>
-        Responses
+        Responds
       </Text>
     </Center>
   );

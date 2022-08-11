@@ -73,9 +73,9 @@ const useStyles = createStyles((theme) => ({
 const SettingsMenus = [
     { name: "Profile", path: "profile" }, // avatar, name, username
     { name: "Group", path: "group" }, // slogan, rules, members name, token
-    { name: "Blacklist", path: "blacklist" },
-    { name: "Moderator", path: "moderator" },
-    { name: "Soho", path: "soho" },
+    // { name: "Blacklist", path: "blacklist" },
+    // { name: "Moderator", path: "moderator" },
+    // { name: "Soho", path: "soho" },
 ]
 
 export function Settings() {
