@@ -1,7 +1,7 @@
 import { SimpleGrid } from "@mantine/core";
 import { Poll } from "./Poll";
 import { PostDataParam } from "@interfaces/post";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from '@reusable/formkit/auto-animate/react'
 import sortArray from "sort-array";
 
 export function PollItems({ ...props }: PostDataParam) {

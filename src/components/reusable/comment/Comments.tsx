@@ -10,7 +10,7 @@ import { arrayToTree } from "performant-array-to-tree";
 import { CommentPlaceholder } from "./CommentPlaceholder";
 import sortArray from 'sort-array'
 import { FaCodeBranch } from "react-icons/fa";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from '@reusable/formkit/auto-animate/react'
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
