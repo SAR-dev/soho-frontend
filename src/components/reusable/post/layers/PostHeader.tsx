@@ -13,6 +13,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   fire: {
     color: theme.colors.red[3],
   },
+  circle: {
+    width: 6,
+    height: 6,
+    borderRadius: "100%",
+    background: "#fff",
+    marginLeft: -3,
+    marginRight: -3
+  }
 }));
 
 interface Props {
@@ -25,11 +33,11 @@ interface Props {
 export function PostHeader({ ...props }: Props) {
   const { classes, cx } = useStyles();
   return (
-      <Group spacing="xs">
+      <Group>
         <Text size="sm" weight={700}>
           {props.name}
         </Text>
-
+        <div className={classes.circle}></div>
         <div className={cx(classes.flex, classes.fire)}>
           <GoFlame size={14} />
           <Text size="xs" className={classes.time}>
