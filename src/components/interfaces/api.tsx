@@ -11,6 +11,10 @@ export interface relocateSubChannelInterface {
     category: number;
 }
 
+export interface updatePostContentInterface {
+    content?: string;
+}
+
 export interface createPostInterface {
     content?: string;
     images?: number[];

@@ -10,6 +10,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiRestTimeFill } from "react-icons/ri";
 import { checkIfExpired, timeLengthToSeconds } from "src/helpers";
+import { PostContentUpdateModal } from "./layers/PostContentUpdateModal";
+import { useState } from "react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   cover: {
@@ -41,13 +43,15 @@ dayjs.extend(relativeTime)
 export function AmaPostCard({ ...props }: PostDataParam) {
   const { classes, cx } = useStyles();
   const temperature = parseFloat(Math.pow((props.num_vote_up * 1.25 + props.comments_count * .85), .3).toFixed(2))
+  const [editorModal, setEditorModal] = useState(false)
 
   return (
+    <>
     <div className={classes.cover}>
       <div className={classes.wrapper}>
         <Author {...props.author} />
         <div>
-          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
+          <PostHeader setEditorModal={setEditorModal} name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
           {props.content && (
             <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({ duration: props.duration, created_at: props.created_at })} bookmarked={props.bookmarked} />
           )}
@@ -66,5 +70,7 @@ export function AmaPostCard({ ...props }: PostDataParam) {
         </div>
       </div>
     </div>
+    <PostContentUpdateModal richText={false} opened={editorModal} setOpened={setEditorModal} content={props.content} id={props.id} />
+    </>
   );
 }

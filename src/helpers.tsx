@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, UpdateRulesInterface } from "@interfaces/api";
+import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, updatePostContentInterface, UpdateRulesInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { serialize } from 'object-to-formdata';
@@ -215,6 +215,16 @@ export function createSubscriberPost({ username, data }: { username?: string, da
 
 export function createAuthorPost({ username, data }: { username?: string, data: createPostInterface }): Promise<any> {
   return axios.post(`post/create/group/${username}/author/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function updatePostContent({ id, data }: { id: number, data: updatePostContentInterface }): Promise<any> {
+  return axios.put(`post/${id}/update-content/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

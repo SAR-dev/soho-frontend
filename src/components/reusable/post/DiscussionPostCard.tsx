@@ -1,7 +1,4 @@
-import {
-  Text,
-  createStyles,
-} from "@mantine/core";
+import { createStyles } from "@mantine/core";
 import { ImageCarousel } from "./layers/ImageCarousel";
 import { HtmlRenderer } from "./layers/HtmlRenderer";
 import { Author } from "./layers/Author";
@@ -11,8 +8,10 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 import { PostDataParam } from "@interfaces/post";
-import { AlertCircle, InfoCircle } from "tabler-icons-react";
 import { useNavigate } from "react-router-dom";
+import { PostContentUpdateModal } from "./layers/PostContentUpdateModal";
+
+const textLimit = 2500
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   cover: {
@@ -50,6 +49,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
   const [images, setImages] = useState<string[]>([])
   const navigate = useNavigate()
   const temperature = parseFloat(Math.pow((props.num_vote_up * 1.25 + props.comments_count * .85), .3).toFixed(2))
+  const [editorModal, setEditorModal] = useState(false)
 
   useEffect(() => {
     setImages(props.images?.map(x => x.image))
@@ -57,25 +57,28 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
 
 
   return (
-    <div className={classes.cover}>
-      <div className={classes.wrapper}>
-        <Author {...props.author} />
-        <div>
-          <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
-          {props.content && (
-            <div onClick={() => navigate(`/c/${props.author.username}/p/${props.id}?details=true`)}>
-              <HtmlRenderer body={props.content} id={props.id} author={props.author.username} />
-            </div>
-          )}
-          {images.length !== 0 && (
-            <ImageCarousel sources={images} />
-          )}
-          {props.post_type !== "announcement" && (
-            <PostFooter {...props} />
-          )}
+    <>
+      <div className={classes.cover}>
+        <div className={classes.wrapper}>
+          <Author {...props.author} />
+          <div>
+            <PostHeader setEditorModal={setEditorModal} name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
+            {props.content && (
+              <div onClick={() => navigate(`/c/${props.author.username}/p/${props.id}?details=true`)}>
+                <HtmlRenderer body={props.content} id={props.id} author={props.author.username} />
+              </div>
+            )}
+            {images.length !== 0 && (
+              <ImageCarousel sources={images} />
+            )}
+            {props.post_type !== "announcement" && (
+              <PostFooter {...props} />
+            )}
 
+          </div>
         </div>
       </div>
-    </div>
+      <PostContentUpdateModal richText={true} opened={editorModal} setOpened={setEditorModal} content={props.content} id={props.id} />
+    </>
   );
 }
