@@ -1,8 +1,6 @@
-import { createStyles, Text, Group, Stack, Menu, ActionIcon } from "@mantine/core";
-import { BsThreeDots } from "react-icons/bs";
+import { createStyles, Text, Group } from "@mantine/core";
 import { GoFlame } from "react-icons/go";
 import { IoTimer } from "react-icons/io5";
-import { Edit, Trash } from "tabler-icons-react";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   flex: {
@@ -22,14 +20,11 @@ interface Props {
   image: string;
   temp: number;
   postedAt: string;
-  setEditorModal: (params: boolean) => void;
-  setDeleteModal: (params: boolean) => void;
 }
 
 export function PostHeader({ ...props }: Props) {
   const { classes, cx } = useStyles();
   return (
-    <Stack spacing={3}>
       <Group spacing="xs">
         <Text size="sm" weight={700}>
           {props.name}
@@ -48,15 +43,6 @@ export function PostHeader({ ...props }: Props) {
             {props.postedAt}
           </Text>
         </div>
-        <Menu ml="auto" control={
-          <ActionIcon title="Post Options">
-            <BsThreeDots size={18} />
-          </ActionIcon>}
-        >
-          <Menu.Item icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
-          <Menu.Item icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
-        </Menu>
       </Group>
-    </Stack>
   );
 }

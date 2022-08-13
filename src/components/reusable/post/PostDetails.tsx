@@ -17,7 +17,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     }
 }));
 
-export function PostDetails({...props}: PostDataParam) {
+export function PostDetails({ ...props }: PostDataParam) {
     const { classes } = useStyles();
     return (
         <Stack spacing={3}>
@@ -25,7 +25,9 @@ export function PostDetails({...props}: PostDataParam) {
                 {props.post_type === "discussion" && <DiscussionPostCard {...props} />}
                 {props.post_type === "poll" && <PollPostCard {...props} />}
                 {props.post_type === "ama" && <AmaPostCard {...props} />}
-                <CreateComment postId={props.id} author={props.author} />
+                {props.can_comment && (
+                    <CreateComment postId={props.id} author={props.author} />
+                )}
             </Stack>
             <Stack className={classes.wrapper}>
                 <Comments pinned_comment={props.pinned_comment} is_admin={props.group.is_admin} is_moderator={props.group.is_moderator} postId={props.id} members_name={props.group.members_name} />

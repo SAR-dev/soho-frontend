@@ -8,7 +8,7 @@ import { Trash, X } from "tabler-icons-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 
-interface UpdateContentModalParam {
+interface PostDeleteModalParam {
     opened: boolean;
     setOpened: (params: boolean) => void;
     id: number;
@@ -18,7 +18,7 @@ interface DataParam {
     data: PostDataParam
 }
 
-export function PostDeleteModal({ ...props }: UpdateContentModalParam) {
+export function PostDeleteModal({ ...props }: PostDeleteModalParam) {
     const navigate = useNavigate();
     const notifications = useNotifications();
     const queryClient = useQueryClient()

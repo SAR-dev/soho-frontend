@@ -293,6 +293,46 @@ export function addAwardToPost({ postId, awardId }: { postId: number, awardId: n
     })
 };
 
+export function turnOnCommenting(id: number): Promise<any> {
+  return axios.post(`post/${id}/can_comment/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function turnOnVoting(id: number): Promise<any> {
+  return axios.post(`post/${id}/can_vote/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function turnOffCommenting(id: number): Promise<any> {
+  return axios.delete(`post/${id}/can_comment/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function turnOffVoting(id: number): Promise<any> {
+  return axios.delete(`post/${id}/can_vote/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
 {/* <int:pk>/award/<int:id>/free/ */ }
 
 export const getPostsFromType = async ({ username, type }: { username?: string, type?: string }) => await axios.get(`post/list/group/${username}/type/${type}/`, defaultConfig())
