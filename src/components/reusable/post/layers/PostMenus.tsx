@@ -15,7 +15,7 @@ interface Props {
     setCanVoteModal: (params: boolean) => void;
     is_admin: boolean;
     is_moderator: boolean;
-    author_id: number;
+    author_username: string;
 }
 
 export function PostMenus({ ...props }: Props) {
@@ -24,20 +24,24 @@ export function PostMenus({ ...props }: Props) {
         enabled: token !== null
     })
 
+    if (data) {
+        console.log(props.author_username, data.username)
+    }
+
     return (
         <>
-            {props.is_admin || props.is_moderator || props.author_id === data?.id && (
-                <Menu ml="auto" control={
-                    <ActionIcon title="Post Options">
-                        <BsThreeDots size={18} />
-                    </ActionIcon>}
-                >
-                    <Menu.Item icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
-                    <Menu.Item icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
-                    <Menu.Item icon={<MdOutlineCommentBank size={14} />} onClick={() => props.setCanCommentModal(true)}>Toogle Commenting</Menu.Item>
-                    <Menu.Item icon={<MdOutlineAddReaction size={14} />} onClick={() => props.setCanVoteModal(true)}>Toogle Reactions</Menu.Item>
-                </Menu>
-            )}
+                {(props.is_admin || props.is_moderator || props.author_username === data?.username) && (
+                    <Menu ml="auto" control={
+                        <ActionIcon title="Post Options">
+                            <BsThreeDots size={18} />
+                        </ActionIcon>}
+                    >
+                        <Menu.Item icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
+                        <Menu.Item icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
+                        <Menu.Item icon={<MdOutlineCommentBank size={14} />} onClick={() => props.setCanCommentModal(true)}>Toogle Commenting</Menu.Item>
+                        <Menu.Item icon={<MdOutlineAddReaction size={14} />} onClick={() => props.setCanVoteModal(true)}>Toogle Reactions</Menu.Item>
+                    </Menu>
+                )}
         </>
     );
 }
