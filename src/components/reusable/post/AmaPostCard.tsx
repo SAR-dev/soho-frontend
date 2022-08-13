@@ -60,7 +60,7 @@ export function AmaPostCard({ ...props }: PostDataParam) {
           <div>
             <Group>
               <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
-              <PostMenus setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
+              <PostMenus is_admin={props.group.is_admin} is_moderator={props.group.is_moderator} author_id={props.author.id} setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
             </Group>
             {props.content && (
               <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({ duration: props.duration, created_at: props.created_at })} bookmarked={props.bookmarked} />

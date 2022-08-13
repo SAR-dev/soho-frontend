@@ -72,7 +72,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
           <div>
             <Group>
               <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
-              <PostMenus setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
+              <PostMenus is_admin={props.group.is_admin} is_moderator={props.group.is_moderator} author_id={props.author.id} setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
             </Group>
             {props.content && (
               <div onClick={() => navigate(`/c/${props.author.username}/p/${props.id}?details=true`)}>
