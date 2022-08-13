@@ -12,6 +12,7 @@ import { checkIfExpired, timeLengthToSeconds } from "src/helpers";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { PostContentUpdateModal } from "./layers/PostContentUpdateModal";
+import { PostDeleteModal } from "./layers/PostDeleteModal";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   cover: {
@@ -48,40 +49,42 @@ export function PollPostCard({ ...props }: PostDataParam) {
   const navigate = useNavigate()
   const temperature = parseFloat(Math.pow((props.num_vote_up * 1.25 + props.comments_count * .85), .3).toFixed(2))
   const [editorModal, setEditorModal] = useState(false)
+  const [deleteModal, setDeleteModal] = useState(false)
 
   return (
     <>
-    <div className={classes.cover}>
-      <div className={classes.wrapper}>
-        <Author {...props.author} />
-        <div className={classes.wFull}>
-          <PostHeader setEditorModal={setEditorModal} name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
-          {props.content && (
-            <div onClick={() => navigate(`/c/${props.author.username}/p/${props.id}?details=true`)}>
-            <HtmlRenderer body={props.content} id={props.id} author={props.author.username} />
-          </div>
-          )}
-          {props.choices && (
-            <>
-              <PollItems {...props} />
-              <div className={cx(classes.flex, classes.expire)}>
-                {checkIfExpired({ duration: props.duration, created_at: props.created_at }) && (
-                  <>
-                    <RiRestTimeFill size={14} />
-                    <Text size="xs" ml={5}>
-
-                      Voting expired {dayjs(props.created_at).fromNow()}
-                    </Text>
-                  </>
-                )}
+      <div className={classes.cover}>
+        <div className={classes.wrapper}>
+          <Author {...props.author} />
+          <div className={classes.wFull}>
+            <PostHeader setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
+            {props.content && (
+              <div onClick={() => navigate(`/c/${props.author.username}/p/${props.id}?details=true`)}>
+                <HtmlRenderer body={props.content} id={props.id} author={props.author.username} />
               </div>
-            </>
-          )}
-          <PostFooter {...props} />
+            )}
+            {props.choices && (
+              <>
+                <PollItems {...props} />
+                <div className={cx(classes.flex, classes.expire)}>
+                  {checkIfExpired({ duration: props.duration, created_at: props.created_at }) && (
+                    <>
+                      <RiRestTimeFill size={14} />
+                      <Text size="xs" ml={5}>
+
+                        Voting expired {dayjs(props.created_at).fromNow()}
+                      </Text>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+            <PostFooter {...props} />
+          </div>
         </div>
       </div>
-    </div>
-    <PostContentUpdateModal richText={true} opened={editorModal} setOpened={setEditorModal} content={props.content} id={props.id} />
+      <PostContentUpdateModal richText={true} opened={editorModal} setOpened={setEditorModal} content={props.content} id={props.id} />
+      <PostDeleteModal opened={deleteModal} setOpened={setDeleteModal} id={props.id} />
     </>
   );
 }

@@ -22,7 +22,8 @@ interface Props {
   image: string;
   temp: number;
   postedAt: string;
-  setEditorModal: (params: boolean) => void
+  setEditorModal: (params: boolean) => void;
+  setDeleteModal: (params: boolean) => void;
 }
 
 export function PostHeader({ ...props }: Props) {
@@ -53,7 +54,7 @@ export function PostHeader({ ...props }: Props) {
           </ActionIcon>}
         >
           <Menu.Item icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
-          <Menu.Item icon={<Trash size={14} />}>Delete</Menu.Item>
+          <Menu.Item icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
         </Menu>
       </Group>
     </Stack>

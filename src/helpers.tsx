@@ -233,6 +233,26 @@ export function updatePostContent({ id, data }: { id: number, data: updatePostCo
     })
 };
 
+export function deletePost(id: number): Promise<any> {
+  return axios.delete(`post/${id}/update/`, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function draftPost(id: number): Promise<any> {
+  return axios.post(`post/${id}/draft/`, null, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
 export function bookmarkPost(id: number): Promise<any> {
   return axios.post(`post/${id}/bookmark/`, null, defaultConfig())
     .then((res) => {
