@@ -127,9 +127,10 @@ export interface Props {
   slug: string;
   sub_categories: SubCategory[];
   author?: string;
+  is_admin: boolean
 }
 
-export function SubChannel({ sub_category, author, chevron }: { sub_category: SubCategory, author?: string, chevron?: boolean }) {
+export function SubChannel({ sub_category, author, chevron, is_admin }: { sub_category: SubCategory, author?: string, chevron?: boolean, is_admin: boolean }) {
   const { classes, theme } = useStyles();
   const [dragging, setDragging] = useState(false);
   const [subChannelEditing, setSubChannelEditing] = useState(false)
@@ -152,11 +153,13 @@ export function SubChannel({ sub_category, author, chevron }: { sub_category: Su
           <div className={classes.collectionIcon}>{sub_category.emoji}</div> {sub_category.name}
           {chevron && <GoTriangleRight className={classes.chevron} />}
         </Link>
-        <Tooltip label="Update SOHO" withArrow position="right">
-          <ActionIcon size={18} variant="default" className={classes.child} onClick={() => setSubChannelEditing(true)}>
-            <MdEdit size={12} />
-          </ActionIcon>
-        </Tooltip>
+        {is_admin && (
+          <Tooltip label="Update SOHO" withArrow position="right">
+            <ActionIcon size={18} variant="default" className={classes.child} onClick={() => setSubChannelEditing(true)}>
+              <MdEdit size={12} />
+            </ActionIcon>
+          </Tooltip>
+        )}
       </div>
       <Modal
         centered
@@ -188,7 +191,7 @@ interface DataParam {
   }
 }
 
-export function Channel({ id, name, slug, sub_categories, author }: Props) {
+export function Channel({ id, name, slug, sub_categories, author, is_admin }: Props) {
   const { classes, cx, theme } = useStyles();
   const hasLinks = sub_categories.length !== 0;
   const [opened, setOpened] = useState(true);
@@ -203,7 +206,7 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
 
 
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
-    <SubChannel author={author} sub_category={link} chevron={name === "default"} key={i} />
+    <SubChannel author={author} sub_category={link} chevron={name === "default"} is_admin={is_admin} key={i} />
   ));
 
   useDrop(dropRef, {
@@ -251,11 +254,13 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
             <Loader size="xs" />
           ) : (
             <Center>
-              <Tooltip label="Update Soho" withArrow position="right">
-                <ActionIcon size={18} variant="default" mr="sm" className={classes.child} onClick={() => setChannelEditing(true)}>
-                  <MdEdit size={12} />
-                </ActionIcon>
-              </Tooltip>
+              {is_admin && (
+                <Tooltip label="Update Soho" withArrow position="right">
+                  <ActionIcon size={18} variant="default" mr="sm" className={classes.child} onClick={() => setChannelEditing(true)}>
+                    <MdEdit size={12} />
+                  </ActionIcon>
+                </Tooltip>
+              )}
               <Tooltip label="Create Soho Here" withArrow position="right">
                 <ActionIcon size={18} variant="default" onClick={() => setSubChannelCreating(true)}>
                   <Plus size={12} />

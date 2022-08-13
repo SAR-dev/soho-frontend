@@ -64,7 +64,7 @@ interface DataParam {
     }
 }
 
-export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) => void }) {
+export function Channels({ setDefaultSlug, is_admin }: { setDefaultSlug: (params: string) => void, is_admin: boolean }) {
     const { author } = useParams<"author">();
     const { classes } = useStyles();
 
@@ -81,7 +81,7 @@ export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) 
     return (
         <div className={classes.linksInner}>
             {data && data.data.results.map((item, i) => (
-                <Channel {...item} author={author} key={i} />
+                <Channel {...item} author={author} is_admin={is_admin} key={i} />
             ))}
         </div>
     );
