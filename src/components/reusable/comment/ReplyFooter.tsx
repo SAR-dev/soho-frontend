@@ -6,7 +6,7 @@ import { CommentReplyCount } from "./CommentReplyCount";
 export function ReplyFooter({clapCount,  play, setPlay}:{clapCount: number, play: boolean, setPlay: (params: boolean) => void}) {
   return (
     <Group spacing="lg">
-      <CommentClapCount clapCount={clapCount} play={play} setPlay={setPlay} />
+      {/* <CommentClapCount clapCount={clapCount} play={play} setPlay={setPlay} /> */}
       {/* <AwardCount /> */}
     </Group>
   );

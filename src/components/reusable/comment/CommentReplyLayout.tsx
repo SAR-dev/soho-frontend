@@ -1,17 +1,16 @@
 import { Avatar, Group, createStyles, Text, Stack, TypographyStylesProvider, ActionIcon, Tooltip, Badge } from '@mantine/core';
-import { CommentFooter } from './CommentFooter';
 import { MdWavingHand, MdReply, MdReport } from "react-icons/md";
 import { FaGift } from 'react-icons/fa';
-import { ReplyFooter } from './ReplyFooter';
 import { CommentDataParam, TreeCommentDataParam } from '@interfaces/comment';
 import { CreateReply } from './CreateReply';
 import { useEffect, useState } from 'react';
-import { parseErrors, pinComment, unpinComment, voteComment } from 'src/helpers';
+import { doubleDigit, parseErrors, pinComment, unpinComment, voteComment } from 'src/helpers';
 import { useNotifications } from '@mantine/notifications';
 import { Check, Pin, Pinned, X } from 'tabler-icons-react';
 import { useQueryClient } from 'react-query';
 import { Reply } from './Reply';
 import { PostDataParam } from '@interfaces/post';
+import { CommentReplyCount } from './CommentReplyCount';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     cwrapper: {
@@ -41,24 +40,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     typography: {
         fontSize: theme.fontSizes.sm,
     },
-    menu: {
-        borderWidth: 1,
-        borderStyle: 'solid',
-        backgroundColor:
-            theme.colorScheme === "dark"
-                ? theme.colors.dark[6]
-                : theme.colors.gray[3],
-        borderColor:
-            theme.colorScheme === "dark"
-                ? theme.colors.dark[4]
-                : theme.colors.gray[4],
-        padding: 5,
-        borderRadius: theme.radius.sm,
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        display: 'none',
-    },
     replies: {
         borderLeftWidth: 1,
         borderLeftStyle: 'solid',
@@ -85,6 +66,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         // backgroundColor: theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25),
         // padding: theme.spacing.sm,
         // borderRadius: theme.radius.xs
+    },
+    clapButton: {
+        width: 45,
+        paddingLeft: 3,
+        paddingRight: 3
     }
 }));
 
@@ -201,11 +187,11 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
 
     return (
         <>
-            <Stack spacing={8} className={cx({ [classes.cwrapper]: layout === 'comment' }, { [classes.rwrapper]: layout === 'reply' }, {[classes.pinned]: pinned})}>
+            <Stack spacing={8} className={cx({ [classes.cwrapper]: layout === 'comment' }, { [classes.rwrapper]: layout === 'reply' }, { [classes.pinned]: pinned })}>
                 {pinned && (
-                <div className={classes.flex}>
-                    <Badge className={classes.badge} radius="xs" leftSection={<Pinned style={{display: "flex"}} size={14} />}>Pinned Comment</Badge>
-                </div>
+                    <div className={classes.flex}>
+                        <Badge className={classes.badge} radius="xs" leftSection={<Pinned style={{ display: "flex" }} size={14} />}>Pinned Comment</Badge>
+                    </div>
                 )}
                 <Group spacing="xs">
                     <Avatar
@@ -216,10 +202,17 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
                     />
                     <Text size="sm" weight={600} color="yellow">{`${data.author.first_name} ${data.author.last_name}`}</Text>
                     <Text size="sm" weight={600} color="dimmed">2 hours ago</Text>
-                    <Group spacing="xs" ml="auto" className={cx(classes.menu, { ['comment-menus']: layout === 'comment' }, { ['reply-menus']: layout === 'reply' })}>
+                </Group>
+                <TypographyStylesProvider className={classes.typography}>
+                    <div dangerouslySetInnerHTML={{ __html: data.content }} />
+                </TypographyStylesProvider>
+                <Group>
+                    {layout === "comment" && <CommentReplyCount commentsCount={commentsCount} color="red" />}
+                    <Group spacing="xs" className={cx({ ['comment-menus']: layout === 'comment' }, { ['reply-menus']: layout === 'reply' })}>
                         <Tooltip label="Clap" position="top">
-                            <ActionIcon variant="filled" size="xs" loading={loading} onClick={() => submit()}>
+                            <ActionIcon className={classes.clapButton} variant="filled" size="xs" loading={loading} onClick={() => submit()}>
                                 <MdWavingHand size={14} className="wave" />
+                                <Text ml="auto" size='xs' weight={600}>{doubleDigit(data.num_vote_up)}</Text>
                             </ActionIcon>
                         </Tooltip>
                         {layout === "comment" && (
@@ -258,11 +251,6 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
                         </Tooltip>
                     </Group>
                 </Group>
-                <TypographyStylesProvider className={classes.typography}>
-                    <div dangerouslySetInnerHTML={{ __html: data.content }} />
-                </TypographyStylesProvider>
-                {layout === "comment" && <CommentFooter play={play} setPlay={setPlay} commentsCount={commentsCount} clapCount={data.num_vote_up} />}
-                {layout === "reply" && <ReplyFooter play={play} setPlay={setPlay} clapCount={data.num_vote_up} />}
             </Stack>
             {layout === 'comment' && showReplyEditor && (
                 <Stack p={15} ml={10} className={classes.createReply} pb="md">

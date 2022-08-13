@@ -7,7 +7,7 @@ export function CommentFooter({ commentsCount, clapCount, play, setPlay }: { com
   return (
     <Group spacing="lg">
       <CommentReplyCount commentsCount={commentsCount} color="red" />
-      <CommentClapCount clapCount={clapCount} play={play} setPlay={setPlay} />
+      {/* <CommentClapCount clapCount={clapCount} play={play} setPlay={setPlay} /> */}
       {/* <AwardCount /> */}
     </Group>
   );
