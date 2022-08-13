@@ -1,11 +1,9 @@
 import { Category } from '@interfaces/category';
-import { createStyles, Space } from '@mantine/core';
-import { ReactNode, useState } from 'react';
+import { createStyles } from '@mantine/core';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getChannels } from '../../../helpers';
-import { Channel, SubChannel } from './LinksGroup';
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { Channel } from './LinksGroup';
 
 const useStyles = createStyles((theme) => ({
     control: {
@@ -84,10 +82,6 @@ export function Channels({ setDefaultSlug }: { setDefaultSlug: (params: string) 
             {data && data.data.results.map((item, i) => (
                 <Channel {...item} author={author} key={i} />
             ))}
-            {/* <Space h="xs" /> */}
-            {/* {data && data.data.results.find(e => e.name === 'default')?.sub_categories.map((item, i) => (
-                <SubChannel sub_category={item} author={author} chevron={true} key={i} />
-            ))} */}
         </div>
     );
 }

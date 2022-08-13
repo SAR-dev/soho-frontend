@@ -1,8 +1,7 @@
 import { createStyles, Anchor } from "@mantine/core";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import parse, { HTMLReactParserOptions } from 'html-react-parser';
 import { Element } from 'domhandler/lib/node';
-import Linkify from 'linkify-react';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   typography: {
@@ -31,9 +30,7 @@ export function HtmlRenderer({ body, id, author }: { body: string, id: number, a
 
   return (
     <div className={cx(classes.typography, "markdown-body-dark")}>
-      <Linkify options={{ target: "_blank" }}>
         {parse(body, options)}
-      </Linkify>
     </div>
   );
 }

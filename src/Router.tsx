@@ -9,8 +9,6 @@ import {
   removeTokenFromLocal,
   setTokenToLocal,
 } from "./helpers";
-import { Offline, Online } from "react-detect-offline";
-import { Error503 } from "./components/pages/Error503";
 import { Home } from "./components/pages/Home";
 import { SHome } from "./components/pages/c/s/SHome";
 import { PType } from "./components/pages/t/PType";
@@ -21,13 +19,6 @@ import { Settings } from "@pages/s/Settings";
 import { Rules } from "@pages/t/Rules";
 import { CLeave } from "@pages/c/CLeave";
 import { Search } from "@pages/c/Search";
-
-const polling = {
-  enabled: true,
-  interval: 5000,
-  timeout: 5000,
-  url: "https://ipv4.icanhazip.com",
-};
 
 function Router() {
   const modals = useModals();
@@ -63,7 +54,6 @@ function Router() {
 
   return (
     <>
-      {/* <Online polling={polling}> */}
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<Error404 />} />
@@ -81,10 +71,6 @@ function Router() {
           <Route path="/s/:author/t/:sType" element={<Settings />} />
         </Routes>
       </BrowserRouter>
-      {/* </Online> */}
-      {/* <Offline polling={polling}> */}
-      {/* <Error503 /> */}
-      {/* </Offline> */}
     </>
   );
 }
