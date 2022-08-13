@@ -40,6 +40,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     marginTop: theme.spacing.sm,
     color: theme.colors.red[3],
   },
+  wFull: {
+    width: "100%"
+  }
 }));
 
 dayjs.extend(relativeTime)
@@ -57,7 +60,7 @@ export function AmaPostCard({ ...props }: PostDataParam) {
       <div className={classes.cover}>
         <div className={classes.wrapper}>
           <Author {...props.author} />
-          <div>
+          <div className={classes.wFull}>
             <Group>
               <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
               <PostMenus is_admin={props.group.is_admin} is_moderator={props.group.is_moderator} author_username={props.author.username} setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
@@ -82,7 +85,7 @@ export function AmaPostCard({ ...props }: PostDataParam) {
       </div>
       <PostContentUpdateModal richText={false} opened={editorModal} setOpened={setEditorModal} content={props.content} id={props.id} />
       <PostDeleteModal opened={deleteModal} setOpened={setDeleteModal} id={props.id} />
-      <PostCanCommentModal opened={deleteModal} setOpened={setDeleteModal} id={props.id} can_comment={props.can_comment} />
+      <PostCanCommentModal opened={canCommentModal} setOpened={setCanCommentModal} id={props.id} can_comment={props.can_comment} />
       <PostCanVoteModal opened={canVoteModal} setOpened={setCanVoteModal} id={props.id} can_vote={props.can_vote} />
     </>
   );

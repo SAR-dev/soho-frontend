@@ -93,7 +93,7 @@ export function PollPostCard({ ...props }: PostDataParam) {
       </div>
       <PostContentUpdateModal richText={true} opened={editorModal} setOpened={setEditorModal} content={props.content} id={props.id} />
       <PostDeleteModal opened={deleteModal} setOpened={setDeleteModal} id={props.id} />
-      <PostCanCommentModal opened={deleteModal} setOpened={setDeleteModal} id={props.id} can_comment={props.can_comment} />
+      <PostCanCommentModal opened={canCommentModal} setOpened={setCanCommentModal} id={props.id} can_comment={props.can_comment} />
       <PostCanVoteModal opened={canVoteModal} setOpened={setCanVoteModal} id={props.id} can_vote={props.can_vote} />
     </>
   );

@@ -14,12 +14,12 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     color: theme.colors.red[3],
   },
   circle: {
-    width: 6,
-    height: 6,
+    width: 4,
+    height: 4,
     borderRadius: "100%",
     background: "#fff",
-    marginLeft: -3,
-    marginRight: -3
+    marginLeft: -8,
+    marginRight: -8
   }
 }));
 

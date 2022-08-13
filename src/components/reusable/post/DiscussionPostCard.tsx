@@ -43,6 +43,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
   announcement: {
     color: theme.colors.blue[3]
+  },
+  wFull: {
+    width: "100%"
   }
 }));
 
@@ -69,7 +72,7 @@ export function DiscussionPostCard({ ...props }: PostDataParam) {
       <div className={classes.cover}>
         <div className={classes.wrapper}>
           <Author {...props.author} />
-          <div>
+          <div className={classes.wFull}>
             <Group>
               <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
               <PostMenus is_admin={props.group.is_admin} is_moderator={props.group.is_moderator} author_username={props.author.username} setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
