@@ -32,7 +32,7 @@ export function PostDeleteModal({ ...props }: PostDeleteModalParam) {
             if (res.error) {
                 setLoading(false)
                 notifications.showNotification({
-                    title: "Error drafting post!",
+                    title: "Error deleting post!",
                     message: parseErrors(res.error)[0],
                     color: "red",
                     icon: <X size={18} />,

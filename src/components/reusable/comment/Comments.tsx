@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { createStyles, Group, Select, Text, Stack, AvatarsGroup, Avatar, Center } from "@mantine/core";
+import { createStyles, Group, Select, Text, Stack, AvatarsGroup, Avatar, Center, Loader, ActionIcon, Tooltip } from "@mantine/core";
 import { Comment } from "./Comment";
-import { CommentAward } from "./CommentAward";
-import { useQuery } from "react-query";
+import { CommentAward } from "./layers/CommentAward";
+import { useQuery, useQueryClient } from "react-query";
 import { capitalizeFirstLetter, doubleDigit, getComments } from "../../../helpers";
 import { CommentDataParam, TreeCommentDataParam } from "@interfaces/comment";
 import { NoResults } from "../../reusable/NoResults";
@@ -11,6 +11,7 @@ import { CommentPlaceholder } from "./CommentPlaceholder";
 import sortArray from 'sort-array'
 import { FaCodeBranch } from "react-icons/fa";
 import { useAutoAnimate } from '@reusable/formkit/auto-animate/react'
+import { AiOutlineReload } from "react-icons/ai";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     wrapper: {
@@ -59,6 +60,7 @@ export interface DataParam {
 
 export function Comments({ is_admin, is_moderator, postId, members_name, pinned_comment }: { postId: number, members_name: string, is_admin: boolean, is_moderator: boolean, pinned_comment?: number }) {
     const { classes } = useStyles();
+    const queryClient = useQueryClient()
     const [parent] = useAutoAnimate<HTMLDivElement>({
         duration: 500
     })
@@ -66,7 +68,7 @@ export function Comments({ is_admin, is_moderator, postId, members_name, pinned_
 
     const [treeComments, setTreeComments] = useState<TreeCommentDataParam[]>()
 
-    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['comments', postId], () => getComments({ postId: postId }), {
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['comments', postId.toString()], () => getComments({ postId: postId }), {
         onSuccess: res => {
             setUniqueUsers(uniqueUserAvatars())
             if (res?.data.results) {
@@ -104,15 +106,21 @@ export function Comments({ is_admin, is_moderator, postId, members_name, pinned_
                 </Center>
                 <Text size="sm" color="dimmed" weight={600}>{doubleDigit(uniqueUsers.length)} {`${capitalizeFirstLetter(members_name)}`}</Text>
                 <Text size="sm" color="dimmed" weight={600}>{data?.data.results && doubleDigit(data?.data.results?.length)} Responses</Text>
-                <Select
-                    placeholder="Sort By"
-                    data={[{ value: 'created_at', label: 'Date' }, { value: 'num_vote_up', label: 'Popularity' }, { value: 'num_vote_up', label: 'Claps' }]}
-                    value={sortBy}
-                    onChange={e => setSortBy(e!)}
-                    required
-                    size="xs"
-                    ml="auto"
-                />
+                <Group ml="auto">
+                    <Tooltip label={(isFetching || isLoading) ? "Loading Comments" : "Click to reload Comments"} position="top">
+                        <ActionIcon variant="light" loading={isFetching || isLoading} onClick={() => queryClient.invalidateQueries(["comments", postId.toString()])}>
+                            <AiOutlineReload />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Select
+                        placeholder="Sort By"
+                        data={[{ value: 'created_at', label: 'Date' }, { value: 'num_vote_up', label: 'Popularity' }, { value: 'num_vote_up', label: 'Claps' }]}
+                        value={sortBy}
+                        onChange={e => setSortBy(e!)}
+                        required
+                        size="xs"
+                    />
+                </Group>
             </Group>
             {data?.data.results?.length === 0 && <NoResults text="Comments" />}
             {uniqueUsers.length > 5 && (
@@ -122,7 +130,7 @@ export function Comments({ is_admin, is_moderator, postId, members_name, pinned_
                     )}
                 </AvatarsGroup>
             )}
-            <Stack spacing="lg" mt="lg"  ref={parent}>
+            <Stack spacing="lg" mt="lg" ref={parent}>
                 {treeComments && sortArray(treeComments, {
                     by: [sortBy, 'unpinned'], order: 'desc', computed: {
                         unpinned: repository => repository.id !== pinned_comment

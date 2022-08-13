@@ -1,7 +1,7 @@
 import { Group } from "@mantine/core";
-import { CommentReplyCount } from "./CommentReplyCount";
+import { CommentReplyCount } from "./layers/CommentReplyCount";
 import { AwardCount } from "../post/layers/AwardCount";
-import { CommentClapCount } from "./CommentClapCount";
+import { CommentClapCount } from "./layers/CommentClapCount";
 
 export function CommentFooter({ commentsCount, clapCount, play, setPlay }: { commentsCount: number, clapCount: number, play: boolean, setPlay: (params: boolean) => void }) {
   return (

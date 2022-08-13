@@ -85,7 +85,7 @@ export function CreateReply({ comment, setShow, postId }: { comment: CommentData
                 });
                 setLoading(false)
                 setText("")
-                queryClient.invalidateQueries(["comments", comment.id])
+                queryClient.invalidateQueries(["comments", postId.toString()])
                 setShow(false)
             }
         })

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, updatePostContentInterface, UpdateRulesInterface } from "@interfaces/api";
+import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, updateCommentInterface, updatePostContentInterface, UpdateRulesInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { serialize } from 'object-to-formdata';
@@ -387,6 +387,26 @@ export function createComment({ postId, content }: { postId: number, content: st
 
 export function createReply({ postId, commentId, content }: { postId: number, commentId: number, content: string }): Promise<any> {
   return axios.post(`comment/create/post/${postId}/parent/${commentId}/`, { content }, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function updateComment({ id, data }: { id: number, data: updateCommentInterface }): Promise<any> {
+  return axios.put(`comment/${id}/update/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function deleteComment(id: number): Promise<any> {
+  return axios.delete(`comment/${id}/update/`, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

@@ -1,4 +1,4 @@
-import { Avatar, Group, createStyles, Text, Stack, TypographyStylesProvider, ActionIcon, Tooltip, Badge } from '@mantine/core';
+import { Avatar, Group, createStyles, Text, Stack, TypographyStylesProvider, ActionIcon, Tooltip, Badge, Code } from '@mantine/core';
 import { MdWavingHand, MdReply, MdReport } from "react-icons/md";
 import { FaGift } from 'react-icons/fa';
 import { CommentDataParam, TreeCommentDataParam } from '@interfaces/comment';
@@ -10,7 +10,10 @@ import { Check, Pin, Pinned, X } from 'tabler-icons-react';
 import { useQueryClient } from 'react-query';
 import { Reply } from './Reply';
 import { PostDataParam } from '@interfaces/post';
-import { CommentReplyCount } from './CommentReplyCount';
+import { CommentReplyCount } from './layers/CommentReplyCount';
+import { CommentMenus } from './layers/CommentMenus';
+import { CommentContentUpdateModal } from './layers/CommentContentUpdateModal';
+import { CommentDeleteModal } from './layers/CommentDeleteModal';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     cwrapper: {
@@ -93,9 +96,11 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
     const queryClient = useQueryClient()
 
     const [showReplyEditor, setShowReplyEditor] = useState(false)
-    const [play, setPlay] = useState(false)
     const [loading, setLoading] = useState(false)
     const [pinned, setPinned] = useState(false)
+
+    const [editModal, setEditModal] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
 
     useEffect(() => {
         if (data.id === pinned_comment) {
@@ -106,7 +111,7 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
     }, [pinned_comment, data])
 
 
-    const submit = () => {
+    const clapComment = () => {
         setLoading(true)
         voteComment(data.id).then(res => {
             if (res.error) {
@@ -119,7 +124,6 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
                 });
             } else {
                 setLoading(false)
-                setPlay(true)
                 const oldData: any = queryClient.getQueryData<DataParam>(['comments', postId.toString()])
                 const newData = oldData
                 const commentIndex = newData.data.results.findIndex((e: { id: number }) => e.id === data.id)
@@ -202,15 +206,22 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
                     />
                     <Text size="sm" weight={600} color="yellow">{`${data.author.first_name} ${data.author.last_name}`}</Text>
                     <Text size="sm" weight={600} color="dimmed">2 hours ago</Text>
+                    <CommentMenus setEditorModal={setEditModal} setDeleteModal={setDeleteModal} is_admin={is_admin} is_moderator={is_moderator} author_username={data.author.username} />
                 </Group>
-                <TypographyStylesProvider className={classes.typography}>
-                    <div dangerouslySetInnerHTML={{ __html: data.content }} />
-                </TypographyStylesProvider>
+
+                {data.is_active ? (
+                    <TypographyStylesProvider className={classes.typography}>
+                        <div dangerouslySetInnerHTML={{ __html: data.content }} />
+                    </TypographyStylesProvider>
+                ) : (
+                    <Code style={{width: "fit-content"}}>{data.content}</Code>
+                )}
+
                 <Group>
                     {layout === "comment" && <CommentReplyCount commentsCount={commentsCount} color="red" />}
                     <Group spacing="xs" className={cx({ ['comment-menus']: layout === 'comment' }, { ['reply-menus']: layout === 'reply' })}>
                         <Tooltip label="Clap" position="top">
-                            <ActionIcon className={classes.clapButton} variant="filled" size="xs" loading={loading} onClick={() => submit()}>
+                            <ActionIcon className={classes.clapButton} variant="filled" size="xs" loading={loading} onClick={() => clapComment()}>
                                 <MdWavingHand size={14} className="wave" />
                                 <Text ml="auto" size='xs' weight={600}>{doubleDigit(data.num_vote_up)}</Text>
                             </ActionIcon>
@@ -264,6 +275,8 @@ export function CommentReplyLayout({ layout, data, postId, commentsCount, is_adm
                     ))}
                 </Stack>
             )}
+            <CommentContentUpdateModal opened={editModal} setOpened={setEditModal} content={data.content} id={data.id} postId={postId} />
+            <CommentDeleteModal opened={deleteModal} setOpened={setDeleteModal} id={data.id} postId={postId} hasChildren={data.children?.length !== 0} />
         </>
     )
 }

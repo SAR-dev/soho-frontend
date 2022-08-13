@@ -24,10 +24,6 @@ export function PostMenus({ ...props }: Props) {
         enabled: token !== null
     })
 
-    if (data) {
-        console.log(props.author_username, data.username)
-    }
-
     return (
         <>
                 {(props.is_admin || props.is_moderator || props.author_username === data?.username) && (

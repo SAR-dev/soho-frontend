@@ -50,3 +50,7 @@ export interface AvatarUpdateInterface {
 export interface UpdateRulesInterface {
     rules: string;
 }
+
+export interface updateCommentInterface {
+    content: string;
+}

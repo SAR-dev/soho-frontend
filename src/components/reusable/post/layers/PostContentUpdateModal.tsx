@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 
 const textLimit = 2500
 
-interface UpdateContentModalParam {
+interface PostContentUpdateModalParam {
     opened: boolean;
     setOpened: (params: boolean) => void;
     content: string | null;
@@ -42,7 +42,7 @@ interface DataParam {
     data: PostDataParam
 }
 
-export function PostContentUpdateModal({ ...props }: UpdateContentModalParam) {
+export function PostContentUpdateModal({ ...props }: PostContentUpdateModalParam) {
     const { classes, cx } = useStyles();
     const [text, setText] = useState(props.content || '')
     const notifications = useNotifications();
