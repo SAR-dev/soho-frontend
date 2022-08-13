@@ -121,13 +121,6 @@ export function GroupSettings() {
                     value={slogan}
                     onChange={e => set_slogan(e.target.value)}
                 />
-                <TextInput
-                    placeholder="Joining Code"
-                    label="Joining Code"
-                    className="thick-border"
-                    value={token}
-                    onChange={e => set_token(e.target.value.toUpperCase())}
-                />
                 <div>
                     <Image
                         height={200}
