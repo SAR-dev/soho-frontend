@@ -11,6 +11,11 @@ export interface relocateSubChannelInterface {
     category: number;
 }
 
+export interface updateSubChannelInterface {
+    name: string;
+    emoji: string;
+}
+
 export interface updatePostContentInterface {
     content?: string;
 }
@@ -53,4 +58,8 @@ export interface UpdateRulesInterface {
 
 export interface updateCommentInterface {
     content: string;
+}
+
+export interface updateChannelInterface {
+    name: string;
 }

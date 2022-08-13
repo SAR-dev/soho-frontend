@@ -8,10 +8,8 @@ import { useNotifications } from "@mantine/notifications";
 import { EmojiPopover } from "@editors/EmojiPopover";
 import { getHotkeyHandler } from "@mantine/hooks";
 
-const useStyles = createStyles((theme) => ({}));
 
 export function SubChannelCreateForm({ setOpened, channel }: { setOpened: (params: boolean) => void, channel: string }) {
-    const { classes, cx } = useStyles();
     const { author } = useParams<"author">();
 
     const queryClient = useQueryClient();

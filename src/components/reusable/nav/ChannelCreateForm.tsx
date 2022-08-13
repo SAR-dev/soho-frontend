@@ -7,10 +7,8 @@ import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 import { getHotkeyHandler } from "@mantine/hooks";
 
-const useStyles = createStyles((theme) => ({}));
 
 export function ChannelCreateForm({ setOpened }: { setOpened: any }) {
-    const { classes, cx } = useStyles();
     const { author } = useParams<"author">();
 
     const queryClient = useQueryClient();

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Collapse, createStyles, ActionIcon, Modal, Tooltip, Loader } from '@mantine/core';
+import { Collapse, createStyles, ActionIcon, Modal, Tooltip, Loader, Group, Center } from '@mantine/core';
 import { Hash, Plus, X } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { Category, SubCategory } from '@interfaces/category';
@@ -9,9 +9,12 @@ import { SubChannelCreateForm } from './SubChannelCreateForm';
 import { GoTriangleRight } from 'react-icons/go';
 import { useQueryClient } from 'react-query';
 import { useNotifications } from '@mantine/notifications';
-import {RiDragMoveLine} from "react-icons/ri"
+import { RiDragMoveLine } from "react-icons/ri"
+import { MdEdit } from 'react-icons/md';
+import { ChannelUpdateForm } from './ChannelUpdateForm';
+import { SubChannelUpdateForm } from './SubChannelUpdateForm';
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _params, getRef) => ({
   control: {
     display: 'flex',
     alignItems: 'center',
@@ -27,6 +30,10 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
+
+    [`&:hover .${getRef('child')}`]: {
+      visibility: "visible"
+    }
   },
 
   hidden: {
@@ -37,18 +44,30 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
     display: 'flex',
     alignItems: "center",
-    padding: `8px ${theme.spacing.xs}px`,
+    padding: `0px ${theme.spacing.xs}px`,
+    justifyContent: "space-between",
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
+
+    [`&:hover .${getRef('child')}`]: {
+      visibility: "visible"
+    }
+  },
+
+  collectionText: {
+    padding: "8px 0px",
+    width: "100%",
+    display: 'flex',
+    alignItems: "center",
     textDecoration: 'none',
     borderRadius: theme.radius.sm,
     fontSize: theme.fontSizes.xs,
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     lineHeight: 1,
     fontWeight: 500,
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    },
   },
 
   collectionIcon: {
@@ -95,6 +114,10 @@ const useStyles = createStyles((theme) => ({
     marginTop: -3,
     marginBottom: -3,
   },
+  child: {
+    ref: getRef('child'),
+    visibility: "hidden"
+  }
 
 }));
 
@@ -109,6 +132,7 @@ export interface Props {
 export function SubChannel({ sub_category, author, chevron }: { sub_category: SubCategory, author?: string, chevron?: boolean }) {
   const { classes, theme } = useStyles();
   const [dragging, setDragging] = useState(false);
+  const [subChannelEditing, setSubChannelEditing] = useState(false)
 
   const dragRef = useRef(null);
 
@@ -122,10 +146,27 @@ export function SubChannel({ sub_category, author, chevron }: { sub_category: Su
   });
 
   return (
-    <Link id={sub_category.slug} to={`/c/${author}/sch/${sub_category.slug}`} className={classes.collectionLink} ref={dragRef}>
-      <div className={classes.collectionIcon}>{sub_category.emoji}</div> {sub_category.name}
-      {chevron && <GoTriangleRight className={classes.chevron} />}
-    </Link>
+    <>
+      <div className={classes.collectionLink} ref={dragRef}>
+        <Link id={sub_category.slug} to={`/c/${author}/sch/${sub_category.slug}`} className={classes.collectionText}>
+          <div className={classes.collectionIcon}>{sub_category.emoji}</div> {sub_category.name}
+          {chevron && <GoTriangleRight className={classes.chevron} />}
+        </Link>
+        <Tooltip label="Update SOHO" withArrow position="right">
+          <ActionIcon size={18} variant="default" className={classes.child} onClick={() => setSubChannelEditing(true)}>
+            <MdEdit size={12} />
+          </ActionIcon>
+        </Tooltip>
+      </div>
+      <Modal
+        centered
+        opened={subChannelEditing}
+        onClose={() => setSubChannelEditing(false)}
+        title="Update a SOHO"
+      >
+        <SubChannelUpdateForm setOpened={setSubChannelEditing} name={sub_category.name} slug={sub_category.slug} icon={sub_category.emoji} />
+      </Modal>
+    </>
   )
 }
 
@@ -153,10 +194,13 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
   const [opened, setOpened] = useState(true);
   const [isHovering, setIsHovering] = useState(false);
   const [loading, setLoading] = useState(false)
-  const [modal, setModal] = useState(false)
+  const [subChannelCreating, setSubChannelCreating] = useState(false)
+  const [channelEditing, setChannelEditing] = useState(false)
+
   const queryClient = useQueryClient();
   const notifications = useNotifications();
   const dropRef = useRef(null);
+
 
   const items = (hasLinks ? sub_categories : []).map((link, i) => (
     <SubChannel author={author} sub_category={link} chevron={name === "default"} key={i} />
@@ -206,17 +250,24 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
           {loading ? (
             <Loader size="xs" />
           ) : (
-            <Tooltip label="Create Soho Here" withArrow position="right">
-              <ActionIcon size={18} variant="default" onClick={() => setModal(true)}>
-                <Plus size={12} />
-              </ActionIcon>
-            </Tooltip>
+            <Center>
+              <Tooltip label="Update Soho" withArrow position="right">
+                <ActionIcon size={18} variant="default" mr="sm" className={classes.child} onClick={() => setChannelEditing(true)}>
+                  <MdEdit size={12} />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Create Soho Here" withArrow position="right">
+                <ActionIcon size={18} variant="default" onClick={() => setSubChannelCreating(true)}>
+                  <Plus size={12} />
+                </ActionIcon>
+              </Tooltip>
+            </Center>
           )}
         </div>
       )}
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
       {name === "default" && (
-        <div id={slug} className={cx(classes.collectionLink, { [classes.active]: isHovering }, { [classes.hidden]: !isHovering })} ref={loading ? undefined : dropRef}>
+        <div id={slug} style={{ paddingTop: 6, paddingBottom: 6 }} className={cx(classes.collectionLink, { [classes.active]: isHovering }, { [classes.hidden]: !isHovering })} ref={loading ? undefined : dropRef}>
           <div className={classes.collectionIcon}><RiDragMoveLine size={16} /></div> Drop Here
           {loading && (
             <Loader size="xs" ml="auto" />
@@ -225,11 +276,19 @@ export function Channel({ id, name, slug, sub_categories, author }: Props) {
       )}
       <Modal
         centered
-        opened={modal}
-        onClose={() => setModal(false)}
+        opened={subChannelCreating}
+        onClose={() => setSubChannelCreating(false)}
         title="Create a Soho"
       >
-        <SubChannelCreateForm setOpened={setModal} channel={slug} />
+        <SubChannelCreateForm setOpened={setSubChannelCreating} channel={slug} />
+      </Modal>
+      <Modal
+        centered
+        opened={channelEditing}
+        onClose={() => setChannelEditing(false)}
+        title="Update a Folder"
+      >
+        <ChannelUpdateForm setOpened={setChannelEditing} name={name} slug={slug} />
       </Modal>
     </div>
   );

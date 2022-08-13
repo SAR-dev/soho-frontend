@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, updateCommentInterface, updatePostContentInterface, UpdateRulesInterface } from "@interfaces/api";
+import { AvatarUpdateInterface, CommunityUpdateInterface, createChannelInterface, createPollInterface, createPostInterface, createSubChannelInterface, MeUpdateInterface, relocateSubChannelInterface, updateChannelInterface, updateCommentInterface, updatePostContentInterface, UpdateRulesInterface, updateSubChannelInterface } from "@interfaces/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { serialize } from 'object-to-formdata';
@@ -181,6 +181,26 @@ export function createSubChannel({ username, category, data }: { username: strin
 
 export function relocateSubChannel({ username, sub_category, data }: { username?: string, sub_category: string, data: relocateSubChannelInterface }): Promise<any> {
   return axios.put(`group/${username}/subcategory/${sub_category}/relocate/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+
+export function updateSubChannel({ username, sub_category, data }: { username?: string, sub_category: string, data: updateSubChannelInterface }): Promise<any> {
+  return axios.put(`group/${username}/subcategory/${sub_category}/update/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+export function updateChannel({ username, category, data }: { username?: string, category: string, data: updateChannelInterface }): Promise<any> {
+  return axios.put(`group/${username}/categories/${category}/update/`, data, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

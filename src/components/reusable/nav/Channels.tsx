@@ -1,5 +1,6 @@
 import { Category } from '@interfaces/category';
 import { createStyles } from '@mantine/core';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getChannels } from '../../../helpers';
