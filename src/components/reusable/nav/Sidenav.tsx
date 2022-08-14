@@ -196,7 +196,9 @@ export function Sidenav() {
               </Group>
             )}
           </Group>
-          <Channels setDefaultSlug={setDefaultSlug} is_admin={data?.data?.is_admin} />
+          {data?.data && (
+            <Channels setDefaultSlug={setDefaultSlug} is_admin={data.data.is_admin} />
+          )}
         </Navbar.Section>
         <Navbar.Section className={classes.footer}>
           <ActivityBottom />
