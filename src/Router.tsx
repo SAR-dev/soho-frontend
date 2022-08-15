@@ -36,7 +36,7 @@ function Router() {
       setTokenToLocal(t);
       setToken(t);
     }
-    auth.onAuthStateChanged((credential) => {
+    auth.onIdTokenChanged((credential) => {
       if (credential) {
         credential.getIdToken(true).then((token) => {
           setTokenToLocal(token);
