@@ -1,11 +1,12 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useCallback, memo } from 'react';
 import { createStyles, UnstyledButton, Tooltip, Avatar } from '@mantine/core';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { getSubscribedList, mapOrder } from 'src/helpers';
 import { SubscriberDataParam } from '@interfaces/subscribers';
 import { Link, useParams } from 'react-router-dom';
 import { useLocalStorage } from '@mantine/hooks';
+import { isEqual } from 'lodash';
 
 const useStyles = createStyles((theme) => ({
     container: { textAlign: "center" },
@@ -63,17 +64,16 @@ export interface DataParam {
 
 export default function UserLists() {
     const { classes, cx } = useStyles();
-    const [items, setItems] = useState<SubscriberDataParam[]>()
     const { author } = useParams<"author">();
+    const [value, setValue] = useState(0);
+    const queryClient = useQueryClient();
 
     const [subs, setSubs] = useLocalStorage<number[]>({
         key: 'subs',
         defaultValue: [],
     });
 
-    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['subscribes'], () => getSubscribedList(), {
-        onSuccess: res => setItems(mapOrder({ array: res.data.results, order: subs, key: "id" }))
-    })
+    const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>(['subscribes'], () => getSubscribedList())
 
     if (isLoading) return (<></>)
 
@@ -96,16 +96,16 @@ export default function UserLists() {
     });
 
     function onSortEnd({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }): any {
-        if (items) {
-            const res = arrayMove(items, oldIndex, newIndex)
-            setItems(res)
+        if (data?.data) {
+            const res = arrayMove(data.data.results, oldIndex, newIndex)
             setSubs(res.map(e => e.id))
+            setValue(value => value + 1)
         }
     };
 
     return (
-        <SortableContainerC onSortEnd={onSortEnd} pressDelay={200} axis="y" lockAxis='y'>
-            {items?.map((el, index) => (
+        <SortableContainerC onSortEnd={onSortEnd} pressDelay={200} axis="y" lockAxis='y' key={value}>
+            {data && mapOrder({ array: data.data.results, order: subs, key: "id" }).map((el, index) => (
                 <SortableItemC key={index} label={`${el.author.first_name} ${el.author.last_name}`} avatar={el.author.avatar} username={el.author.username} index={index} i={index} />
             ))}
         </SortableContainerC>
