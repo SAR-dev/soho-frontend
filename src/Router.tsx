@@ -58,7 +58,7 @@ function Router() {
         <Routes>
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<Home />} />
-          <Route path="/c/search" element={<Search />} />
+          <Route path="/c/search/:query" element={<Search />} />
           <Route path="/c/:author" element={<PType />} />
           <Route path="/c/:author/join" element={<CJoin />} />
           <Route path="/c/:author/leave" element={<CLeave />} />

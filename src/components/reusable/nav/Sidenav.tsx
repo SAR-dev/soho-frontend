@@ -148,7 +148,7 @@ export function Sidenav() {
 
   const submit = () => {
     if (text.length !== 0) {
-      navigate(`/c/search?author__username__icontains=${text}`)
+      navigate(`/c/search/${text}`)
     }
   }
 

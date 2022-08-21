@@ -6,7 +6,7 @@ import { HeaderMenu } from '@reusable/nav/HeaderMenu';
 import { CommunityCard, CommunityPlaceholderCard } from '@reusable/stats/CommunityCard';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { searchCommunity } from 'src/helpers';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { CommunityDataParam, CommunitySearchDataParam } from "@interfaces/community"
@@ -50,41 +50,16 @@ export interface DataParam {
 
 export function Search() {
     const { classes, cx } = useStyles();
-    let [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    const [text, setText] = useState("")
-    const [value, setValue] = useState<string[]>([])
-    const [valid, setValid] = useState(false)
-    const [searchTerm, setSearchTerm] = useState("")
+    const { query } = useParams<"query">();
+    const [text, setText] = useState(query)
 
-    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['search', searchTerm], () => searchCommunity({ text: searchTerm }))
+    const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['search', text], () => searchCommunity({ text: text }))
 
-    useEffect(() => {
-        const arr: string[] = []
-        const val: string[] = []
-        fields.forEach(e => {
-            const temp = searchParams.get(e.value)
-            if (temp) {
-                arr.push(e.value)
-                val.push(temp)
-            }
-        })
-        setValue([...arr])
-        setValid(allEqual(val))
-        if (allEqual(val)) {
-            setText(val[0])
-        }
-    }, [searchParams])
-
-    useEffect(() => {
-        const params: string[] = []
-        value.forEach(e => params.push(`${e}=${text}`))
-        setSearchTerm(params.join("&"))
-    }, [value])
-
-    const submit = () => {
-        navigate(`/c/search?${searchTerm}`)
+    const handleChange = (val: string) => {
+        setText(val)
+        navigate(`/c/search/${val}`)
     }
 
     return (
@@ -92,7 +67,7 @@ export function Search() {
             <div className={classes.fullWidth}>
                 <HeaderMenu NavHeight={50} />
                 <Grid className={classes.fullWidth} gutter={0}>
-                    <Grid.Col span={3}>
+                    <Grid.Col span={2}>
                         <Paper className={cx(classes.mainpaper, classes.fullHeight, classes.bgLight)}>
                             <Stack className={classes.fullWidth}>
                                 <div>
@@ -103,10 +78,7 @@ export function Search() {
                                             size="xs"
                                             className={cx(classes.fullWidth, 'thick-border')}
                                             value={text}
-                                            onChange={e => setText(e.target.value)}
-                                            onKeyDown={getHotkeyHandler([
-                                                ['mod+Enter', submit],
-                                            ])}
+                                            onChange={e => handleChange(e.target.value)}
                                             rightSectionWidth={90}
                                             styles={{ rightSection: { pointerEvents: 'none' } }}
                                             rightSection={
@@ -115,27 +87,15 @@ export function Search() {
                                                 </Badge>
                                             }
                                         />
-                                        <ActionIcon color="blue" variant="filled" ml="sm" onClick={() => submit()}>
-                                            <ArrowNarrowRight size={16} />
-                                        </ActionIcon>
                                     </Center>
                                 </div>
-                                <CheckboxGroup
-                                    value={value}
-                                    onChange={setValue}
-                                    orientation="vertical"
-                                    label="Search Options"
-                                    description="Check fields you want to search"
-                                >
-                                    {fields.map((e, i) => <Checkbox value={e.value} label={e.name} key={i} />)}
-                                </CheckboxGroup>
                             </Stack>
                         </Paper>
                     </Grid.Col>
-                    <Grid.Col span={9}>
+                    <Grid.Col span={10}>
                         <ScrollArea style={{ height: "100vh" }}>
                             <Paper className={classes.mainpaper}>
-                                <SimpleGrid cols={2} className={classes.fullWidth}>
+                                <SimpleGrid cols={3} className={classes.fullWidth}>
                                     {isLoading && [...Array(9)].map((e, i) => <CommunityPlaceholderCard key={i} />)}
                                     {data?.data.results.map((community, i) => <CommunityCard {...community} key={i} />)}
                                 </SimpleGrid>
