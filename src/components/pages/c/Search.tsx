@@ -81,11 +81,6 @@ export function Search() {
                                             onChange={e => handleChange(e.target.value)}
                                             rightSectionWidth={90}
                                             styles={{ rightSection: { pointerEvents: 'none' } }}
-                                            rightSection={
-                                                <Badge color="dark" radius="xs" size='xs'>
-                                                    mod+Enter
-                                                </Badge>
-                                            }
                                         />
                                     </Center>
                                 </div>

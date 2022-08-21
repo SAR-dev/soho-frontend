@@ -88,16 +88,16 @@ export function CommunityCard({ ...props }: CommunitySearchDataParam) {
       p="xl"
       radius="sm"
       style={{
-        background: `linear-gradient(0deg, rgba(72, 84, 97, .85), rgba(40, 49, 59, .85) ), url(${props.cover})`
+        background: `linear-gradient(0deg, rgba(72, 84, 97, .25), rgba(40, 49, 59, .25) ), url(${props.cover})`
       }}
       className={classes.card}
     >
       <div className={classes.inner}>
         <div>
-          <Text size="xl" className={classes.label}>
+          <Text size="xl" className={classes.label} lineClamp={1}>
             {`${props.author.first_name} ${props.author.last_name}`}
           </Text>
-          <Text size="xs">
+          <Text size="xs" lineClamp={1}>
             {props.author.username}
           </Text>
           <div>
