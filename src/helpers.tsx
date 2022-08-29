@@ -199,8 +199,19 @@ export function updateSubChannel({ username, sub_category, data }: { username?: 
       return { error: err.response.data }
     })
 };
+
 export function updateChannel({ username, category, data }: { username?: string, category: string, data: updateChannelInterface }): Promise<any> {
   return axios.put(`group/${username}/categories/${category}/update/`, data, defaultConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function deleteChannel({ username, category }: { username?: string, category: string }): Promise<any> {
+  return axios.delete(`group/${username}/categories/${category}/update/`, defaultConfig())
     .then((res) => {
       return { data: res.data }
     })

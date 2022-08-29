@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Paper, Button, Input, Badge, Center, createStyles } from "@mantine/core";
+import { Paper, Button, Input, Badge, Center, createStyles, Group } from "@mantine/core";
 import { X } from "tabler-icons-react";
-import { createChannel, getChannels, parseErrors, updateChannel } from "../../../helpers";
+import { createChannel, deleteChannel, getChannels, parseErrors, updateChannel } from "../../../helpers";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
@@ -49,6 +49,27 @@ export function ChannelUpdateForm({ name, slug, setOpened }: { name: string, slu
             }
         });
     };
+
+    const remove = () => {
+        const username = author || "";
+        setLoading(true);
+        deleteChannel({ username, category: slug}).then((res) => {
+            if (res.error) {
+                notifications.showNotification({
+                    title: "Error deleting folder",
+                    message: parseErrors(res.error)[0],
+                    color: "red",
+                    icon: <X size={18} />,
+                });
+                setLoading(false);
+            } else {
+                setLoading(false);
+                queryClient.invalidateQueries(["channels", author]);
+                setOpened(false);
+            }
+        });
+    };
+
     return (
         <Paper radius="md">
             <Center my="md">
@@ -72,9 +93,14 @@ export function ChannelUpdateForm({ name, slug, setOpened }: { name: string, slu
                 />
 
             </Center>
-            <Button fullWidth mt="xl" onClick={submit} loading={loading}>
-                Update
-            </Button>
+            <Group grow mt="xl" >
+                <Button color="red" onClick={remove} loading={loading}>
+                    Delete
+                </Button>
+                <Button onClick={submit} loading={loading}>
+                    Update
+                </Button>
+            </Group>
         </Paper>
     );
 }
