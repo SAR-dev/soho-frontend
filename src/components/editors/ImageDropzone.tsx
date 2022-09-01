@@ -60,38 +60,16 @@ export function ImageDropzone({ disabled, images, addImage }: Props) {
 
   return (
     <>
-      {sources.length !== 0 ? (
-        <Group spacing="sm" className={classes.footer}>
-          {sources.map((img, i) => <ImageLoader images={images} addImage={addImage} img={img} key={i} />)}
-          <ActionIcon
-            size={IMG_H}
-            variant="filled"
-            onClick={() => fileRef?.current?.click()}
-          >
-            <Plus />
-          </ActionIcon>
-        </Group>
-      ) : (<>
-        <Center
-          inline
-          className={classes.footer}
+      <Group spacing="sm" className={classes.footer}>
+        {sources.map((img, i) => <ImageLoader images={images} addImage={addImage} img={img} key={i} />)}
+        <ActionIcon
+          size={IMG_H}
+          variant="filled"
           onClick={() => fileRef?.current?.click()}
-          mt={sources.length === 0 ? 0 : 'xs'}
         >
-          <InfoCircle size={16} className={classes.icon} />
-          <Text color="dimmed" size="xs">
-            Click here to start uploading or drag image anywhere
-          </Text>
-        </Center>
-        <input
-          ref={fileRef}
-          onChange={handleChange}
-          multiple
-          type="file"
-          accept="image/*"
-          hidden
-        />
-      </>)}
+          <Plus />
+        </ActionIcon>
+      </Group>
       <FullScreenDropzone
         disabled={disabled}
         accept={IMAGE_MIME_TYPE}

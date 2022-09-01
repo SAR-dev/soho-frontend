@@ -196,18 +196,11 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   return (
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
-      <div className={cx(classes.mysm, { [classes.flex]: images.length === 0 })}>
-        {images.length !== 0 && (
+      <div className={classes.mysm}>
           <div className={cx(classes.left, classes.flex, classes.mbsm)}>
             <LimitCounter count={text.length} limit={textLimit} />
           </div>
-        )}
         <ImageDropzone disabled={false} images={images} addImage={addImage} />
-        {images.length === 0 && (
-          <div className={cx(classes.mlAuto, classes.right)}>
-            <LimitCounter count={text.length} limit={textLimit} />
-          </div>
-        )}
       </div>
       <Group>
         <Select
