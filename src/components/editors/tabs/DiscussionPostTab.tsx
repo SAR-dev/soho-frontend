@@ -197,9 +197,6 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
       <div className={classes.mysm}>
-          <div className={cx(classes.left, classes.flex, classes.mbsm)}>
-            <LimitCounter count={text.length} limit={textLimit} />
-          </div>
         <ImageDropzone disabled={false} images={images} addImage={addImage} />
       </div>
       <Group>

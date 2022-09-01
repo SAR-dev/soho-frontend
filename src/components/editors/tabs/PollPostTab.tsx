@@ -133,17 +133,12 @@ export function PollPostTab({ toogle, setLoading }: Props) {
   return (
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
-      <Center mb="sm">
-        <Center>
+      <Group spacing={3} mb="sm">
           <InfoCircle size={16} className={classes.icon} />
           <Text color="dimmed" size="xs">
             Add poll options carefully. You can not change them later!
           </Text>
-        </Center>
-        <div className={classes.mlAuto}>
-          <LimitCounter count={text.length} limit={textLimit} />
-        </div>
-      </Center>
+      </Group>
       {polls.map((e, i) => (
         <PollItem poll={e} polls={polls} setPolls={setPolls} key={i} />
       ))}

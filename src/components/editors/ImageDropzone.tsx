@@ -79,6 +79,14 @@ export function ImageDropzone({ disabled, images, addImage }: Props) {
       >
         {(status) => dropzoneChildren(status, theme)}
       </FullScreenDropzone>
+      <input
+          ref={fileRef}
+          onChange={handleChange}
+          multiple
+          type="file"
+          accept="image/*"
+          hidden
+        />
     </>
   );
 }
