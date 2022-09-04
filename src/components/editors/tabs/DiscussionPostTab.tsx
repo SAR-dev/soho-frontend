@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, Switch, Center } from "@mantine/core";
+import { createStyles, Group, Button, Select, Switch } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
-import { Check, Eye, Hash, Send } from "tabler-icons-react";
+import { Check, Eye, Send } from "tabler-icons-react";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { createAuthorPost, createSubscriberPost, getChannels, parseErrors } from "../../../helpers";
@@ -219,7 +219,8 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           onChange={(event) => setChecked(event.currentTarget.checked)}
         />
         )}
-        <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
+        <LimitCounter count={text.length} limit={textLimit} />
+        <Button size="xs" color="gray" onClick={() => toogle()}>
           Close
         </Button>
         <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>

@@ -151,7 +151,8 @@ export function PollPostTab({ toogle, setLoading }: Props) {
             <Select data={[...times]} size="xs" className={classes.small} value={format} onChange={(e: string) => setFormat(e)} />
           </Group>
         </Tooltip>
-        <Button size="xs" ml="auto" color="gray" onClick={() => toogle()}>
+        <LimitCounter count={text.length} limit={textLimit} />
+        <Button size="xs" color="gray" onClick={() => toogle()}>
           Close
         </Button>
         <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>

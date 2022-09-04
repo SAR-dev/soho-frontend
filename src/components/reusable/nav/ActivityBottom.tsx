@@ -5,6 +5,8 @@ import { ClapIcon } from '@reusable/ClapIcon';
 import React from 'react'
 import { AiFillLike } from 'react-icons/ai';
 import { FaAward, FaReplyAll } from 'react-icons/fa';
+import { MdCreate } from 'react-icons/md';
+import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getLatestActivity } from 'src/helpers';
@@ -32,6 +34,7 @@ export function ActivityBottom() {
         if (verb === "clapped") return <ClapIcon size={16} />
         if (verb === "awarded") return <FaAward className={classes.icon} size={16} />
         if (verb === "replied") return <FaReplyAll className={classes.icon} size={16} />
+        if (verb === "created") return <RiUploadCloud2Fill className={classes.icon} size={16} />
         return <AiFillLike className={classes.icon} size={16} />
     }
 

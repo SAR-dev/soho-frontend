@@ -11,7 +11,7 @@ import {
   Blockquote,
   Underline as UnderlineText
 } from "tabler-icons-react";
-import { FaHeading, FaHighlighter, FaParagraph, FaRedo, FaUndo } from "react-icons/fa";
+import { FaHeading, FaParagraph, FaRedo, FaUndo } from "react-icons/fa";
 import { MdFormatColorText } from "react-icons/md";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import "./editor.css";
@@ -32,7 +32,6 @@ import Link from "@tiptap/extension-link";
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { EmojiPicker } from "@reusable/EmojiPicker";
-import { LimitCounter } from "./LimitCounter";
 
 const useStyles = createStyles((theme) => ({
   menu: {
@@ -44,7 +43,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const MenuBar = ({ editor, minimal=false, textLength, textLimit }: { editor: any, minimal?: boolean, textLength: number, textLimit: number}) => {
+const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) => {
   const { classes, cx } = useStyles();
   if (!editor) {
     return null;
@@ -245,9 +244,6 @@ const MenuBar = ({ editor, minimal=false, textLength, textLimit }: { editor: any
           <FaRedo size={14} />
         </ActionIcon>
       </Tooltip>
-      <div style={{marginLeft: "auto"}}>
-        <LimitCounter count={textLength} limit={textLimit} />
-      </div>
     </Group>
   );
 };
@@ -284,7 +280,7 @@ export function Editor({ text, setText, limit = 5000, minimal=false }: { text: s
 
   return (
     <div className={classes.wrapper}>
-      <MenuBar editor={editor} minimal={minimal} textLength={text.length} textLimit={limit} />
+      <MenuBar editor={editor} minimal={minimal} />
       <div className={cx(classes.menu, "markdown-body-dark")}>
         <EditorContent editor={editor} />
       </div>

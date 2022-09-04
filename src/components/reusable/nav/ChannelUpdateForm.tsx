@@ -8,14 +8,6 @@ import { useNotifications } from "@mantine/notifications";
 import { getHotkeyHandler } from "@mantine/hooks";
 import { Category } from "@interfaces/category";
 
-interface DataParam {
-    data: {
-        count: number;
-        next: null;
-        previous: null;
-        results: Category[];
-    }
-}
 export function ChannelUpdateForm({ name, slug, setOpened }: { name: string, slug: string, setOpened: any }) {
     const { author } = useParams<"author">();
 

@@ -1,26 +1,9 @@
-import {
-  FullScreenDropzone,
-  IMAGE_MIME_TYPE,
-  MIME_TYPES,
-} from "@mantine/dropzone";
-import {
-  Text,
-  useMantineTheme,
-  createStyles,
-  Center,
-  SimpleGrid,
-  Image,
-  Loader,
-  LoadingOverlay,
-  ActionIcon,
-  Group,
-} from "@mantine/core";
+import { FullScreenDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { useMantineTheme, createStyles, ActionIcon, Group } from "@mantine/core";
 import { dropzoneChildren } from "./dropzoneChildren";
-import { InfoCircle, Plus } from "tabler-icons-react";
-import axios from "axios";
-import { asyncForEach } from "../../helpers";
 import { useRef, useState } from "react";
 import { ImageLoader } from "./ImageLoader";
+import { RiImageAddFill } from "react-icons/ri";
 
 const IMG_H = 60;
 
@@ -67,7 +50,7 @@ export function ImageDropzone({ disabled, images, addImage }: Props) {
           variant="filled"
           onClick={() => fileRef?.current?.click()}
         >
-          <Plus />
+          <RiImageAddFill size={30} />
         </ActionIcon>
       </Group>
       <FullScreenDropzone
