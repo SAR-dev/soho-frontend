@@ -235,7 +235,6 @@ export function Channel({ id, name, slug, sub_categories, author, is_admin }: Pr
           newData.data.results[newParentIndex].sub_categories.push(content)
           newData.data.results[oldParentIndex].sub_categories.splice(oldChildIndex, 1)
           queryClient.setQueryData(['channels', author], { ...newData })
-          queryClient.setQueryData(['channels', author], { ...newData })
         }
       })
     },

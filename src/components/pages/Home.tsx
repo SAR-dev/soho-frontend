@@ -30,7 +30,8 @@ export function Home() {
         onError: () => {
           const auth = getAuth();
           signOut(auth)
-        }
+        },
+        retry: 1
       })
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export function Home() {
     return (
         <Paper radius={0} p={0}>
             <Center style={{ width: "100%", height: "100vh" }}>
-                {isLoading ? (
+                {(isLoading || isFetching)? (
                     <Stack align="center">
                         <Loader size="xl" />
                         <Text size='xl' weight={600}>Trying to Authenticate</Text>
