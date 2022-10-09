@@ -1,4 +1,5 @@
 import { createStyles, Text, Group } from "@mantine/core";
+import { ReactNode } from "react";
 import { GoFlame } from "react-icons/go";
 import { IoTimer } from "react-icons/io5";
 
@@ -28,6 +29,7 @@ interface Props {
   image: string;
   temp: number;
   postedAt: string;
+  rightSection?: ReactNode;
 }
 
 export function PostHeader({ ...props }: Props) {
@@ -51,6 +53,8 @@ export function PostHeader({ ...props }: Props) {
             {props.postedAt}
           </Text>
         </div>
+
+        {props.rightSection}
       </Group>
   );
 }

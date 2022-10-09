@@ -158,7 +158,7 @@ export function AmaRenderer({ body, release_time, postId, expired, bookmarked }:
 
 
   return (
-    <Stack spacing="sm" className={classes.typography}>
+    <Stack spacing="sm" mb="sm" className={classes.typography}>
       <Text size="sm">{body}</Text>
       <Center inline style={{ justifyContent: "start" }}>
         {/* {expired ? (

@@ -35,11 +35,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     display: "flex",
     alignItems: "center",
   },
-  expire: {
-    marginBottom: theme.spacing.lg,
-    marginTop: theme.spacing.sm,
-    color: theme.colors.red[3],
-  },
   wFull: {
     width: "100%"
   }
@@ -55,6 +50,19 @@ export function AmaPostCard({ ...props }: PostDataParam) {
   const [canCommentModal, setCanCommentModal] = useState(false)
   const [canVoteModal, setCanVoteModal] = useState(false)
 
+  const HeaderRightSection = () => (
+    <div className={classes.flex}>
+      {checkIfExpired({ duration: props.duration, created_at: props.created_at }) && (
+        <>
+          <RiRestTimeFill size={14} />
+          <Text size="xs" ml={5}>
+
+            Asking author has expired {dayjs(props.created_at).fromNow()}
+          </Text>
+        </>
+      )}</div>
+  )
+
   return (
     <>
       <div className={classes.cover}>
@@ -62,23 +70,12 @@ export function AmaPostCard({ ...props }: PostDataParam) {
           <Author {...props.author} />
           <div className={classes.wFull}>
             <Group>
-              <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} />
+              <PostHeader name={`${props.author.first_name} ${props.author.last_name}`} image={props.author.avatar} temp={temperature} postedAt={dayjs(props.created_at).fromNow()} rightSection={<HeaderRightSection />} />
               <PostMenus is_admin={props.group.is_admin} is_moderator={props.group.is_moderator} author_username={props.author.username} setCanCommentModal={setCanCommentModal} setCanVoteModal={setCanVoteModal} setDeleteModal={setDeleteModal} setEditorModal={setEditorModal} />
             </Group>
             {props.content && (
               <AmaRenderer body={props.content} release_time={props.release_time} postId={props.id} expired={checkIfExpired({ duration: props.duration, created_at: props.created_at })} bookmarked={props.bookmarked} />
             )}
-            <div className={cx(classes.flex, classes.expire)}>
-              {checkIfExpired({ duration: props.duration, created_at: props.created_at }) && (
-                <>
-                  <RiRestTimeFill size={14} />
-                  <Text size="xs" ml={5}>
-
-                    Asking author has expired {dayjs(props.created_at).fromNow()}
-                  </Text>
-                </>
-              )}
-            </div>
             <PostFooter {...props} />
           </div>
         </div>

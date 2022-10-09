@@ -69,11 +69,11 @@ export function ChannelUpdateForm({ name, slug, setOpened }: { name: string, slu
                     placeholder="Folder Name"
                     rightSectionWidth={70}
                     styles={{ rightSection: { pointerEvents: "none" } }}
-                    rightSection={
-                        <Badge color="blue" variant="filled">
-                            update
-                        </Badge>
-                    }
+                    // rightSection={
+                    //     <Badge color="blue" variant="filled">
+                    //         update
+                    //     </Badge>
+                    // }
                     value={channelName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setChannelName(e.target.value.toUpperCase())

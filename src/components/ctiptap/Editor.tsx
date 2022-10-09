@@ -12,7 +12,7 @@ import {
   Underline as UnderlineText
 } from "tabler-icons-react";
 import { FaHeading, FaParagraph, FaRedo, FaUndo } from "react-icons/fa";
-import { MdFormatColorText } from "react-icons/md";
+// import { MdFormatColorText } from "react-icons/md";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import "./editor.css";
 import "./emojiPicker.css";
@@ -195,7 +195,7 @@ const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) =
           <ColorPicker format="rgb" onChange={e => editor.chain().focus().toggleHighlight({ color: e }).run()} />
         </Menu>
       </Tooltip> */}
-      <Tooltip label="Text Color" position="top">
+      {/* <Tooltip label="Text Color" position="top">
         <Menu control={
           <ActionIcon variant="filled">
             <MdFormatColorText size={14} />
@@ -203,7 +203,7 @@ const MenuBar = ({ editor, minimal=false }: { editor: any, minimal?: boolean}) =
         }>
           <ColorPicker format="rgb" onChange={e => editor.chain().focus().setColor(e).run()} />
         </Menu>
-      </Tooltip>
+      </Tooltip> */}
       <Tooltip label="Emoji" position="top">
         <Menu
           control={

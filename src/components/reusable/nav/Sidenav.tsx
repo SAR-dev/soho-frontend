@@ -182,7 +182,7 @@ export function Sidenav() {
               SOHO
             </Text>
             {data?.data?.is_admin && (
-              <Group spacing="xs">
+              <Group spacing="xs" mr="xs">
                 <Tooltip label="Create Folder" withArrow position="right">
                   <ActionIcon variant="default" size={18} onClick={() => setChannel(true)}>
                     <BiFolderPlus size={12} />

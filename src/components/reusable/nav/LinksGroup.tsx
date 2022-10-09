@@ -155,7 +155,7 @@ export function SubChannel({ sub_category, author, chevron, is_admin }: { sub_ca
         </Link>
         {is_admin && (
           <Tooltip label="Update SOHO" withArrow position="right">
-            <ActionIcon size={18} variant="default" className={classes.child} onClick={() => setSubChannelEditing(true)}>
+            <ActionIcon size={18} variant="default" className={classes.child} onClick={() => setSubChannelEditing(true)} mr="xs">
               <MdEdit size={12} />
             </ActionIcon>
           </Tooltip>
@@ -252,7 +252,7 @@ export function Channel({ id, name, slug, sub_categories, author, is_admin }: Pr
           {loading ? (
             <Loader size="xs" />
           ) : (
-            <Center>
+            <Center mr="xs">
               {is_admin && (
                 <Tooltip label="Update Soho" withArrow position="right">
                   <ActionIcon size={18} variant="default" mr="sm" className={classes.child} onClick={() => setChannelEditing(true)}>

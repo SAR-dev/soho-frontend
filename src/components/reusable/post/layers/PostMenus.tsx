@@ -1,5 +1,5 @@
 import { UserDataParam } from "@interfaces/user";
-import { Menu, ActionIcon } from "@mantine/core";
+import { Menu, ActionIcon, Stack } from "@mantine/core";
 import { BsThreeDots } from "react-icons/bs";
 import { MdOutlineAddReaction, MdOutlineCommentBank } from "react-icons/md";
 import { useQuery } from "react-query";
@@ -32,10 +32,12 @@ export function PostMenus({ ...props }: Props) {
                             <BsThreeDots size={18} />
                         </ActionIcon>}
                     >
-                        <Menu.Item icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
-                        <Menu.Item icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
-                        <Menu.Item icon={<MdOutlineCommentBank size={14} />} onClick={() => props.setCanCommentModal(true)}>Toogle Commenting</Menu.Item>
-                        <Menu.Item icon={<MdOutlineAddReaction size={14} />} onClick={() => props.setCanVoteModal(true)}>Toogle Reactions</Menu.Item>
+                        <Stack spacing={0}>
+                        <Menu.Item style={{width: 200}} icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
+                        <Menu.Item style={{width: 200}} icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
+                        <Menu.Item style={{width: 200}} icon={<MdOutlineCommentBank size={14} />} onClick={() => props.setCanCommentModal(true)}>Toogle Commenting</Menu.Item>
+                        <Menu.Item style={{width: 200}} icon={<MdOutlineAddReaction size={14} />} onClick={() => props.setCanVoteModal(true)}>Toogle Reactions</Menu.Item>
+                        </Stack>
                     </Menu>
                 )}
         </>

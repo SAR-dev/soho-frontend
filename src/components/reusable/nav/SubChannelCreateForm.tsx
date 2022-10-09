@@ -55,11 +55,11 @@ export function SubChannelCreateForm({ setOpened, channel }: { setOpened: (param
                     placeholder="Your Soho Name"
                     rightSectionWidth={70}
                     styles={{ rightSection: { pointerEvents: "none" } }}
-                    rightSection={
-                        <Badge color="blue" variant="filled">
-                            new
-                        </Badge>
-                    }
+                    // rightSection={
+                    //     <Badge color="blue" variant="filled">
+                    //         new
+                    //     </Badge>
+                    // }
                     value={subChannelName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setSubChannelName(e.target.value)

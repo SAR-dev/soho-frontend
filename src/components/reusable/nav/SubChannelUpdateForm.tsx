@@ -80,11 +80,11 @@ export function SubChannelUpdateForm({ setOpened, name, icon, slug }: { setOpene
                         placeholder="Your Soho Name"
                         rightSectionWidth={70}
                         styles={{ rightSection: { pointerEvents: "none" } }}
-                        rightSection={
-                            <Badge color="blue" variant="filled">
-                                update
-                            </Badge>
-                        }
+                        // rightSection={
+                        //     <Badge color="blue" variant="filled">
+                        //         update
+                        //     </Badge>
+                        // }
                         value={subChannelName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setSubChannelName(e.target.value)

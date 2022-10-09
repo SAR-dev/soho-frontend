@@ -108,7 +108,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   const [text, setText] = useState("");
   const [category, setCategory] = useState<any | null>(null);
   const [sub_category, set_sub_category] = useState<any | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [announced, setAnnounced] = useState(false);
   const [images, setImages] = useState<Array<number>>([])
   const [errors, setErrors] = useState<string[]>([])
   const [queryKey, setQueryKey] = useState<string[]>([])
@@ -142,7 +142,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   }
 
   const submit = () => {
-    if (!sub_category) {
+    if (!announced && !sub_category) {
       setErrors(["A SOHO must be selected here."])
       return
     }
@@ -153,7 +153,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
       images: images,
       category: category,
       sub_category: sub_category,
-      post_type: checked ? 'announcement' : 'discussion'
+      post_type: announced ? 'announcement' : 'discussion'
     }
     if (is_admin) {
       createAuthorPost({ username: author, data: data }).then(res => {
@@ -209,14 +209,14 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
           onChange={(e) => set_sub_category(e)}
           size="xs"
           className={classes.dropdown}
-          disabled={isLoading}
+          disabled={isLoading || announced}
         />
         {is_admin && (
         <Switch
           label="Announcement"
-          checked={checked}
+          checked={announced}
           size="xs"
-          onChange={(event) => setChecked(event.currentTarget.checked)}
+          onChange={(event) => setAnnounced(event.currentTarget.checked)}
         />
         )}
         <LimitCounter count={text.length} limit={textLimit} />

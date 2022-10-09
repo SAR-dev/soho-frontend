@@ -97,6 +97,8 @@ export function ImageCarousel({sources}: {sources: string[]}) {
           placeholder={<Center className={classes.placeholder}><Photo size={100} /></Center>}
           style={{ cursor: 'zoom-in' }}
         />
+        {sources.length !== 0 && (
+          <>
         <div className={cx(classes.rightButton, classes.button)}>
           <ActionIcon variant="filled" onClick={() => next()} disabled={active === (sources.length - 1)}>
             <ArrowRight size={16} />
@@ -107,6 +109,8 @@ export function ImageCarousel({sources}: {sources: string[]}) {
             <ArrowLeft size={16} />
           </ActionIcon>
         </div>
+        </>
+        )}
       </div>
       <ModalGateway>
         {viewerIsOpen ? (
