@@ -1,17 +1,16 @@
 import { useRef, useState } from 'react';
-import { Collapse, createStyles, ActionIcon, Modal, Tooltip, Loader, Group, Center } from '@mantine/core';
-import { Hash, Plus, X } from 'tabler-icons-react';
+import { Collapse, createStyles, ActionIcon, Modal, Tooltip, Loader } from '@mantine/core';
+import { Hash, X } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { Category, SubCategory } from '@interfaces/category';
 import { useDrop, useDrag } from 'ahooks';
-import { capitalizeFirstLetter, parseErrors, relocateSubChannel } from 'src/helpers';
+import { parseErrors, relocateSubChannel } from 'src/helpers';
 import { SubChannelCreateForm } from './SubChannelCreateForm';
 import { GoTriangleRight } from 'react-icons/go';
 import { useQueryClient } from 'react-query';
 import { useNotifications } from '@mantine/notifications';
 import { RiDragMoveLine } from "react-icons/ri"
 import { MdEdit } from 'react-icons/md';
-import { ChannelUpdateForm } from './ChannelUpdateForm';
 import { SubChannelUpdateForm } from './SubChannelUpdateForm';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -244,31 +243,6 @@ export function Channel({ id, name, slug, sub_categories, author, is_admin }: Pr
 
   return (
     <div>
-      {name !== "default" && (
-        <div id={slug} className={cx(classes.control, { [classes.active]: isHovering })} ref={loading ? undefined : dropRef}>
-          <div style={{ cursor: "pointer", width: "100%" }} onClick={() => setOpened(!opened)}>
-            <ChannelHeader name={capitalizeFirstLetter(name)} />
-          </div>
-          {loading ? (
-            <Loader size="xs" />
-          ) : (
-            <Center mr="xs">
-              {is_admin && (
-                <Tooltip label="Update Soho" withArrow position="right">
-                  <ActionIcon size={18} variant="default" mr="sm" className={classes.child} onClick={() => setChannelEditing(true)}>
-                    <MdEdit size={12} />
-                  </ActionIcon>
-                </Tooltip>
-              )}
-              <Tooltip label="Create Soho Here" withArrow position="right">
-                <ActionIcon size={18} variant="default" onClick={() => setSubChannelCreating(true)}>
-                  <Plus size={12} />
-                </ActionIcon>
-              </Tooltip>
-            </Center>
-          )}
-        </div>
-      )}
       {hasLinks && <Collapse in={opened}>{items}</Collapse>}
       {name === "default" && (
         <div id={slug} style={{ paddingTop: 6, paddingBottom: 6 }} className={cx(classes.collectionLink, { [classes.active]: isHovering }, { [classes.hidden]: !isHovering })} ref={loading ? undefined : dropRef}>
@@ -285,14 +259,6 @@ export function Channel({ id, name, slug, sub_categories, author, is_admin }: Pr
         title="Create a Soho"
       >
         <SubChannelCreateForm setOpened={setSubChannelCreating} channel={slug} />
-      </Modal>
-      <Modal
-        centered
-        opened={channelEditing}
-        onClose={() => setChannelEditing(false)}
-        title="Update a Folder"
-      >
-        <ChannelUpdateForm setOpened={setChannelEditing} name={name} slug={slug} />
       </Modal>
     </div>
   );

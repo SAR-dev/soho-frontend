@@ -1,13 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import { Paper, createStyles, SegmentedControl, Center, Text, LoadingOverlay } from "@mantine/core";
-import { FaPoll } from "react-icons/fa";
 import { BsChatSquareDotsFill } from "react-icons/bs";
-import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
+import { MdEmojiPeople } from "react-icons/md";
 import { DiscussionPostTab } from "./tabs/DiscussionPostTab";
-import { AmaPostTab } from "./tabs/AmaPostTab";
-import { PollPostTab } from "./tabs/PollPostTab";
-import { Video } from "tabler-icons-react";
-import { PremierPostTab } from "./tabs/PremierPostTab";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getCommunity } from "../../helpers";
@@ -38,11 +33,7 @@ interface DataParam {
 
 
 const editors = [
-  { key: "discussion", name: 'Discussion', icon: <BsChatSquareDotsFill size={16} /> },
-  { key: "premier", name: "Premier", icon: <Video size={16} /> },
-  { key: "ama", name: "AMA", icon: <MdQuestionAnswer size={16} /> },
-  { key: "poll", name: "Poll", icon: <FaPoll size={16} /> },
-  // { key: "drop", name: "Drop", icon: <BsDropletHalf /> },
+  { key: "discussion", name: 'Discussion', icon: <BsChatSquareDotsFill size={16} /> }
 ]
 
 interface Props {
@@ -105,9 +96,6 @@ export function EditorWrapper({ toogle }: Props) {
               />
             )}
             {value === "discussion" && <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.data.is_admin} />}
-            {value === "ama" && <AmaPostTab toogle={toogle} setLoading={setLoading} />}
-            {value === "poll" && <PollPostTab toogle={toogle} setLoading={setLoading} />}
-            {value === "premier" && <PremierPostTab toogle={toogle} setLoading={setLoading} />}
           </>
         )}
       </Paper>
