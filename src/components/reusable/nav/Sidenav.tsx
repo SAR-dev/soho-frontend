@@ -10,7 +10,7 @@ import {
   ScrollArea,
   Modal,
 } from '@mantine/core';
-import { Search, Plus, ArrowsSort } from 'tabler-icons-react';
+import { Search } from 'tabler-icons-react';
 import { UserButton } from './UserButton';
 import { Channels } from './Channels';
 import { ChannelCreateForm } from './ChannelCreateForm';
@@ -21,8 +21,7 @@ import { getCommunity } from '../../../helpers';
 import { ActivityBottom } from './ActivityBottom';
 import { CommunityDataParam } from '@interfaces/community';
 import { getHotkeyHandler } from '@mantine/hooks';
-import { BiFolderPlus } from 'react-icons/bi';
-import { MdOutlineTag } from "react-icons/md";
+import { BiFolderPlus } from "react-icons/bi";
 import { SubChannelCreateForm } from './SubChannelCreateForm';
 
 const useStyles = createStyles((theme) => ({
@@ -183,14 +182,9 @@ export function Sidenav() {
             </Text>
             {data?.data?.is_admin && (
               <Group spacing="xs" mr="xs">
-                <Tooltip label="Create Folder" withArrow position="right">
-                  <ActionIcon variant="default" size={18} onClick={() => setChannel(true)}>
-                    <BiFolderPlus size={12} />
-                  </ActionIcon>
-                </Tooltip>
                 <Tooltip label="Create Soho" withArrow position="right">
                   <ActionIcon variant="default" size={18} onClick={() => setSubChannel(true)}>
-                    <MdOutlineTag size={12} />
+                    <BiFolderPlus size={12} />
                   </ActionIcon>
                 </Tooltip>
               </Group>

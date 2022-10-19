@@ -1,19 +1,15 @@
-import { createStyles, SimpleGrid, Skeleton } from "@mantine/core";
+import { createStyles, SimpleGrid } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
 import { EditorCreator } from "../../editors/EditorCreator";
 import { EditorWrapper } from "../../editors/EditorWrapper";
-import { AmaPostCard } from "../../reusable/post/AmaPostCard";
 import { DiscussionPostCard } from "../../reusable/post/DiscussionPostCard";
-import { PollPostCard } from "../../reusable/post/PollPostCard";
 import { CommunityLayout } from "../../layouts/CommunityLayout";
 import { useParams } from "react-router-dom";
 import { getPostsFromType } from "../../../helpers";
 import { useQuery } from "react-query";
-import { useState } from "react";
 import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { NoResults } from "../../reusable/NoResults";
 import { PostDataParam } from "@interfaces/post";
-import { PremierPostCard } from "@reusable/post/PremierPostCard";
 import { FetchError } from "@reusable/FetchError";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -68,12 +64,6 @@ export function PType() {
                         {data?.data.results?.map((el, i) => {
                             if (el.post_type === "discussion" || el.post_type == "announcement") return (
                                 <DiscussionPostCard {...el} key={i} />)
-                            if (el.post_type === "poll") return (
-                                <PollPostCard {...el} key={i} />)
-                            if (el.post_type === "ama") return (
-                                <AmaPostCard {...el} key={i} />)
-                            if (el.post_type === "premier") return (
-                                <PremierPostCard {...el} key={i} />)
                         })}
                         {data?.data.results?.length === 0 && <NoResults text="Posts" />}
                     </>

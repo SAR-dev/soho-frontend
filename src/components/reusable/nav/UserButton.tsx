@@ -166,11 +166,6 @@ export function UserButton({ data, isLoading, author }: { data?: CommunityDataPa
               <Text size="sm" weight={500}>
                 {`${data?.author?.first_name} ${data?.author?.last_name}`}
               </Text>
-              {data.slogan && data.slogan.length !== 0 && (
-                <Text color="dimmed" size="xs">
-                  {data.slogan}
-                </Text>
-              )}
               <Popover
                 opened={opened}
                 onClose={() => setOpened(false)}

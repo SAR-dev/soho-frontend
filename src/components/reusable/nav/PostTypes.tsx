@@ -1,8 +1,6 @@
-import { createStyles, UnstyledButton, Badge } from '@mantine/core';
-import { Microphone2, ListCheck, Video } from 'tabler-icons-react';
-import { MdEmojiPeople, MdQuestionAnswer } from 'react-icons/md';
+import { createStyles, UnstyledButton } from '@mantine/core';
+import { Microphone2 } from 'tabler-icons-react';
 import { Link, useParams } from 'react-router-dom';
-import { FaPoll } from 'react-icons/fa';
 import {BsChatSquareDotsFill} from "react-icons/bs";
 
 const useStyles = createStyles((theme) => ({
@@ -51,12 +49,7 @@ const useStyles = createStyles((theme) => ({
 
 const links = [
     { icon: BsChatSquareDotsFill, label: 'Discussion', slug: "discussion"},
-    { icon: FaPoll, label: 'Poll', slug: "poll"},
-    { icon: Video, label: 'Premier', slug: "premier", },
-    { icon: MdQuestionAnswer, label: 'AMA', slug: "ama"},
-    // { icon: BsDropletHalf, label: 'Drop'slug: "drop", notifications: 4 },
     { icon: Microphone2, label: 'Announcement', slug: "announcement", },
-    { icon: ListCheck, label: 'Rules', slug: "rules", },
 ];
 
 export function PostTypes() {
@@ -72,11 +65,6 @@ export function PostTypes() {
                         <link.icon size={20} className={classes.mainLinkIcon} />
                         <span>{link.label}</span>
                     </div>
-                    {/* {link.notifications && (
-                        <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-                            {link.notifications}
-                        </Badge>
-                    )} */}
                 </UnstyledButton>
             ))}
         </>

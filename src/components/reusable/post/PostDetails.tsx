@@ -2,8 +2,6 @@ import { createStyles, Stack, Text } from '@mantine/core';
 import { Comments } from '../comment/Comments';
 import { DiscussionPostCard } from './DiscussionPostCard';
 import { CreateComment } from '../comment/CreateComment';
-import { PollPostCard } from './PollPostCard';
-import { AmaPostCard } from './AmaPostCard';
 import { PostDataParam } from '@interfaces/post';
 import { RiRestTimeFill } from 'react-icons/ri';
 
@@ -28,8 +26,6 @@ export function PostDetails({ ...props }: PostDataParam) {
         <Stack spacing={3}>
             <Stack className={classes.wrapper}>
                 {props.post_type === "discussion" && <DiscussionPostCard {...props} />}
-                {props.post_type === "poll" && <PollPostCard {...props} />}
-                {props.post_type === "ama" && <AmaPostCard {...props} />}
                 {props.can_comment ? (
                     <CreateComment postId={props.id} author={props.author} />
                 ) : (

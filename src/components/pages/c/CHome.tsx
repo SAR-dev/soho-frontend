@@ -1,15 +1,12 @@
-import { createStyles, SimpleGrid, Skeleton } from "@mantine/core";
+import { createStyles, SimpleGrid } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
 import { EditorCreator } from "../../editors/EditorCreator";
 import { EditorWrapper } from "../../editors/EditorWrapper";
-import { AmaPostCard } from "../../reusable/post/AmaPostCard";
 import { DiscussionPostCard } from "../../reusable/post/DiscussionPostCard";
-import { PollPostCard } from "../../reusable/post/PollPostCard";
 import { CommunityLayout } from "../../layouts/CommunityLayout";
 import { useParams } from "react-router-dom";
-import { getPostsFromCategory, getPostsFromType } from "../../../helpers";
+import { getPostsFromCategory } from "../../../helpers";
 import { useQuery } from "react-query";
-import { useState } from "react";
 import { PlaceholderPostCard } from "../../reusable/post/PlaceholderPostCard";
 import { NoResults } from "../../reusable/NoResults";
 import { PostDataParam } from "@interfaces/post";
