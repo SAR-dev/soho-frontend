@@ -1,13 +1,6 @@
-import { useRef, useState, useEffect } from "react";
-import { Paper, createStyles, SegmentedControl, Center, Text, LoadingOverlay, Drawer } from "@mantine/core";
-import { FaPoll } from "react-icons/fa";
-import { BsChatSquareDotsFill } from "react-icons/bs";
-import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
+import { useState } from "react";
+import { Paper, createStyles, Text, LoadingOverlay, Drawer } from "@mantine/core";
 import { DiscussionPostTab } from "./tabs/DiscussionPostTab";
-import { AmaPostTab } from "./tabs/AmaPostTab";
-import { PollPostTab } from "./tabs/PollPostTab";
-import { Video } from "tabler-icons-react";
-import { PremierPostTab } from "./tabs/PremierPostTab";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getCommunity } from "../../helpers";
