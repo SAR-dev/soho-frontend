@@ -6,7 +6,7 @@
   padding: 1rem;
   background-color: transparent;
   border-radius: 0.25rem;
-  min-height: 120px;
+  min-height: calc(100vh - 300px);
 }
 
 .ProseMirror .is-empty::before {
