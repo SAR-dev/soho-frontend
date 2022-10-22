@@ -1,8 +1,13 @@
-import { useState } from "react";
-import { Paper, createStyles, SegmentedControl, Center, Text, LoadingOverlay } from "@mantine/core";
+import { useRef, useState, useEffect } from "react";
+import { Paper, createStyles, SegmentedControl, Center, Text, LoadingOverlay, Drawer } from "@mantine/core";
+import { FaPoll } from "react-icons/fa";
 import { BsChatSquareDotsFill } from "react-icons/bs";
-import { MdEmojiPeople } from "react-icons/md";
+import { MdQuestionAnswer, MdEmojiPeople } from "react-icons/md";
 import { DiscussionPostTab } from "./tabs/DiscussionPostTab";
+import { AmaPostTab } from "./tabs/AmaPostTab";
+import { PollPostTab } from "./tabs/PollPostTab";
+import { Video } from "tabler-icons-react";
+import { PremierPostTab } from "./tabs/PremierPostTab";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getCommunity } from "../../helpers";
@@ -25,16 +30,14 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.sm,
     width: "-webkit-fill-available",
   },
+  drawer: {
+    padding: theme.spacing.lg
+  }
 }));
 
 interface DataParam {
   data: CommunityDataParam
 }
-
-
-const editors = [
-  { key: "discussion", name: 'Discussion', icon: <BsChatSquareDotsFill size={16} /> }
-]
 
 interface Props {
   toogle: () => void;
@@ -53,50 +56,12 @@ export function EditorWrapper({ toogle }: Props) {
     <Paper radius={0} style={{ position: 'relative' }}>
       <Paper className={classes.container}>
         {data && (
-          <>
-            {data.data.is_admin ? (
-              <SegmentedControl
-                value={value}
-                onChange={setValue}
-                color="blue"
-                size="sm"
-                data={
-                  editors.map(el => ({
-                    label: (
-                      <Center py={3}>
-                        {el.icon}
-                        <Text size="xs" ml={10}>
-                          {el.name}
-                        </Text>
-                      </Center>
-                    ), value: el.key
-                  }))
-                }
-                className={classes.menus}
-              />
-            ) : (
-              <SegmentedControl
-                value={value}
-                onChange={setValue}
-                color="blue"
-                size="sm"
-                data={
-                  [{
-                    label: (
-                      <Center py={3}>
-                        <MdEmojiPeople size={16} />
-                        <Text size="xs" ml={10}>
-                          Discussion
-                        </Text>
-                      </Center>
-                    ), value: "discussion"
-                  }]
-                }
-                className={classes.menus}
-              />
-            )}
-            {value === "discussion" && <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.data.is_admin} />}
-          </>
+          <Drawer onClose={() => toogle} size="full" opened withCloseButton={false} overlayOpacity={0.9}>
+            <div className={classes.drawer}>
+              <Text weight={700} size="lg" style={{marginBottom: 20}}>Start typing below....</Text>
+            <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.data.is_admin} />
+            </div>
+          </Drawer>
         )}
       </Paper>
       <LoadingOverlay visible={loading} />
