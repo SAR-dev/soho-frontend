@@ -35,8 +35,9 @@ export function UserMenu({username}: {username?: string}) {
 
     return (
         <Menu control={<ActionIcon radius="md" size="lg" variant="light" title="User Menu" className={classes.link}>
-            <DotsCircleHorizontal size={18} />
-        </ActionIcon>}>
+                            <DotsCircleHorizontal size={18} />
+                        </ActionIcon>}
+        >
             <Menu.Label>Application</Menu.Label>
             <Menu.Item icon={<Settings size={14} />} component={Link} to={`/s/${username}/t/profile`}>Settings</Menu.Item>
             <Divider />

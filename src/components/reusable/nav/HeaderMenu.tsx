@@ -8,13 +8,15 @@ import useStore from "../../../store";
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
 import { useQuery } from "react-query";
-import { getLoggedInUser, getNotifications } from "../../../helpers";
+import { getLoggedInUser, getNotifications, removeTokenFromLocal, setTokenToLocal } from "../../../helpers";
 import { GoogleLogin } from "./GoogleLogin";
 import { TwitterLogin } from "./TwitterLogin";
 import { useNotifications } from "@mantine/notifications";
 import { NotificationDataParam } from "@interfaces/notification";
 import { UserDataParam } from "@interfaces/user";
 import { ClapsCounter } from "./ClapsCounter";
+import { auth } from "src/config/firebase";
+import { useModals } from "@mantine/modals";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -84,18 +86,34 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { cName } = useParams<"cName">();
   const { sName } = useParams<"sName">();
   const navigate = useNavigate();
+  const modals = useModals();
 
   const [drawer, setDrawer] = useState(false);
 
-  const { setToken, token } = useStore();
+  const { setToken, token, removeToken } = useStore();
   const [notificationCount, setNotificationCount] = useState(0)
 
   const { status, data, error, isFetching, isLoading } = useQuery<UserDataParam, Error>(["me"], () => getLoggedInUser(), {
     enabled: token !== null,
     onError: () => {
-      const auth = getAuth();
-      signOut(auth)
-    },
+      auth.onIdTokenChanged((credential) => {
+        if (credential) {
+          credential.getIdToken(true).then((token) => {
+            setTokenToLocal(token);
+            setToken(token);
+          });
+        } else {
+          removeTokenFromLocal();
+          removeToken();
+          if(window.location.pathname.split("/").length <= 1 ){
+            modals.openContextModal('signin', {
+              title: 'Sign In',
+              innerProps: {}
+            });
+          }
+        }
+      })
+    }
   })
 
   const { } = useQuery<DataParam, Error>(['notifications'], () => getNotifications(), {

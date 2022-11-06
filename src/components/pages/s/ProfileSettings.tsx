@@ -6,7 +6,6 @@ import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { getLoggedInUser, parseErrors, toBase64, updateLoggedInUser } from "src/helpers";
-import useStore from "src/store";
 import { Check } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({

@@ -1,8 +1,11 @@
-import { createStyles, Navbar } from '@mantine/core';
+import { createStyles, Navbar, Text } from '@mantine/core';
 import { SettingsLayout } from '@layouts/SettingsLayout';
 import { Link, useParams } from 'react-router-dom';
 import { ProfileSettings } from './ProfileSettings';
 import { GroupSettings } from './GroupSettings';
+import { RiGroup2Line, RiMapPinUserLine } from 'react-icons/ri';
+import { MdOutlinePayments } from 'react-icons/md';
+import { PaymentSettings } from './PaymentSettings';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -39,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 
     link: {
         boxSizing: 'border-box',
-        display: 'block',
+        display: 'flex',
         textDecoration: 'none',
         borderTopRightRadius: theme.radius.md,
         borderBottomRightRadius: theme.radius.md,
@@ -50,6 +53,7 @@ const useStyles = createStyles((theme) => ({
         fontWeight: 500,
         height: 44,
         lineHeight: '44px',
+        alignItems: 'center',
 
         '&:hover': {
             backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
@@ -71,8 +75,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const SettingsMenus = [
-    { name: "Profile", path: "profile" }, // avatar, name, username
-    { name: "Group", path: "group" }, // slogan, rules, members name, token
+    { name: "Profile", path: "profile", icon: <RiMapPinUserLine size={20} /> }, // avatar, name, username
+    { name: "Group", path: "group", icon: <RiGroup2Line size={20} /> }, // slogan, rules, members name, token
+    { name: "Payment", path: "payment", icon: <MdOutlinePayments size={20} /> },
     // { name: "Blacklist", path: "blacklist" },
     // { name: "Moderator", path: "moderator" },
     // { name: "Soho", path: "soho" },
@@ -89,13 +94,14 @@ export function Settings() {
             to={`/s/${author}/t/${link.path}`}
             key={link.path}
         >
-            {link.name}
+            {link.icon}
+            <Text ml="xs">{link.name}</Text>
         </Link>
     ));
 
     return (
         <SettingsLayout>
-            <Navbar height={750} width={{ sm: 300 }}>
+            <Navbar height={"calc(100vh - 50px)"} width={{ sm: 300 }}>
                 <Navbar.Section grow className={classes.wrapper}>
                     <div className={classes.main}>
                         {links}
@@ -105,6 +111,7 @@ export function Settings() {
             <div className={classes.body}>
                 {sType === "profile" && <ProfileSettings />}
                 {sType === "group" && <GroupSettings />}
+                {sType === "payment" && <PaymentSettings />}
             </div>
         </SettingsLayout>
     );

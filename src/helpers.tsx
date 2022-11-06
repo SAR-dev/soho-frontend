@@ -156,6 +156,46 @@ export function updateCommunityRules({ username, data }: { username?: string, da
     })
 };
 
+export function getPaymentInfo({ username }: { username?: string }): Promise<any> {
+  return axios.get(`group/${username}/payment/`, defaultConfig())
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function createPaymentProduct({ image }: { image: string }): Promise<any> {
+  return axios.post(`payment/products/`, { product: { images: [image] } }, defaultConfig())
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function createPaymentPrice({ currency, sub_interval, unit_amount }: { currency: string, sub_interval: string, unit_amount: number }): Promise<any> {
+  return axios.post(`payment/prices/`, { price: { currency, sub_interval, unit_amount } }, defaultConfig())
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function createPaymentCoupon({ percent_off }: { percent_off: number }): Promise<any> {
+  return axios.post(`payment/coupons/`, { coupon: { percent_off } }, defaultConfig())
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
 // CHANNEL
 export const getChannels = async ({ username }: { username?: string }) => await axios.get(`group/${username}/categories/`, defaultConfig())
 

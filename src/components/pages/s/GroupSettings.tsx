@@ -1,13 +1,12 @@
-import { CommunityUpdateInterface, MeUpdateInterface } from "@interfaces/api";
-import { CommunityDataParam, CommunityUpdateDataParam } from "@interfaces/community";
-import { Avatar, Button, Center, createStyles, Image, Loader, Stack, Text, TextInput } from "@mantine/core";
+import { CommunityUpdateInterface } from "@interfaces/api";
+import { CommunityUpdateDataParam } from "@interfaces/community";
+import { Button, Center, createStyles, Image, Loader, Stack, Text, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { getCommunity, getLoggedInUser, getUpdateCommunity, parseErrors, toBase64, updateCommunity, updateLoggedInUser } from "src/helpers";
-import useStore from "src/store";
+import { getUpdateCommunity, parseErrors, toBase64, updateCommunity } from "src/helpers";
 import { Check, Photo } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({

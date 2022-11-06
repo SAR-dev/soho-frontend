@@ -39,7 +39,7 @@ const useStyles = createStyles((theme) => ({
 
 export function SettingsLayout({ children }: { children: ReactNode }) {
     const { classes, cx } = useStyles();
-    const { setToken, token } = useStore()
+    const { token } = useStore()
     const navigate = useNavigate();
 
     useLayoutEffect(() => {
