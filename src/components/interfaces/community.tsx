@@ -11,6 +11,9 @@ export interface CommunityDataParam {
     author: Author;
     slogan: string;
     cover?: string;
+    currency: string;
+    unit_amount: number;
+    price_id: string;
     is_admin: boolean;
     is_moderator: boolean;
     created_at: Date;

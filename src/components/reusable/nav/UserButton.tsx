@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button, ActionIcon, Tooltip, Loader } from '@mantine/core';
+import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button, ActionIcon, Tooltip, Loader, Modal, Anchor } from '@mantine/core';
 import { AlertCircle, Check, Minus, Plus, Upload, UserCircle, Users, X } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { CommunityDataParam } from '@interfaces/community';
@@ -166,66 +166,62 @@ export function UserButton({ data, isLoading, author }: { data?: CommunityDataPa
               <Text size="sm" weight={500}>
                 {`${data?.author?.first_name} ${data?.author?.last_name}`}
               </Text>
-              <Popover
-                opened={opened}
-                onClose={() => setOpened(false)}
-                style={{ width: "100%" }}
-                target={
-                  <Group spacing="xs" className={classes.members} onClick={() => setOpened((o) => !o)}>
-                    <div className={classes.membersCount}>
-                      <Users size={14} />
-                      <Text size="xs" color="gray" ml={5}>{data?.subscribers_count} Members</Text>
-                    </div>
-                    <div className={classes.action}>
-                      {data.subscribed ? <Minus size={14} /> : <Plus size={14} />}
-                    </div>
-                  </Group>
-                }
-                width={260}
-                position="bottom"
-                withArrow
-              >
-                <div style={{ display: 'flex' }}>
-                  {data.subscribed ? (
-                    <>
-                      {(data.is_admin || data.is_moderator) ? (
-                        <Alert withCloseButton onClose={() => setOpened(false)}>
-                          <Text size="xs">
-                            Admin or Moderators can't leave their community.
-                          </Text>
-                        </Alert>
-                      ) : (
-                        <Alert color="red" title="Wanna Leave!!!" withCloseButton onClose={() => setOpened(false)}>
-                          <Text size="xs">
-                            Are you sure you want to leave this community? This can not be undone!!!
-                          </Text>
-                          <Button color="red" size="xs" fullWidth mt="sm" component={Link} to={`/c/${data.author.username}/leave`}>
-                            I'm Sure
-                          </Button>
-                        </Alert>
-                      )}
-                    </>
-                  ) : (
-                    <Alert title="Wanna Join!" withCloseButton onClose={() => setOpened(false)}>
-                      <Text size="xs">
-                        Please read the community rules carefully before joining.
-                      </Text>
-                      <Group mt="sm" >
-                        <Button size="xs" component={Link} to={`/c/${data.author.username}/t/rules`}>
-                          Read Rules
-                        </Button>
-                        <Button size="xs" component={Link} to={`/c/${data.author.username}/join`}>
-                          Details
-                        </Button>
-                      </Group>
-                    </Alert>
-                  )}
+              <Group spacing="xs" className={classes.members} onClick={() => setOpened((o) => !o)}>
+                <div className={classes.membersCount}>
+                  <Users size={14} />
+                  <Text size="xs" color="gray" ml={5}>{data?.subscribers_count} Members</Text>
                 </div>
-              </Popover>
+                <div className={classes.action}>
+                  {data.subscribed ? <Minus size={14} /> : <Plus size={14} />}
+                </div>
+              </Group>
             </>
           )}
         </div>
       </Group>
+
+      {data && (
+        <Modal
+          centered
+          opened={opened}
+          onClose={() => setOpened(false)}
+          title="Welcome!!"
+        >
+          <Stack spacing="sm" style={{ position: "relative", width: 500 }}>
+            <Group>
+              <Avatar size="lg" src={data.author.avatar} />
+              <Stack spacing={0}>
+                <Text>{`${data.author.first_name} ${data.author.last_name}`}</Text>
+                <Text size="xs">{`c/${data.author.username}`}</Text>
+              </Stack>
+            </Group>
+            {(data.is_admin || data.is_moderator) ? (
+              <>
+              <Text>You can not unsubscribe this community.</Text>
+              <Anchor href={`${import.meta.env.VITE_API_URL}payment/checkout/?username=${data.author.username}&price_id=${data.price_id}`} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm">
+                    Payment Page
+                  </Button>
+                </Anchor>
+              </>
+            ) : (<>
+              <Text>Welcome to {`${data.author.first_name} ${data.author.last_name}`}</Text>
+              <Text>You need to pay {data.unit_amount} in {data.currency.toUpperCase()}. Please read the group rules carefully.</Text>
+              <Text>To continue proceed to payment page. Once you finish payment you will be subscribed to group automatically. It may take a few minutes to complete payment process. Please wait patiently.</Text>
+              <Group mt="sm">
+                <Button component={Link} to={`/c/${data.author.username}/t/rules`}>
+                  Read Rules
+                </Button>
+                <Anchor href={`${import.meta.env.VITE_API_URL}payment/checkout/?username=${data.author.username}&price_id=${data.price_id}`} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm">
+                    Payment Page
+                  </Button>
+                </Anchor>
+              </Group>
+            </>)}
+          </Stack>
+        </Modal>
+      )}
     </div>
   );
 }
