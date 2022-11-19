@@ -198,7 +198,7 @@ export function UserButton({ data, isLoading, author }: { data?: CommunityDataPa
             {(data.is_admin || data.is_moderator) ? (
               <>
               <Text>You can not unsubscribe this community.</Text>
-              <Anchor href={`${import.meta.env.VITE_API_URL}payment/checkout/?username=${data.author.username}&price_id=${data.price_id}`} target="_blank" rel="noopener noreferrer">
+              <Anchor href={`${import.meta.env.VITE_API_URL}payment/checkout/?payor=${data.author.username}&price_id=${data.price_id}`} target="_blank" rel="noopener noreferrer">
                   <Button size="sm">
                     Payment Page
                   </Button>
