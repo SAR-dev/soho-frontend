@@ -144,17 +144,18 @@ export function PaymentSettings() {
 
     return (
         <div key={key}>
+            {data && (
             <Stack spacing="lg" className={classes.w400}>
-                <EditingComponent image={{ label: "Checkout Image", value: data?.product_image, helper: "This image is displayed when someone subscribes community" }}>
+                <EditingComponent image={{ label: "Checkout Image", value: data.product_image, helper: "This image is displayed when someone subscribes community" }}>
                     <Text mb={2}>Logo for your Soho</Text>
                     <Image height={150} width={150} withPlaceholder className={classes.uploader} onClick={() => fileRef?.current?.click()} src={product_image} />
                     <TextInput mt="xs" value={product_image} onChange={event => set_product_image(event.currentTarget.value)} placeholder="Paste image url here..." />
                     <Button variant="light" color="gray" leftIcon={<MdCheck />} mt="xs" loading={loading} fullWidth onClick={() => updateProduct()}>Apply</Button>
                 </EditingComponent>
                 <EditingComponent elements={[
-                    { label: "Currency", value: data?.currency.toUpperCase() },
-                    { label: "Amount (in unit)", value: data?.unit_amount, helper: "This currency will be used when someone subscribes your Soho" },
-                    { label: "Charge interval", value: data?.sub_interval.toUpperCase(), helper: "The time interval for subscription charge." }
+                    { label: "Currency", value: data.currency ? data.currency.toUpperCase() : "" },
+                    { label: "Amount (in unit)", value: data.unit_amount, helper: "This currency will be used when someone subscribes your Soho" },
+                    { label: "Charge interval", value: data.sub_interval ? data.sub_interval.toUpperCase() : "", helper: "The time interval for subscription charge." }
                 ]}>
                     <Text mb={2}>Select subscription fee (unit amount)</Text>
                     <SimpleGrid cols={2}>
@@ -184,8 +185,8 @@ export function PaymentSettings() {
                     <Button variant="light" color="gray" leftIcon={<MdCheck />} mt="xs" loading={loading} fullWidth onClick={() => updatePrice()}>Apply</Button>
                 </EditingComponent>
                 <EditingComponent elements={[
-                    { label: "Percent Off", value: data?.percent_off },
-                    { label: "Promotion Code", value: data?.promotion_code.toUpperCase(), helper: "This can be applied when subscribing your community." },
+                    { label: "Percent Off", value: data.percent_off },
+                    { label: "Promotion Code", value: data.promotion_code.toUpperCase(), helper: "This can be applied when subscribing your community." },
                 ]}>
                     <Text mb={2}>Promotion Code</Text>
                     {promotion_code.length !== 0 && (
@@ -213,6 +214,7 @@ export function PaymentSettings() {
                 </EditingComponent>
                 <ErrorMessage errors={errors} />
             </Stack>
+            )}
         </div>
     )
 }
