@@ -13,6 +13,7 @@ export interface CommunityDataParam {
     cover?: string;
     currency: string;
     unit_amount: number;
+    sub_interval: string;
     price_id: string;
     is_admin: boolean;
     is_moderator: boolean;

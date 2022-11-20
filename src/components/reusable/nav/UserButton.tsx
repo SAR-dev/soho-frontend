@@ -1,11 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Group, Avatar, Text, createStyles, Skeleton, Stack, Popover, Image, Alert, Button, ActionIcon, Tooltip, Loader, Modal, Anchor } from '@mantine/core';
-import { AlertCircle, Check, Minus, Plus, Upload, UserCircle, Users, X } from 'tabler-icons-react';
+import { useRef, useState } from 'react';
+import {
+  Group,
+  Avatar,
+  Text,
+  createStyles,
+  Skeleton,
+  Stack,
+  Button,
+  ActionIcon,
+  Tooltip,
+  Loader,
+  Modal,
+  Anchor,
+} from '@mantine/core';
+import { Check, Minus, Plus, Upload, Users, X } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { CommunityDataParam } from '@interfaces/community';
-import { parseErrors, toBase64, updateAvatarOfLoggedInUser } from 'src/helpers';
-import { BsSave } from 'react-icons/bs';
-import { FaSave } from 'react-icons/fa';
+import { parseErrors, updateAvatarOfLoggedInUser } from 'src/helpers';
 import { AvatarUpdateInterface } from '@interfaces/api';
 import { useNotifications } from '@mantine/notifications';
 import { useQueryClient } from 'react-query';

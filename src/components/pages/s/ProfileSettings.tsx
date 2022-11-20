@@ -5,6 +5,7 @@ import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { getLoggedInUser, parseErrors, toBase64, updateLoggedInUser } from "src/helpers";
 import { Check } from "tabler-icons-react";
 
@@ -13,7 +14,7 @@ const useStyles = createStyles((theme) => ({
         display: 'flex',
     },
     w300: {
-        width: 300
+        width: 400
     },
     uploader: {
         cursor: "pointer"
@@ -27,6 +28,7 @@ export function ProfileSettings() {
     const [errors, setErrors] = useState<string[]>([])
     const notifications = useNotifications();
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
 
     const [avatar, setAvatar] = useState<File>()
     const [avatar_src, set_avatar_src] = useState("")
@@ -91,12 +93,15 @@ export function ProfileSettings() {
                 queryClient.setQueryData(['me'], { ...newData1 })
 
                 const oldData2: any = queryClient.getQueryData<UserDataParam>(['community', res.data.username])
-                const newData2 = oldData2
-                newData2.username = res.data.username
-                newData2.first_name = res.data.first_name
-                newData2.last_name = res.data.last_name
-                newData2.avatar = res.data.avatar
-                queryClient.setQueryData(['community', res.data.username], { ...newData2 })
+                if (oldData2) {
+                    const newData2 = oldData2
+                    newData2.username = res.data.username
+                    newData2.first_name = res.data.first_name
+                    newData2.last_name = res.data.last_name
+                    newData2.avatar = res.data.avatar
+                    queryClient.setQueryData(['community', res.data.username], { ...newData2 })
+                }
+                navigate(`/s/${res.data.username}/t/profile`)
             }
         })
     }

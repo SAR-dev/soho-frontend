@@ -4,26 +4,29 @@ import { Button, Center, createStyles, Image, Loader, Stack, Text, TextInput } f
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
+import { BiLink } from "react-icons/bi";
+import { FaCopy } from "react-icons/fa";
 import { useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { getUpdateCommunity, parseErrors, toBase64, updateCommunity } from "src/helpers";
 import { Check, Photo } from "tabler-icons-react";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
         display: 'flex',
     },
     w300: {
-        width: 300
+        width: 400
     },
     uploader: {
         cursor: "pointer",
         borderRadius: theme.radius.sm
     },
     placeholder: {
-        height: 200, 
-        width: "100%", 
-        display: "flex", 
+        height: 200,
+        width: "100%",
+        display: "flex",
         justifyContent: "center"
     }
 }));
@@ -114,8 +117,8 @@ export function GroupSettings() {
                     onChange={e => set_members_name(e.target.value)}
                 />
                 <TextInput
-                    placeholder="Slogan"
-                    label="Slogan"
+                    placeholder="Special Skill"
+                    label="Special Skill"
                     className="thick-border"
                     value={slogan}
                     onChange={e => set_slogan(e.target.value)}
@@ -127,11 +130,26 @@ export function GroupSettings() {
                         fit="cover"
                         className={classes.uploader} alt="With custom placeholder"
                         withPlaceholder
-                        placeholder={<div className={classes.placeholder}><Center><Photo size={80} /></Center></div>} 
-                        onClick={() => fileRef?.current?.click()} 
-                        src={cover_src} 
+                        placeholder={<div className={classes.placeholder}><Center><Photo size={80} /></Center></div>}
+                        onClick={() => fileRef?.current?.click()}
+                        src={cover_src}
                     />
                     <Text color="dimmed" size="xs">Click cover to update</Text>
+                </div>
+                <div>
+                    <Text size="sm" mb="xs">Joining Page</Text>
+                    <CopyToClipboard text={`${window.location.origin}/c/${author}/join`}
+                        onCopy={() => {
+                            notifications.showNotification({
+                                title: "Copied",
+                                message: "Link has been coipied!",
+                                color: "teal",
+                                icon: <Check size={18} />,
+                                autoClose: 5000,
+                            });
+                        }}>
+                        <Button size="sm" fullWidth color="gray" rightIcon={<FaCopy />}>{window.location.origin}/c/{author}/join</Button>
+                    </CopyToClipboard>
                 </div>
                 <ErrorMessage errors={errors} />
 

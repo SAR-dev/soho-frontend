@@ -166,6 +166,26 @@ export function getPaymentInfo({ username }: { username?: string }): Promise<any
     })
 };
 
+export function getPaymentPayor(): Promise<any> {
+  return axios.get(`payment/payor/`, defaultConfig())
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
+export function getPaymentPayee(): Promise<any> {
+  return axios.get(`payment/payee/`, defaultConfig())
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};
+
 export function createPaymentProduct({ image }: { image: string }): Promise<any> {
   return axios.post(`payment/products/`, { product: { images: [image] } }, defaultConfig())
     .then((res) => {

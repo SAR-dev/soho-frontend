@@ -1,6 +1,6 @@
 import { MeUpdateInterface } from "@interfaces/api";
 import { UserDataParam } from "@interfaces/user";
-import { Avatar, Button, createStyles, Image, Loader, NumberInput, Radio, RadioGroup, Select, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
+import { Avatar, Button, createStyles, Image, Loader, NumberInput, Progress, Radio, RadioGroup, Select, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
@@ -42,6 +42,7 @@ export function PaymentSettings() {
     const [sub_interval, set_sub_interval] = useState("")
     const [percent_off, set_percent_off] = useState<number>()
     const [promotion_code, set_promotion_code] = useState("")
+    const [progress, setProgress] = useState(1)
 
     const [copied, setCopied] = useState(false)
     const [key, setKey] = useState(0)
@@ -56,6 +57,30 @@ export function PaymentSettings() {
             set_sub_interval(res.sub_interval)
         }
     })
+
+    useEffect(() => {
+        const v = []
+        if(product_image?.length !== 0){
+            v.push(1)
+        }
+        if(currency?.length !== 0){
+            v.push(1)
+        }
+        if(unit_amount !== 0){
+            v.push(1)
+        }
+        if(promotion_code?.length !== 0){
+            v.push(1)
+        }
+        if(percent_off && Math.ceil(percent_off) !== 0){
+            v.push(1)
+        }
+        if(sub_interval?.length !== 0){
+            v.push(1)
+        }
+        setProgress(v.reduce((a, b) => a + b, 1))
+    }, [data])
+    
 
     const onCopy = () => {
         setCopied(true)
@@ -146,6 +171,10 @@ export function PaymentSettings() {
         <div key={key}>
             {data && (
             <Stack spacing="lg" className={classes.w400}>
+                <Stack spacing="xs">
+                    <Text weight={700} size="sm">Payment Setup</Text>
+                <Progress striped animate value={Math.ceil((progress/7)*100)} label={`${Math.ceil((progress/7)*100)}%`} size="xl" />
+                </Stack>
                 <EditingComponent image={{ label: "Checkout Image", value: data.product_image, helper: "This image is displayed when someone subscribes community" }}>
                     <Text mb={2}>Logo for your Soho</Text>
                     <Image height={150} width={150} withPlaceholder className={classes.uploader} onClick={() => fileRef?.current?.click()} src={product_image} />

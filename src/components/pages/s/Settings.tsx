@@ -3,9 +3,11 @@ import { SettingsLayout } from '@layouts/SettingsLayout';
 import { Link, useParams } from 'react-router-dom';
 import { ProfileSettings } from './ProfileSettings';
 import { GroupSettings } from './GroupSettings';
-import { RiGroup2Line, RiMapPinUserLine } from 'react-icons/ri';
-import { MdOutlinePayments } from 'react-icons/md';
+import { RiChatFollowUpFill, RiGroup2Line, RiMapPinUserLine } from 'react-icons/ri';
+import { MdMoney, MdOutlinePayments } from 'react-icons/md';
 import { PaymentSettings } from './PaymentSettings';
+import { Subscriptions } from './Subscriptions';
+import { Earnings } from './Earnings';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -78,6 +80,8 @@ const SettingsMenus = [
     { name: "Profile", path: "profile", icon: <RiMapPinUserLine size={20} /> }, // avatar, name, username
     { name: "Group", path: "group", icon: <RiGroup2Line size={20} /> }, // slogan, rules, members name, token
     { name: "Payment", path: "payment", icon: <MdOutlinePayments size={20} /> },
+    { name: "Subscriptions", path: "subscriptions", icon: <RiChatFollowUpFill size={20} /> },
+    { name: "Earnings", path: "earnings", icon: <MdMoney size={20} /> },
     // { name: "Blacklist", path: "blacklist" },
     // { name: "Moderator", path: "moderator" },
     // { name: "Soho", path: "soho" },
@@ -112,6 +116,8 @@ export function Settings() {
                 {sType === "profile" && <ProfileSettings />}
                 {sType === "group" && <GroupSettings />}
                 {sType === "payment" && <PaymentSettings />}
+                {sType === "subscriptions" && <Subscriptions />}
+                {sType === "earnings" && <Earnings />}
             </div>
         </SettingsLayout>
     );
