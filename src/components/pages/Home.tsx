@@ -4,7 +4,6 @@ import { useQuery } from 'react-query';
 import { getLoggedInUser, getTokenFromLocal } from '../../helpers';
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from '../reusable/nav/GoogleLogin';
-import { TwitterLogin } from '../reusable/nav/TwitterLogin';
 import useStore from '../../store';
 import { getAuth, signOut } from 'firebase/auth';
 
@@ -53,7 +52,6 @@ export function Home() {
                 ) : (
                     <Stack align="center">
                         <GoogleLogin setToken={setToken} />
-                        {/* <TwitterLogin setToken={setToken} /> */}
                     </Stack>
                 )}
             </Center>
