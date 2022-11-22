@@ -67,7 +67,7 @@ function Router() {
           <Route path="/c/:author/ch/:cName" element={<CHome />} />
           <Route path="/c/:author/sch/:sName" element={<SHome />} />
           <Route path="/s/:author" element={<Settings />} />
-          <Route path="/s/:author/t/:sType" element={<Settings />} />
+          <Route path="/s/:author/t/settings" element={<Settings />} />
         </Routes>
       </BrowserRouter>
     </>

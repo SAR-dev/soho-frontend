@@ -43,7 +43,7 @@ function App() {
         colorScheme={colorScheme}
         toggleColorScheme={toggleColorScheme}
       >
-        <MantineProvider theme={{ colorScheme, fontFamily: 'Lato, sans-serif' }}>
+        <MantineProvider theme={{ colorScheme }}>
           <NotificationsProvider>
             <ModalsProvider modals={{ signin: SigninModalManager }}>
               <Router />

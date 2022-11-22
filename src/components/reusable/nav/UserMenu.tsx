@@ -1,7 +1,8 @@
-import { createStyles, Menu, Text, ActionIcon, Divider } from "@mantine/core";
-import { Settings, Search, Photo, MessageCircle, ArrowBarLeft, ArrowsLeftRight, DotsCircleHorizontal } from 'tabler-icons-react';
+import { createStyles, ActionIcon } from "@mantine/core";
+import { Settings } from 'tabler-icons-react';
 import { getAuth, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { IoExitOutline } from "react-icons/io5";
 
 const useStyles = createStyles((theme) => ({
     link: {
@@ -25,7 +26,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function UserMenu({username}: {username?: string}) {
+export function UserMenu({ username }: { username?: string }) {
     const { classes } = useStyles();
 
     const signOutAndClearLocale = () => {
@@ -34,15 +35,13 @@ export function UserMenu({username}: {username?: string}) {
     }
 
     return (
-        <Menu control={<ActionIcon radius="md" size="lg" variant="light" title="User Menu" className={classes.link}>
-                            <DotsCircleHorizontal size={18} />
-                        </ActionIcon>}
-        >
-            <Menu.Label>Application</Menu.Label>
-            <Menu.Item icon={<Settings size={14} />} component={Link} to={`/s/${username}/t/profile`}>Settings</Menu.Item>
-            <Divider />
-            <Menu.Label>Danger zone</Menu.Label>
-            <Menu.Item color="red" icon={<ArrowBarLeft size={14} />} onClick={() => signOutAndClearLocale()}>Sign Out</Menu.Item>
-        </Menu>
+        <>
+            <ActionIcon radius="md" size="lg" variant="light" title="Settings" className={classes.link}  component={Link} to={`/s/${username}/t/settings`}>
+                <Settings size={18} />
+            </ActionIcon>
+            <ActionIcon radius="md" size="lg" variant="light" title="Sign Out" className={classes.link}  onClick={() => signOutAndClearLocale()}>
+                <IoExitOutline size={18} />
+            </ActionIcon>
+        </>
     );
 }

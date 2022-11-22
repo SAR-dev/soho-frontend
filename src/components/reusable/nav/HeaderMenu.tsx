@@ -1,17 +1,14 @@
 import { createStyles, Header, Group, Text, ActionIcon, Avatar, Button, Loader, Indicator } from "@mantine/core";
 import { useState } from "react";
-import { Notification, Home2, ArrowLeft, UserCircle, Cookie } from 'tabler-icons-react';
-import { signOut, getAuth } from "firebase/auth";
+import { Notification, ArrowLeft, UserCircle } from 'tabler-icons-react';
 import ThemeSwitcher from "./ThemeSwitcher";
 import { UserMenu } from "./UserMenu";
 import useStore from "../../../store";
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { NotificationDrawer } from "./NotificationDrawer";
 import { useQuery } from "react-query";
 import { getLoggedInUser, getNotifications, removeTokenFromLocal, setTokenToLocal } from "../../../helpers";
 import { GoogleLogin } from "./GoogleLogin";
-import { TwitterLogin } from "./TwitterLogin";
-import { useNotifications } from "@mantine/notifications";
 import { NotificationDataParam } from "@interfaces/notification";
 import { UserDataParam } from "@interfaces/user";
 import { ClapsCounter } from "./ClapsCounter";
@@ -175,9 +172,6 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                     </Button>
                   </>
                 )}
-                {/* <ActionIcon radius="md" size="lg" variant="light" title="Navigate to Home" className={classes.link}>
-                  <Home2 size={18} />
-                </ActionIcon> */}
                 <ActionIcon radius="md" size="lg" variant="light" title="Notification Center" className={classes.link} onClick={() => setDrawer(true)}>
                   {notificationCount === 0 ? (<Notification size={18} />) : (<Indicator inline label={notificationCount} size={16}>
                     <Notification size={18} />
@@ -189,7 +183,6 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
             ) : (
               <>
                 <GoogleLogin setToken={setToken} />
-                {/* <TwitterLogin setToken={setToken} /> */}
               </>
             )
             }

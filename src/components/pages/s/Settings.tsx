@@ -1,4 +1,4 @@
-import { createStyles, Navbar, Text } from '@mantine/core';
+import { createStyles, Navbar, Text, SimpleGrid } from '@mantine/core';
 import { SettingsLayout } from '@layouts/SettingsLayout';
 import { Link, useParams } from 'react-router-dom';
 import { ProfileSettings } from './ProfileSettings';
@@ -73,52 +73,41 @@ const useStyles = createStyles((theme) => ({
 
     body: {
         padding: theme.spacing.md
+    },
+
+    box: {
+        padding: theme.spacing.md,
+        borderRadius: theme.radius.md,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 7 : 5],
     }
 }));
-
-const SettingsMenus = [
-    { name: "Profile", path: "profile", icon: <RiMapPinUserLine size={20} /> }, // avatar, name, username
-    { name: "Group", path: "group", icon: <RiGroup2Line size={20} /> }, // slogan, rules, members name, token
-    { name: "Payment", path: "payment", icon: <MdOutlinePayments size={20} /> },
-    { name: "Subscriptions", path: "subscriptions", icon: <RiChatFollowUpFill size={20} /> },
-    { name: "Earnings", path: "earnings", icon: <MdMoney size={20} /> },
-    // { name: "Blacklist", path: "blacklist" },
-    // { name: "Moderator", path: "moderator" },
-    // { name: "Soho", path: "soho" },
-]
 
 export function Settings() {
     const { classes, cx } = useStyles();
     const { author } = useParams<"author">();
     const { sType } = useParams<"sType">();
 
-    const links = SettingsMenus.map((link) => (
-        <Link
-            className={cx(classes.link, { [classes.linkActive]: sType === link.path })}
-            to={`/s/${author}/t/${link.path}`}
-            key={link.path}
-        >
-            {link.icon}
-            <Text ml="xs">{link.name}</Text>
-        </Link>
-    ));
-
     return (
         <SettingsLayout>
-            <Navbar height={"calc(100vh - 50px)"} width={{ sm: 300 }}>
-                <Navbar.Section grow className={classes.wrapper}>
-                    <div className={classes.main}>
-                        {links}
-                    </div>
-                </Navbar.Section>
-            </Navbar>
-            <div className={classes.body}>
-                {sType === "profile" && <ProfileSettings />}
-                {sType === "group" && <GroupSettings />}
-                {sType === "payment" && <PaymentSettings />}
-                {sType === "subscriptions" && <Subscriptions />}
-                {sType === "earnings" && <Earnings />}
-            </div>
+            <SimpleGrid cols={2} spacing="md" style={{ width: "100%", padding: 25 }}>
+                <div className={classes.box}>
+                    <ProfileSettings />
+                </div>
+                <div className={classes.box}>
+                    <GroupSettings />
+                </div>
+                <div className={classes.box}>
+                    <PaymentSettings />
+                </div>
+                <div className={classes.box}>
+                    <Subscriptions />
+                </div>
+                <div className={classes.box}>
+                    <Earnings />
+                </div>
+            </SimpleGrid>
         </SettingsLayout>
     );
 }
