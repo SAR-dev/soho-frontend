@@ -78,33 +78,48 @@ const useStyles = createStyles((theme) => ({
     box: {
         padding: theme.spacing.md,
         borderRadius: theme.radius.md,
-        borderWidth: 1,
+        borderWidth: 2,
         borderStyle: "solid",
-        borderColor: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 7 : 5],
+        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2],
+    },
+
+    title: {
+        fontSize: theme.fontSizes.lg,
+        fontWeight: 700,
+        marginBottom: theme.spacing.md,
+        paddingBottom: theme.spacing.md,
+        borderWidth: 0,
+        borderBottomWidth: 2,
+        borderStyle: "solid",
+        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2],
+        width: "100%"
     }
 }));
 
 export function Settings() {
     const { classes, cx } = useStyles();
-    const { author } = useParams<"author">();
-    const { sType } = useParams<"sType">();
 
     return (
         <SettingsLayout>
             <SimpleGrid cols={2} spacing="md" style={{ width: "100%", padding: 25 }}>
                 <div className={classes.box}>
+                    <Text className={classes.title}>Profile Settings</Text>
                     <ProfileSettings />
                 </div>
                 <div className={classes.box}>
+                    <Text className={classes.title}>Group Settings</Text>
                     <GroupSettings />
                 </div>
                 <div className={classes.box}>
+                    <Text className={classes.title}>Payment Settings</Text>
                     <PaymentSettings />
                 </div>
                 <div className={classes.box}>
+                    <Text className={classes.title}>Subscriptions</Text>
                     <Subscriptions />
                 </div>
                 <div className={classes.box}>
+                    <Text className={classes.title}>Earnings</Text>
                     <Earnings />
                 </div>
             </SimpleGrid>

@@ -1,18 +1,35 @@
-import { MeUpdateInterface } from "@interfaces/api";
-import { UserDataParam } from "@interfaces/user";
-import { Avatar, Button, createStyles, Image, Loader, NumberInput, Progress, Radio, RadioGroup, Select, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
+import {
+    Button,
+    createStyles,
+    Image,
+    Loader,
+    NumberInput,
+    Progress,
+    Radio,
+    RadioGroup,
+    Select,
+    SimpleGrid,
+    Stack,
+    Text,
+    TextInput,
+} from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { ErrorMessage } from "@reusable/ErrorMessage";
 import { useEffect, useRef, useState } from "react";
-import { MdAdd, MdCheck, MdCopyAll } from "react-icons/md";
+import { MdAdd, MdCheck } from "react-icons/md";
 import { useQuery, useQueryClient } from "react-query";
 import { currencies } from "src/config/stripe";
-import { createPaymentCoupon, createPaymentPrice, createPaymentProduct, getLoggedInUser, getPaymentInfo, parseErrors, toBase64, updateLoggedInUser } from "src/helpers";
+import {
+    createPaymentCoupon,
+    createPaymentPrice,
+    createPaymentProduct,
+    getPaymentInfo,
+    parseErrors,
+} from "src/helpers";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Check, X } from "tabler-icons-react";
 import { useParams } from "react-router-dom";
 import { PaymentDataParam } from "@interfaces/payment";
-import { EditingComponent } from "./EditingComponet";
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -42,7 +59,6 @@ export function PaymentSettings() {
     const [sub_interval, set_sub_interval] = useState("")
     const [percent_off, set_percent_off] = useState<number>()
     const [promotion_code, set_promotion_code] = useState("")
-    const [progress, setProgress] = useState(1)
 
     const [copied, setCopied] = useState(false)
     const [key, setKey] = useState(0)
@@ -57,30 +73,6 @@ export function PaymentSettings() {
             set_sub_interval(res.sub_interval)
         }
     })
-
-    useEffect(() => {
-        const v = []
-        if(product_image?.length !== 0){
-            v.push(1)
-        }
-        if(currency?.length !== 0){
-            v.push(1)
-        }
-        if(unit_amount !== 0){
-            v.push(1)
-        }
-        if(promotion_code?.length !== 0){
-            v.push(1)
-        }
-        if(percent_off && Math.ceil(percent_off) !== 0){
-            v.push(1)
-        }
-        if(sub_interval?.length !== 0){
-            v.push(1)
-        }
-        setProgress(v.reduce((a, b) => a + b, 1))
-    }, [data])
-    
 
     const onCopy = () => {
         setCopied(true)
@@ -170,22 +162,14 @@ export function PaymentSettings() {
     return (
         <div key={key}>
             {data && (
-            <Stack spacing="lg" className={classes.w400}>
-                <Stack spacing="xs">
-                    <Text weight={700} size="sm">Payment Setup</Text>
-                <Progress striped animate value={Math.ceil((progress/7)*100)} label={`${Math.ceil((progress/7)*100)}%`} size="xl" />
-                </Stack>
-                <EditingComponent image={{ label: "Checkout Image", value: data.product_image, helper: "This image is displayed when someone subscribes community" }}>
+                <Stack spacing="lg" className={classes.w400}>
+                    <div>
                     <Text mb={2}>Logo for your Soho</Text>
                     <Image height={150} width={150} withPlaceholder className={classes.uploader} onClick={() => fileRef?.current?.click()} src={product_image} />
                     <TextInput mt="xs" value={product_image} onChange={event => set_product_image(event.currentTarget.value)} placeholder="Paste image url here..." />
                     <Button variant="light" color="gray" leftIcon={<MdCheck />} mt="xs" loading={loading} fullWidth onClick={() => updateProduct()}>Apply</Button>
-                </EditingComponent>
-                <EditingComponent elements={[
-                    { label: "Currency", value: data.currency ? data.currency.toUpperCase() : "" },
-                    { label: "Amount (in unit)", value: data.unit_amount, helper: "This currency will be used when someone subscribes your Soho" },
-                    { label: "Charge interval", value: data.sub_interval ? data.sub_interval.toUpperCase() : "", helper: "The time interval for subscription charge." }
-                ]}>
+                    </div>
+                    <div>
                     <Text mb={2}>Select subscription fee (unit amount)</Text>
                     <SimpleGrid cols={2}>
                         <Select
@@ -204,7 +188,8 @@ export function PaymentSettings() {
                         />
                     </SimpleGrid>
                     <Text color="dimmed" size="xs">This currency will be used when someone subscribes your Soho</Text>
-
+                    </div>
+                    <div>
                     <Text mb={2} mt="sm">Select charge interval</Text>
                     <RadioGroup value={sub_interval} onChange={set_sub_interval}>
                         <Radio value="week" label="Weekly" />
@@ -212,11 +197,8 @@ export function PaymentSettings() {
                         <Radio value="year" label="Yearly" />
                     </RadioGroup>
                     <Button variant="light" color="gray" leftIcon={<MdCheck />} mt="xs" loading={loading} fullWidth onClick={() => updatePrice()}>Apply</Button>
-                </EditingComponent>
-                <EditingComponent elements={[
-                    { label: "Percent Off", value: data.percent_off },
-                    { label: "Promotion Code", value: data.promotion_code.toUpperCase(), helper: "This can be applied when subscribing your community." },
-                ]}>
+                    </div>
+                    <div>
                     <Text mb={2}>Promotion Code</Text>
                     {promotion_code.length !== 0 && (
                         <>
@@ -234,15 +216,17 @@ export function PaymentSettings() {
                             <Button variant="light" color="gray" mt="xs" fullWidth>Change</Button>
                         </>
                     )}
+                    </div>
+                    <div>
                     <Text mb={2} mt="sm">Write Percentage off amount</Text>
                     <SimpleGrid cols={2}>
                         <NumberInput min={1} placeholder="Percentage Off" value={percent_off} onChange={e => set_percent_off(e)} />
                         <Button variant="light" color="gray" leftIcon={<MdAdd />} loading={loading} fullWidth onClick={() => updateCoupon()}>Generate</Button>
                     </SimpleGrid>
                     <Text color="dimmed" size="xs">Once you generate new promotion code, old ones will expire.</Text>
-                </EditingComponent>
-                <ErrorMessage errors={errors} />
-            </Stack>
+                    </div>
+                    <ErrorMessage errors={errors} />
+                </Stack>
             )}
         </div>
     )
