@@ -117,8 +117,8 @@ export function GroupSettings() {
                     onChange={e => set_members_name(e.target.value)}
                 />
                 <TextInput
-                    placeholder="Special Skill"
-                    label="Special Skill"
+                    placeholder="Category"
+                    label="Category"
                     className="thick-border"
                     value={slogan}
                     onChange={e => set_slogan(e.target.value)}

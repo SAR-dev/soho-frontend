@@ -49,12 +49,7 @@ export function EditorWrapper({ toogle }: Props) {
     <Paper radius={0} style={{ position: 'relative' }}>
       <Paper className={classes.container}>
         {data && (
-          <Drawer onClose={() => toogle} size="full" opened withCloseButton={false} overlayOpacity={0.9}>
-            <div className={classes.drawer}>
-              <Text weight={700} size="lg" style={{marginBottom: 20}}>Start typing below....</Text>
-            <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.data.is_admin} />
-            </div>
-          </Drawer>
+          <DiscussionPostTab toogle={toogle} setLoading={setLoading} is_admin={data.data.is_admin} />
         )}
       </Paper>
       <LoadingOverlay visible={loading} />

@@ -3,10 +3,10 @@
 }
 
 .ProseMirror {
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: transparent;
   border-radius: 0.25rem;
-  min-height: calc(100vh - 300px);
+  min-height: 15vh;
 }
 
 .ProseMirror .is-empty::before {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createStyles, Group, Button, Select, Switch } from "@mantine/core";
+import { createStyles, Group, Button, Select, Switch, Divider } from "@mantine/core";
 import { ImageDropzone } from "../ImageDropzone";
 import { Check, Eye, Send } from "tabler-icons-react";
 import { useParams } from "react-router-dom";
@@ -196,10 +196,11 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
   return (
     <>
       <Ctiptap text={text} setText={setText} limit={textLimit} />
-      <div className={classes.mysm}>
+      <div>
         <ImageDropzone disabled={false} images={images} addImage={addImage} />
       </div>
-      <Group>
+      <Divider className={classes.mysm} />
+      <Group spacing="xs">
         <Select
           placeholder="SOHO"
           data={subChannels}
@@ -213,7 +214,7 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
         />
         {is_admin && (
         <Switch
-          label="Announcement"
+          label="SHOUT"
           checked={announced}
           size="xs"
           onChange={(event) => setAnnounced(event.currentTarget.checked)}
@@ -221,9 +222,9 @@ export function DiscussionPostTab({ toogle, setLoading, is_admin }: Props) {
         )}
         <LimitCounter count={text.length} limit={textLimit} />
         <Button size="xs" color="gray" onClick={() => toogle()}>
-          Close
+          Cancel
         </Button>
-        <Button size="xs" leftIcon={<Send size={16} />} onClick={() => submit()}>
+        <Button size="xs" onClick={() => submit()}>
           Publish
         </Button>
       </Group>

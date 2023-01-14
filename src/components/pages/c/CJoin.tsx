@@ -1,16 +1,13 @@
-import { Avatar, Button, Modal, createStyles, Group, Paper, Skeleton, Stack, Text, Anchor } from '@mantine/core';
-import { BrandOpenSource, Users, X } from 'tabler-icons-react';
+import { Avatar, Button, Modal, createStyles, Group, Paper, Stack, Text, Anchor } from '@mantine/core';
 import { CommunityDataParam } from '@interfaces/community';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useQuery, useQueryClient } from 'react-query';
-import { capitalizeFirstLetter, getCommunity, parseErrors, subscribe } from 'src/helpers';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getCommunity } from 'src/helpers';
 import { useState } from 'react';
-import { useNotifications } from '@mantine/notifications';
 import { Error404 } from '@pages/Error404';
-import { FaUserAlt, FaUserNinja } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
+import { BiDollar } from 'react-icons/bi';
 import { BsFillPatchCheckFill } from 'react-icons/bs';
-import { MdAttachMoney } from 'react-icons/md';
-import { HiCurrencyDollar } from 'react-icons/hi';
 
 const useStyles = createStyles((theme) => ({
     mainpaper: {
@@ -36,9 +33,9 @@ const useStyles = createStyles((theme) => ({
         marginRight: "auto"
     },
     title: {
-        fontSize: 50,
+        fontSize: 64,
         lineHeight: 1,
-        fontWeight: 900,
+        fontWeight: 600,
         color: "#fff",
         letterSpacing: 2
     },
@@ -47,10 +44,14 @@ const useStyles = createStyles((theme) => ({
         width: 180,
         fontSize: 30,
         lineHeight: 1,
-        fontWeight: 800,
         color: "#000",
-        letterSpacing: 2,
         backgroundColor: "#FCE700",
+        borderRadius: 10,
+
+        'span': {
+            fontWeight: 700,
+            fontFamily: "'DM Sans', sans-serif"
+        },
 
         '&:hover': {
             backgroundColor: "#FFB200",
@@ -61,14 +62,15 @@ const useStyles = createStyles((theme) => ({
         },
     },
     darkbg: {
-        paddingTop: 30,
+        paddingTop: 10,
         paddingBottom: 45,
-        background: "#000"
+        background: "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,.95) 100%);"
+
     },
     lightbg: {
         paddingTop: 230,
-        paddingBottom: 30,
-        background: "linear-gradient(0deg, rgba(47,47,47,.75) 0%, rgba(108,108,108,.35) 35%, rgba(0,0,0,0) 100%);"
+        paddingBottom: 10,
+        background: "linear-gradient(0deg, rgba(0,0,0,.95) 0%, rgba(0,0,0,.75) 50%, rgba(0,0,0,0) 100%);"
     },
     back: {
         position: "absolute",
@@ -95,12 +97,6 @@ export function CJoin() {
 
     const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
 
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false)
-
-    const notifications = useNotifications();
-    const queryClient = useQueryClient()
-
     if (isLoading) return (
         <Paper className={classes.mainpaper}>
         </Paper>
@@ -110,19 +106,20 @@ export function CJoin() {
 
     return (
         <Paper className={classes.mainpaper} style={{ backgroundImage: `url('${data?.data.cover}')` }}>
-            <div className={classes.back}>
+            {/* <div className={classes.back}>
                 <div className={classes.backwrapper}>
                     <Button color="dark" component={Link} to={`/c/${author}`}>Home</Button>
                 </div>
-            </div>
+            </div> */}
             <Stack className={classes.contentWrapper} spacing={0}>
                 <div className={classes.lightbg}>
                     <div className={classes.titleWrapper}>
                         <Group align="center">
-                            <Text className={classes.title}>{data?.data.author.first_name.toLocaleUpperCase()} {data?.data.author.last_name.toLocaleUpperCase()}</Text>
-                            <BsFillPatchCheckFill size={30} color="#000" />
+                            <Text style={{ fontFamily: "'DM Sans', sans-serif" }} className={classes.title}>
+                                {data?.data.author.first_name.toLocaleUpperCase()} {data?.data.author.last_name.toLocaleUpperCase()}
+                            </Text>
+                            <BsFillPatchCheckFill size={30} color="#fff" />
                         </Group>
-
                         <Button color="yellow" className={classes.joining} onClick={() => setOpened((o) => !o)}>{data?.data.subscribed ? "JOINED" : "JOIN"}</Button>
                     </div>
                 </div>
@@ -130,16 +127,17 @@ export function CJoin() {
                     <div className={classes.titleWrapper}>
                         <Group align="center">
                             <FaUserAlt color="#FCE700" size={20} />
-                            <Text weight={700} size="xl" color="white">{data?.data.subscribers_count.toLocaleString('en-US', { minimumIntegerDigits: 4, useGrouping: false })} {data?.data.members_name}</Text>
+                            <Text weight={700} size="xl" color="white">{data?.data.subscribers_count.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })} {data?.data.members_name}</Text>
                             <Text weight={700} size="xl" color="white">|</Text>
                             <Text weight={700} size="xl" color="white">{data?.data.slogan}</Text>
                         </Group>
 
-                        <Group align="center" spacing="xs">
-                            <HiCurrencyDollar color="#FCE700" size={25} />
-                            <Text weight={700} size="xl" color="white">{data?.data.unit_amount}</Text>
-                            <Text weight={700} size="xl" color="white">{data?.data.currency.toLocaleUpperCase()}</Text>
-                            <Text weight={700} size="xl" color="white">{data?.data.sub_interval.toLocaleUpperCase()}LY</Text>
+                        <Group align="center" style={{minWidth: 180, justifyContent: "center"}} spacing={0}>
+                            <BiDollar color="#FCE700" size={25} style={{marginRight: 5}} />
+                            <Text weight={700} size="xl" color="white" mr={5}>{data?.data.unit_amount}</Text>
+                            <Text weight={700} size="xl" color="white">{data?.data.currency?.toLocaleUpperCase()}</Text>
+                            <Text weight={700} size="xl" color="white">/</Text>
+                            <Text weight={700} size="xl" color="white"> {data?.data.sub_interval?.toLocaleUpperCase()}</Text>
                         </Group>
                     </div>
                 </div>
