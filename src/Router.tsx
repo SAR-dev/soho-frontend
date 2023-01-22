@@ -19,6 +19,7 @@ import { Settings } from "@pages/s/Settings";
 import { CLeave } from "@pages/c/CLeave";
 import { Search } from "@pages/c/Search";
 import { Welcome } from "@pages/Welcome";
+import { Starter } from "@pages/Starter";
 
 function Router() {
   const modals = useModals();
@@ -58,7 +59,7 @@ function Router() {
         <Routes>
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<Home />} />
-          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/welcome" element={<Starter />} />
           <Route path="/c/search/:query" element={<Search />} />
           <Route path="/c/:author" element={<PType />} />
           <Route path="/c/:author/join" element={<CJoin />} />

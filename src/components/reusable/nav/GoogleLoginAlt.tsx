@@ -1,11 +1,11 @@
 import { Button } from "@mantine/core";
-import React from "react";
 import { Cookie, X } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useModals } from "@mantine/modals";
 import { useNavigate } from "react-router-dom";
+import {FcGoogle} from "react-icons/fc"
 
 export function GoogleLoginAlt({ setToken }: { setToken: (token: string) => void }) {
     const notifications = useNotifications();
@@ -42,6 +42,8 @@ export function GoogleLoginAlt({ setToken }: { setToken: (token: string) => void
 
 
     return (
-        <Button size="xl" variant="gradient" gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }} onClick={() => signinWithGoogle()}>READY SET GO</Button>
+        <Button size="lg" color="dark" onClick={() => signinWithGoogle()} leftIcon={<FcGoogle size={20} />}>
+            Continue with Google
+        </Button>
     );
 }
