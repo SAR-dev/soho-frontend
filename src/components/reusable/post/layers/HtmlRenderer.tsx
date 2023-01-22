@@ -20,7 +20,7 @@ export function HtmlRenderer({ body, id, author }: { body: string, id: number, a
         return <Anchor
           className={cx(classes.typography, "link")}
           component={Link}
-          to={`/c/${author}/p/${id}?details=true`}
+          to={`/${author}/p/${id}?details=true`}
         >
           ...Read More
         </Anchor>

@@ -108,7 +108,7 @@ export function CJoin() {
         <Paper className={classes.mainpaper} style={{ backgroundImage: `url('${data?.data.cover}')` }}>
             {/* <div className={classes.back}>
                 <div className={classes.backwrapper}>
-                    <Button color="dark" component={Link} to={`/c/${author}`}>Home</Button>
+                    <Button color="dark" component={Link} to={`/${author}`}>Home</Button>
                 </div>
             </div> */}
             <Stack className={classes.contentWrapper} spacing={0}>
@@ -171,7 +171,7 @@ export function CJoin() {
                             <Text>You need to pay {data.data.unit_amount} in {data.data.currency.toUpperCase()}. Please read the group rules carefully.</Text>
                             <Text>To continue proceed to payment page. Once you finish payment you will be subscribed to group automatically. It may take a few minutes to complete payment process. Please wait patiently.</Text>
                             <Group mt="sm">
-                                <Button component={Link} to={`/c/${data.data.author.username}/t/rules`}>
+                                <Button component={Link} to={`/${data.data.author.username}/t/rules`}>
                                     Read Rules
                                 </Button>
                                 <Anchor href={`${import.meta.env.VITE_API_URL}payment/checkout/?payor=${data.data.author.username}&price_id=${data.data.price_id}`} target="_blank" rel="noopener noreferrer">

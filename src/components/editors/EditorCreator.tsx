@@ -1,11 +1,22 @@
-import { Paper, createStyles, Avatar, Input, ThemeIcon, Badge, Indicator, ActionIcon, Alert, Skeleton } from "@mantine/core";
-import { AlertCircle, BrandTwitter, Photo } from "tabler-icons-react";
-import { HiBadgeCheck } from "react-icons/hi";
-import { isError, useQuery } from "react-query";
-import { capitalizeFirstLetter, getCommunity } from "../../helpers";
+import {
+  Paper,
+  createStyles,
+  Avatar,
+  Input,
+  Badge,
+  Indicator,
+  ActionIcon,
+  Alert,
+  Skeleton,
+} from "@mantine/core";
+import { AlertCircle, Photo } from "tabler-icons-react";
+import { useQuery } from "react-query";
+import { getCommunity, getLoggedInUser } from "../../helpers";
 import { useParams } from "react-router-dom";
 import { CommunityDataParam } from "@interfaces/community";
-import { Author } from "@reusable/post/layers/Author";
+import { useState } from "react";
+import { UserDataParam } from "@interfaces/user";
+import useStore from "src/store";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -71,10 +82,21 @@ interface Props {
 
 export function EditorCreator({ toogle }: Props) {
   const { author } = useParams<"author">();
+  const [name, setName] = useState("")
+  const [avatar, setAvatar] = useState("")
+  const { token } = useStore()
 
   const { classes, cx } = useStyles();
 
   const { status, data, error, isFetching, isLoading, isError } = useQuery<DataParam, Error>(['community', author], () => getCommunity({ username: author }))
+
+  useQuery<UserDataParam, Error>(["me"], () => getLoggedInUser(), {
+    enabled: token !== null,
+    onSuccess: (res) => {
+      setName(`${res.first_name} ${res.last_name}`)
+      setAvatar(res.avatar)
+    }
+  })
 
   const Loader = () => (
     <Paper radius={0}>
@@ -137,15 +159,15 @@ export function EditorCreator({ toogle }: Props) {
                 >
                   <Avatar
                     size={60}
-                    src={data.data.author.avatar}
-                    alt={`${data.data.author.first_name} ${data.data.author.last_name}`}
+                    src={avatar}
+                    alt={`${name}`}
                     className={classes.avatar}
                   />
                 </Indicator>
                 <Input
                   className={cx(classes.input, "thick-border")}
                   width="100%"
-                  placeholder={`${data.data.author.first_name} ${data.data.author.last_name}, What's on your mind ?`}
+                  placeholder={`${name}, What's on your mind ?`}
                   rightSectionWidth={75}
                   styles={{ rightSection: { pointerEvents: "none" } }}
                   rightSection={

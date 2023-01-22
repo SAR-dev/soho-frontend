@@ -21,7 +21,7 @@ export function PostReplyCount({ authorName, postId, commentsCount, color = "dim
   const { classes } = useStyles();
 
   return (
-    <Center component={Link} to={`/c/${authorName}/p/${postId}?details=true`} className={classes.wrapper}>
+    <Center component={Link} to={`/${authorName}/p/${postId}?details=true`} className={classes.wrapper}>
       <Text size="sm" weight={500} color={color}>
         {doubleDigit(commentsCount)}
       </Text>

@@ -148,7 +148,7 @@ export function SubChannel({ sub_category, author, chevron, is_admin }: { sub_ca
   return (
     <>
       <div className={classes.collectionLink} ref={dragRef}>
-        <Link id={sub_category.slug} to={`/c/${author}/sch/${sub_category.slug}`} className={classes.collectionText}>
+        <Link id={sub_category.slug} to={`/${author}/sch/${sub_category.slug}`} className={classes.collectionText}>
           <div className={classes.collectionIcon}>{sub_category.emoji}</div> {sub_category.name}
           {chevron && <GoTriangleRight className={classes.chevron} />}
         </Link>
@@ -197,7 +197,6 @@ export function Channel({ id, name, slug, sub_categories, author, is_admin }: Pr
   const [isHovering, setIsHovering] = useState(false);
   const [loading, setLoading] = useState(false)
   const [subChannelCreating, setSubChannelCreating] = useState(false)
-  const [channelEditing, setChannelEditing] = useState(false)
 
   const queryClient = useQueryClient();
   const notifications = useNotifications();

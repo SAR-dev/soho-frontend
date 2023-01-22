@@ -20,7 +20,8 @@ export function EmojiPopover({ insertText }: { insertText: any}) {
           previewPosition="none"
           // emojiButtonSize={30}
           // emojiSize={24}
-          // perLine={10}
+          // perLine={10} 
+          searchPosition='none'
           onEmojiSelect={(e: any) => insertText(e.native)}
         />
       </Menu.Item>

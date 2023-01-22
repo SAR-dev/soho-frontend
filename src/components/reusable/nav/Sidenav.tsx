@@ -147,7 +147,7 @@ export function Sidenav() {
 
   const submit = () => {
     if (text.length !== 0) {
-      navigate(`/c/search/${text}`)
+      navigate(`/search/${text}`)
     }
   }
 

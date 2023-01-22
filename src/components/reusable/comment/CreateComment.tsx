@@ -84,10 +84,6 @@ export function CreateComment({ postId, author }: { postId: number, author: Auth
                         <Text size="sm">Respond as</Text>
                         <Text color="blue" size="sm" ml={5}>{`${author.first_name} ${author.last_name}`}</Text>
                     </Group>
-                    <div className={classes.info}>
-                        <InfoCircle size={14} />
-                        <Text size="xs" color="dimmed">Please read the community rules before responsing</Text>
-                    </div>
                 </Stack>
                 {show ? (
                     <div style={{ position: "relative" }}>

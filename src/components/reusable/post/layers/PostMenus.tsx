@@ -26,20 +26,18 @@ export function PostMenus({ ...props }: Props) {
 
     return (
         <>
-                {(props.is_admin || props.is_moderator || props.author_username === data?.username) && (
-                    <Menu ml="auto" control={
-                        <ActionIcon title="Post Options">
-                            <BsThreeDots size={18} />
-                        </ActionIcon>}
-                    >
-                        <Stack spacing={0}>
-                        <Menu.Item style={{width: 200}} icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
-                        <Menu.Item style={{width: 200}} icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
-                        <Menu.Item style={{width: 200}} icon={<MdOutlineCommentBank size={14} />} onClick={() => props.setCanCommentModal(true)}>Toogle Commenting</Menu.Item>
-                        <Menu.Item style={{width: 200}} icon={<MdOutlineAddReaction size={14} />} onClick={() => props.setCanVoteModal(true)}>Toogle Reactions</Menu.Item>
-                        </Stack>
-                    </Menu>
-                )}
+            {(props.is_admin || props.is_moderator || props.author_username === data?.username) && (
+                <Menu ml="auto" control={
+                    <ActionIcon title="Post Options">
+                        <BsThreeDots size={18} />
+                    </ActionIcon>}
+                >
+                    <Stack spacing={0}>
+                        <Menu.Item style={{ width: 200 }} icon={<Edit size={14} />} onClick={() => props.setEditorModal(true)}>Update</Menu.Item>
+                        <Menu.Item style={{ width: 200 }} icon={<Trash size={14} />} onClick={() => props.setDeleteModal(true)}>Delete</Menu.Item>
+                    </Stack>
+                </Menu>
+            )}
         </>
     );
 }

@@ -175,7 +175,7 @@ export function UserButton({ data, isLoading, author }: { data?: CommunityDataPa
           {data && (
             <>
               <Text size="sm" weight={500}>
-                {`${data?.author?.first_name} ${data?.author?.last_name}`}
+                {`${data?.author?.first_name.toLocaleUpperCase()} ${data?.author?.last_name.toLocaleUpperCase()}`}
               </Text>
               <Group spacing="xs" className={classes.members} onClick={() => setOpened((o) => !o)}>
                 <div className={classes.membersCount}>
@@ -220,7 +220,7 @@ export function UserButton({ data, isLoading, author }: { data?: CommunityDataPa
               <Text>You need to pay {data.unit_amount} in {data.currency.toUpperCase()}. Please read the group rules carefully.</Text>
               <Text>To continue proceed to payment page. Once you finish payment you will be subscribed to group automatically. It may take a few minutes to complete payment process. Please wait patiently.</Text>
               <Group mt="sm">
-                <Button component={Link} to={`/c/${data.author.username}/t/rules`}>
+                <Button component={Link} to={`/${data.author.username}/t/rules`}>
                   Read Rules
                 </Button>
                 <Anchor href={`${import.meta.env.VITE_API_URL}payment/checkout/?payor=${data.author.username}&price_id=${data.price_id}`} target="_blank" rel="noopener noreferrer">

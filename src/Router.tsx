@@ -60,13 +60,13 @@ function Router() {
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<Home />} />
           <Route path="/welcome" element={<Starter />} />
-          <Route path="/c/search/:query" element={<Search />} />
-          <Route path="/c/:author" element={<PType />} />
-          <Route path="/c/:author/join" element={<CJoin />} />
-          <Route path="/c/:author/leave" element={<CLeave />} />
-          <Route path="/c/:author/p/:pId" element={<PDetails />} />
-          <Route path="/c/:author/ch/:cName" element={<CHome />} />
-          <Route path="/c/:author/sch/:sName" element={<SHome />} />
+          <Route path="/search/:query" element={<Search />} />
+          <Route path="/:author" element={<PType />} />
+          <Route path="/:author/join" element={<CJoin />} />
+          <Route path="/:author/leave" element={<CLeave />} />
+          <Route path="/:author/p/:pId" element={<PDetails />} />
+          <Route path="/:author/ch/:cName" element={<CHome />} />
+          <Route path="/:author/sch/:sName" element={<SHome />} />
           <Route path="/s/:author" element={<Settings />} />
           <Route path="/s/:author/t/settings" element={<Settings />} />
         </Routes>

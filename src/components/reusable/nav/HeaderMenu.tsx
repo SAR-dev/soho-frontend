@@ -83,7 +83,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
   const { cName } = useParams<"cName">();
   const { sName } = useParams<"sName">();
   const navigate = useNavigate();
-  const modals = useModals();
+  const modals = useModals(); 
 
   const [drawer, setDrawer] = useState(false);
 
@@ -132,7 +132,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
         <div className={classes.inner}>
           {pId ? (
             <Button variant="default" color="dark" size="xs" leftIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
-              Return
+              Back
             </Button>
           ) : (
             <Text className={classes.linkText}>{getHeaderText()}</Text>
@@ -166,7 +166,7 @@ export function HeaderMenu({ NavHeight }: { NavHeight: number }) {
                       className={classes.link}
                       style={{ paddingLeft: 10, paddingRight: 10 }}
                       component={Link}
-                      to={`/c/${data.username}`}
+                      to={`/${data.username}`}
                     >
                       {`${data.first_name} ${data.last_name}`}
                     </Button>

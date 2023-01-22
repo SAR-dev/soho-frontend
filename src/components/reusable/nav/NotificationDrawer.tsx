@@ -73,7 +73,7 @@ export function NotificationDrawer({ opened, setOpened }: Props) {
     const handleClick = (el: NotificationDataParam) => {
         markNotificationDone(el.id)
         const post = el.target_type === "post" ? el.target : el.post
-        const target = `/c/${el.group.author.username}/p/${post}?details=true`
+        const target = `/${el.group.author.username}/p/${post}?details=true`
         navigate(target)
         setOpened(false)
     }

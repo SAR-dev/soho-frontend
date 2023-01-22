@@ -138,7 +138,7 @@ export function GroupSettings() {
                 </div>
                 <div>
                     <Text size="sm" mb="xs">Joining Page</Text>
-                    <CopyToClipboard text={`${window.location.origin}/c/${author}/join`}
+                    <CopyToClipboard text={`${window.location.origin}/${author}/join`}
                         onCopy={() => {
                             notifications.showNotification({
                                 title: "Copied",
@@ -148,7 +148,7 @@ export function GroupSettings() {
                                 autoClose: 5000,
                             });
                         }}>
-                        <Button size="sm" fullWidth color="gray" rightIcon={<FaCopy />}>{window.location.origin}/c/{author}/join</Button>
+                        <Button size="sm" fullWidth color="gray" rightIcon={<FaCopy />}>{window.location.origin}/{author}/join</Button>
                     </CopyToClipboard>
                 </div>
                 <ErrorMessage errors={errors} />

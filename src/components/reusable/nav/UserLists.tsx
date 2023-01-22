@@ -82,7 +82,7 @@ export default function UserLists() {
             <Tooltip label={label} position="right" withArrow transitionDuration={0}>
                 <UnstyledButton
                     component={Link}
-                    to={`/c/${username}`}
+                    to={`/${username}`}
                     className={cx(classes.mainLink, { [classes.mainLinkActive]: author === username }, { [classes.initialMainLink]: i === 0 })}
                 >
                     <Avatar src={avatar} size="md" radius="xl" />

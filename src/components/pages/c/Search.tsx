@@ -59,7 +59,7 @@ export function Search() {
 
     const handleChange = (val: string) => {
         setText(val)
-        navigate(`/c/search/${val}`)
+        navigate(`/search/${val}`)
     }
 
     return (

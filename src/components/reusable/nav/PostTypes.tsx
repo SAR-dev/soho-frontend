@@ -60,7 +60,7 @@ export function PostTypes() {
     return (
         <>
             {links.map((link, i) => (
-                <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: pType === link.slug })} component={Link} to={`/c/${author}/t/${link.slug}`} key={i}>
+                <UnstyledButton className={cx(classes.mainLink, { [classes.linkActive]: pType === link.slug })} component={Link} to={`/${author}/t/${link.slug}`} key={i}>
                     <div className={classes.mainLinkInner}>
                         <link.icon size={20} className={classes.mainLinkIcon} />
                         <span>{link.label}</span>

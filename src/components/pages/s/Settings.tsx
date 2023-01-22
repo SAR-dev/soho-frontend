@@ -1,4 +1,4 @@
-import { createStyles, Navbar, Text, SimpleGrid } from '@mantine/core';
+import { createStyles, Navbar, Text, SimpleGrid, Grid } from '@mantine/core';
 import { SettingsLayout } from '@layouts/SettingsLayout';
 import { Link, useParams } from 'react-router-dom';
 import { ProfileSettings } from './ProfileSettings';
@@ -101,7 +101,11 @@ export function Settings() {
 
     return (
         <SettingsLayout>
-            <SimpleGrid cols={2} spacing="md" style={{ width: "100%", padding: 25 }}>
+            <Grid>
+                <Grid.Col span={4}></Grid.Col>
+                <Grid.Col span={4}></Grid.Col>
+            </Grid>
+            {/* <SimpleGrid cols={2} spacing="md" style={{ width: "100%", padding: 25 }}>
                 <div className={classes.box}>
                     <Text className={classes.title}>Profile Settings</Text>
                     <ProfileSettings />
@@ -122,7 +126,7 @@ export function Settings() {
                     <Text className={classes.title}>Earnings</Text>
                     <Earnings />
                 </div>
-            </SimpleGrid>
+            </SimpleGrid> */}
         </SettingsLayout>
     );
 }

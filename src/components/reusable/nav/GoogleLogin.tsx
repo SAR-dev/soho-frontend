@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import React from "react";
-import { Cookie, X } from 'tabler-icons-react';
+import { X } from 'tabler-icons-react';
 import { useNotifications } from '@mantine/notifications';
 import { auth } from "../../../config/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -51,13 +51,6 @@ export function GoogleLogin({ setToken }: { setToken: (token: string) => void })
                 if (token) {
                     setToken(token)
                 }
-                notifications.showNotification({
-                    title: "Cookie Usage",
-                    message: "By continuing to use this website you accept our Cokkie Usage policy. Please understand we use cookie only for optimized performance",
-                    color: "blue",
-                    icon: <Cookie size={18} />,
-                    autoClose: false
-                });
                 modals.closeAll()
                 navigate(0)
             }).catch((error) => {

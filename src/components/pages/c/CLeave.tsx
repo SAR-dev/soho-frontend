@@ -84,7 +84,7 @@ export function CLeave() {
             } else {
                 setLoading(false)
                 queryClient.invalidateQueries(['community', author])
-                navigate(`/c/${author}`)
+                navigate(`/${author}`)
             }
         })
     }

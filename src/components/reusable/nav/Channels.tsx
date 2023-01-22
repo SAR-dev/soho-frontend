@@ -63,7 +63,7 @@ interface DataParam {
         results: Category[];
     }
 }
-
+ 
 export function Channels({ setDefaultSlug, is_admin }: { setDefaultSlug: (params: string) => void, is_admin: boolean }) {
     const { author } = useParams<"author">();
     const { classes } = useStyles();

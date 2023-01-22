@@ -24,7 +24,7 @@ export function Home() {
     const { status, data, error, isFetching, isLoading } = useQuery<DataParam, Error>([token], getLoggedInUser, {
         enabled: token !== null || hasToken,
         onSuccess: (data) => {
-            navigate(`/c/${data.username}/`);
+            navigate(`/${data.username}/`);
         },
         onError: () => {
           const auth = getAuth();

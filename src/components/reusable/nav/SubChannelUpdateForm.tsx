@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Paper, Button, Input, Badge, createStyles, Center, Text, Group, Alert } from "@mantine/core";
+import { Paper, Button, Input, Center, Text, Group, Alert } from "@mantine/core";
 import { GitBranch, X } from "tabler-icons-react";
-import { createSubChannel, deleteSubChannel, parseErrors, updateSubChannel } from "../../../helpers";
+import { deleteSubChannel, parseErrors, updateSubChannel } from "../../../helpers";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { useNotifications } from "@mantine/notifications";
 import { EmojiPopover } from "@editors/EmojiPopover";
 import { getHotkeyHandler } from "@mantine/hooks";
-import { RiAlertFill } from "react-icons/ri";
 
 export function SubChannelUpdateForm({ setOpened, name, icon, slug }: { setOpened: (params: boolean) => void, name: string, icon: string, slug: string }) {
     const { author } = useParams<"author">();
