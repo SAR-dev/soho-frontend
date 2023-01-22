@@ -41,6 +41,7 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
   const notifications = useNotifications();
   const queryClient = useQueryClient()
   const params = useParams()
+  const [start, setStart] = useState(0)
 
   const [loading, setLoading] = useState(false)
   const [play, setPlay] = useState(false)
@@ -58,6 +59,7 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
         });
       } else {
         setLoading(false)
+        setStart(clapCount)
         setPlay(true)
         if (params.pId) {
           const pId = params.pId
@@ -83,7 +85,7 @@ export function PostClapCount({ postId, clapCount }: { postId: number, clapCount
         <ClapIcon size={16} name="wave" />
       </ActionIcon>
       <Text size="sm" weight={500} className={classes.countW} style={{ marginLeft: 2 }}>
-        <CountUp end={clapCount} />
+        <CountUp start={start} end={clapCount} />
       </Text>
       {play && (
         <div className={classes.animation}>

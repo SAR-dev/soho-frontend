@@ -44,7 +44,7 @@ function App() {
         toggleColorScheme={toggleColorScheme}
       >
         <MantineProvider theme={{ colorScheme }}>
-          <NotificationsProvider>
+          <NotificationsProvider containerWidth={350}>
             <ModalsProvider modals={{ signin: SigninModalManager }}>
               <Router />
             </ModalsProvider>
